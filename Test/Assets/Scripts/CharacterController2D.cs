@@ -13,12 +13,11 @@ public class CharacterController2D : MonoBehaviour
     public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
     private int jumpCounter = 0;
     private int maxJumps = 2;
-     private bool blockInput = false;
     public float health = 100f; // salute del personaggio
 private bool isGrounded;
 public LayerMask LayerMask;
 public static bool playerExists;
-
+public bool blockInput = false;
 public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
     public float comboTimer = 2f; // tempo per completare una combo
     public int comboCounter = 0; // contatore delle combo

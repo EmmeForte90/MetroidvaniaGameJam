@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Spine.Unity;
 
 public class NPCDialogue : MonoBehaviour
 {
-    public Transform player; // Reference to the player's position
+   public Transform player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
+    public GameObject Button;
     public GameObject dialogueBox;
     [SerializeField] private string[] dialogue; // array of string to store the dialogues
     public float dialogueDuration; // variable to set the duration of the dialogue
@@ -37,6 +44,8 @@ void Update()
     {
         if (collision.CompareTag("Player"))
         {
+            Button.gameObject.SetActive(true); // Hide dialogue text when player exits the trigger
+
              if (isInteragible){
          // Check for player input to activate dialogue
         if (Input.GetKeyDown(dialogueActivationKey))
@@ -57,6 +66,7 @@ void Update()
     {
         if (collision.CompareTag("Player"))
         {
+            Button.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             StopCoroutine(ShowDialogue());
             dialogueIndex++; // Increment the dialogue index
             if (dialogueIndex >= dialogue.Length)
@@ -110,4 +120,3 @@ void Update()
     }
 }
 }
-
