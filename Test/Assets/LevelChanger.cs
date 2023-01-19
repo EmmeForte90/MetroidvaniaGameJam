@@ -8,6 +8,7 @@ public class LevelChanger : MonoBehaviour
 {
     // Variabili per memorizzare la scena attuale e la posizione del player
     public string spawnPointTag = "SpawnPoint";
+    public GameObject button;
     public bool interactWithKey = true;
     public KeyCode changeSceneKey = KeyCode.E;
     public string sceneName;
@@ -17,6 +18,7 @@ public class LevelChanger : MonoBehaviour
 
     private void Start()
     {
+        button.gameObject.SetActive(false); // Initially hide the dialogue text
         sceneEvent = GetComponent<SceneEvent>();
         sceneEvent.onSceneChange.AddListener(ChangeScene);
         player = GameObject.FindGameObjectWithTag("Player");
@@ -52,6 +54,7 @@ private void OnTriggerStay2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+            button.gameObject.SetActive(true); // Initially hide the dialogue text
 
         if (interactWithKey && Input.GetKey(changeSceneKey))
 {
@@ -66,11 +69,24 @@ private void OnTriggerEnter2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+            button.gameObject.SetActive(true); // Initially hide the dialogue text
 
          if (!interactWithKey)
         {
             sceneEvent.InvokeOnSceneChange();
         }
+       
+}
+}
+
+private void OnTriggerExit2D(Collider2D other)
+{
+    // Controlliamo se il player ha toccato il collider
+    if (other.CompareTag("Player"))
+    {
+            button.gameObject.SetActive(false); // Initially hide the dialogue text
+
+        
        
 }
 }

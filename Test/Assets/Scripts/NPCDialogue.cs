@@ -11,7 +11,7 @@ using Spine.Unity;
 
 public class NPCDialogue : MonoBehaviour
 {
-   public GameObject player; // Reference to the player's position
+   private GameObject player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
     public GameObject button;
     public GameObject dialogueBox;
@@ -22,6 +22,7 @@ public class NPCDialogue : MonoBehaviour
     private Animator anim; // componente Animator del personaggio
 
     public bool isInteragible;
+    public bool heFlip;
 
     private bool _isInTrigger;
     private bool _isDialogueActive;
@@ -38,7 +39,10 @@ public class NPCDialogue : MonoBehaviour
     void Update()
     {
         anim.SetBool("talk", _isInTrigger);
+        if(!heFlip)
+        {
         FacePlayer();
+        }
 
         if (_isInTrigger && Input.GetKeyDown(KeyCode.E) && !_isDialogueActive)
         {
