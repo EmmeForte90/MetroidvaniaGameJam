@@ -8,6 +8,11 @@ TagManager:
   - Enemy
   - Spawn
   - Spawn_1
+  - Spawn_2
+  - Spawn_3
+  - Spawn_4
+  - Spawn_5
+  - Confiner
   layers:
   - Default
   - TransparentFX

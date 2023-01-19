@@ -55,6 +55,7 @@ public static CharacterController2D Instance
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentCooldown = attackCooldown;
+        
         if (playerExists) {
         Destroy(gameObject);
     }

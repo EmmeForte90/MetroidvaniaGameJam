@@ -27,9 +27,15 @@ public class NPCDialogue : MonoBehaviour
     private bool _isInTrigger;
     private bool _isDialogueActive;
 
+void Awake()
+{
+        player = GameObject.FindWithTag("Player");
+
+}
+
+
     void Start()
     {        
-        player = GameObject.FindWithTag("Player");
         button.gameObject.SetActive(false); // Initially hide the dialogue text
         dialogueText.gameObject.SetActive(false); // Initially hide the dialogue text
         dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
@@ -39,7 +45,7 @@ public class NPCDialogue : MonoBehaviour
     void Update()
     {
         anim.SetBool("talk", _isInTrigger);
-        if(!heFlip)
+        if(heFlip)
         {
         FacePlayer();
         }

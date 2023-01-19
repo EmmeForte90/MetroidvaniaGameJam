@@ -12,6 +12,7 @@ public class LevelChanger : MonoBehaviour
     public bool interactWithKey = true;
     public KeyCode changeSceneKey = KeyCode.E;
     public string sceneName;
+    public bool needButton;
 
     private SceneEvent sceneEvent;
     private GameObject player;
@@ -54,8 +55,10 @@ private void OnTriggerStay2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+        if(needButton)
+        {
             button.gameObject.SetActive(true); // Initially hide the dialogue text
-
+        }
         if (interactWithKey && Input.GetKey(changeSceneKey))
 {
 sceneEvent.InvokeOnSceneChange();
@@ -69,7 +72,10 @@ private void OnTriggerEnter2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+        if(needButton)
+        {
             button.gameObject.SetActive(true); // Initially hide the dialogue text
+        }
 
          if (!interactWithKey)
         {
@@ -84,7 +90,10 @@ private void OnTriggerExit2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+        if(needButton)
+        {
             button.gameObject.SetActive(false); // Initially hide the dialogue text
+        }
 
         
        
