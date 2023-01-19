@@ -11,54 +11,55 @@ using Spine.Unity;
 
 public class NPCDialogue : MonoBehaviour
 {
-   public Transform player; // Reference to the player's position
+   public GameObject player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
-    public GameObject Button;
+    public GameObject button;
     public GameObject dialogueBox;
     [SerializeField] private string[] dialogue; // array of string to store the dialogues
     public float dialogueDuration; // variable to set the duration of the dialogue
     private int dialogueIndex; // variable to keep track of the dialogue status
     private float elapsedTime; // variable to keep track of the elapsed time
-    private bool talk;
     private Animator anim; // componente Animator del personaggio
-// Keycode for activating dialogue
-    public KeyCode dialogueActivationKey = KeyCode.E;
 
     public bool isInteragible;
 
+    private bool _isInTrigger;
+    private bool _isDialogueActive;
+
     void Start()
-    {
-        //player = GameObject.FindWithTag("Player");
+    {        
+        player = GameObject.FindWithTag("Player");
+        button.gameObject.SetActive(false); // Initially hide the dialogue text
         dialogueText.gameObject.SetActive(false); // Initially hide the dialogue text
         dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
         anim = GetComponent<Animator>();
+    }
 
-    }
-void Update()
+    void Update()
     {
-        anim.SetBool("talk", talk);
+        anim.SetBool("talk", _isInTrigger);
         FacePlayer();
-       
+
+        if (_isInTrigger && Input.GetKeyDown(KeyCode.E) && !_isDialogueActive)
+        {
+            StartCoroutine(ShowDialogue());
+        }
+        else if (_isDialogueActive && Input.GetKeyDown(KeyCode.E))
+        {
+            NextDialogue();
+        }
     }
-    private void OnTriggerStay2D(Collider2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            Button.gameObject.SetActive(true); // Hide dialogue text when player exits the trigger
-
-             if (isInteragible){
-         // Check for player input to activate dialogue
-        if (Input.GetKeyDown(dialogueActivationKey))
-        {
-            StartCoroutine(ShowDialogue());
-        }
-        }else if (!isInteragible)
-        {
-            
-            StartCoroutine(ShowDialogue());
-            talk = true;
-        }
-           
+            button.gameObject.SetActive(true); // Initially hide the dialogue text
+            _isInTrigger = true;
+            if (!isInteragible)
+            {
+                StartCoroutine(ShowDialogue());
+            }
         }
     }
 
@@ -66,57 +67,71 @@ void Update()
     {
         if (collision.CompareTag("Player"))
         {
-            Button.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
+            button.gameObject.SetActive(false); // Initially hide the dialogue text
+            _isInTrigger = false;
             StopCoroutine(ShowDialogue());
             dialogueIndex++; // Increment the dialogue index
             if (dialogueIndex >= dialogue.Length)
             {
                 dialogueIndex = 0;
+                _isDialogueActive = false;
+                dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
+                dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             }
-            talk = false;
-            dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
-            dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
         }
     }
 
-    
     IEnumerator ShowDialogue()
     {
+        _isDialogueActive = true;
         elapsedTime = 0; // reset elapsed time
-        dialogueBox.gameObject.SetActive(true); // Hide dialogue text when player exits the trigger
-        dialogueText.gameObject.SetActive(true); // Show dialogue text when player enters the trigger
+        dialogueBox.gameObject.SetActive(true); // Show dialogue box
+        dialogueText.gameObject.SetActive(true); // Show dialogue text
         string currentDialogue = dialogue[dialogueIndex]; // Get the current dialogue
         dialogueText.text = ""; // Clear the dialogue text
 
-        
         for (int i = 0; i < currentDialogue.Length; i++)
         {
             dialogueText.text += currentDialogue[i]; // Add one letter at a time
             elapsedTime += Time.deltaTime; // Update the elapsed time
-            if(elapsedTime >= dialogueDuration)
+            if (elapsedTime >= dialogueDuration)
             {
                 break;
             }
             yield return new WaitForSeconds(0.05f); // Wait before showing the next letter
         }
-        //dialogueText.gameObject.SetActive(false); // Hide dialogue text
-        elapsedTime = 0; // reset elapsed time
-        
+
     }
 
-
-    void FacePlayer()
-{
-    if (player != null)
+    void NextDialogue()
     {
-        if (player.transform.position.x > transform.position.x)
+        elapsedTime = 0; // reset elapsed time
+        dialogueIndex++; // Increment the dialogue index
+        if (dialogueIndex >= dialogue.Length)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            dialogueIndex = 0;
+            _isDialogueActive = false;
+            dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
+            dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
         }
         else
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            StartCoroutine(ShowDialogue());
         }
     }
-}
+
+    void FacePlayer()
+    {
+        if (player != null)
+        {
+            if (player.transform.position.x > transform.position.x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+        }
+    }
 }

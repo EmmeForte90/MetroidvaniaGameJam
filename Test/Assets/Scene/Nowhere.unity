@@ -3853,13 +3853,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 474704450}
   dialogueText: {fileID: 1585054712}
-  Button: {fileID: 1499859677}
+  button: {fileID: 1499859677}
   dialogueBox: {fileID: 1867017671}
   dialogue:
   - "ehil\xE0"
   - ciao
   dialogueDuration: 3
-  dialogueActivationKey: 101
   isInteragible: 1
 --- !u!61 &997526213
 BoxCollider2D:
