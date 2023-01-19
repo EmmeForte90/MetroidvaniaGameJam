@@ -1,0 +1,243 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Spine.Unity;
+using Spine;
+
+
+public class CharacterController2D : MonoBehaviour
+{
+   public float moveSpeed = 5f; // velocità di movimento
+    public float jumpForce = 5f; // forza del salto
+    public float attackDamage = 10f; // danno dell'attacco
+    public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
+    private int jumpCounter = 0;
+    private int maxJumps = 2;
+     private bool blockInput = false;
+    public float health = 100f; // salute del personaggio
+private bool isGrounded;
+public LayerMask LayerMask;
+public static bool playerExists;
+
+public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
+    public float comboTimer = 2f; // tempo per completare una combo
+    public int comboCounter = 0; // contatore delle combo
+    public int maxCombo = 3; // numero massimo di combo
+
+    private Animator anim; // componente Animator del personaggio
+    private float currentCooldown; // contatore del cooldown attuale
+
+
+    private bool isJumping = false; // vero se il personaggio sta saltando
+    private bool isAttacking = false; // vero se il personaggio sta attaccando
+    private bool isRunning = false; // vero se il personaggio sta correndo
+    private float currentSpeed; // velocità corrente del personaggio
+    private Rigidbody2D rb; // componente Rigidbody2D del personaggio
+    public GameObject Slash;
+    public GameObject Slash1;
+    public Transform slashpoint;
+    public SkeletonMecanim skeletonM;
+    public float moveX;
+
+public static CharacterController2D instance;
+public static CharacterController2D Instance
+        {
+            //Se non trova il componente lo trova in automatico
+            get
+            {
+                if (instance == null)
+                    instance = GameObject.FindObjectOfType<CharacterController2D>();
+                return instance;
+            }
+        }
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        currentCooldown = attackCooldown;
+        if (playerExists) {
+        Destroy(gameObject);
+    }
+    else {
+        playerExists = true;
+        DontDestroyOnLoad(gameObject);
+    }
+
+
+    }
+
+    void Update()
+    {
+        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        if(isGrounded)
+        {
+            anim.SetTrigger("Isground");
+        }
+        // gestione dell'input del movimento
+        moveX = Input.GetAxis("Horizontal");
+        currentSpeed = moveSpeed;
+        if (isRunning && !isAttacking)
+        {
+            currentSpeed *= runMultiplier;
+        }
+        if (isAttacking)
+        {   
+        rb.velocity = new Vector2(0f, 0f);
+        }else
+        {
+        rb.velocity = new Vector2(moveX * currentSpeed, rb.velocity.y);
+        }
+
+        if (moveX < 0)
+        {
+            moveX = -1;
+        transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (moveX > 0)
+        {
+            moveX = 1;
+        transform.localScale = new Vector2(1f, 1f);
+        }
+
+        
+
+
+
+        // gestione dell'input del salto
+        if (Input.GetButtonDown("Jump") && jumpCounter < maxJumps)
+{
+    isJumping = true;
+    rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+    jumpCounter++;
+}
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Attack();
+        }
+
+        // gestione del timer della combo
+        if (comboCounter > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                isAttacking= false;
+                comboCounter = 0;
+                comboTimer = 0.5f;
+            }
+        }
+
+        // gestione del cooldown dell'attacco
+        if (currentCooldown > 0)
+        {
+            currentCooldown -= Time.deltaTime;
+        }
+
+        // gestione dell'input della corsa
+        if (Input.GetButton("Fire2"))
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
+
+        // gestione dell'animazione del personaggio
+        anim.SetFloat("Speed", Mathf.Abs(moveX));
+        anim.SetBool("IsJumping", isJumping);
+        anim.SetBool("IsAttacking", isAttacking);
+        anim.SetBool("IsRunning", isRunning);
+    }
+
+    void Attack()
+    {
+        if (currentCooldown <= 0)
+        {
+            isAttacking = true;
+            comboCounter++;
+            if (comboCounter > maxCombo)
+            {
+                comboCounter = 1;
+            }
+            anim.SetInteger("ComboCounter", comboCounter);
+            anim.SetTrigger("Attack1");
+            if (comboCounter == 1)
+            {
+                slash();
+            }else if (comboCounter == 2)
+            {
+                cutting();
+            }else if (comboCounter == 3)
+            {
+
+            }
+            currentCooldown = attackCooldown;
+            comboTimer = 0.5f;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+            jumpCounter = 0;
+            StartCoroutine(stopPlayer());
+
+        }
+    }
+
+IEnumerator stopPlayer()
+{
+    rb.velocity = new Vector2(0f, 0f);
+    yield return new WaitForSeconds(0.3f);
+
+}
+public void slash()
+{
+        Instantiate(Slash, slashpoint.transform.position, transform.rotation);
+
+} 
+public void cutting()
+{
+        Instantiate(Slash1, slashpoint.transform.position, transform.rotation);
+
+} 
+    // metodo per causare danno a un altro oggetto quando si attacca
+    public void AttackHit(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+           other.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
+    }
+
+public void TakeDamage(float damage)
+    {
+        // sottrai danno dalla salute del personaggio
+        health -= damage;
+        // attiva un'animazione di danno (se presente)
+        anim.SetTrigger("TakeDamage");
+
+        // controlla se la salute è minore o uguale a 0 e gestisce la morte del personaggio
+        if (health <= 0f)
+        {
+            // attiva un'animazione di morte (se presente)
+            anim.SetTrigger("Die");
+            // distrugge il personaggio
+            Destroy(gameObject);
+        }
+    }
+
+
+
+}
+
+
+
+           
+
+
