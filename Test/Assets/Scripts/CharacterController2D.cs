@@ -274,7 +274,14 @@ public void TakeDamage(float damage)
         }
     }
 
-
+#region CambioArma
+    public void SetBulletPrefab(GameObject newBullet)
+    //Funzione per cambiare arma
+    {
+       bullet = newBullet;
+    }    
+    
+#endregion
 
 }
 

@@ -7,7 +7,7 @@ public class PlayerBullet : MonoBehaviour
     [Header("Bullet")]
     [SerializeField] float bulletSpeed = 20f;
     [SerializeField] float shotgunBullet = 3f;
-    [SerializeField] float bombBullet = 10f;
+    [SerializeField] float bombSpeed = 10f;
     //Variabile della velocità del proiettile
     [SerializeField] GameObject Explode;
     [SerializeField] Transform prefabExp;
@@ -21,22 +21,24 @@ public class PlayerBullet : MonoBehaviour
     //Per permettere al proiettile di emularne l'andamento
     float xSpeed;
     float shotgunSpeed;
-    //L'andatura
-    float bombSpeed = 5f;
-    public Vector3 LauchOffset;
+    public Vector3 LaunchOffset;
+    public string targetTag = "Enemy";
+    private GameObject target;
     //Riservato alla bomb
 
     [Header("Che tipo di bullet")]
     [SerializeField] bool isNormal;
     [SerializeField] bool isRapid;
     [SerializeField] bool isBomb;
-    [SerializeField] bool target;
+    [SerializeField] bool isTarget;
     [SerializeField] bool isShotgun;
     [SerializeField] bool rightFace;
 
 
-    void Start()
+   
+        void Start()
     {
+                target = GameObject.FindWithTag(targetTag);
         myRigidbody = GetComponent<Rigidbody2D>();
         //Recupera i componenti del rigidbody
         player = FindObjectOfType<CharacterController2D>();
@@ -48,20 +50,30 @@ public class PlayerBullet : MonoBehaviour
         
         if(isBomb)
         {        
-            if(CharacterController2D.instance.transform.localScale.x > 0)
+            if(player.transform.localScale.x > 0)
             {
             var direction = transform.right + Vector3.up;
             GetComponent<Rigidbody2D>().AddForce(direction * bombSpeed, ForceMode2D.Impulse);
             }
-            else if(CharacterController2D.instance.transform.localScale.x < 0)
+            else if(player.transform.localScale.x < 0)
             {
             var direction = -transform.right + Vector3.up;
             GetComponent<Rigidbody2D>().AddForce(direction * bombSpeed, ForceMode2D.Impulse);
             }
         }
-        transform.Translate(LauchOffset);
-        
+        transform.Translate(LaunchOffset);
+
+        if(isTarget)
+        {        
+            if (target != null)
+        {
+            Vector3 direction = target.transform.position - transform.position;
+            transform.Translate(direction.normalized * xSpeed * Time.deltaTime, Space.World);
+        }
     }
+        }
+        
+    
 
 
 
@@ -114,41 +126,31 @@ public class PlayerBullet : MonoBehaviour
         //Se il proiettile tocca il nemico
         {            
             Instantiate(Explode, transform.position, transform.rotation);
-            //CameraShake.Shake(0.10f, 0.50f);
             if(isNormal && !isRapid )
             //Se è un proiettile normale e non rapido
             {
             Destroy(gameObject);
             //Il nemico subisce danno
-            //Debug.Log("Hit enemy");
-            //CinemachineShake.instance.ShakeCamera(5f, .1f);
+//            CinemachineShake.instance.ShakeCamera(5f, .1f);
             IDamegable hit = other.GetComponent<IDamegable>();
             hit.Damage();
-            //DatabaseEnemy.instance.Damage();
-            //Destroy(other.gameObject);
             //Viene distrutto quando colpisce il nemico
 
             }
             else if(!isNormal && isRapid)
             //Quando è un proiettile rapido e non normale
             {
-            //Debug.Log("Hit enemy");
             IDamegable hit = other.GetComponent<IDamegable>();
             hit.Damage();
-            //DatabaseEnemy.instance.Damage();
-            //Destroy(other.gameObject);
             //Non viene distrutto
             }
             else if(isBomb)
             //Quando è un proiettile rapido e non normale
             {
-            //Debug.Log("Hit enemy");
             Destroy(gameObject);
             //CinemachineShake.instance.ShakeCamera(5f, .1f);
             IDamegable hit = other.GetComponent<IDamegable>();
             hit.Damage();
-            //DatabaseEnemy.instance.Damage();
-            //Destroy(other.gameObject);
             //Non viene distrutto
             }
             else if(isShotgun)
@@ -156,7 +158,7 @@ public class PlayerBullet : MonoBehaviour
             {
             IDamegable hit = other.GetComponent<IDamegable>();
             hit.Damage();
-            
+            //Non viene distrutto
             }
         }
 
@@ -164,7 +166,6 @@ public class PlayerBullet : MonoBehaviour
         //Se il proiettile tocca il nemico
         {            
             Instantiate(Explode, transform.position, transform.rotation);
-            //CameraShake.Shake(0.10f, 0.50f);
             Destroy(gameObject);
             //Viene distrutto
         }
@@ -177,12 +178,22 @@ public class PlayerBullet : MonoBehaviour
 
     void Destroy()
     {
-        Destroy(gameObject);   
+        Destroy(gameObject); 
+        if(!isShotgun)
+        {
+        Instantiate(Explode, transform.position, transform.rotation);
+        }
+  
     }
 
     void OnCollisionEnter2D(Collision2D other) 
     {
-        Destroy(gameObject);   
+        if(!isShotgun)
+        {
+        Instantiate(Explode, transform.position, transform.rotation);
+        }
+        Destroy(gameObject); 
+
         //Se il proiettile tocca una superficie viene distrutto 
     }
 
