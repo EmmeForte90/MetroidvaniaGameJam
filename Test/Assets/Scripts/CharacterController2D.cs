@@ -253,7 +253,7 @@ public void cutting()
     {
         if (other.CompareTag("Enemy"))
         {
-           other.GetComponent<Enemy>().TakeDamage(attackDamage);
+          // other.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
     }
 

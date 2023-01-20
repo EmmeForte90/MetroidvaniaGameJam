@@ -11,9 +11,14 @@ public class Enemy : MonoBehaviour
     public float sightRadius = 5f; // raggio di vista del nemico
     public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguimento
     public float attackrange = 2f;
+
     private bool movingToA = false;
 
     private bool isAttacking = false;
+    [SerializeField] GameObject Death;
+    [SerializeField] GameObject DeathBack;
+    [SerializeField] GameObject Brain;
+
 
 
     private Transform player; // riferimento al player
@@ -92,10 +97,8 @@ if (Vector2.Distance(transform.position, player.position) < attackrange)
 
 
     }
-
-    public void TakeDamage(float damage)
+    public void anmHurt()
     {
-        health.currentHealth -= damage; // sottrai danno dalla salute
         animator.SetTrigger("TakeDamage"); // attiva il trigger "TakeDamage" dell'animatore
 
         if (health.currentHealth <= 0f) // se la salute è uguale o inferiore a 0
@@ -103,6 +106,7 @@ if (Vector2.Distance(transform.position, player.position) < attackrange)
             Die();
         }
     }
+
 
     private void MoveToPoint()
     {
@@ -144,15 +148,20 @@ private void OnDrawGizmos()
     public void Die()
     {
         // determina la direzione della morte in base alla posizione del player rispetto al nemico
-        if (transform.position.x < player.position.x)
+        if (movingToA)//transform.position.x < player.position.x)
         {
-            animator.SetTrigger("Die"); // attiva il trigger "DieFront" dell'animatore per la morte davanti al player
+            Instantiate(Death, transform.position, transform.rotation);
+            Destroy(Brain);
+
+            //animator.SetTrigger("Die"); // attiva il trigger "DieFront" dell'animatore per la morte davanti al player
         }
-        else
+        else if (!movingToA)
         {
-            animator.SetTrigger("Die_1"); // attiva il trigger "DieBack" dell'animatore per la morte dietro al player
+            Instantiate(DeathBack, transform.position, transform.rotation);
+            Destroy(Brain);
+
+            //animator.SetTrigger("Die_1"); // attiva il trigger "DieBack" dell'animatore per la morte dietro al player
         }
-        ObjectPooler.Instance.SpawnFromPool("EnemyDeathEffect", transform.position, Quaternion.identity);
-        gameObject.SetActive(false);
+        
     }
 }
