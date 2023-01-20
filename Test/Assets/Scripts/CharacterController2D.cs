@@ -22,13 +22,26 @@ public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
     public float comboTimer = 2f; // tempo per completare una combo
     public int comboCounter = 0; // contatore delle combo
     public int maxCombo = 3; // numero massimo di combo
+        public float shootTimer = 2f; // tempo per completare una combo
+
 
     private Animator anim; // componente Animator del personaggio
     private float currentCooldown; // contatore del cooldown attuale
+    [SerializeField] float nextAttackTime = 0f;
+    [SerializeField] float attackRate = 2f;
+[Header("VFX")]
+    [SerializeField] private GameObject bullet;
+    // Variabile per il gameobject del proiettile
+    [SerializeField] GameObject blam;
+        [SerializeField] public Transform gun;
+
+    [SerializeField] GameObject Circle;
+    [SerializeField] public Transform circlePoint;
 
 
     private bool isJumping = false; // vero se il personaggio sta saltando
     private bool isAttacking = false; // vero se il personaggio sta attaccando
+    private bool isLanding = false; // vero se il personaggio sta attaccando
     private bool isRunning = false; // vero se il personaggio sta correndo
     private float currentSpeed; // velocità corrente del personaggio
     private Rigidbody2D rb; // componente Rigidbody2D del personaggio
@@ -81,7 +94,7 @@ public static CharacterController2D Instance
         {
             currentSpeed *= runMultiplier;
         }
-        if (isAttacking)
+        if (isAttacking || isLanding)
         {   
         rb.velocity = new Vector2(0f, 0f);
         }else
@@ -101,7 +114,12 @@ public static CharacterController2D Instance
         }
 
         
-
+// gestione dell'input dello sparo
+        if (Input.GetButtonDown("Fire2"))
+{
+Blast();
+    
+}
 
 
         // gestione dell'input del salto
@@ -110,13 +128,23 @@ public static CharacterController2D Instance
     isJumping = true;
     rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     jumpCounter++;
+    if(jumpCounter == 2)
+    {
+        Instantiate(Circle, circlePoint.position, transform.rotation);
+
+    }
 }
 
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
         }
-
+            shootTimer -= Time.deltaTime;
+            if (shootTimer <= 0)
+            {
+                isAttacking= false;
+                shootTimer = 0.5f;
+            }
         // gestione del timer della combo
         if (comboCounter > 0)
         {
@@ -136,7 +164,7 @@ public static CharacterController2D Instance
         }
 
         // gestione dell'input della corsa
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire3"))
         {
             isRunning = true;
         }
@@ -151,7 +179,20 @@ public static CharacterController2D Instance
         anim.SetBool("IsAttacking", isAttacking);
         anim.SetBool("IsRunning", isRunning);
     }
-
+void Blast()
+{
+if (Time.time > nextAttackTime)
+        {
+        isAttacking = true;
+        nextAttackTime = Time.time + 1f / attackRate;
+        anim.SetTrigger("isShoot");
+        //AudioManager.instance.PlaySFX(1);
+        Instantiate(blam, gun.position, transform.rotation);
+        Instantiate(bullet, gun.position, transform.rotation);
+        //PlayerBulletCount.instance.removeOneBullet();
+        
+}
+}
     void Attack()
     {
         if (currentCooldown <= 0)
@@ -192,10 +233,11 @@ public static CharacterController2D Instance
 
 IEnumerator stopPlayer()
 {
-    rb.velocity = new Vector2(0f, 0f);
-    yield return new WaitForSeconds(0.3f);
-
+isLanding = true;    
+yield return new WaitForSeconds(0.5f);
+isLanding = false;    
 }
+
 public void slash()
 {
         Instantiate(Slash, slashpoint.transform.position, transform.rotation);
