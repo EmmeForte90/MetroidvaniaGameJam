@@ -11,7 +11,9 @@ public class Enemy : MonoBehaviour
     public float sightRadius = 5f; // raggio di vista del nemico
     public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguimento
     public float attackrange = 2f;
-
+Rigidbody2D rb;
+public float attackCooldown = 2f; // durata del cooldown dell'attacco
+private float attackTimer; // timer per il cooldown dell'attacco
     private bool movingToA = false;
 
     private bool isAttacking = false;
@@ -27,32 +29,36 @@ public class Enemy : MonoBehaviour
 
     private Animator animator; // riferimento all'animatore
     private Health health;
-    private Vector2 knockbackDirection; // direzione del knockback
 
+    [Header("Knockback")]
+    private bool kb = false;
+public float knockbackForce; // la forza del knockback
+    public float knockbackTime; // il tempo di knockback
+    public float jumpHeight; // l'altezza del salto
+    public float fallTime; // il tempo di caduta
 
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform; // trova l'oggetto con tag "Player"
         animator = GetComponent<Animator>(); // ottiene l'animatore dall'oggetto
         health = GetComponent<Health>();
+        rb = GetComponent<Rigidbody2D>(); // prende il rigidbody del nemico
+
     }
+
+
 
     void Update()
     {
+        if(!kb)
+        {
         if (isChasing) // se il nemico sta inseguendo il player
         {
-            //  // insegui il player
-            transform.position = Vector2.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
-            animator.SetBool("IsChasing", true); // imposta la variabile booleana "IsChasing" dell'animatore a true
-            animator.SetBool("isMove", false);
+            Chase();
         }
         else // altrimenti
         {
-            MoveToPoint();
-            animator.SetBool("IsChasing", false); // imposta la variabile booleana "IsChasing" dell'animatore a false
-            isMove = true;
-            animator.SetBool("isMove", true);
-
+            NoChase();
         }
 
         // se il player è nelle vicinanze del nemico
@@ -69,16 +75,15 @@ public class Enemy : MonoBehaviour
             }
 
 
-        } else
-        if (Vector2.Distance(transform.position, player.position) > chaseThreshold)
+        } else if (Vector2.Distance(transform.position, player.position) > chaseThreshold)
         {
-            isChasing = false; // inizia a inseguire il player
+            isChasing = false; // Smette di inseguire il player
         } 
 
 if (Vector2.Distance(transform.position, player.position) < attackrange)
         {
-            isChasing = true; // inizia a inseguire il player
-            isAttacking = true;
+            isChasing = false; 
+            isAttacking = true; //inizia ad attaccare il player
             transform.localScale = new Vector2(0f, 0f);
 
             if(player.transform.position.x > transform.position.x)
@@ -88,26 +93,38 @@ if (Vector2.Distance(transform.position, player.position) < attackrange)
             {
                         transform.localScale = new Vector2(-1f, 1f);
             }
+
+if (attackTimer <= 0f) {
+            // Esegui la mossa d'attacco
             animator.SetTrigger("attack");
+            animator.SetBool("attacking", isAttacking);
+            attackTimer = attackCooldown;
+        } else {
+            attackTimer -= Time.deltaTime;
+        }
+        } else if (Vector2.Distance(transform.position, player.position) < attackrange)
+        {
+            isAttacking = false;
+        }
 
-        } 
 
-
-
-
+        }
 
     }
     public void anmHurt()
     {
         animator.SetTrigger("TakeDamage"); // attiva il trigger "TakeDamage" dell'animatore
-
+        if (rb != null)
+            {
+                StartCoroutine(JumpBackCo(rb)); // avvia la routine per il salto
+            }
         if (health.currentHealth <= 0f) // se la salute è uguale o inferiore a 0
         {
             Die();
         }
     }
 
-
+#region Movimento
     private void MoveToPoint()
     {
         if (movingToA) {
@@ -136,6 +153,23 @@ if (Vector2.Distance(transform.position, player.position) < attackrange)
         transform.localScale = new Vector2(1f, 1f);
         }
     }
+
+    #endregion
+public void  Chase()
+{
+    //  // insegui il player
+            transform.position = Vector2.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
+            animator.SetBool("IsChasing", true); // imposta la variabile booleana "IsChasing" dell'animatore a true
+            animator.SetBool("isMove", false);
+}
+public void  NoChase()
+{
+    MoveToPoint();
+            animator.SetBool("IsChasing", false); // imposta la variabile booleana "IsChasing" dell'animatore a false
+            isMove = true;
+            animator.SetBool("isMove", true);
+}
+    #region Gizmos
 private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -144,7 +178,29 @@ private void OnDrawGizmos()
     Gizmos.DrawWireSphere(transform.position, attackrange);
         //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
     }
+#endregion
 
+
+private IEnumerator JumpBackCo(Rigidbody2D rb)
+    {
+        if (rb != null)
+        {
+            isChasing = false;
+            kb = true;
+            Vector2 knockbackDirection = new Vector2(0f, jumpHeight); // direzione del knockback verso l'alto
+            if (rb.transform.position.x < player.transform.position.x) // se la posizione x del nemico è inferiore a quella del player
+                knockbackDirection = new Vector2(-1, jumpHeight); // la direzione del knockback è verso sinistra
+            else if (rb.transform.position.x > player.transform.position.x) // se la posizione x del nemico è maggiore a quella del player
+                knockbackDirection = new Vector2(1, jumpHeight); // la direzione del knockback è verso destra
+            rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse); // applica il knockback
+            yield return new WaitForSeconds(knockbackTime); // aspetta il tempo di knockback
+            kb = false;
+            isChasing = true;
+
+        }
+    }
+
+#region Die
     public void Die()
     {
         // determina la direzione della morte in base alla posizione del player rispetto al nemico
@@ -164,4 +220,5 @@ private void OnDrawGizmos()
         }
         
     }
+    #endregion
 }

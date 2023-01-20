@@ -248,14 +248,7 @@ public void cutting()
         Instantiate(Slash1, slashpoint.transform.position, transform.rotation);
 
 } 
-    // metodo per causare danno a un altro oggetto quando si attacca
-    public void AttackHit(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-          // other.GetComponent<Enemy>().TakeDamage(attackDamage);
-        }
-    }
+    
 
 public void TakeDamage(float damage)
     {

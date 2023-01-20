@@ -13,6 +13,7 @@ TagManager:
   - Spawn_4
   - Spawn_5
   - Confiner
+  - Hitbox
   layers:
   - Default
   - TransparentFX
