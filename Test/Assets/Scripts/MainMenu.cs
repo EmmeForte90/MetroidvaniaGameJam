@@ -79,7 +79,6 @@ public void SetResolution(int resolutionIndex)
     public void StartGame()
     {
         StartCoroutine(fade());
-       
 
     }
 
@@ -121,6 +120,7 @@ IEnumerator fade()
         
         PlayerPrefs.DeleteAll();
         yield return new WaitForSeconds(Timelife);
+        GameplayManager.instance.gameplayOff = false;
         SceneManager.LoadScene(startScene);
 
             
@@ -131,7 +131,7 @@ IEnumerator fade()
         
         yield return new WaitForSeconds(Timelife);
         SceneManager.LoadScene(PlayerPrefs.GetString("ContinueLevel"));
-        AudioManager.instance.PlayMFX(1);
+        //AudioManager.instance.PlayMFX(1);
 
 
 

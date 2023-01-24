@@ -37,8 +37,8 @@ public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
 
     [SerializeField] GameObject Circle;
     [SerializeField] public Transform circlePoint;
-
-
+    public GameplayManager gM;
+    private bool stopInput = false;
     private bool isJumping = false; // vero se il personaggio sta saltando
     private bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isLanding = false; // vero se il personaggio sta attaccando
@@ -66,6 +66,11 @@ public static CharacterController2D Instance
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (gM == null)
+        {
+            gM = GetComponent<GameplayManager>();
+        }
+        
         anim = GetComponent<Animator>();
         currentCooldown = attackCooldown;
         
@@ -82,10 +87,12 @@ public static CharacterController2D Instance
 
     void Update()
     {
+        if(!gM.PauseStop)
+        {
         bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
         if(isGrounded)
         {
-            anim.SetTrigger("Isground");
+//            anim.SetTrigger("Isground");
         }
         // gestione dell'input del movimento
         moveX = Input.GetAxis("Horizontal");
@@ -113,7 +120,8 @@ public static CharacterController2D Instance
         transform.localScale = new Vector2(1f, 1f);
         }
 
-        
+
+
 // gestione dell'input dello sparo
         if (Input.GetButtonDown("Fire2"))
 {
@@ -176,9 +184,31 @@ Blast();
         // gestione dell'animazione del personaggio
         anim.SetFloat("Speed", Mathf.Abs(moveX));
         anim.SetBool("IsJumping", isJumping);
-        anim.SetBool("IsAttacking", isAttacking);
+//        anim.SetBool("IsAttacking", isAttacking);
         anim.SetBool("IsRunning", isRunning);
+        }
+
+        // gestione dell'input del Menu
+
+        
+    if (Input.GetKeyDown(KeyCode.Escape) && !stopInput)
+    {
+        gM.Pause();
+        stopInput = true;
+        //myAnimator.SetTrigger("idle");
+        //SFX.Play(0);
+        rb.velocity = new Vector2(0f, 0f);
     }
+    else if(Input.GetKeyDown(KeyCode.Escape) && stopInput)
+    {
+        gM.Resume();
+        stopInput = false;
+        //SFX.Play(0);
+    }
+
+    }
+
+    
 void Blast()
 {
 if (Time.time > nextAttackTime)

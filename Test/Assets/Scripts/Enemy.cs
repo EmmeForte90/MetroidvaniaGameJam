@@ -20,7 +20,7 @@ private float attackTimer; // timer per il cooldown dell'attacco
     [SerializeField] GameObject Death;
     [SerializeField] GameObject DeathBack;
     [SerializeField] GameObject Brain;
-
+    private GameplayManager gM;
 
 
     private Transform player; // riferimento al player
@@ -32,24 +32,29 @@ private float attackTimer; // timer per il cooldown dell'attacco
 
     [Header("Knockback")]
     private bool kb = false;
-public float knockbackForce; // la forza del knockback
+    public float knockbackForce; // la forza del knockback
     public float knockbackTime; // il tempo di knockback
     public float jumpHeight; // l'altezza del salto
     public float fallTime; // il tempo di caduta
 
-    void Start()
+
+    private void Awake()
     {
         player = GameObject.FindWithTag("Player").transform; // trova l'oggetto con tag "Player"
         animator = GetComponent<Animator>(); // ottiene l'animatore dall'oggetto
         health = GetComponent<Health>();
         rb = GetComponent<Rigidbody2D>(); // prende il rigidbody del nemico
-
+        if (gM == null)
+        {
+            gM = GameObject.FindObjectOfType<GameplayManager>();
+        }
     }
-
 
 
     void Update()
     {
+        if(!gM.PauseStop)
+        {
         if(!kb)
         {
         if (isChasing) // se il nemico sta inseguendo il player
@@ -61,6 +66,18 @@ public float knockbackForce; // la forza del knockback
             NoChase();
         }
 
+        //
+        if (movingToA)
+        {
+            
+        transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (!movingToA)
+        {
+            
+        //    
+        transform.localScale = new Vector2(1f, 1f);
+        }
         // se il player è nelle vicinanze del nemico
         if (Vector2.Distance(transform.position, player.position) < chaseThreshold)
         {
@@ -84,7 +101,6 @@ if (Vector2.Distance(transform.position, player.position) < attackrange)
         {
             isChasing = false; 
             isAttacking = true; //inizia ad attaccare il player
-            transform.localScale = new Vector2(0f, 0f);
 
             if(player.transform.position.x > transform.position.x)
             {
@@ -96,8 +112,9 @@ if (Vector2.Distance(transform.position, player.position) < attackrange)
 
 if (attackTimer <= 0f) {
             // Esegui la mossa d'attacco
-            animator.SetTrigger("attack");
+            //animator.SetTrigger("attack");
             animator.SetBool("attacking", isAttacking);
+            Stop();
             attackTimer = attackCooldown;
         } else {
             attackTimer -= Time.deltaTime;
@@ -109,7 +126,7 @@ if (attackTimer <= 0f) {
 
 
         }
-
+        }
     }
     public void anmHurt()
     {
@@ -142,18 +159,12 @@ if (attackTimer <= 0f) {
 
             }
         }
-        if (movingToA)
-        {
-            
-        transform.localScale = new Vector2(-1f, 1f);
-        }
-        else if (!movingToA)
-        {
-            
-        transform.localScale = new Vector2(1f, 1f);
-        }
+        
     }
-
+public void  Stop()
+{
+rb.velocity = new Vector3(0, 0, 0);
+}
     #endregion
 public void  Chase()
 {
