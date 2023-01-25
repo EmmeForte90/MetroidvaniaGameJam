@@ -142,10 +142,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 20
   shotgunBullet: 3
-  bombBullet: 10
+  bombSpeed: 10
   Explode: {fileID: 6353872326894538400, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
+  MPCost: 20
   prefabExp: {fileID: 1887898322871059740, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
-  LauchOffset: {x: 0, y: 0, z: 0}
+  LaunchOffset: {x: 0, y: 0, z: 0}
   targetTag: Enemy
   isNormal: 0
   isRapid: 1

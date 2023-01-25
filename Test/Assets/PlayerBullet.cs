@@ -10,14 +10,15 @@ public class PlayerBullet : MonoBehaviour
     [SerializeField] float bombSpeed = 10f;
     //Variabile della velocità del proiettile
     [SerializeField] GameObject Explode;
+    [SerializeField] float MPCost = 10f;
     [SerializeField] Transform prefabExp;
     private float lifeTime = 0.5f;
     //Riservato allo shotgun
-
+    PlayerHealth Less;
     Rigidbody2D myRigidbody;
     //Il corpo rigido
     CharacterController2D player;
-    Health Health;
+    Enemy Enemy;
     //Attribuscie una variabile allo script di movimento del player
     //Per permettere al proiettile di emularne l'andamento
     float xSpeed;
@@ -39,17 +40,19 @@ public class PlayerBullet : MonoBehaviour
    
         void Start()
     {
-                target = GameObject.FindWithTag(targetTag);
+        target = GameObject.FindWithTag(targetTag);
         myRigidbody = GetComponent<Rigidbody2D>();
         //Recupera i componenti del rigidbody
         player = FindObjectOfType<CharacterController2D>();
-        Health = FindObjectOfType<Health>();
+        Less = FindObjectOfType<PlayerHealth>();
+        Enemy = FindObjectOfType<Enemy>();
         //Recupera i componenti dello script
         xSpeed = player.transform.localScale.x * bulletSpeed;
         shotgunSpeed = player.transform.localScale.x * shotgunBullet;
         //La variabile è uguale alla scala moltiplicata la velocità del proiettile
         //Se il player si gira  anche lo spawn del proittile farà lo stesso
-        
+        CostMP();
+
         if(isBomb)
         {        
             if(player.transform.localScale.x > 0)
@@ -83,9 +86,11 @@ public class PlayerBullet : MonoBehaviour
 #region Update
     void Update()
     {
+        
         if(isNormal || isRapid && !isShotgun && !isBomb)
         {
          myRigidbody.velocity = new Vector2 (xSpeed, 0f);
+
         }
         else if(!isNormal && !isRapid && isShotgun && !isBomb)
         {
@@ -93,10 +98,10 @@ public class PlayerBullet : MonoBehaviour
         }
         else if(!isNormal && !isRapid && !isShotgun && isBomb)
         {
-
         }
         //La velocità e la direzione del proiettile
         FlipSprite();
+        
         
     }
 #endregion
@@ -121,7 +126,26 @@ public class PlayerBullet : MonoBehaviour
 
 #endregion
 
+#region  MP
+    void CostMP()
+    {
+        if(isNormal || isRapid && !isShotgun && !isBomb)
+        {
+         Less.TakeManaDamage(MPCost);
+        }
+        else if(!isNormal && !isRapid && isShotgun && !isBomb)
+        {
+        Less.TakeManaDamage(MPCost);
+        }
+        else if(!isNormal && !isRapid && !isShotgun && isBomb)
+        {
+            Less.TakeManaDamage(MPCost);
+        }
+        
+        
+    }
 
+#endregion
     void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.gameObject.tag == "Enemy")
@@ -133,34 +157,31 @@ public class PlayerBullet : MonoBehaviour
             {
             Destroy(gameObject);
             //Il nemico subisce danno
-            Health.TakeDamage(10f);
-            //IDamegable hit = other.GetComponent<IDamegable>();
-           // hit.Damage();
+            IDamegable hit = other.GetComponent<IDamegable>();
+            hit.Damage(10);
             //Viene distrutto quando colpisce il nemico
 
             }
             else if(!isNormal && isRapid)
             //Quando è un proiettile rapido e non normale
             {
-                Health.TakeDamage(5f);
-            //IDamegable hit = other.GetComponent<IDamegable>();
-            //hit.Damage();
+                IDamegable hit = other.GetComponent<IDamegable>();
+            hit.Damage(5);
             //Non viene distrutto
             }
             else if(isBomb)
             //Quando è un proiettile rapido e non normale
             {
             Destroy(gameObject);
-            //CinemachineShake.instance.ShakeCamera(5f, .1f);
-            Health.TakeDamage(50f);
-            //IDamegable hit = other.GetComponent<IDamegable>();
-            //hit.Damage();
+            IDamegable hit = other.GetComponent<IDamegable>();
+            hit.Damage(50);
             //Non viene distrutto
             }
             else if(isShotgun)
             //Quando è un proiettile rapido e non normale
             {
-            Health.TakeDamage(25f);
+            IDamegable hit = other.GetComponent<IDamegable>();
+            hit.Damage(25);
             //Non viene distrutto
             }
         }

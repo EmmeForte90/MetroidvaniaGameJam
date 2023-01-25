@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+
+public class Enemy :  Health, IDamegable
 {
+    private static int nextEnemyID = 1;
+    public int enemyID;
 public Transform pointA, pointB;
 public float moveSpeed = 2f; // velocità di movimento
 public float chaseSpeed = 4f; // velocità di inseguimento
@@ -36,7 +41,9 @@ private enum State { Move, Chase, Attack, Knockback, Dead }
 private State currentState;
 
 private void Awake()
-{
+{                
+    enemyID = nextEnemyID++;
+
     player = GameObject.FindWithTag("Player").transform;
     animator = GetComponent<Animator>();
     health = GetComponent<Health>();
@@ -208,7 +215,7 @@ private void Attack()
     }
 
     animator.SetTrigger("attack");
-    player.GetComponent<Health>().TakeDamage(attackDamage);
+    player.GetComponent<PlayerHealth>().Damage(attackDamage);
     attackTimer = attackCooldown;
 }
 
@@ -240,6 +247,7 @@ public void DeathAnim()
         if (movingToA)//transform.position.x < player.position.x)
         {
             Instantiate(Death, transform.position, transform.rotation);
+            //EnemyManager.UnregisterEnemy(this);
             Destroy(Brain);
 
             //animator.SetTrigger("Die"); // attiva il trigger "DieFront" dell'animatore per la morte davanti al player
@@ -247,9 +255,17 @@ public void DeathAnim()
         else if (!movingToA)
         {
             Instantiate(DeathBack, transform.position, transform.rotation);
+            //EnemyManager.UnregisterEnemy(this);
             Destroy(Brain);
 
             //animator.SetTrigger("Die_1"); // attiva il trigger "DieBack" dell'animatore per la morte dietro al player
         }
 }
+public void Damage(int damage)
+    {
+        health.currentHealth -= damage;
+        anmHurt();
+        
+    }
+
 }

@@ -24,6 +24,7 @@ public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
     public int maxCombo = 3; // numero massimo di combo
         public float shootTimer = 2f; // tempo per completare una combo
 
+    PlayerHealth Less;
 
     private Animator anim; // componente Animator del personaggio
     private float currentCooldown; // contatore del cooldown attuale
@@ -65,6 +66,7 @@ public static CharacterController2D Instance
 
     void Start()
     {
+        Less = GetComponent<PlayerHealth>();
         rb = GetComponent<Rigidbody2D>();
         if (gM == null)
         {
@@ -211,6 +213,8 @@ Blast();
     
 void Blast()
 {
+    if(Less.currentMana > 0)
+        {
 if (Time.time > nextAttackTime)
         {
         isAttacking = true;
@@ -220,6 +224,7 @@ if (Time.time > nextAttackTime)
         Instantiate(blam, gun.position, transform.rotation);
         Instantiate(bullet, gun.position, transform.rotation);
         //PlayerBulletCount.instance.removeOneBullet();
+        }
         
 }
 }

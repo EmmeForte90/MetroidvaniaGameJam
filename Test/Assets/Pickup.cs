@@ -53,18 +53,17 @@ void Start()
         //Se il player tocca la moneta e non è stato collezionata
         {
             //Se gli HP non sono al massimo la raccoglio altrimenti no
-            if(PlayerHealth.instance.heartsRemain != PlayerHealth.instance.heartsNumber.Count)
-            {
+            
             wasCollected = true;
             //La moneta è collezionata
-            FindObjectOfType<PlayerHealth>().restoreOneHeart();
+            //FindObjectOfType<PlayerHealth>().restoreOneHeart();
             //Richiama la funzione dello script GameSessione e aumenta lo score
             AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
             //Avvia l'audio
             myAnimator.SetTrigger("take");
             //Attiva il suono
             Invoke("takeCoin", loadDelay);
-            }
+            
             
         }
         #endregion

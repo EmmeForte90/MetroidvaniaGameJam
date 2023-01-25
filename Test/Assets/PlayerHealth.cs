@@ -2,80 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
+public class PlayerHealth : MonoBehaviour
+{
+       public float maxHealth = 100f;
+    public float currentHealth;
+    public Scrollbar healthBar;
 
-    public class PlayerHealth : MonoBehaviour
+    public float maxMana = 100f;
+    public float currentMana;
+    public Scrollbar manaBar;
+
+    void Start()
     {
-        public List<GameObject> heartsNumber;
-        //Lista degli HP
+        currentHealth = maxHealth;
+        currentMana = maxMana;
+    }
 
-        public static PlayerHealth instance;
-        //Instanza per interagire con altri script
+    void Update()
+    {
+        healthBar.size = currentHealth / maxHealth;
+        manaBar.size = currentMana / maxMana;
+        healthBar.size = Mathf.Clamp(healthBar.size, 0.01f, 1);
+        manaBar.size = Mathf.Clamp(manaBar.size, 0.01f, 1);
+    }
 
-
-        [HideInInspector]
-        public int heartsRemain;
-        //Hp rimanenti
-
-        private void Awake()
+    public void Damage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
-            heartsRemain = heartsNumber.Count;
-            //HP totali
-            instance = this;
+            Die();
         }
+    }
 
-#region  HP al massimo
-
-        public bool healthIsFull()
+    public void TakeManaDamage(float damage)
+    {
+        currentMana -= damage;
+        if (currentMana <= 0)
         {
-            if (heartsRemain == heartsNumber.Count)
-                return true;
-            else
-                return false;
+            OutOfMana();
         }
-        #endregion
+    }
 
-#region  Recupera 1 HP
+    void Die()
+    {
+        // gestione della morte del personaggio
+    }
 
-        public void restoreOneHeart()
-        {
-            /*if (!healthIsFull())
-            {
-                heartsNumber[heartsRemain].GetComponent<HPAnimation>().restoreHP();
-                heartsRemain += 1;
-            }
-            */
-        }
-
-#endregion
-
-#region  Rimuovi 1 HP
-
-        public void removeOneHeart()
-        {
-            if (heartsRemain == 1)
-                playerDeath();
-            else
-            {
-                //heartsNumber[heartsRemain - 1].GetComponent<HPAnimation>().removeHP();
-                //heartsRemain -= 1;
-            }
-        }
-
-#endregion
-
-#region  Se gli HP arrivato a 0 il player muore
-
-        public void playerDeath()
-        {
-            while(heartsRemain != heartsNumber.Count)
-            {
-                restoreOneHeart();
-            }
-            FindObjectOfType<GameplayManager>().ProcessPlayerDeath();
-            //transform.position = Data.checkpointPos;
-            
-        }
-
-#endregion
+    void OutOfMana()
+    {
+        // gestione del consumo completo della mana
+    }
 }
