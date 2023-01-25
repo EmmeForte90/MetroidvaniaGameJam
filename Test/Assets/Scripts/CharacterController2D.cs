@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using Spine;
-
+using UnityEngine.SceneManagement;
 
 public class CharacterController2D : MonoBehaviour
 {
@@ -18,6 +18,8 @@ private bool isGrounded;
 public LayerMask LayerMask;
 public static bool playerExists;
 public bool blockInput = false;
+private Transform respawnPoint; // il punto di respawn del giocatore
+    public string sceneName; // il nome della scena in cui si trova il punto di respawn
 public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
     public float comboTimer = 2f; // tempo per completare una combo
     public int comboCounter = 0; // contatore delle combo
@@ -89,6 +91,11 @@ public static CharacterController2D Instance
 
     void Update()
     {
+        if (Less.currentHealth <= 0)
+        {
+            Respawn();
+        }
+
         if(!gM.PauseStop)
         {
         bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
@@ -264,6 +271,25 @@ if (Time.time > nextAttackTime)
             StartCoroutine(stopPlayer());
 
         }
+
+    }
+
+private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Respawn"))
+        {
+            RespawnObject respawnObject = collision.GetComponent<RespawnObject>();
+            if (respawnObject != null)
+            {
+                respawnPoint = respawnObject.respawnPoint;
+                sceneName = respawnObject.sceneName;
+            }
+        }
+
+        if (collision.CompareTag("EditorOnly"))
+        {
+           Respawn();
+        }
     }
 
 IEnumerator stopPlayer()
@@ -302,7 +328,7 @@ public void TakeDamage(float damage)
         }
     }
 
-#region CambioArma
+#region CambioMagia
     public void SetBulletPrefab(GameObject newBullet)
     //Funzione per cambiare arma
     {
@@ -311,6 +337,11 @@ public void TakeDamage(float damage)
     
 #endregion
 
+private void Respawn()
+    {
+        SceneManager.LoadScene(sceneName);
+        transform.position = respawnPoint.position;
+    }
 }
 
 
