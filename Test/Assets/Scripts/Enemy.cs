@@ -4,131 +4,79 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform pointA, pointB;
-    public float moveSpeed = 2f; // velocità di movimento
-    public float chaseSpeed = 4f; // velocità di inseguimento
-    public float attackDamage = 10f; // danno d'attacco
-    public float sightRadius = 5f; // raggio di vista del nemico
-    public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguimento
-    public float attackrange = 2f;
-Rigidbody2D rb;
+public Transform pointA, pointB;
+public float moveSpeed = 2f; // velocità di movimento
+public float chaseSpeed = 4f; // velocità di inseguimento
+public float attackDamage = 10f; // danno d'attacco
+public float sightRadius = 5f; // raggio di vista del nemico
+public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguimento
+public float attackrange = 2f;
 public float attackCooldown = 2f; // durata del cooldown dell'attacco
-private float attackTimer; // timer per il cooldown dell'attacco
-    private bool movingToA = false;
-
-    private bool isAttacking = false;
-    [SerializeField] GameObject Death;
-    [SerializeField] GameObject DeathBack;
-    [SerializeField] GameObject Brain;
-    private GameplayManager gM;
-
-
-    private Transform player; // riferimento al player
-    private bool isChasing = false; // indica se il nemico sta inseguendo il player
-    private bool isMove = false;
-
-    private Animator animator; // riferimento all'animatore
-    private Health health;
-
-    [Header("Knockback")]
+public GameObject DeathBack;
+public GameObject Brain;
+private bool movingToA = false;
+private GameplayManager gM;
+private Transform player;
+private Rigidbody2D rb;
+private Health health;
+private Animator animator;
+private float attackTimer;
+  private bool isChasing = false; // indica se il nemico sta inseguendo il player
+  private bool isMove = false;
+  private float pauseDuration = 1f; // durata della pausa
+private float pauseTimer; // timer per la pausa
+[Header("Knockback")]
     private bool kb = false;
     public float knockbackForce; // la forza del knockback
     public float knockbackTime; // il tempo di knockback
     public float jumpHeight; // l'altezza del salto
     public float fallTime; // il tempo di caduta
+[SerializeField] GameObject Death;
+private enum State { Move, Chase, Attack, Knockback, Dead }
+private State currentState;
 
-
-    private void Awake()
+private void Awake()
+{
+    player = GameObject.FindWithTag("Player").transform;
+    animator = GetComponent<Animator>();
+    health = GetComponent<Health>();
+    rb = GetComponent<Rigidbody2D>();
+    if (gM == null)
     {
-        player = GameObject.FindWithTag("Player").transform; // trova l'oggetto con tag "Player"
-        animator = GetComponent<Animator>(); // ottiene l'animatore dall'oggetto
-        health = GetComponent<Health>();
-        rb = GetComponent<Rigidbody2D>(); // prende il rigidbody del nemico
-        if (gM == null)
+        gM = GameObject.FindObjectOfType<GameplayManager>();
+    }
+}
+
+
+private void Update()
+    {
+        if (!gM.PauseStop)
         {
-            gM = GameObject.FindObjectOfType<GameplayManager>();
+            CheckState();
+            switch (currentState)
+            {
+                case State.Move:
+                    Move();
+                    break;
+                case State.Chase:
+                    Chase();
+                    break;
+                case State.Attack:
+                    Attack();
+                    break;
+                case State.Knockback:
+                    Knockback();
+                    break;
+                case State.Dead:
+                    break;
+            }
         }
     }
 
 
-    void Update()
-    {
-        if(!gM.PauseStop)
-        {
-        if(!kb)
-        {
-        if (isChasing) // se il nemico sta inseguendo il player
-        {
-            Chase();
-        }
-        else // altrimenti
-        {
-            NoChase();
-        }
-
-        //
-        if (movingToA)
-        {
-            
-        transform.localScale = new Vector2(-1f, 1f);
-        }
-        else if (!movingToA)
-        {
-            
-        //    
-        transform.localScale = new Vector2(1f, 1f);
-        }
-        // se il player è nelle vicinanze del nemico
-        if (Vector2.Distance(transform.position, player.position) < chaseThreshold)
-        {
-            isChasing = true; // inizia a inseguire il player
-            isAttacking = false;
-            if(player.transform.position.x > transform.position.x)
-            {
-                        transform.localScale = new Vector2(1f, 1f);
-            }else if(player.transform.position.x < transform.position.x)
-            {
-                        transform.localScale = new Vector2(-1f, 1f);
-            }
 
 
-        } else if (Vector2.Distance(transform.position, player.position) > chaseThreshold)
-        {
-            isChasing = false; // Smette di inseguire il player
-        } 
-
-if (Vector2.Distance(transform.position, player.position) < attackrange)
-        {
-            isChasing = false; 
-            isAttacking = true; //inizia ad attaccare il player
-
-            if(player.transform.position.x > transform.position.x)
-            {
-                        transform.localScale = new Vector2(1f, 1f);
-            }else if(player.transform.position.x < transform.position.x)
-            {
-                        transform.localScale = new Vector2(-1f, 1f);
-            }
-
-if (attackTimer <= 0f) {
-            // Esegui la mossa d'attacco
-            //animator.SetTrigger("attack");
-            animator.SetBool("attacking", isAttacking);
-            Stop();
-            attackTimer = attackCooldown;
-        } else {
-            attackTimer -= Time.deltaTime;
-        }
-        } else if (Vector2.Distance(transform.position, player.position) < attackrange)
-        {
-            isAttacking = false;
-        }
-
-
-        }
-        }
-    }
-    public void anmHurt()
+public void anmHurt()
     {
         animator.SetTrigger("TakeDamage"); // attiva il trigger "TakeDamage" dell'animatore
         if (rb != null)
@@ -137,61 +85,101 @@ if (attackTimer <= 0f) {
             }
         if (health.currentHealth <= 0f) // se la salute è uguale o inferiore a 0
         {
-            Die();
+            DeathAnim();
         }
     }
-
-#region Movimento
-    private void MoveToPoint()
+private void CheckState()
+{
+    if (health.currentHealth == 0)
     {
-        if (movingToA) {
-            transform.position = Vector3.MoveTowards(transform.position, pointA.position, moveSpeed * Time.deltaTime);
-            if (transform.position == pointA.position) {
+        currentState = State.Dead;
+        return;
+    }
+
+    if (IsKnockback())
+    {
+        currentState = State.Knockback;
+        return;
+    }
+
+    if (Vector2.Distance(transform.position, player.position) < attackrange)
+    {
+        currentState = State.Attack;
+        return;
+    }
+
+    if (Vector2.Distance(transform.position, player.position) < chaseThreshold)
+    {
+        currentState = State.Chase;
+        return;
+    }
+
+    currentState = State.Move;
+}
+
+
+
+    private void Move()
+    {
+    animator.SetBool("isMove", true);
+    animator.SetBool("isChasing", false); // imposta la variabile booleana "IsChasing" dell'animatore a true
+        if (movingToA)
+        {
+            transform.localScale = new Vector2(-1f, 1f);
+            if (pauseTimer > 0)
+            {
+                animator.SetBool("isMove", false);
+                animator.SetBool("isChasing", false);
+                pauseTimer -= Time.deltaTime;
+                return;
+            }
+            transform.position = Vector2.MoveTowards(transform.position, pointA.position, moveSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, pointA.position) < 0.1f)
+            {
+                pauseTimer = pauseDuration;
                 movingToA = false;
-
-
-            }
-        } else {
-            transform.position = Vector3.MoveTowards(transform.position, pointB.position, moveSpeed * Time.deltaTime);
-            if (transform.position == pointB.position) {
-                movingToA = true;
-
-
             }
         }
-        
+        else
+        {
+            transform.localScale = new Vector2(1f, 1f);
+            if (pauseTimer > 0)
+            {
+                animator.SetBool("isMove", false);
+                animator.SetBool("isChasing", false);
+                pauseTimer -= Time.deltaTime;
+                return;
+            }
+            transform.position = Vector2.MoveTowards(transform.position, pointB.position, moveSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, pointB.position) < 0.1f)
+            {
+                pauseTimer = pauseDuration;
+                movingToA = true;
+            }
+        }
     }
-public void  Stop()
+    
+
+
+
+private void Chase()
 {
-rb.velocity = new Vector3(0, 0, 0);
-}
-    #endregion
-public void  Chase()
-{
-    //  // insegui il player
-            transform.position = Vector2.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
-            animator.SetBool("IsChasing", true); // imposta la variabile booleana "IsChasing" dell'animatore a true
-            animator.SetBool("isMove", false);
-}
-public void  NoChase()
-{
-    MoveToPoint();
-            animator.SetBool("IsChasing", false); // imposta la variabile booleana "IsChasing" dell'animatore a false
-            isMove = true;
-            animator.SetBool("isMove", true);
-}
-    #region Gizmos
-private void OnDrawGizmos()
+    isMove = false;
+    isChasing = true;
+    animator.SetBool("isChasing", true); // imposta la variabile booleana "IsChasing" dell'animatore a true
+    animator.SetBool("isMove", false);
+    // inseguimento del giocatore
+    if (player.transform.position.x > transform.position.x)
     {
-        Gizmos.color = Color.red;
-    Gizmos.DrawWireSphere(transform.position, chaseThreshold);
-    Gizmos.color = Color.blue;
-    Gizmos.DrawWireSphere(transform.position, attackrange);
-        //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
+        transform.localScale = new Vector2(1f, 1f);
     }
-#endregion
+    else if (player.transform.position.x < transform.position.x)
+    {
+        transform.localScale = new Vector2(-1f, 1f);
+    }
 
-
+    transform.position = Vector2.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
+}
 private IEnumerator JumpBackCo(Rigidbody2D rb)
     {
         if (rb != null)
@@ -210,11 +198,45 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
 
         }
     }
-
-#region Die
-    public void Die()
+private void Attack()
+{
+    // gestione dell'attacco del nemico
+    if (attackTimer > 0)
     {
-        // determina la direzione della morte in base alla posizione del player rispetto al nemico
+        attackTimer -= Time.deltaTime;
+        return;
+    }
+
+    animator.SetTrigger("attack");
+    player.GetComponent<Health>().TakeDamage(attackDamage);
+    attackTimer = attackCooldown;
+}
+
+private void Knockback()
+{
+    // gestione del knockback
+    // utilizzare la fisica di Unity per gestire la forza e il tempo di knockback
+}
+
+private bool IsKnockback()
+{
+    // controllo se il nemico è in knockback
+    return kb;
+}
+#region Gizmos
+private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+    Gizmos.DrawWireSphere(transform.position, chaseThreshold);
+    Gizmos.color = Color.blue;
+    Gizmos.DrawWireSphere(transform.position, attackrange);
+        //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
+    }
+#endregion
+public void DeathAnim()
+{
+    // animazione di morte
+    // determina la direzione della morte in base alla posizione del player rispetto al nemico
         if (movingToA)//transform.position.x < player.position.x)
         {
             Instantiate(Death, transform.position, transform.rotation);
@@ -229,7 +251,5 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
 
             //animator.SetTrigger("Die_1"); // attiva il trigger "DieBack" dell'animatore per la morte dietro al player
         }
-        
-    }
-    #endregion
+}
 }
