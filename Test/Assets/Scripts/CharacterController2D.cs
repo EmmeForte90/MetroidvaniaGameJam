@@ -7,40 +7,57 @@ using UnityEngine.SceneManagement;
 
 public class CharacterController2D : MonoBehaviour
 {
-   public float moveSpeed = 5f; // velocità di movimento
-    public float jumpForce = 5f; // forza del salto
-    public float attackDamage = 10f; // danno dell'attacco
-    public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
+    [Header("Move")]
+    [SerializeField] public float moveSpeed = 5f; // velocità di movimento
+    [SerializeField] public float jumpForce = 5f; // forza del salto
+    [SerializeField] public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
     private int jumpCounter = 0;
     private int maxJumps = 2;
-    public float health = 100f; // salute del personaggio
-private bool isGrounded;
-public LayerMask LayerMask;
-public static bool playerExists;
-public bool blockInput = false;
-private Transform respawnPoint; // il punto di respawn del giocatore
-    public string sceneName; // il nome della scena in cui si trova il punto di respawn
-public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
-    public float comboTimer = 2f; // tempo per completare una combo
-    public int comboCounter = 0; // contatore delle combo
-    public int maxCombo = 3; // numero massimo di combo
-        public float shootTimer = 2f; // tempo per completare una combo
+    public float jumpHeight; // l'altezza del salto
+    public float knockbackForce; // la forza del knockback
+    public float knockbackTime; // il tempo di knockback
+    Vector2 playerPosition;
+    Vector2 HitPosition;
+    public GameObject Hit;
+    public float rayDistance = 1f;
 
+    [Header("HP")]
+    [SerializeField]public float health = 100f; // salute del personaggio
     PlayerHealth Less;
 
+
+    [Header("Respawn")]
+    private Transform respawnPoint; // il punto di respawn del giocatore
+    public string sceneName; // il nome della scena in cui si trova il punto di respawn
+    
+    [Header("Animations")]
     private Animator anim; // componente Animator del personaggio
+
+    [Header("Attacks")]
     private float currentCooldown; // contatore del cooldown attuale
     [SerializeField] float nextAttackTime = 0f;
     [SerializeField] float attackRate = 2f;
-[Header("VFX")]
+    [SerializeField] public int attackDamage = 10;
+    [SerializeField] public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
+    [SerializeField] public float comboTimer = 2f; // tempo per completare una combo
+    [SerializeField] public int comboCounter = 0; // contatore delle combo
+    [SerializeField] public int maxCombo = 3; // numero massimo di combo
+    [SerializeField] public float shootTimer = 2f; // tempo per completare una combo
     [SerializeField] private GameObject bullet;
+    [SerializeField] public GameObject Slash;
+    [SerializeField] public GameObject Slash1;
+    public Transform slashpoint;
+
+    [Header("VFX")]
     // Variabile per il gameobject del proiettile
     [SerializeField] GameObject blam;
-        [SerializeField] public Transform gun;
-
+    [SerializeField] public Transform gun;
     [SerializeField] GameObject Circle;
     [SerializeField] public Transform circlePoint;
-    public GameplayManager gM;
+
+    [Header("Abilitations")]
+    [SerializeField] public GameplayManager gM;
+    private bool IsKnockback = false;
     private bool stopInput = false;
     private bool isJumping = false; // vero se il personaggio sta saltando
     private bool isAttacking = false; // vero se il personaggio sta attaccando
@@ -48,9 +65,11 @@ public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
     private bool isRunning = false; // vero se il personaggio sta correndo
     private float currentSpeed; // velocità corrente del personaggio
     private Rigidbody2D rb; // componente Rigidbody2D del personaggio
-    public GameObject Slash;
-    public GameObject Slash1;
-    public Transform slashpoint;
+    private bool isGrounded;
+    [SerializeField] public LayerMask LayerMask;
+    [SerializeField] public static bool playerExists;
+    [SerializeField] public bool blockInput = false;
+   
     public SkeletonMecanim skeletonM;
     public float moveX;
 
@@ -68,6 +87,8 @@ public static CharacterController2D Instance
 
     void Start()
     {
+        playerPosition = transform.position;
+        HitPosition = Hit.transform.position;
         Less = GetComponent<PlayerHealth>();
         rb = GetComponent<Rigidbody2D>();
         if (gM == null)
@@ -91,17 +112,20 @@ public static CharacterController2D Instance
 
     void Update()
     {
+         
+
         if (Less.currentHealth <= 0)
         {
             Respawn();
         }
 
-        if(!gM.PauseStop)
+        if(!gM.PauseStop || IsKnockback)
         {
+
+
         bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
         if(isGrounded)
         {
-//            anim.SetTrigger("Isground");
         }
         // gestione dell'input del movimento
         moveX = Input.GetAxis("Horizontal");
@@ -249,7 +273,7 @@ if (Time.time > nextAttackTime)
             anim.SetTrigger("Attack1");
             if (comboCounter == 1)
             {
-                slash();
+                swordCol();
             }else if (comboCounter == 2)
             {
                 cutting();
@@ -286,11 +310,15 @@ private void OnTriggerEnter2D(Collider2D collision)
             }
         }
 
+
+//Test per gestire il respawn
         if (collision.CompareTag("EditorOnly"))
         {
            Respawn();
         }
     }
+
+
 
 IEnumerator stopPlayer()
 {
@@ -299,14 +327,14 @@ yield return new WaitForSeconds(0.5f);
 isLanding = false;    
 }
 
-public void slash()
+public void swordCol()
 {
-        Instantiate(Slash, slashpoint.transform.position, transform.rotation);
+        //Instantiate(Slash, slashpoint.transform.position, transform.rotation);
 
 } 
 public void cutting()
 {
-        Instantiate(Slash1, slashpoint.transform.position, transform.rotation);
+        //Instantiate(Slash1, slashpoint.transform.position, transform.rotation);
 
 } 
     
@@ -336,6 +364,31 @@ public void TakeDamage(float damage)
     }    
     
 #endregion
+
+public void knockBack()
+    {
+    
+
+    }
+
+
+    #region Gizmos
+private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+    Gizmos.DrawWireSphere(slashpoint.transform.position, rayDistance);
+    
+        //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
+    }
+#endregion
+
+    public void SoundSlash()
+    {
+
+    } 
+
+
+
 
 private void Respawn()
     {

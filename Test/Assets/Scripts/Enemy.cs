@@ -12,7 +12,7 @@ public class Enemy :  Health, IDamegable
 public Transform pointA, pointB;
 public float moveSpeed = 2f; // velocità di movimento
 public float chaseSpeed = 4f; // velocità di inseguimento
-public float attackDamage = 10f; // danno d'attacco
+public float attackDamage = 10; // danno d'attacco
 public float sightRadius = 5f; // raggio di vista del nemico
 public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguimento
 public float attackrange = 2f;

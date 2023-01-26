@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class HitboxPlayer : MonoBehaviour
 {
-    public GameObject Hit;
+public CharacterController2D Stats;
 
-    void OnTriggerEnter2D(Collider2D other)
+private void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.gameObject.CompareTag("Enemy"))
     {
-        if (other.gameObject.tag == "Enemy")
+        IDamegable hit = other.GetComponent<IDamegable>();
+        if (hit != null)
         {
-            
-            Debug.Log("hai colpito il nemico");
-          // other.GetComponent<Enemy>().TakeDamage(attackDamage);
-        
-
-        }
+            hit.Damage(Stats.attackDamage);        
+        }       
     }
+}
+
+
 }
