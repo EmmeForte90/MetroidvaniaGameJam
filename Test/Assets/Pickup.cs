@@ -13,6 +13,8 @@ public class Pickup : MonoBehaviour
     [SerializeField] public Animator myAnimator;
     //Animatore
     bool wasCollected = false;
+    private Rigidbody2D rb; // componente Rigidbody2D del personaggio
+
     [SerializeField]  GameObject light;
     //Bool per evitare che la moneta sia raccolta più volte
     [SerializeField] public bool isHeal;
@@ -24,6 +26,8 @@ void Start()
 {
     myAnimator = GetComponent<Animator>();
     //Recupera i componenti dell'animator
+    
+
 }
 
 

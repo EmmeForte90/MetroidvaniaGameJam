@@ -14,8 +14,8 @@ public class CharacterController2D : MonoBehaviour
     private int jumpCounter = 0;
     private int maxJumps = 2;
     public float jumpHeight; // l'altezza del salto
-    public float knockbackForce; // la forza del knockback
-    public float knockbackTime; // il tempo di knockback
+    public float knockbackForce = 10f;
+public float knockbackDuration = 0.5f;
     Vector2 playerPosition;
     Vector2 HitPosition;
     public GameObject Hit;
@@ -37,7 +37,6 @@ public class CharacterController2D : MonoBehaviour
     private float currentCooldown; // contatore del cooldown attuale
     [SerializeField] float nextAttackTime = 0f;
     [SerializeField] float attackRate = 2f;
-    [SerializeField] public int attackDamage = 10;
     [SerializeField] public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
     [SerializeField] public float comboTimer = 2f; // tempo per completare una combo
     [SerializeField] public int comboCounter = 0; // contatore delle combo
@@ -365,12 +364,22 @@ public void TakeDamage(float damage)
     
 #endregion
 
-public void knockBack()
-    {
-    
 
-    }
+public void knockBack(float knockbackForce, Vector2 knockbackDirection)
+{
+    // stop the player's movement
+    rb.velocity = new Vector2(0f, 0f);
+    // apply the knockback force
+    rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+    // start a coroutine to reset the player's velocity after knockbackDuration seconds
+    StartCoroutine(resetVelocityAfterKnockback());
+}
 
+IEnumerator resetVelocityAfterKnockback()
+{
+    yield return new WaitForSeconds(knockbackDuration);
+    rb.velocity = new Vector2(0f, 0f);
+}
 
     #region Gizmos
 private void OnDrawGizmos()

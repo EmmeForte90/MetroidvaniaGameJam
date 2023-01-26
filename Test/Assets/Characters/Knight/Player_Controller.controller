@@ -1759,13 +1759,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
-  - time: 0.2333
-    functionName: knockBack
-    data: SpineEvent
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 1
 --- !u!74 &-5072587575948325927
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -2798,13 +2791,6 @@ AnimationClip:
   m_Events:
   - time: 0.3
     functionName: SoundSlash
-    data: SpineEvent
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 1
-  - time: 0.4
-    functionName: knockBack
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -6256,13 +6242,6 @@ AnimationClip:
   m_Events:
   - time: 0.1667
     functionName: SoundSlash
-    data: SpineEvent
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 1
-  - time: 0.2333
-    functionName: knockBack
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
