@@ -13,7 +13,6 @@ public class RespawnObject : MonoBehaviour
         //Se il proiettile tocca il nemico
         {       
             
-        
             Instantiate(Sdeng, Pos.transform.position, transform.rotation);
            
 

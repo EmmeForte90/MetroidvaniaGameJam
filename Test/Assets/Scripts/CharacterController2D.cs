@@ -4,10 +4,12 @@ using UnityEngine;
 using Spine.Unity;
 using Spine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class CharacterController2D : MonoBehaviour
 {
     [Header("Move")]
+
     [SerializeField] public float moveSpeed = 5f; // velocità di movimento
     [SerializeField] public float jumpForce = 5f; // forza del salto
     [SerializeField] public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
@@ -27,6 +29,7 @@ public float knockbackDuration = 0.5f;
 
 
     [Header("Respawn")]
+    //[HideInInspector]
     private Transform respawnPoint; // il punto di respawn del giocatore
     public string sceneName; // il nome della scena in cui si trova il punto di respawn
     
@@ -71,6 +74,8 @@ public float knockbackDuration = 0.5f;
    
     public SkeletonMecanim skeletonM;
     public float moveX;
+[Header("Abilitations")]
+[SerializeField] AudioSource SwSl;
 
 public static CharacterController2D instance;
 public static CharacterController2D Instance
@@ -393,17 +398,31 @@ private void OnDrawGizmos()
 
     public void SoundSlash()
     {
-
+        SwSl.Play();
     } 
 
 
 
 
 private void Respawn()
-    {
-        SceneManager.LoadScene(sceneName);
-        transform.position = respawnPoint.position;
-    }
+{
+    // Cambia la scena
+    SceneManager.LoadScene(sceneName);
+
+    // Aspetta che la nuova scena sia completamente caricata
+    StartCoroutine(WaitForSceneLoad());
+}
+
+IEnumerator WaitForSceneLoad()
+{
+    yield return new WaitForSeconds(0);
+
+    // Trova l'oggetto con il tag "respawn" nella nuova scena
+    GameObject respawnPoint = GameObject.FindWithTag("Respawn");
+
+    // Teletrasporta il giocatore alla posizione dell'oggetto "respawn"
+    transform.position = respawnPoint.transform.position;
+}
 }
 
 

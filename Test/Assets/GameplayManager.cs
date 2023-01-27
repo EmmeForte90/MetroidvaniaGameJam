@@ -55,7 +55,7 @@ StartCoroutine(StartFadeIn());
 
 
         // Verifica se un'istanza del GameObject esiste già e distruggila se necessario
-        if (playerExists && gameplayOff) 
+        if (playerExists) //&& gameplayOff) 
         {
             Destroy(gameObject);
         }
