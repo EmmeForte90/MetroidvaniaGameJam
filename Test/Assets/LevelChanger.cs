@@ -13,9 +13,12 @@ public class LevelChanger : MonoBehaviour
     public KeyCode changeSceneKey = KeyCode.E;
     public string sceneName;
     public bool needButton;
+    public bool isDoor = false;
 
     private SceneEvent sceneEvent;
     private GameObject player;
+    [Header("Audio")]
+    [SerializeField] AudioSource Door;
 
     private void Start()
     {
@@ -61,6 +64,11 @@ private void OnTriggerStay2D(Collider2D other)
         }
         if (interactWithKey && Input.GetKey(changeSceneKey))
 {
+    if(isDoor)
+    {
+    Door.Play();
+
+    }
 sceneEvent.InvokeOnSceneChange();
 }
        

@@ -33,6 +33,7 @@ public class GameplayManager : MonoBehaviour
     [Header("Music")]
     [SerializeField] bool isStartGame;
     [SerializeField] bool isTImeline;
+    [SerializeField] AudioSource City;
     
     [Header("Fade")]
     [SerializeField] GameObject callFadeIn;
@@ -188,6 +189,7 @@ IEnumerator StartFadeIn()
     {
         if(!isStartGame)
         {
+            City.Play();
         callFadeOut.gameObject.SetActive(true);
         //Instantiate(callFadeOut, centerCanvas.transform.position, centerCanvas.transform.rotation);
         }

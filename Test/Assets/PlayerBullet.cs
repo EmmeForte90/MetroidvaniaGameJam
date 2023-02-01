@@ -36,6 +36,10 @@ public class PlayerBullet : MonoBehaviour
     [SerializeField] bool isShotgun;
     [SerializeField] bool rightFace;
 
+    [Header("Audio")]
+[SerializeField] AudioSource SExp;
+[SerializeField] AudioSource SBomb;
+
 
    
         void Start()
@@ -151,6 +155,8 @@ public class PlayerBullet : MonoBehaviour
         if(other.gameObject.tag == "Enemy")
         //Se il proiettile tocca il nemico
         {            
+            SExp.Play();
+
             Instantiate(Explode, transform.position, transform.rotation);
             if(isNormal && !isRapid )
             //Se è un proiettile normale e non rapido
@@ -188,7 +194,8 @@ public class PlayerBullet : MonoBehaviour
 
         if(other.gameObject.tag == "Ground" && !isShotgun)
         //Se il proiettile tocca il nemico
-        {            
+        {     
+            SExp.Play();       
             Instantiate(Explode, transform.position, transform.rotation);
             Destroy(gameObject);
             //Viene distrutto

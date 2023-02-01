@@ -19,6 +19,8 @@ public class TreasureScript : MonoBehaviour
     private Animator anim; // animatore del tesoro
     private int coinCount; // conteggio delle monete
     private bool treasureOpened = false; // indica se il tesoro è stato aperto
+ [Header("Audio")]
+    [SerializeField] AudioSource open;
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class TreasureScript : MonoBehaviour
             coinCount = Random.Range(1, maxCoins + 1);
 
             // apri il tesoro
+            open.Play();
             anim.SetTrigger("Open");
             Instantiate(VFX, spawnPoint.transform.position, Quaternion.identity);
 
