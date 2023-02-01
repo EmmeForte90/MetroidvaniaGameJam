@@ -26,6 +26,10 @@ public class NPCDialogue : MonoBehaviour
 
     private bool _isInTrigger;
     private bool _isDialogueActive;
+[Header("Audio")]
+[SerializeField] AudioSource talk;
+[SerializeField] AudioSource Clang;
+
 
 void Awake()
 {
@@ -60,6 +64,11 @@ void Awake()
         }
     }
 
+public void clang()
+{
+Clang.Play();
+}
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -87,19 +96,21 @@ void Awake()
                 _isDialogueActive = false;
                 dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
                 dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
+                talk.Stop();
+
             }
         }
     }
 
     IEnumerator ShowDialogue()
     {
+        talk.Play();
         _isDialogueActive = true;
         elapsedTime = 0; // reset elapsed time
         dialogueBox.gameObject.SetActive(true); // Show dialogue box
         dialogueText.gameObject.SetActive(true); // Show dialogue text
         string currentDialogue = dialogue[dialogueIndex]; // Get the current dialogue
         dialogueText.text = ""; // Clear the dialogue text
-
         for (int i = 0; i < currentDialogue.Length; i++)
         {
             dialogueText.text += currentDialogue[i]; // Add one letter at a time
@@ -115,10 +126,12 @@ void Awake()
 
     void NextDialogue()
     {
+
         elapsedTime = 0; // reset elapsed time
         dialogueIndex++; // Increment the dialogue index
         if (dialogueIndex >= dialogue.Length)
         {
+            talk.Stop();
             dialogueIndex = 0;
             _isDialogueActive = false;
             dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger

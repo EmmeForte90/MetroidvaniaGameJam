@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 9060609366315020121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.85, y: -2.81, z: 0}
-  m_LocalScale: {x: 1.6276, y: 1.6276, z: 1.6276}
+  m_LocalScale: {x: 3, y: 3, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 39b5af6baae6a6541a92a48f3e7ac6e6, type: 2}
+  - {fileID: 2100000, guid: 89500d6ce22f4914fbb636dc34d6f7d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,6 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 1
+  isClang: 0
+  Sclang: {fileID: 0}
 --- !u!50 &7507853799049436471
 Rigidbody2D:
   serializedVersion: 4

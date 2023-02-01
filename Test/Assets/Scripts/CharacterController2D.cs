@@ -74,8 +74,12 @@ public float knockbackDuration = 0.5f;
    
     public SkeletonMecanim skeletonM;
     public float moveX;
-[Header("Abilitations")]
+[Header("Audio")]
 [SerializeField] AudioSource SwSl;
+[SerializeField] AudioSource Smagic;
+[SerializeField] AudioSource SRun;
+
+
 
 public static CharacterController2D instance;
 public static CharacterController2D Instance
@@ -137,6 +141,7 @@ public static CharacterController2D Instance
         if (isRunning && !isAttacking)
         {
             currentSpeed *= runMultiplier;
+
         }
         if (isAttacking || isLanding)
         {   
@@ -175,6 +180,7 @@ Blast();
     jumpCounter++;
     if(jumpCounter == 2)
     {
+        Smagic.Play();
         Instantiate(Circle, circlePoint.position, transform.rotation);
 
     }
@@ -254,6 +260,7 @@ if (Time.time > nextAttackTime)
         {
         isAttacking = true;
         nextAttackTime = Time.time + 1f / attackRate;
+        Smagic.Play();
         anim.SetTrigger("isShoot");
         //AudioManager.instance.PlaySFX(1);
         Instantiate(blam, gun.position, transform.rotation);

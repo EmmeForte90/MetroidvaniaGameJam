@@ -14,7 +14,8 @@ public class StartBlastVFX : MonoBehaviour
     //Per permettere al proiettile di emularne l'andamento
     float xSpeed;
     //L'andatura
-    
+    public bool isClang = false;
+    [SerializeField] AudioSource Sclang;
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -32,7 +33,10 @@ public class StartBlastVFX : MonoBehaviour
          myRigidbody.velocity = new Vector2 (xSpeed, 0f);
         //La velocità e la direzione del proiettile
         FlipSprite();
-        
+        if(isClang)
+        {
+            Sclang.Play();
+        }
     }
 #endregion
 
