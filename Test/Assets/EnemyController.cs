@@ -23,7 +23,6 @@ public class EnemyController :  Health, IDamegable
 public float attackrange = 2f;
 private float attackTimer;
 public float attackCooldown = 2f; // durata del cooldown dell'attacco
-public float attackDamage = 10; // danno d'attacco
 private SkeletonMecanim skeletonMecanim;
     private Color originalColor;
 
@@ -157,8 +156,6 @@ private void Attack()
         attackTimer -= Time.deltaTime;
         return;
     }
-
-    player.GetComponent<PlayerHealth>().Damage(attackDamage);
     attackTimer = attackCooldown;
 }
 
