@@ -15,9 +15,8 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
     private int jumpCounter = 0;
     private int maxJumps = 2;
-    public float jumpHeight; // l'altezza del salto
     public float knockbackForce = 10f;
-public float knockbackDuration = 0.5f;
+    public float knockbackDuration = 0.5f;
     Vector2 playerPosition;
     Vector2 HitPosition;
     public GameObject Hit;
@@ -47,8 +46,7 @@ public float knockbackDuration = 0.5f;
     [SerializeField] public int maxCombo = 3; // numero massimo di combo
     [SerializeField] public float shootTimer = 2f; // tempo per completare una combo
     [SerializeField] private GameObject bullet;
-    [SerializeField] public GameObject Slash;
-    [SerializeField] public GameObject Slash1;
+
     public Transform slashpoint;
 
     [Header("VFX")]
@@ -63,6 +61,7 @@ public float knockbackDuration = 0.5f;
     private bool IsKnockback = false;
     private bool stopInput = false;
     private bool isJumping = false; // vero se il personaggio sta saltando
+    private bool isHurt = false; // vero se il personaggio sta saltando
     private bool isLoop = false; // vero se il personaggio sta saltando
     private bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isLanding = false; // vero se il personaggio sta attaccando
@@ -131,7 +130,7 @@ public static CharacterController2D Instance
         if(!gM.PauseStop || IsKnockback)
         {
 
-
+#region  Move
         moveX = Input.GetAxis("Horizontal");
 
         if (state == 0)
@@ -145,15 +144,13 @@ public static CharacterController2D Instance
         SetState(0);
 
         }
-}
+        }
         
-        
-
         currentSpeed = moveSpeed;
         if (isRunning && !isAttacking)
         {
             if (moveX != 0)
-{ 
+    { 
     if (isRunning)
     {
         currentSpeed = moveSpeed * runMultiplier;
@@ -164,13 +161,13 @@ public static CharacterController2D Instance
         currentSpeed = moveSpeed;
         SetState(1);
     }
-}
-else
-{
+    }
+    else
+    {
     currentSpeed = 0;
     anim.Play("Gameplay/idle");
     SetState(0);
-}
+    }
 
         }
         if (isAttacking || isLanding)
@@ -191,16 +188,13 @@ else
             moveX = 1;
         transform.localScale = new Vector2(1f, 1f);
         }
-
-
-
+#endregion
 
 
 // gestione dell'input dello sparo
-        if (Input.GetButtonDown("Fire2"))
+if (Input.GetButtonDown("Fire2"))
 {
-Blast();
-    
+Blast();   
 }
 
 
@@ -223,6 +217,7 @@ if (isJumping)
     isLoop = true;
     SetState(4);
 }
+
 
 
         if (Input.GetButtonDown("Fire1"))
@@ -267,23 +262,21 @@ if (isJumping)
         UpdateAnimation();
         }
 
-        // gestione dell'input del Menu
-
-        
-    if (Input.GetKeyDown(KeyCode.Escape) && !stopInput)
-    {
-        gM.Pause();
-        stopInput = true;
-        //myAnimator.SetTrigger("idle");
-        //SFX.Play(0);
-        rb.velocity = new Vector2(0f, 0f);
-    }
-    else if(Input.GetKeyDown(KeyCode.Escape) && stopInput)
-    {
-        gM.Resume();
-        stopInput = false;
-        //SFX.Play(0);
-    }
+        // gestione dell'input del Menu 
+        if (Input.GetKeyDown(KeyCode.Escape) && !stopInput)
+        {
+            gM.Pause();
+            stopInput = true;
+            //myAnimator.SetTrigger("idle");
+            //SFX.Play(0);
+            rb.velocity = new Vector2(0f, 0f);
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) && stopInput)
+        {
+            gM.Resume();
+            stopInput = false;
+            //SFX.Play(0);
+        }
 
     }
 
@@ -301,7 +294,7 @@ if (isJumping)
                 anim.Play("Gameplay/run");
                 break;
             case 3:
-                anim.CrossFade("Gameplay/jump_start", 0.5f);
+                anim.Play("Gameplay/jump_start");
                 //state = 4;
                 break;
             case 4:
@@ -322,6 +315,12 @@ if (isJumping)
                 break;
             case 9:
                 anim.Play("CS/attack_l");
+                break;
+            case 10:
+                anim.Play("Gameplay/hurt");
+                break;
+            case 11:
+                anim.Play("Gameplay/die");
                 break;
         }
         var currentAnimInfo = anim.GetCurrentAnimatorStateInfo(0);
@@ -367,6 +366,7 @@ if (Time.time > nextAttackTime)
             }
             if (comboCounter == 1)
             {
+                
                         SetState(7);
             }else if (comboCounter == 2)
             {
@@ -426,23 +426,10 @@ isLoop = false;
 isLanding = false;    
 }
 
-
-
-public void TakeDamage(float damage)
-    {
-        // sottrai danno dalla salute del personaggio
-        health -= damage;
-        // attiva un'animazione di danno (se presente)
-        anim.SetTrigger("TakeDamage");
-
-        // controlla se la salute è minore o uguale a 0 e gestisce la morte del personaggio
-        if (health <= 0f)
-        {
-            // attiva un'animazione di morte (se presente)
-            // distrugge il personaggio
-            Destroy(gameObject);
-        }
-    }
+public void AnmHurt()
+{
+            SetState(10);
+}
 
 #region CambioMagia
     public void SetBulletPrefab(GameObject newBullet)
@@ -486,7 +473,7 @@ private void OnDrawGizmos()
 
 
 
-private void Respawn()
+public void Respawn()
 {
     // Cambia la scena
     SceneManager.LoadScene(sceneName);

@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e58ada369179c4ab61f0610e20a8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 1
+  lifeTime: 0.8
   isExplosion: 0
   intensity: 5
   time: 0.1
@@ -156,6 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 1
+  isClang: 0
+  Sclang: {fileID: 0}
 --- !u!50 &8692183193984410201
 Rigidbody2D:
   serializedVersion: 4
