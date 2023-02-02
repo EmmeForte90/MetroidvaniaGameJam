@@ -35,6 +35,7 @@ public float knockbackDuration = 0.5f;
     
     [Header("Animations")]
     private Animator anim; // componente Animator del personaggio
+    private int state = 0;
 
     [Header("Attacks")]
     private float currentCooldown; // contatore del cooldown attuale
@@ -62,13 +63,13 @@ public float knockbackDuration = 0.5f;
     private bool IsKnockback = false;
     private bool stopInput = false;
     private bool isJumping = false; // vero se il personaggio sta saltando
+    private bool isLoop = false; // vero se il personaggio sta saltando
     private bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isLanding = false; // vero se il personaggio sta attaccando
     private bool isRunning = false; // vero se il personaggio sta correndo
     private float currentSpeed; // velocità corrente del personaggio
     private Rigidbody2D rb; // componente Rigidbody2D del personaggio
     private bool isGrounded;
-    [SerializeField] public LayerMask LayerMask;
     [SerializeField] public static bool playerExists;
     [SerializeField] public bool blockInput = false;
    
@@ -103,7 +104,7 @@ public static CharacterController2D Instance
         {
             gM = GetComponent<GameplayManager>();
         }
-        
+        SetState(0);
         anim = GetComponent<Animator>();
         currentCooldown = attackCooldown;
         
@@ -131,16 +132,45 @@ public static CharacterController2D Instance
         {
 
 
-        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
-        if(isGrounded)
-        {
-        }
-        // gestione dell'input del movimento
         moveX = Input.GetAxis("Horizontal");
+
+        if (state == 0)
+        {
+        if (moveX != 0)
+        { 
+        SetState(1);
+        }else if (moveX == 0)
+        {
+        anim.Play("Gameplay/idle");
+        SetState(0);
+
+        }
+}
+        
+        
+
         currentSpeed = moveSpeed;
         if (isRunning && !isAttacking)
         {
-            currentSpeed *= runMultiplier;
+            if (moveX != 0)
+{ 
+    if (isRunning)
+    {
+        currentSpeed = moveSpeed * runMultiplier;
+        SetState(2);
+    }
+    else
+    {
+        currentSpeed = moveSpeed;
+        SetState(1);
+    }
+}
+else
+{
+    currentSpeed = 0;
+    anim.Play("Gameplay/idle");
+    SetState(0);
+}
 
         }
         if (isAttacking || isLanding)
@@ -164,6 +194,8 @@ public static CharacterController2D Instance
 
 
 
+
+
 // gestione dell'input dello sparo
         if (Input.GetButtonDown("Fire2"))
 {
@@ -173,8 +205,9 @@ Blast();
 
 
         // gestione dell'input del salto
-        if (Input.GetButtonDown("Jump") && jumpCounter < maxJumps)
-{
+    if (Input.GetButtonDown("Jump") && jumpCounter < maxJumps)
+    {
+    SetState(3);
     isJumping = true;
     rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     jumpCounter++;
@@ -182,9 +215,15 @@ Blast();
     {
         Smagic.Play();
         Instantiate(Circle, circlePoint.position, transform.rotation);
-
     }
+    }
+
+if (isJumping)
+{
+    isLoop = true;
+    SetState(4);
 }
+
 
         if (Input.GetButtonDown("Fire1"))
         {
@@ -225,10 +264,7 @@ Blast();
         }
 
         // gestione dell'animazione del personaggio
-        anim.SetFloat("Speed", Mathf.Abs(moveX));
-        anim.SetBool("IsJumping", isJumping);
-//        anim.SetBool("IsAttacking", isAttacking);
-        anim.SetBool("IsRunning", isRunning);
+        UpdateAnimation();
         }
 
         // gestione dell'input del Menu
@@ -251,7 +287,58 @@ Blast();
 
     }
 
-    
+    void UpdateAnimation()
+    {
+        switch (state)
+        {
+            case 0:
+                anim.Play("Gameplay/idle");
+                break;
+            case 1:
+                anim.Play("Gameplay/walk");
+                break;
+            case 2:
+                anim.Play("Gameplay/run");
+                break;
+            case 3:
+                anim.CrossFade("Gameplay/jump_start", 0.5f);
+                //state = 4;
+                break;
+            case 4:
+                anim.Play("Gameplay/jump");
+                break;
+            case 5:
+                anim.Play("Gameplay/landing");
+                //state = 0;
+                break;
+            case 6:
+                anim.Play("Gameplay/blast");
+                break;
+            case 7:
+                anim.Play("CS/attack");
+                break;
+            case 8:
+                anim.Play("CS/attack_h");
+                break;
+            case 9:
+                anim.Play("CS/attack_l");
+                break;
+        }
+        var currentAnimInfo = anim.GetCurrentAnimatorStateInfo(0);
+    if(!isLoop)
+    {
+    if (currentAnimInfo.normalizedTime >= 1)
+    {
+        state = 0;
+    }
+    }
+    }
+
+ public void SetState(int newState)
+    {
+        state = newState;
+    }
+
 void Blast()
 {
     if(Less.currentMana > 0)
@@ -261,11 +348,9 @@ if (Time.time > nextAttackTime)
         isAttacking = true;
         nextAttackTime = Time.time + 1f / attackRate;
         Smagic.Play();
-        anim.SetTrigger("isShoot");
-        //AudioManager.instance.PlaySFX(1);
+        SetState(6);
         Instantiate(blam, gun.position, transform.rotation);
         Instantiate(bullet, gun.position, transform.rotation);
-        //PlayerBulletCount.instance.removeOneBullet();
         }
         
 }
@@ -280,16 +365,17 @@ if (Time.time > nextAttackTime)
             {
                 comboCounter = 1;
             }
-            anim.SetInteger("ComboCounter", comboCounter);
-            anim.SetTrigger("Attack1");
             if (comboCounter == 1)
             {
-                swordCol();
+                        SetState(7);
             }else if (comboCounter == 2)
             {
-                cutting();
+                        SetState(8);
+
             }else if (comboCounter == 3)
             {
+                        SetState(9);
+
 
             }
             currentCooldown = attackCooldown;
@@ -303,6 +389,7 @@ if (Time.time > nextAttackTime)
         {
             isJumping = false;
             jumpCounter = 0;
+            SetState(5);
             StartCoroutine(stopPlayer());
 
         }
@@ -333,22 +420,13 @@ private void OnTriggerEnter2D(Collider2D collision)
 
 IEnumerator stopPlayer()
 {
-isLanding = true;    
+isLanding = true; 
 yield return new WaitForSeconds(0.5f);
+isLoop = false;
 isLanding = false;    
 }
 
-public void swordCol()
-{
-        //Instantiate(Slash, slashpoint.transform.position, transform.rotation);
 
-} 
-public void cutting()
-{
-        //Instantiate(Slash1, slashpoint.transform.position, transform.rotation);
-
-} 
-    
 
 public void TakeDamage(float damage)
     {
@@ -361,7 +439,6 @@ public void TakeDamage(float damage)
         if (health <= 0f)
         {
             // attiva un'animazione di morte (se presente)
-            anim.SetTrigger("Die");
             // distrugge il personaggio
             Destroy(gameObject);
         }
@@ -398,8 +475,6 @@ private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
     Gizmos.DrawWireSphere(slashpoint.transform.position, rayDistance);
-    
-        //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
     }
 #endregion
 
