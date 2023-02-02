@@ -20,7 +20,6 @@ public class CharacterController2D : MonoBehaviour
     Vector2 playerPosition;
     Vector2 HitPosition;
     public GameObject Hit;
-    public float rayDistance = 1f;
 
     [Header("HP")]
     [SerializeField]public float health = 100f; // salute del personaggio
@@ -60,6 +59,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] public GameplayManager gM;
     private bool IsKnockback = false;
     private bool stopInput = false;
+    private bool isGrounded = false; // vero se il personaggio sta saltando
     private bool isJumping = false; // vero se il personaggio sta saltando
     private bool isHurt = false; // vero se il personaggio sta saltando
     private bool isLoop = false; // vero se il personaggio sta saltando
@@ -68,7 +68,6 @@ public class CharacterController2D : MonoBehaviour
     private bool isRunning = false; // vero se il personaggio sta correndo
     private float currentSpeed; // velocità corrente del personaggio
     private Rigidbody2D rb; // componente Rigidbody2D del personaggio
-    private bool isGrounded;
     [SerializeField] public static bool playerExists;
     [SerializeField] public bool blockInput = false;
    
@@ -95,6 +94,7 @@ public static CharacterController2D Instance
 
     void Start()
     {
+        isGrounded = true; // vero se il personaggio sta saltando
         playerPosition = transform.position;
         HitPosition = Hit.transform.position;
         Less = GetComponent<PlayerHealth>();
@@ -199,10 +199,11 @@ Blast();
 
 
         // gestione dell'input del salto
-    if (Input.GetButtonDown("Jump") && jumpCounter < maxJumps)
-    {
+  if (Input.GetButtonDown("Jump") && jumpCounter < maxJumps)
+{
     SetState(3);
     isJumping = true;
+    isGrounded = false; // vero se il personaggio sta saltando
     rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     jumpCounter++;
     if(jumpCounter == 2)
@@ -210,13 +211,30 @@ Blast();
         Smagic.Play();
         Instantiate(Circle, circlePoint.position, transform.rotation);
     }
-    }
+}
 
 if (isJumping)
 {
-    isLoop = true;
-    SetState(4);
-}
+
+    if (Input.GetButtonDown("Fire1"))
+    {
+        Attack();
+        isAttacking = true;
+        isJumping = false;
+    }
+    else
+    {
+        SetState(4);
+        isLoop = true;
+    }
+   
+    }
+
+    if(!isGrounded &&!isAttacking && !isJumping)
+    {
+        SetState(12);
+        isLoop = true;
+    }
 
 
 
@@ -322,6 +340,9 @@ if (isJumping)
             case 11:
                 anim.Play("Gameplay/die");
                 break;
+            case 12:
+                anim.Play("Gameplay/fall");
+                break;
         }
         var currentAnimInfo = anim.GetCurrentAnimatorStateInfo(0);
     if(!isLoop)
@@ -366,27 +387,26 @@ if (Time.time > nextAttackTime)
             }
             if (comboCounter == 1)
             {
-                
                         SetState(7);
             }else if (comboCounter == 2)
             {
                         SetState(8);
-
             }else if (comboCounter == 3)
             {
                         SetState(9);
-
-
             }
             currentCooldown = attackCooldown;
             comboTimer = 0.5f;
+            
         }
+        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            isGrounded = true; // vero se il personaggio sta saltando
             isJumping = false;
             jumpCounter = 0;
             SetState(5);
@@ -441,35 +461,11 @@ public void AnmHurt()
 #endregion
 
 
-public void knockBack(float knockbackForce, Vector2 knockbackDirection)
-{
-    // stop the player's movement
-    rb.velocity = new Vector2(0f, 0f);
-    // apply the knockback force
-    rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
-    // start a coroutine to reset the player's velocity after knockbackDuration seconds
-    StartCoroutine(resetVelocityAfterKnockback());
-}
-
-IEnumerator resetVelocityAfterKnockback()
-{
-    yield return new WaitForSeconds(knockbackDuration);
-    rb.velocity = new Vector2(0f, 0f);
-}
-
-    #region Gizmos
-private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-    Gizmos.DrawWireSphere(slashpoint.transform.position, rayDistance);
-    }
-#endregion
 
     public void SoundSlash()
     {
         SwSl.Play();
     } 
-
 
 
 
