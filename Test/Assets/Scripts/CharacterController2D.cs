@@ -280,8 +280,9 @@ if (isJumping)
         UpdateAnimation();
         }
 
-        // gestione dell'input del Menu 
-        if (Input.GetKeyDown(KeyCode.Escape) && !stopInput)
+        
+// gestione dell'input del Menu 
+        if (Input.GetButtonDown("Pause") && !stopInput)
         {
             gM.Pause();
             stopInput = true;
@@ -289,13 +290,11 @@ if (isJumping)
             //SFX.Play(0);
             rb.velocity = new Vector2(0f, 0f);
         }
-        else if(Input.GetKeyDown(KeyCode.Escape) && stopInput)
+        else if(Input.GetButtonDown("Pause") && stopInput)
         {
             gM.Resume();
             stopInput = false;
-            //SFX.Play(0);
         }
-
     }
 
     void UpdateAnimation()

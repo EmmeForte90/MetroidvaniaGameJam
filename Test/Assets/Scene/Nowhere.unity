@@ -2826,6 +2826,11 @@ Canvas:
   m_SortingLayerID: 241957131
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!82 &716645794 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 352415110, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
+  m_PrefabInstance: {fileID: 1826878588}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &723192281
 GameObject:
   m_ObjectHideFlags: 0
@@ -6137,7 +6142,6 @@ MonoBehaviour:
   spawnPointTag: Spawn_2
   button: {fileID: 207466857}
   interactWithKey: 1
-  changeSceneKey: 101
   sceneName: Temple
   needButton: 1
   isDoor: 1
@@ -8058,6 +8062,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gameplay
       objectReference: {fileID: 0}
+    - target: {fileID: 8636263283415020110, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
+      propertyPath: City
+      value: 
+      objectReference: {fileID: 716645794}
     - target: {fileID: 8636263283415020111, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -8113,6 +8121,22 @@ PrefabInstance:
     - target: {fileID: 8636263284144414638, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636263284174926807, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65402937
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636263284174926807, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8785169
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636263284174926807, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.89305747
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636263284174926807, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.4499426
       objectReference: {fileID: 0}
     - target: {fileID: 8636263284305079065, guid: b3c60bd734d5d994f8cf26b59b6528de, type: 3}
       propertyPath: m_AnchorMax.x
@@ -9409,7 +9433,6 @@ MonoBehaviour:
   spawnPointTag: Spawn_1
   button: {fileID: 1838155949}
   interactWithKey: 1
-  changeSceneKey: 101
   sceneName: Emporio
   needButton: 1
   isDoor: 1

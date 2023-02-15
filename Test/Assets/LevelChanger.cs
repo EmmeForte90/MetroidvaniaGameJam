@@ -10,7 +10,7 @@ public class LevelChanger : MonoBehaviour
     public string spawnPointTag = "SpawnPoint";
     public GameObject button;
     public bool interactWithKey = true;
-    public KeyCode changeSceneKey = KeyCode.E;
+    //public KeyCode changeSceneKey = "Talk";
     public string sceneName;
     public bool needButton;
     public bool isDoor = false;
@@ -62,7 +62,7 @@ private void OnTriggerStay2D(Collider2D other)
         {
             button.gameObject.SetActive(true); // Initially hide the dialogue text
         }
-        if (interactWithKey && Input.GetKey(changeSceneKey))
+        if (interactWithKey && Input.GetButton("Talk"))
 {
     if(isDoor)
     {

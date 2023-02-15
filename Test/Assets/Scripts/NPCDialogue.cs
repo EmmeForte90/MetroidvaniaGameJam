@@ -54,11 +54,11 @@ void Awake()
         FacePlayer();
         }
 
-        if (_isInTrigger && Input.GetKeyDown(KeyCode.E) && !_isDialogueActive)
+        if (_isInTrigger && Input.GetButtonDown("Talk") && !_isDialogueActive)
         {
             StartCoroutine(ShowDialogue());
         }
-        else if (_isDialogueActive && Input.GetKeyDown(KeyCode.E))
+        else if (_isDialogueActive && Input.GetButtonDown("Talk"))
         {
             NextDialogue();
         }
