@@ -476,7 +476,6 @@ MonoBehaviour:
   spawnPointTag: Spawn
   button: {fileID: 1474141469}
   interactWithKey: 1
-  changeSceneKey: 101
   sceneName: Test1
   needButton: 1
   isDoor: 0
@@ -1846,25 +1845,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.1, y: 1.69}
   m_SizeDelta: {x: 877, y: 548}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1833966141 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6463903769423500990, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-  m_PrefabInstance: {fileID: 2435007606660774359}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1833966147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833966141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e2ef12c8bdae2e4aa9eb0da9b2ef821, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hitbox: {fileID: 1833966141}
-  attackDamage: 10
 --- !u!1 &1859398346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,33 +2355,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6463903768970207127, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-      propertyPath: attackrange
-      value: 2.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6463903768970207209, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463903769423500986, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463903769423500991, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.6371921
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463903769423500991, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.7851566
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463903769423500991, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.98866487
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463903769423500991, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.15013932
       objectReference: {fileID: 0}
     - target: {fileID: 6463903769481786370, guid: efa05ede66a04c64e959f9ad3f4b2eb8, type: 3}
       propertyPath: m_Name

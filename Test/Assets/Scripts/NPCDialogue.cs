@@ -103,26 +103,29 @@ Clang.Play();
     }
 
     IEnumerator ShowDialogue()
+{
+    talk.Play();
+    _isDialogueActive = true;
+    elapsedTime = 0; // reset elapsed time
+    dialogueBox.gameObject.SetActive(true); // Show dialogue box
+    dialogueText.gameObject.SetActive(true); // Show dialogue text
+    string currentDialogue = dialogue[dialogueIndex]; // Get the current dialogue
+    dialogueText.text = ""; // Clear the dialogue text
+    for (int i = 0; i < currentDialogue.Length; i++)
     {
-        talk.Play();
-        _isDialogueActive = true;
-        elapsedTime = 0; // reset elapsed time
-        dialogueBox.gameObject.SetActive(true); // Show dialogue box
-        dialogueText.gameObject.SetActive(true); // Show dialogue text
-        string currentDialogue = dialogue[dialogueIndex]; // Get the current dialogue
-        dialogueText.text = ""; // Clear the dialogue text
-        for (int i = 0; i < currentDialogue.Length; i++)
+        dialogueText.text += currentDialogue[i]; // Add one letter at a time
+        elapsedTime += Time.deltaTime; // Update the elapsed time
+        if (elapsedTime >= dialogueDuration)
         {
-            dialogueText.text += currentDialogue[i]; // Add one letter at a time
-            elapsedTime += Time.deltaTime; // Update the elapsed time
-            if (elapsedTime >= dialogueDuration)
-            {
-                break;
-            }
-            yield return new WaitForSeconds(0.05f); // Wait before showing the next letter
+            break;
         }
-
+        yield return new WaitForSeconds(0); // Wait before showing the next letter
     }
+            dialogueText.text = currentDialogue; // Set the dialogue text to the full current dialogue
+
+}
+
+
 
     void NextDialogue()
     {

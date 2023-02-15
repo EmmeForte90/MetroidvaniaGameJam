@@ -665,14 +665,12 @@ MonoBehaviour:
   attackRadius: 5
   DeathBack: {fileID: 4534937621921314121, guid: 832f55d4c68568a469cc0febd52c0f36, type: 3}
   Brain: {fileID: 6463903768970207191}
-  attackrange: 3
+  attackrange: 2.5
   attackCooldown: 2
-  attackDamage: 10
   Death: {fileID: 5763472482510563272, guid: 16b14d9285782e143a2a7484abae4988, type: 3}
   isLittle: 0
   SwSl: {fileID: 2435007606326915410}
   SDie: {fileID: 2435007606778039643}
-  Smove: {fileID: 2435007606134732878}
 --- !u!1 &6463903769423500990
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +684,7 @@ GameObject:
   - component: {fileID: 6463903769423500986}
   - component: {fileID: 6463903769423500985}
   - component: {fileID: 6463903769423500984}
+  - component: {fileID: 1833966147}
   m_Layer: 0
   m_Name: BoundingBoxFollower
   m_TagString: Untagged
@@ -798,6 +797,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1833966147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6463903769423500990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2ef12c8bdae2e4aa9eb0da9b2ef821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hitbox: {fileID: 6463903769423500990}
+  attackDamage: 10
 --- !u!1 &6463903769481786370
 GameObject:
   m_ObjectHideFlags: 0

@@ -1810,7 +1810,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348963062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.1, y: -0.86, z: -3}
+  m_LocalPosition: {x: -2.32, y: -0.86, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3061,8 +3061,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736267893}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.17, y: 0.38879883, z: 3}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: -5.17, y: 1.3104, z: 3}
+  m_LocalScale: {x: 2, y: 2.1704, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4206,7 +4206,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919219984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.81, y: 3.57, z: 4}
+  m_LocalPosition: {x: -2.81, y: 4.39, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5864,7 +5864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307088940}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -33.26, y: 0.07, z: 0}
+  m_LocalPosition: {x: -31.079998, y: 0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9720,7 +9720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6492264743620994210, guid: 037a39b0180760b42a401a84faa69eaf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.21
+      value: -17.99
       objectReference: {fileID: 0}
     - target: {fileID: 6492264743620994210, guid: 037a39b0180760b42a401a84faa69eaf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9757,6 +9757,10 @@ PrefabInstance:
     - target: {fileID: 6492264743620994210, guid: 037a39b0180760b42a401a84faa69eaf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492264744462484124, guid: 037a39b0180760b42a401a84faa69eaf, type: 3}
+      propertyPath: sceneName
+      value: Temple
       objectReference: {fileID: 0}
     - target: {fileID: 6942298321609606490, guid: 037a39b0180760b42a401a84faa69eaf, type: 3}
       propertyPath: m_IsActive
