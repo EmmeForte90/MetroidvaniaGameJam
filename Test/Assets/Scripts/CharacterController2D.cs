@@ -45,7 +45,10 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] public int maxCombo = 3; // numero massimo di combo
     [SerializeField] public float shootTimer = 2f; // tempo per completare una combo
     [SerializeField] private GameObject bullet;
-
+    public float maxChargeTime = 3f; // Tempo massimo di carica in secondi
+    public float maxDamage = 30f; // Danno massimo dell'attacco
+    private float chargeTime;
+    private bool isCharging;
     public Transform slashpoint;
 
     [Header("VFX")]
@@ -133,6 +136,7 @@ public static CharacterController2D Instance
 #region  Move
         moveX = Input.GetAxis("Horizontal");
 
+
         if (state == 0)
         {
         if (moveX != 0)
@@ -140,7 +144,6 @@ public static CharacterController2D Instance
         SetState(1);
         }else if (moveX == 0)
         {
-        anim.Play("Gameplay/idle");
         SetState(0);
 
         }
@@ -165,7 +168,6 @@ public static CharacterController2D Instance
     else
     {
     currentSpeed = 0;
-    anim.Play("Gameplay/idle");
     SetState(0);
     }
 
@@ -276,6 +278,38 @@ if (isJumping)
             isRunning = false;
         }
 
+if (Input.GetKey(KeyCode.X) && !isCharging)
+        {
+            isCharging = true;
+            chargeTime = 0f;
+            SetState(13);
+
+            //animator.Play(chargeAnimation.name);
+        }
+
+        if (Input.GetKey(KeyCode.X) && isCharging)
+        {
+            chargeTime += Time.deltaTime;
+
+            if (chargeTime > maxChargeTime)
+            {
+                chargeTime = maxChargeTime;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.X) && isCharging)
+        {
+            float chargeRatio = chargeTime / maxChargeTime;
+            float damage = maxDamage * chargeRatio;
+            Debug.Log("Charge ratio: " + chargeRatio + ", Damage: " + damage);
+            SetState(14);
+
+            //animator.Play(attackAnimation.name);
+            isCharging = false;
+        }
+
+
+
         // gestione dell'animazione del personaggio
         UpdateAnimation();
         }
@@ -303,6 +337,7 @@ if (isJumping)
         {
             case 0:
                 anim.Play("Gameplay/idle");
+                //anim.Play("Gameplay/idle");
                 break;
             case 1:
                 anim.Play("Gameplay/walk");
@@ -341,6 +376,12 @@ if (isJumping)
                 break;
             case 12:
                 anim.Play("Gameplay/fall");
+                break;
+                 case 13:
+                anim.Play("Attack/ATTACK-COUNTERGUARD");
+                break;
+                 case 14:
+                anim.Play("Attack/ATTACK-DASHLUNGE");
                 break;
         }
         var currentAnimInfo = anim.GetCurrentAnimatorStateInfo(0);
