@@ -496,7 +496,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &213709556
 GameObject:
@@ -1225,7 +1225,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &787926212
 GameObject:
@@ -2043,7 +2043,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255949597
 GameObject:
@@ -2805,7 +2805,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2045490317
 GameObject:
@@ -2934,6 +2934,7 @@ GameObject:
   - component: {fileID: 2080415587}
   - component: {fileID: 2080415586}
   - component: {fileID: 2080415591}
+  - component: {fileID: 2080415592}
   m_Layer: 3
   m_Name: Spine GameObject (Player)
   m_TagString: Player
@@ -3038,8 +3039,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2080415581}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.76, y: -3.73, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 21.65, y: 0.119999886, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3047,8 +3048,8 @@ Transform:
   - {fileID: 1613813221}
   - {fileID: 657088000}
   - {fileID: 3357771}
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_Father: {fileID: 8636263284257602584}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2080415586
 MonoBehaviour:
@@ -3075,6 +3076,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  blam: {fileID: 9173311337577857821, guid: 321cbfc0bda51b94e81734a3bcbe971a, type: 3}
+  gun: {fileID: 657088000}
+  Circle: {fileID: 8377799538609817746, guid: 36cd24acadc3a3242b08bf90b61abdc4, type: 3}
+  circlePoint: {fileID: 843059563}
   idleAnimationName: Gameplay/idle
   walkAnimationName: Gameplay/walk
   runAnimationName: Gameplay/run
@@ -3084,6 +3089,23 @@ MonoBehaviour:
   attack_lAnimationName: CS/attack_l
   attack_hAnimationName: CS/attack_h
   blastAnimationName: Gameplay/blast
+  nextAttackTime: 0
+  attackRate: 2
+  attackCooldown: 0.5
+  comboTimer: 2
+  comboCounter: 0
+  maxCombo: 3
+  shootTimer: 2
+  bullet: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
+  maxChargeTime: 3
+  maxDamage: 30
+  slashpoint: {fileID: 1613813221}
+  facingDirection: 1
+  gM: {fileID: 8636263284257602585}
+  SwSl: {fileID: 1080915081}
+  Smagic: {fileID: 787926214}
+  isAttacking: 0
+  isBlast: 0
 --- !u!50 &2080415587
 Rigidbody2D:
   serializedVersion: 4
@@ -3139,6 +3161,23 @@ MonoBehaviour:
   maxMana: 100
   currentMana: 100
   manaBar: {fileID: 8636263284035505727}
+--- !u!114 &2080415592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080415581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc220712a7baa9449c483eb949db0fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normal: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
+  rapid: {fileID: 5232293475686507712, guid: 2d814150e3b4d6e4dad469a85c88e6f0, type: 3}
+  shotgun: {fileID: 5973347569474014298, guid: 0e8eb20af3f3dbf4987bd42a9d759842, type: 3}
+  bomb: {fileID: 978235844193205966, guid: f7af82967ee23064aabfbef405356efc, type: 3}
+  Kk: 102
 --- !u!1 &8636263283239036450
 GameObject:
   m_ObjectHideFlags: 0
@@ -10138,8 +10177,9 @@ Transform:
   m_Children:
   - {fileID: 8636263283348590593}
   - {fileID: 593372114}
+  - {fileID: 2080415585}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8636263284257602585
 MonoBehaviour:

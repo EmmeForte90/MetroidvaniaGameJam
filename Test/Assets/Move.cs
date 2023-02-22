@@ -36,7 +36,12 @@ public class Move : MonoBehaviour
     private const float distanceFromGroundRaycast = 0.3f;
     [SerializeField] private LayerMask groundLayer;
     
-  
+    [Header("VFX")]
+    // Variabile per il gameobject del proiettile
+    [SerializeField] GameObject blam;
+    [SerializeField] public Transform gun;
+    [SerializeField] GameObject Circle;
+    [SerializeField] public Transform circlePoint;
   
     
    
@@ -71,6 +76,11 @@ public class Move : MonoBehaviour
     PlayerHealth Less;
     [SerializeField] public GameplayManager gM;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource SwSl;
+    [SerializeField] AudioSource Smagic;
+    public bool isAttacking = false; // vero se il personaggio sta attaccando
+    public bool isBlast = false; // vero se il personaggio sta attaccando
 
 
     private SkeletonAnimation _skeletonAnimation;
@@ -122,7 +132,72 @@ public class Move : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);   
         }
 
-        
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // gestione dell'input dello sparo
+        if (Input.GetButtonDown("Fire2"))
+        {
+        Blast();   
+        }
+
+        shootTimer -= Time.deltaTime;
+            if (shootTimer <= 0)
+            {
+                isBlast = false;
+                shootTimer = 0.5f;
+            }
+    
+
+    if (Input.GetButtonDown("Fire1"))
+        {
+            Attack();
+        }
+            
+        // gestione del timer della combo
+        if (comboCounter > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                isAttacking= false;
+                comboCounter = 0;
+                comboTimer = 0.5f;
+            }
+        }
+
+        // gestione del cooldown dell'attacco
+        if (currentCooldown > 0)
+        {
+            currentCooldown -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Fire3") && !isCharging)
+        {
+            isCharging = true;
+            chargeTime = 0f;
+
+            //animator.Play(chargeAnimation.name);
+        }
+
+        if (Input.GetButtonDown("Fire3") && isCharging)
+        {
+            chargeTime += Time.deltaTime;
+
+            if (chargeTime > maxChargeTime)
+            {
+                chargeTime = maxChargeTime;
+            }
+        }
+
+        if (Input.GetButtonUp("Fire3") && isCharging)
+        {
+            float chargeRatio = chargeTime / maxChargeTime;
+            float damage = maxDamage * chargeRatio;
+            Debug.Log("Charge ratio: " + chargeRatio + ", Damage: " + damage);
+
+            //animator.Play(attackAnimation.name);
+            isCharging = false;
+        }
         checkFlip();
 
         selectAnimation();
@@ -185,7 +260,7 @@ public class Move : MonoBehaviour
                         // Player is jumping or falling
                         if (currentAnimationName != "idle")
                         {
-                            _spineAnimationState.SetAnimation(0, idleAnimationName, false);
+                            _spineAnimationState.SetAnimation(0, idleAnimationName, true);
                             currentAnimationName = "idle"; 
                         }
                     }
@@ -206,7 +281,27 @@ public class Move : MonoBehaviour
                             _spineAnimationState.SetAnimation(0, walkAnimationName, true);
                             currentAnimationName = "walk"; 
                         }
-                    }                
+                    }  
+                     
+                        if (isBlast)
+                        {
+                            if (currentAnimationName != "blast")
+                        {
+                            float blastAnimationDuration = 1.0f; // Durata dell'animazione in secondi
+                            _spineAnimationState.SetAnimation(0, blastAnimationName, false).MixDuration = blastAnimationDuration;
+                            currentAnimationName = "blast"; 
+                        }
+                        }
+
+                        if (comboCounter == 1)
+                        {
+                            if (currentAnimationName != "attack")
+                        {
+                            _spineAnimationState.SetAnimation(0, attackAnimationName, false);
+                            currentAnimationName = "attack"; 
+                            }
+                        }
+
                     break;
 
             case > 0:
@@ -225,7 +320,54 @@ public class Move : MonoBehaviour
                 break;
         }
     }
+    #region CambioMagia
+    public void SetBulletPrefab(GameObject newBullet)
+    //Funzione per cambiare arma
+    {
+       bullet = newBullet;
+    }    
     
+#endregion
+
+
+
+    public void SoundSlash()
+    {
+        SwSl.Play();
+    } 
+
+void Blast()
+{
+    if(Less.currentMana > 0)
+        {
+if (Time.time > nextAttackTime)
+        {
+        isBlast = true;
+        nextAttackTime = Time.time + 1f / attackRate;
+        Smagic.Play();
+        Instantiate(blam, gun.position, transform.rotation);
+        Instantiate(bullet, gun.position, transform.rotation);
+        }
+        
+}
+}
+    void Attack()
+    {
+        if (currentCooldown <= 0)
+        {
+            isAttacking = true;
+            comboCounter++;
+            if (comboCounter > maxCombo)
+            {
+                comboCounter = 1;
+            }
+            
+            currentCooldown = attackCooldown;
+            comboTimer = 0.5f;
+            
+        }
+        
+    }
 #if(UNITY_EDITOR)
     private void OnDrawGizmosSelected()
     {
