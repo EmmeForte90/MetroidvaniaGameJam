@@ -14,9 +14,32 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] public float jumpForce = 5f; // forza del salto
     [SerializeField] public float runMultiplier = 2f; // moltiplicatore di velocità per la corsa
     private int jumpCounter = 0;
+    private float jumpDuration = 2f;
+
+    public float wallJumpForce = 10f; // La forza da applicare per il Wall Jump
+    public float wallJumpDelay = 0.2f; // Il ritardo in secondi prima di poter fare il Wall Jump di nuovo
+    private float wallJumpTimer = 0f; // Il timer per il ritardo del Wall Jump
+    private bool isWallJumping = false; // Il flag per indicare se il personaggio sta facendo il Wall Jump
+
+    private bool isWallSliding = false; // il personaggio sta scivolando sul muro
+    private bool isTouchingWall = false; // il personaggio sta toccando il muro
+    private int wallDirection = 0; // direzione del muro (1 per muro a destra, -1 per muro a sinistra)
+    public float wallSlideSpeed = 2f; // La velocità di scorrimento lungo la parete
+
+
+
     private int maxJumps = 2;
-    public float knockbackForce = 10f;
-    public float knockbackDuration = 0.5f;
+    public float fallMultiplier = 2.5f;
+    [SerializeField] public float jumpHeight = 2f;
+    float coyoteTime = 0.1f;
+    float coyoteCounter = 0f;
+    public LayerMask groundLayer;
+    public float groundCheckDistance = 0.1f;
+    private readonly Vector3 raycastColliderOffset = new (0.25f, 0, 0);
+    private const float distanceFromGroundRaycast = 0.3f;
+
+
+
     Vector2 playerPosition;
     Vector2 HitPosition;
     public GameObject Hit;
@@ -50,6 +73,7 @@ public class CharacterController2D : MonoBehaviour
     private float chargeTime;
     private bool isCharging;
     public Transform slashpoint;
+    public int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
 
     [Header("VFX")]
     // Variabile per il gameobject del proiettile
@@ -64,13 +88,17 @@ public class CharacterController2D : MonoBehaviour
     private bool stopInput = false;
     private bool isGrounded = false; // vero se il personaggio sta saltando
     private bool isJumping = false; // vero se il personaggio sta saltando
+    private bool isFall = false; // vero se il personaggio sta saltando
     private bool isHurt = false; // vero se il personaggio sta saltando
     private bool isLoop = false; // vero se il personaggio sta saltando
     private bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isLanding = false; // vero se il personaggio sta attaccando
     private bool isRunning = false; // vero se il personaggio sta correndo
     private float currentSpeed; // velocità corrente del personaggio
+   
+
     private Rigidbody2D rb; // componente Rigidbody2D del personaggio
+
     [SerializeField] public static bool playerExists;
     [SerializeField] public bool blockInput = false;
    
@@ -171,6 +199,9 @@ public static CharacterController2D Instance
     SetState(0);
     }
 
+
+    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
         if (isAttacking || isLanding)
         {   
@@ -180,16 +211,7 @@ public static CharacterController2D Instance
         rb.velocity = new Vector2(moveX * currentSpeed, rb.velocity.y);
         }
 
-        if (moveX < 0)
-        {
-            moveX = -1;
-        transform.localScale = new Vector2(-1f, 1f);
-        }
-        else if (moveX > 0)
-        {
-            moveX = 1;
-        transform.localScale = new Vector2(1f, 1f);
-        }
+        Flip();
 #endregion
 
 
@@ -200,24 +222,100 @@ Blast();
 }
 
 
-        // gestione dell'input del salto
-  if (Input.GetButtonDown("Jump") && jumpCounter < maxJumps)
+  // Utilizzare un raycast per determinare se il personaggio è su un terreno solido o meno
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
+        isGrounded = hit.collider != null;
+
+        // Se il personaggio non è più su un terreno solido, aumentare il contatore coyote
+        if (!isGrounded)
+        {
+            coyoteCounter += Time.deltaTime;
+        }else
+        {
+            isFall = false;
+            isJumping = false;
+            
+        }
+
+        // Se il pulsante di salto viene premuto e il personaggio ha ancora salti disponibili o sta ancora entro il tempo di coyote, saltare
+if ((Input.GetButtonDown("Jump") && (jumpCounter < maxJumps || coyoteCounter < coyoteTime)) || isWallJumping)
 {
-    SetState(3);
-    isJumping = true;
-    isGrounded = false; // vero se il personaggio sta saltando
-    rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-    jumpCounter++;
-    if(jumpCounter == 2)
+    if (isWallJumping)
     {
-        Smagic.Play();
-        Instantiate(Circle, circlePoint.position, transform.rotation);
+        // Resetta il flag per indicare che il personaggio non sta facendo il Wall Jump
+        isWallJumping = false;
+    }
+    else
+    {
+        // Controlla se il personaggio sta toccando un muro
+        isTouchingWall = Physics2D.Raycast(transform.position, Vector2.right, transform.localScale.x, LayerMask.GetMask("Wall"))
+            || Physics2D.Raycast(transform.position, Vector2.left, transform.localScale.x, LayerMask.GetMask("Wall"));
+
+        // Se il personaggio sta toccando un muro, fai il Wall Jump
+        if (isTouchingWall)
+        {
+            SetState(15);
+            // Imposta il flag per indicare che il personaggio sta facendo il Wall Jump
+            isWallJumping = true;
+            isJumping = false;
+            isFall = false;
+
+            // Imposta il salto massimo a 1 per evitare il doppio salto durante il Wall Jump
+            maxJumps = 1;
+
+            // Imposta il ritardo per il Wall Jump a 0 per avere una risposta immediata
+            wallJumpDelay = 0f;
+
+            // Applica la forza per il Wall Jump
+            rb.velocity = new Vector2(0f, 0f);
+            rb.AddForce(new Vector2(wallJumpForce * -facingDirection, wallJumpForce), ForceMode2D.Impulse);
+
+            // Cambia la direzione del personaggio
+            Flip();
+
+            // Avvia la coroutine per il Wall Jump
+            StartCoroutine(WallJumpCoroutine());
+        }
+        else
+        {
+            // Altrimenti, fai il salto normale
+            isJumping = true;
+            SetState(3);
+            jumpCounter++;
+            rb.velocity = Vector2.up * Mathf.Sqrt(jumpHeight * -2f * Physics2D.gravity.y);
+
+            if (jumpCounter == 2)
+            {
+                SetState(3);
+                Smagic.Play();
+                Instantiate(Circle, circlePoint.transform.position, transform.rotation);
+            }
+
+            StartCoroutine(JumpDurationCoroutine(jumpDuration));
+        }
     }
 }
 
-if (isJumping)
+// Se la velocità verticale del personaggio è negativa, attivare la modalità di caduta
+if (rb.velocity.y < 0)
 {
+    isFall = true;
+    isLoop = true;
+    rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+}
 
+// Se viene premuto il pulsante di attacco e il personaggio sta saltando, attaccare
+if (Input.GetButtonDown("Fire1") && isJumping)
+{
+    isAttacking = true;
+    isJumping = false;
+    isFall = true;
+    isLoop = true;
+}
+
+// Se il personaggio sta saltando o facendo il Wall Jump, aggiornare lo stato
+if (isJumping || isWallJumping)
+{
     if (Input.GetButtonDown("Fire1"))
     {
         Attack();
@@ -229,14 +327,13 @@ if (isJumping)
         SetState(4);
         isLoop = true;
     }
-   
-    }
+}
 
-    if(!isGrounded &&!isAttacking && !isJumping)
-    {
-        SetState(12);
-        isLoop = true;
-    }
+if (!isGrounded && !isAttacking && !isJumping && !isWallJumping)
+{
+SetState(12);
+isLoop = true;
+}
 
 
 
@@ -331,6 +428,20 @@ if (Input.GetKey(KeyCode.X) && !isCharging)
         }
     }
 
+void Flip()
+{
+    if (moveX < 0)
+        {
+            moveX = -1;
+        transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (moveX > 0)
+        {
+            moveX = 1;
+        transform.localScale = new Vector2(1f, 1f);
+        }
+}
+
     void UpdateAnimation()
     {
         switch (state)
@@ -346,7 +457,10 @@ if (Input.GetKey(KeyCode.X) && !isCharging)
                 anim.Play("Gameplay/run");
                 break;
             case 3:
+            if(isJumping && !isTouchingWall)
+            {
                 anim.Play("Gameplay/jump_start");
+            }
                 //state = 4;
                 break;
             case 4:
@@ -375,13 +489,22 @@ if (Input.GetKey(KeyCode.X) && !isCharging)
                 anim.Play("Gameplay/die");
                 break;
             case 12:
+            if(isFall && !isTouchingWall)
+            {
                 anim.Play("Gameplay/fall");
+            }
                 break;
-                 case 13:
+            case 13:
                 anim.Play("Attack/ATTACK-COUNTERGUARD");
                 break;
-                 case 14:
+            case 14:
                 anim.Play("Attack/ATTACK-DASHLUNGE");
+                break;
+            case 15:
+            if(isTouchingWall && state == 4 || state == 12)
+            {
+                anim.Play("Gameplay/wallslidinghook");
+            }
                 break;
         }
         var currentAnimInfo = anim.GetCurrentAnimatorStateInfo(0);
@@ -393,7 +516,49 @@ if (Input.GetKey(KeyCode.X) && !isCharging)
     }
     }
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+private void FixedUpdate()
+    {
+        // Controlla se il personaggio sta toccando un muro
+        isTouchingWall = Physics2D.Raycast(transform.position, Vector2.right, transform.localScale.x, LayerMask.GetMask("Wall")) 
+            || Physics2D.Raycast(transform.position, Vector2.left, transform.localScale.x, LayerMask.GetMask("Wall"));
+
+        // Se il personaggio sta toccando il muro, controlla la direzione del muro
+        if (isTouchingWall)
+        {
+            wallDirection = Physics2D.Raycast(transform.position, Vector2.right, transform.localScale.x, LayerMask.GetMask("Wall")) ? 1 : -1;
+        }
+
+        // Se il personaggio sta scivolando sul muro, applica la forza per lo scivolamento
+        if (isWallSliding)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+        }
+    }
+
+ IEnumerator WallJumpCoroutine()
+    {
+        // Aspetta il ritardo prima di poter fare il Wall Jump di nuovo
+yield return new WaitForSeconds(wallJumpDelay);
+// Resetta il salto massimo e il timer per il ritardo del Wall Jump
+maxJumps = 2;
+wallJumpTimer = 0f;
+
+yield return null;
+    }
+
+ private IEnumerator JumpDurationCoroutine(float duration)
+{
+    float timer = 0f;
+    while (timer < duration)
+    {
+        timer += Time.deltaTime;
+        yield return null;
+    }
+
+    isJumping = false;
+}
  public void SetState(int newState)
     {
         state = newState;
@@ -517,7 +682,15 @@ public void Respawn()
     // Aspetta che la nuova scena sia completamente caricata
     StartCoroutine(WaitForSceneLoad());
 }
-
+private bool onsGrounded()
+    {
+        //DOUBLE RAYCAST FOR GROUND: check if you touch the ground even with just one leg 
+        return (
+                Physics2D.Raycast(transform.position + raycastColliderOffset, Vector3.down, distanceFromGroundRaycast, groundLayer)
+                ||
+                Physics2D.Raycast(transform.position - raycastColliderOffset, Vector3.down, distanceFromGroundRaycast, groundLayer)
+            );
+    }
 IEnumerator WaitForSceneLoad()
 {
     yield return new WaitForSeconds(0);
