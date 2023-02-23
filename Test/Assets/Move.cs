@@ -109,10 +109,15 @@ public class Move : MonoBehaviour
     
     private void Update()
     {
+        Debug.DrawLine(transform.position + raycastColliderOffset, transform.position + raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
+        Debug.DrawLine(transform.position - raycastColliderOffset, transform.position - raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
+        Debug.DrawLine(transform.position, transform.position + Vector3.down * distanceFromGroundRaycast, Color.red);
+
         horDir = Input.GetAxisRaw("Horizontal");
 
         if (isGrounded())
         {
+            Debug.Log("isGrounded(): " + isGrounded());
             lastTimeGround = coyoteTime;   
             rb.gravityScale = 1;
         }
@@ -232,14 +237,18 @@ public class Move : MonoBehaviour
 
 
     private bool isGrounded()
-    {
-        //DOUBLE RAYCAST FOR GROUND: check if you touch the ground even with just one leg 
-        return (
-                Physics2D.Raycast(transform.position + raycastColliderOffset, Vector3.down, distanceFromGroundRaycast, groundLayer)
-                ||
-                Physics2D.Raycast(transform.position - raycastColliderOffset, Vector3.down, distanceFromGroundRaycast, groundLayer)
-            );
-    }
+{
+    //TRIPLE RAYCAST FOR GROUND: check if you touch the ground even with just one leg 
+    return (
+        
+            Physics2D.Raycast(transform.position + raycastColliderOffset, Vector3.down, distanceFromGroundRaycast, groundLayer)
+            ||
+            Physics2D.Raycast(transform.position - raycastColliderOffset, Vector3.down, distanceFromGroundRaycast, groundLayer)
+            ||
+            Physics2D.Raycast(transform.position, Vector3.down, distanceFromGroundRaycast, groundLayer)
+            
+        );
+}
     
     private void checkFlip()
     {
