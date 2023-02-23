@@ -21,6 +21,12 @@ EditorBuildSettings:
     path: Assets/Scene/Nowhere/Blacksmith.unity
     guid: b845ce229424ba3468b6bdc82e6427d6
   - enabled: 1
+    path: Assets/Scene/Maleborge/Male_1.unity
+    guid: 09d126e1d25c87f448b592a6fa54eb98
+  - enabled: 1
+    path: Assets/Scene/Maleborge/Male_18.unity
+    guid: 64102dfdf65a7e143b49948b65562cd3
+  - enabled: 1
     path: Assets/Scene/Nowhere/Emporio.unity
     guid: 8241ce4f3ae246f49a95a8b8ac0c9c20
   - enabled: 1
