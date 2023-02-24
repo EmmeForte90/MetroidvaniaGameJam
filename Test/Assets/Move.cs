@@ -84,6 +84,10 @@ private int comboCount = 0;
     public float maxDamage = 30f; // Danno massimo dell'attacco
     private float chargeTime;
     private bool isCharging;
+    private bool touchGround;
+    private bool isDashing;
+    private bool stopInput = false;
+
     public Transform slashpoint;
     public int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
     PlayerHealth Less;
@@ -128,6 +132,10 @@ if (_skeletonAnimation == null) {
         Debug.DrawLine(transform.position - raycastColliderOffset, transform.position - raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
         Debug.DrawLine(transform.position, transform.position + Vector3.down * distanceFromGroundRaycast, Color.red);
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if(!gM.PauseStop || !stopInput)
+        {
         horDir = Input.GetAxisRaw("Horizontal");
 
         if (isGrounded())
@@ -157,7 +165,8 @@ if (_skeletonAnimation == null) {
         // gestione dell'input dello sparo
         if (Input.GetButtonDown("Fire2"))
         {
-        Blast();   
+        useMagic();   
+        Stop();
         }
 
         shootTimer -= Time.deltaTime;
@@ -170,18 +179,24 @@ if (_skeletonAnimation == null) {
 
         if (Input.GetButtonDown("Fire1") )
         {
+            //Se non sta facendo un attacco caricato
+            if(!isCharging)
+            {
             isAttacking = true;
             AddCombo();
             if(comboCount == 4)
             { comboCount = 0;}
+            }
 
-            //animator.Play(chargeAnimation.name);
         }
     
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         if (Input.GetButtonDown("Fire3") && !isCharging)
         {
             isCharging = true;
+            AnimationCharge();
+            Stop();
             chargeTime = 0f;
 
             //animator.Play(chargeAnimation.name);
@@ -190,6 +205,7 @@ if (_skeletonAnimation == null) {
         if (Input.GetButtonDown("Fire3") && isCharging)
         {
             chargeTime += Time.deltaTime;
+            Stop();
 
             if (chargeTime > maxChargeTime)
             {
@@ -202,17 +218,44 @@ if (_skeletonAnimation == null) {
             float chargeRatio = chargeTime / maxChargeTime;
             float damage = maxDamage * chargeRatio;
             Debug.Log("Charge ratio: " + chargeRatio + ", Damage: " + damage);
-
+            AnimationChargeRelease();
             //animator.Play(attackAnimation.name);
             isCharging = false;
-        }
-        checkFlip();
 
-        selectAnimation();
+        }
+
+        if(isCharging)
+        {
+         Stop();
+        }
+
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
+// gestione dell'input del Menu 
+        if (Input.GetButtonDown("Pause") && !stopInput)
+        {
+            gM.Pause();
+            stopInput = true;
+            Stop();
+        }
+        else if(Input.GetButtonDown("Pause") && stopInput)
+        {
+            gM.Resume();
+            stopInput = false;
+        }
+
+        checkFlip();
+        moving();
+
+        }
     }
+
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
     private void FixedUpdate()
     {
+        if(!gM.PauseStop || !isAttacking || !isCharging || !touchGround || !isDashing)
+        {
         float playerSpeed = horDir * speed;
         float accelRate = Mathf.Abs(playerSpeed) > 0.01f? acceleration : deceleration;
         rb.AddForce((playerSpeed - rb.velocity.x) * accelRate * Vector2.right);
@@ -220,6 +263,7 @@ if (_skeletonAnimation == null) {
         
         if (lastTimeJump > Time.time && lastTimeGround > 0)
             jump();
+        }
     }
 
     private void jump()
@@ -261,22 +305,70 @@ if (_skeletonAnimation == null) {
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
+ private void Stop()
+    {
+        rb.velocity = new Vector2(0f, 0f);
+        horDir = 0;
 
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public void AnimationCharge()
+{
+    if (currentAnimationName != "attack")
+                {
+                    _spineAnimationState.SetAnimation(1, "CS/charge", true);
+                    currentState = CharacterState.Attacking;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+               // _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
+
+public void useMagic()
+{
+    if (currentAnimationName != "attack")
+                {
+                    _spineAnimationState.SetAnimation(1, "Gameplay/blast", false);
+                    currentState = CharacterState.Attacking;
+                    Blast();
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
+
+
+public void AnimationChargeRelease()
+{
+    if (currentAnimationName != "attack")
+                {
+                    _spineAnimationState.SetAnimation(1, "CS/pesante", false);
+                    currentState = CharacterState.Attacking;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
 
 public void AddCombo()
 {
+    //Se sta attaccando
     if (isAttacking)
     {
+        //Il contatore aumenta ogni volta che si preme il tasto
         comboCount++;
 
         switch (comboCount)
         {
+            //Setta lo stato d'animazione ed esegue l'animazione in base al conto della combo
             case 1:
                 if (currentAnimationName != "attack")
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack", false);
                     currentState = CharacterState.Attacking;
-                    Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
@@ -286,7 +378,7 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_h", false);
                     currentState = CharacterState.Attacking;
-                    Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
@@ -296,7 +388,7 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_l", false);
                     currentState = CharacterState.Attacking;
-                    Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
@@ -322,10 +414,7 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 
 
 
-
-
-
-private void selectAnimation() {
+private void moving() {
     switch (rb.velocity.y) {
         case 0:
             float speed = Mathf.Abs(rb.velocity.x);
@@ -367,23 +456,15 @@ private void selectAnimation() {
             break;
     }
 }
-    
-    #region CambioMagia
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void SetBulletPrefab(GameObject newBullet)
     //Funzione per cambiare arma
     {
        bullet = newBullet;
     }    
     
-#endregion
-
-
-
-    public void SoundSlash()
-    {
-        SwSl.Play();
-    } 
-
 void Blast()
 {
     if(Less.currentMana > 0)
@@ -391,6 +472,7 @@ void Blast()
 if (Time.time > nextAttackTime)
         {
         isBlast = true;
+        Debug.Log("il blast è partito");
         nextAttackTime = Time.time + 1f / attackRate;
         Smagic.Play();
         Instantiate(blam, gun.position, transform.rotation);
@@ -399,23 +481,17 @@ if (Time.time > nextAttackTime)
         
 }
 }
-    void Attack()
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void SoundSlash()
     {
-        if (currentCooldown <= 0)
-        {
-            isAttacking = true;
-            comboCounter++;
-            if (comboCounter > maxCombo)
-            {
-                comboCounter = 1;
-            }
-            
-            currentCooldown = attackCooldown;
-            comboTimer = 0.5f;
-            
-        }
-        
-    }
+        SwSl.Play();
+    } 
+
+
+
+   
 #if(UNITY_EDITOR)
     private void OnDrawGizmosSelected()
     {
