@@ -42,7 +42,15 @@ public class Move : MonoBehaviour
     [SerializeField] public Transform gun;
     [SerializeField] GameObject Circle;
     [SerializeField] public Transform circlePoint;
-  
+    [SerializeField] public Transform slashpoint;
+    [SerializeField] GameObject attack;
+    [SerializeField] GameObject attack_h;
+    [SerializeField] GameObject attack_l;
+    [SerializeField] GameObject attack_a;
+    [SerializeField] GameObject pesante;
+
+
+
     
    
     [Header("Animations")]
@@ -54,6 +62,7 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string attackAnimationName;
     [SpineAnimation][SerializeField] private string attack_lAnimationName;
     [SpineAnimation][SerializeField] private string attack_hAnimationName;
+    [SpineAnimation][SerializeField] private string attack_aAnimationName;
     [SpineAnimation][SerializeField] private string blastAnimationName;
     //[SpineAnimation][SerializeField] private string attackAnimationName;
 
@@ -71,13 +80,9 @@ private int comboCount = 0;
      
 
     [Header("Attacks")]
-    private float currentCooldown; // contatore del cooldown attuale
+    [SerializeField] public int comboCounter = 0; // contatore delle combo
     [SerializeField] float nextAttackTime = 0f;
     [SerializeField] float attackRate = 2f;
-    [SerializeField] public float attackCooldown = 0.5f; // tempo di attesa tra gli attacchi
-    [SerializeField] public float comboTimer = 2f; // tempo per completare una combo
-    [SerializeField] public int comboCounter = 0; // contatore delle combo
-    [SerializeField] public int maxCombo = 3; // numero massimo di combo
     [SerializeField] public float shootTimer = 2f; // tempo per completare una combo
     [SerializeField] private GameObject bullet;
     public float maxChargeTime = 3f; // Tempo massimo di carica in secondi
@@ -88,7 +93,6 @@ private int comboCount = 0;
     private bool isDashing;
     private bool stopInput = false;
 
-    public Transform slashpoint;
     public int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
     PlayerHealth Less;
     [SerializeField] public GameplayManager gM;
@@ -120,7 +124,6 @@ if (_skeletonAnimation == null) {
             gM = GetComponent<GameplayManager>();
         }
         Less = GetComponent<PlayerHealth>();
-        currentCooldown = attackCooldown;
         _spineAnimationState = _skeletonAnimation.AnimationState;
         _skeleton = _skeletonAnimation.skeleton;
         rb = GetComponent<Rigidbody2D>();
@@ -184,7 +187,7 @@ if (_skeletonAnimation == null) {
             {
             isAttacking = true;
             AddCombo();
-            if(comboCount == 4)
+            if(comboCount == 5)
             { comboCount = 0;}
             }
 
@@ -346,6 +349,7 @@ public void AnimationChargeRelease()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/pesante", false);
                     currentState = CharacterState.Attacking;
+                    Instantiate(pesante, slashpoint.position, transform.rotation);
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -368,6 +372,7 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack", false);
                     currentState = CharacterState.Attacking;
+                    Instantiate(attack, slashpoint.position, transform.rotation);
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -378,6 +383,7 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_h", false);
                     currentState = CharacterState.Attacking;
+                    Instantiate(attack_h, slashpoint.position, transform.rotation);
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -388,6 +394,18 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_l", false);
                     currentState = CharacterState.Attacking;
+                    Instantiate(attack_l, slashpoint.position, transform.rotation);
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                break;
+            case 4:
+                if (currentAnimationName != "CS/attack_a")
+                {
+                    _spineAnimationState.SetAnimation(1, "CS/attack_a", false);
+                    currentState = CharacterState.Attacking;
+                    Instantiate(attack_a, slashpoint.position, transform.rotation);
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
