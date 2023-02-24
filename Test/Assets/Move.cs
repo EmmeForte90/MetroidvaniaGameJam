@@ -14,7 +14,7 @@ public class Move : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float acceleration;
     [SerializeField] private float deceleration;
-    public float horDir;
+    private float horDir;
     public float runSpeedThreshold = 5f; // or whatever value you want
 
 
@@ -57,6 +57,19 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string blastAnimationName;
     //[SpineAnimation][SerializeField] private string attackAnimationName;
 
+    public enum CharacterState {
+    Idle,
+    Walking,
+    Running,
+    Jumping,
+    Falling,
+    Attacking
+}
+
+private CharacterState currentState = CharacterState.Idle;
+private int comboCount = 0;
+     
+
     [Header("Attacks")]
     private float currentCooldown; // contatore del cooldown attuale
     [SerializeField] float nextAttackTime = 0f;
@@ -94,8 +107,10 @@ public class Move : MonoBehaviour
 
     private void Awake()
     {
-        _skeletonAnimation = GetComponent<SkeletonAnimation>();
-        rb = GetComponent<Rigidbody2D>();
+_skeletonAnimation = GetComponent<SkeletonAnimation>();
+if (_skeletonAnimation == null) {
+    Debug.LogError("Componente SkeletonAnimation non trovato!");
+}        rb = GetComponent<Rigidbody2D>();
         if (gM == null)
         {
             gM = GetComponent<GameplayManager>();
@@ -117,7 +132,7 @@ public class Move : MonoBehaviour
 
         if (isGrounded())
         {
-            Debug.Log("isGrounded(): " + isGrounded());
+            //Debug.Log("isGrounded(): " + isGrounded());
             lastTimeGround = coyoteTime;   
             rb.gravityScale = 1;
         }
@@ -151,30 +166,18 @@ public class Move : MonoBehaviour
                 isBlast = false;
                 shootTimer = 0.5f;
             }
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
+        if (Input.GetButtonDown("Fire1") )
+        {
+            isAttacking = true;
+            AddCombo();
+            if(comboCount == 4)
+            { comboCount = 0;}
+
+            //animator.Play(chargeAnimation.name);
+        }
     
-
-    if (Input.GetButtonDown("Fire1"))
-        {
-            Attack();
-        }
-            
-        // gestione del timer della combo
-        if (comboCounter > 0)
-        {
-            comboTimer -= Time.deltaTime;
-            if (comboTimer <= 0)
-            {
-                isAttacking= false;
-                comboCounter = 0;
-                comboTimer = 0.5f;
-            }
-        }
-
-        // gestione del cooldown dell'attacco
-        if (currentCooldown > 0)
-        {
-            currentCooldown -= Time.deltaTime;
-        }
 
         if (Input.GetButtonDown("Fire3") && !isCharging)
         {
@@ -258,77 +261,113 @@ public class Move : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
-    private void selectAnimation()
+
+
+public void AddCombo()
+{
+    if (isAttacking)
     {
-        switch (rb.velocity.y)
+        comboCount++;
+
+        switch (comboCount)
         {
-            case 0:
-                    float speed = Mathf.Abs(rb.velocity.x);
-                    if (speed == 0)
-                    {
-                        // Player is jumping or falling
-                        if (currentAnimationName != "idle")
-                        {
-                            _spineAnimationState.SetAnimation(0, idleAnimationName, true);
-                            currentAnimationName = "idle"; 
-                        }
-                    }
-                    else if (speed > runSpeedThreshold)
-                    {
-                        // Player is running
-                        if (currentAnimationName != "run")
-                        {
-                            _spineAnimationState.SetAnimation(0, runAnimationName, true);
-                            currentAnimationName = "run"; 
-                        }
-                    }
-                    else
-                    {
-                        // Player is walking
-                        if (currentAnimationName != "walk")
-                        {
-                            _spineAnimationState.SetAnimation(0, walkAnimationName, true);
-                            currentAnimationName = "walk"; 
-                        }
-                    }  
-                     
-                        if (isBlast)
-                        {
-                            if (currentAnimationName != "blast")
-                        {
-                            float blastAnimationDuration = 1.0f; // Durata dell'animazione in secondi
-                            _spineAnimationState.SetAnimation(0, blastAnimationName, false).MixDuration = blastAnimationDuration;
-                            currentAnimationName = "blast"; 
-                        }
-                        }
-
-                        if (comboCounter == 1)
-                        {
-                            if (currentAnimationName != "attack")
-                        {
-                            _spineAnimationState.SetAnimation(0, attackAnimationName, false);
-                            currentAnimationName = "attack"; 
-                            }
-                        }
-
-                    break;
-
-            case > 0:
-                if (currentAnimationName != "jump")
+            case 1:
+                if (currentAnimationName != "attack")
                 {
-                    _spineAnimationState.SetAnimation(0, jumpAnimationName, false);
-                    currentAnimationName = "jump"; 
+                    _spineAnimationState.SetAnimation(1, "CS/attack", false);
+                    currentState = CharacterState.Attacking;
+                    Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
                 break;
-            case < 0:
-                if (currentAnimationName != "jump_down")
+            case 2:
+                if (currentAnimationName != "CS/attack_h")
                 {
-                    _spineAnimationState.SetAnimation(0, jumpDownAnimationName, false);
-                    currentAnimationName = "jump_down"; 
+                    _spineAnimationState.SetAnimation(1, "CS/attack_h", false);
+                    currentState = CharacterState.Attacking;
+                    Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                break;
+            case 3:
+                if (currentAnimationName != "CS/attack_l")
+                {
+                    _spineAnimationState.SetAnimation(1, "CS/attack_l", false);
+                    currentState = CharacterState.Attacking;
+                    Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                break;
+            default:
                 break;
         }
     }
+}
+private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
+{
+    // Remove the event listener
+    trackEntry.Complete -= OnAttackAnimationComplete;
+
+    // Clear the track 1 and reset to the idle animation
+    _spineAnimationState.ClearTrack(1);
+    _spineAnimationState.SetAnimation(0, "Gameplay/idle", true);
+    currentAnimationName = "Gameplay/idle";
+
+     // Reset the attack state
+    isAttacking = false;
+}
+
+
+
+
+
+
+private void selectAnimation() {
+    switch (rb.velocity.y) {
+        case 0:
+            float speed = Mathf.Abs(rb.velocity.x);
+            if (speed == 0) {
+                // Player is not moving
+                if (currentState != CharacterState.Idle) {
+                    _spineAnimationState.SetAnimation(0, idleAnimationName, true);
+                    currentState = CharacterState.Idle;
+                }
+            } else if (speed > runSpeedThreshold) {
+                // Player is running
+                if (currentState != CharacterState.Running) {
+                    _spineAnimationState.SetAnimation(0, runAnimationName, true);
+                    currentState = CharacterState.Running;
+                }
+            } else {
+                // Player is walking
+                if (currentState != CharacterState.Walking) {
+                    _spineAnimationState.SetAnimation(0, walkAnimationName, true);
+                    currentState = CharacterState.Walking;
+                }
+            }
+            break;
+
+        case > 0:
+            // Player is jumping
+            if (currentState != CharacterState.Jumping) {
+                _spineAnimationState.SetAnimation(0, jumpAnimationName, false);
+                currentState = CharacterState.Jumping;
+            }
+            break;
+
+        case < 0:
+            // Player is falling
+            if (currentState != CharacterState.Falling) {
+                _spineAnimationState.SetAnimation(0, jumpDownAnimationName, false);
+                currentState = CharacterState.Falling;
+            }
+            break;
+    }
+}
+    
     #region CambioMagia
     public void SetBulletPrefab(GameObject newBullet)
     //Funzione per cambiare arma
