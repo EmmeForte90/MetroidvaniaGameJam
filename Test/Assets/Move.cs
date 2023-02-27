@@ -30,6 +30,8 @@ public class Move : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float jumpForce;
+    bool canDoubleJump = false;
+    public float groundDelay = 0.1f; // The minimum time before the player can jump again after touching the ground
 
     //COYOTE TIME: can jump for a short time after leave ground
     [SerializeField] private float coyoteTime;
@@ -175,7 +177,8 @@ if (_skeletonAnimation == null) {
         if (isGrounded())
         {
             //Debug.Log("isGrounded(): " + isGrounded());
-            lastTimeGround = coyoteTime;   
+            lastTimeGround = coyoteTime; 
+            canDoubleJump = true;
             rb.gravityScale = 1;
         }
         else
@@ -183,17 +186,25 @@ if (_skeletonAnimation == null) {
             lastTimeGround -= Time.deltaTime;
             modifyPhysics();
         }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (Input.GetButtonDown("Jump"))
-            lastTimeJump = Time.time + jumpDelay;
-
-        //Pre-interrupt jump if button released
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
-        {
-            lastTimeGround = 0; //Avoid spam button
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);   
-        }
-
+        
+if (Input.GetButtonDown("Jump"))
+{
+    if (lastTimeGround + groundDelay > Time.time)
+    {
+        // Regular jump
+        lastTimeJump = Time.time + jumpDelay;
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+    else if (canDoubleJump)
+    {
+        // Double jump
+        lastTimeJump = Time.time + jumpDelay;
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        canDoubleJump = false;
+    }
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // gestione dell'input dello sparo
