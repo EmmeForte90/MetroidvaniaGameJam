@@ -17,6 +17,16 @@ public class Move : MonoBehaviour
     private float horDir;
     public float runSpeedThreshold = 5f; // or whatever value you want
 
+    [Header("Dash")]
+    public float dashForce = 50f;
+    public float dashDuration = 0.5f;
+    private float dashTime;
+    private bool dashing;
+    private bool Atkdashing;
+    private float dashForceAtk = 40f;
+    private bool attackNormal;
+    public float dashCoolDown = 1f;
+    private float coolDownTime;
 
     [Header("Jump")]
     [SerializeField] private float jumpForce;
@@ -82,12 +92,16 @@ private int comboCount = 0;
     [Header("Attacks")]
     [SerializeField] public int comboCounter = 0; // contatore delle combo
     [SerializeField] float nextAttackTime = 0f;
-    [SerializeField] float attackRate = 2f;
+    [SerializeField] float attackRate = 0.5f;
     [SerializeField] public float shootTimer = 2f; // tempo per completare una combo
     [SerializeField] private GameObject bullet;
-    public float maxChargeTime = 3f; // Tempo massimo di carica in secondi
-    public float maxDamage = 30f; // Danno massimo dell'attacco
-    private float chargeTime;
+    // Dichiarazione delle variabili
+    public int Damage;
+    public int currentTime;
+    public int timeLimit = 3; // Tempo massimo per caricare l'attacco
+    public int maxDamage = 50; // Danno massimo dell'attacco caricato
+    public int minDamage = 10; // Danno minimo dell'attacco non caricato
+    private float timeSinceLastAttack = 0f;
     private bool isCharging;
     private bool touchGround;
     private bool isDashing;
@@ -113,12 +127,20 @@ private int comboCount = 0;
 
     private Rigidbody2D rb;
 
+public static Move instance;
+
+
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
 _skeletonAnimation = GetComponent<SkeletonAnimation>();
 if (_skeletonAnimation == null) {
     Debug.LogError("Componente SkeletonAnimation non trovato!");
 }        rb = GetComponent<Rigidbody2D>();
+       
         if (gM == null)
         {
             gM = GetComponent<GameplayManager>();
@@ -137,7 +159,7 @@ if (_skeletonAnimation == null) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if(!gM.PauseStop || !stopInput)
+        if(!gM.PauseStop)
         {
         horDir = Input.GetAxisRaw("Horizontal");
 
@@ -165,19 +187,23 @@ if (_skeletonAnimation == null) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // gestione dell'input dello sparo
-        if (Input.GetButtonDown("Fire2"))
-        {
+                // gestione dell'input dello sparo
+if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
+{
+    if (Less.currentMana > 0)
+    {
         useMagic();   
         Stop();
-        }
+    }
+    isBlast = false;
+    nextAttackTime = Time.time + 1f / attackRate;
+}
 
-        shootTimer -= Time.deltaTime;
-            if (shootTimer <= 0)
-            {
-                isBlast = false;
-                shootTimer = 0.5f;
-            }
+// ripristina la possibilità di attaccare dopo il tempo di attacco
+if (!isBlast && Time.time >= nextAttackTime)
+{
+    isBlast = true;
+}
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         if (Input.GetButtonDown("Fire1") )
@@ -195,46 +221,66 @@ if (_skeletonAnimation == null) {
     
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
-        if (Input.GetButtonDown("Fire3") && !isCharging)
-        {
-            isCharging = true;
-            AnimationCharge();
-            Stop();
-            chargeTime = 0f;
+ if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate)
+    {
+        isCharging = true;
+        AnimationCharge();
+        Stop();
+        // Inizializza il timer al tempo massimo
+        currentTime = timeLimit;
+        InvokeRepeating("CountDown", 1f, 1f);
+    }
 
-            //animator.Play(chargeAnimation.name);
+    if (Input.GetButtonDown("Fire3") && isCharging)
+    {
+        Stop();
+        // Decrementa il timer di un secondo
+        currentTime--;
+        // Aggiorna il danno dell'attacco in base al tempo rimanente
+        Damage = minDamage + (maxDamage - minDamage) * currentTime / timeLimit;
+    }
+
+    if (Input.GetButtonUp("Fire3") && isCharging)
+    {
+        if (currentTime == 0)
+        {
+            Damage = maxDamage;
+        }
+        else
+        {
+            Damage = minDamage + (maxDamage - minDamage) * currentTime / timeLimit;
+        }
+        AnimationChargeRelease();
+        isCharging = false;
+        Debug.Log("Charge ratio: " + (float)currentTime / timeLimit + ", Damage: " + Damage);
+        timeSinceLastAttack = Time.time;
+        CancelInvoke("CountDown");
+    }
+
+    if (isCharging)
+    {
+        Stop();
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
+        {
+            dashing = true;
+            coolDownTime = dashCoolDown;
+            dashTime = dashDuration;
+            dashAnm();
         }
 
-        if (Input.GetButtonDown("Fire3") && isCharging)
+        if (coolDownTime > 0)
         {
-            chargeTime += Time.deltaTime;
-            Stop();
-
-            if (chargeTime > maxChargeTime)
-            {
-                chargeTime = maxChargeTime;
-            }
-        }
-
-        if (Input.GetButtonUp("Fire3") && isCharging)
-        {
-            float chargeRatio = chargeTime / maxChargeTime;
-            float damage = maxDamage * chargeRatio;
-            Debug.Log("Charge ratio: " + chargeRatio + ", Damage: " + damage);
-            AnimationChargeRelease();
-            //animator.Play(attackAnimation.name);
-            isCharging = false;
-
-        }
-
-        if(isCharging)
-        {
-         Stop();
+            coolDownTime -= Time.deltaTime;
         }
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
-// gestione dell'input del Menu 
+        }
+
+        // gestione dell'input del Menu 
         if (Input.GetButtonDown("Pause") && !stopInput)
         {
             gM.Pause();
@@ -249,8 +295,6 @@ if (_skeletonAnimation == null) {
 
         checkFlip();
         moving();
-
-        }
     }
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -265,7 +309,81 @@ if (_skeletonAnimation == null) {
         rb.velocity = new Vector2(Vector2.ClampMagnitude(rb.velocity, speed).x, rb.velocity.y); //Limit velocity
         
         if (lastTimeJump > Time.time && lastTimeGround > 0)
+           { 
             jump();
+           }
+        if (dashing || Atkdashing)
+        {
+            if (horDir < 0)
+        {
+
+           rb.AddForce(-transform.right * dashForce, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+        else if (horDir > 0)
+        {
+            //anim.SetTrigger("Dash");
+
+            rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+        else if (horDir == 0)
+        {
+            if (rb.transform.localScale.x == -1)
+        {
+
+           rb.AddForce(-transform.right * dashForce, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+        else if (rb.transform.localScale.x == 1)
+        {
+            //anim.SetTrigger("Dash");
+
+            rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+                //dashing = false;
+                //Atkdashing = false;
+        }
+
+            if (dashTime <= 0)
+            {
+                dashing = false;
+                Atkdashing = false;
+
+            }
+        }
+
+        if (attackNormal)
+        {
+            if (horDir < 0)
+        {
+
+           rb.AddForce(-transform.right * dashForceAtk, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+        else if (horDir > 0)
+        {
+            //anim.SetTrigger("Dash");
+
+            rb.AddForce(transform.right * dashForceAtk, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+        else if (horDir == 0)
+        {
+                dashing = false;
+                attackNormal = false;
+        }
+
+            if (dashTime <= 0)
+            {
+                dashing = false;
+                attackNormal = false;
+
+            }
+        }
+
+
         }
     }
 
@@ -329,6 +447,18 @@ public void AnimationCharge()
                // _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
 }
 
+public void dashAnm()
+{
+    if (currentAnimationName != "attack")
+                {
+                    _spineAnimationState.SetAnimation(1, "Gameplay/dash", true);
+                    currentState = CharacterState.Attacking;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+            _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
+
 public void useMagic()
 {
     if (currentAnimationName != "attack")
@@ -354,6 +484,20 @@ public void AnimationChargeRelease()
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
+
+void CountDown()
+{
+    currentTime--;
+    if (currentTime == 0)
+    {
+        Damage = maxDamage;
+        AnimationChargeRelease();
+        isCharging = false;
+        Debug.Log("Charge ratio: 1.0, Damage: " + Damage);
+        timeSinceLastAttack = Time.time;
+        CancelInvoke("CountDown");
+    }
 }
 
 public void AddCombo()
@@ -485,20 +629,16 @@ private void moving() {
     
 void Blast()
 {
-    if(Less.currentMana > 0)
-        {
-if (Time.time > nextAttackTime)
-        {
         isBlast = true;
         Debug.Log("il blast è partito");
-        nextAttackTime = Time.time + 1f / attackRate;
+        //nextAttackTime = Time.time + 1f / attackRate;
         Smagic.Play();
         Instantiate(blam, gun.position, transform.rotation);
         Instantiate(bullet, gun.position, transform.rotation);
-        }
+        
         
 }
-}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
