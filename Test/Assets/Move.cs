@@ -38,7 +38,7 @@ public class Move : MonoBehaviour
     private Vector2 wallJumpDirection;
     public float wallCheckDistance = 0.4f;
     //public LayerMask wallLayer;
-    private bool canWallJump = false;
+    public bool canWallJump = false;
 
 
 
@@ -225,15 +225,15 @@ if (Input.GetButtonDown("Jump"))
 RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), wallCheckDistance, groundLayer);
         if (hit.collider != null && hit.collider.tag == "Ground" && !isGrounded()) {
             
+            wallJump();
             Debug.Log("Wall detected!");
                 canWallJump = true;
-                canJumpAgain = true;
                 Debug.Log("Player has touched the wall");
         }
         else
-            {
+        {
                 canWallJump = false;
-            }
+        }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // gestione dell'input dello sparo
@@ -524,6 +524,21 @@ public void useMagic()
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
+
+public void wallJump()
+{
+    if (currentAnimationName != "attack")
+                {
+                    _spineAnimationState.SetAnimation(1, "Gameplay/wallslidinghook", true);
+                    currentState = CharacterState.Attacking;
+                                        _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+            _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+    
 }
 
 
