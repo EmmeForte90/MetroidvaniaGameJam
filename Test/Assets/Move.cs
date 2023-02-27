@@ -32,6 +32,15 @@ public class Move : MonoBehaviour
     [SerializeField] private float jumpForce;
     bool canDoubleJump = false;
     public float groundDelay = 0.1f; // The minimum time before the player can jump again after touching the ground
+    public bool isWallSliding;
+    public bool canJumpAgain;
+    public float wallJumpForce;
+    private Vector2 wallJumpDirection;
+    public float wallCheckDistance = 0.4f;
+    //public LayerMask wallLayer;
+    private bool canWallJump = false;
+
+
 
     //COYOTE TIME: can jump for a short time after leave ground
     [SerializeField] private float coyoteTime;
@@ -191,7 +200,13 @@ if (_skeletonAnimation == null) {
         
 if (Input.GetButtonDown("Jump"))
 {
-    if (lastTimeGround + groundDelay > Time.time)
+    if (isWallSliding && canWallJump)
+{
+    rb.velocity = new Vector2(-wallJumpDirection.x * wallJumpForce, wallJumpDirection.y * wallJumpForce);
+    canJumpAgain = false;
+    isWallSliding = false;
+}
+    else if (lastTimeGround + groundDelay > Time.time)
     {
         // Regular jump
         lastTimeJump = Time.time + jumpDelay;
@@ -205,6 +220,20 @@ if (Input.GetButtonDown("Jump"))
         canDoubleJump = false;
     }
 }
+
+
+RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), wallCheckDistance, groundLayer);
+        if (hit.collider != null && hit.collider.tag == "Ground" && !isGrounded()) {
+            
+            Debug.Log("Wall detected!");
+                canWallJump = true;
+                canJumpAgain = true;
+                Debug.Log("Player has touched the wall");
+        }
+        else
+            {
+                canWallJump = false;
+            }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // gestione dell'input dello sparo
@@ -404,7 +433,10 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
         }
 
 
-        }
+
+
+
+    }
     }
 
     private void jump()
@@ -737,11 +769,19 @@ if (e.Data.Name == "dash") {
     }
 }
 
-   
+    #region Gizmos
+private void OnDrawGizmos()
+    {
+    Gizmos.color = Color.red;
+    // disegna un Gizmo che rappresenta il Raycast
+Gizmos.DrawLine(transform.position, transform.position + new Vector3(transform.localScale.x, 0, 0) * wallCheckDistance);
+    }
+#endregion
+
 #if(UNITY_EDITOR)
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position + raycastColliderOffset, transform.position + raycastColliderOffset + Vector3.down * distanceFromGroundRaycast);
         Gizmos.DrawLine(transform.position - raycastColliderOffset, transform.position - raycastColliderOffset + Vector3.down * distanceFromGroundRaycast);
     }
