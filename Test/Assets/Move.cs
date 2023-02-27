@@ -94,7 +94,8 @@ public class Move : MonoBehaviour
     Running,
     Jumping,
     Falling,
-    Attacking
+    Attacking,
+    wallJumping,
 }
 
 private CharacterState currentState = CharacterState.Idle;
@@ -200,13 +201,7 @@ if (_skeletonAnimation == null) {
         
 if (Input.GetButtonDown("Jump"))
 {
-    if (isWallSliding && canWallJump)
-{
-    rb.velocity = new Vector2(-wallJumpDirection.x * wallJumpForce, wallJumpDirection.y * wallJumpForce);
-    canJumpAgain = false;
-    isWallSliding = false;
-}
-    else if (lastTimeGround + groundDelay > Time.time)
+   if (lastTimeGround + groundDelay > Time.time)
     {
         // Regular jump
         lastTimeJump = Time.time + jumpDelay;
@@ -220,24 +215,18 @@ if (Input.GetButtonDown("Jump"))
         canDoubleJump = false;
     }
 }
+else if (Input.GetButtonDown("Jump") && canWallJump)
+{
+    rb.velocity = new Vector2(-wallJumpDirection.x * wallJumpForce, wallJumpDirection.y * wallJumpForce);
+    canJumpAgain = false;
+    isWallSliding = false;
+}
 
 
-RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), wallCheckDistance, groundLayer);
-        if (hit.collider != null && hit.collider.tag == "Ground" && !isGrounded()) {
-            
-            wallJump();
-            Debug.Log("Wall detected!");
-                canWallJump = true;
-                Debug.Log("Player has touched the wall");
-        }
-        else
-        {
-                canWallJump = false;
-        }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // gestione dell'input dello sparo
-if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
+if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime && !canWallJump)
 {
     if (Less.currentMana > 0)
     {
@@ -255,7 +244,7 @@ if (!isBlast && Time.time >= nextAttackTime)
 }
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
-        if (Input.GetButtonDown("Fire1") )
+        if (Input.GetButtonDown("Fire1") && !canWallJump)
         {
             //Se non sta facendo un attacco caricato
             if(!isCharging)
@@ -270,7 +259,7 @@ if (!isBlast && Time.time >= nextAttackTime)
     
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
- if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate)
+ if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate && !canWallJump)
     {
         isCharging = true;
         AnimationCharge();
@@ -432,12 +421,24 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
             }
         }
 
-
+RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), wallCheckDistance, groundLayer);
+        if (hit.collider != null && hit.collider.tag == "Ground" && !isGrounded()) {
+            wallSlide();
+            canWallJump = true;
+        } else if (hit.collider != null && hit.collider.tag != "Ground" && !isGrounded()) {
+            notWallSlide();
+            canWallJump = false;
+        } else {
+            notWallSlide();
+            canWallJump = false;
+        }
 
 
 
     }
     }
+
+
 
     private void jump()
     {
@@ -447,14 +448,26 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
         rb.AddForce(new Vector2(rb.velocity.x, jumpForce), ForceMode2D.Impulse);
     }
 
-    private void modifyPhysics()
-    {
-        if (rb.velocity.y > 0)
+
+private void modifyPhysics()
+{
+      if (rb.velocity.y > 0)
             rb.gravityScale = gravityOnJump;
         else if (rb.velocity.y < 0)
             rb.gravityScale = gravityOnFall;
-    }
 
+//Se può fare walljump annulla la gravità
+    if (canWallJump)
+    {
+        rb.velocity = new Vector2(horDir, 0f);
+        rb.gravityScale = 0f; // disattiva la gravità durante il wall jump
+    }
+    else if (!canWallJump)
+    {
+        rb.gravityScale = gravityOnFall;
+
+    }
+}
 
     private bool isGrounded()
 {
@@ -486,6 +499,39 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public void wallJump()
+{
+    if (currentState != CharacterState.wallJumping)
+                {
+                    _spineAnimationState.SetAnimation(1, "Gameplay/wallslidinghook", true);
+                    currentState = CharacterState.wallJumping;
+                                        _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+            _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+    
+}
+
+private void wallSlide()
+    {
+        if (currentState != CharacterState.Attacking) {
+            _spineAnimationState.SetAnimation(1, "Gameplay/wallslidinghook", true);
+            currentState = CharacterState.Falling;
+        }
+    }
+
+    private void notWallSlide()
+    {
+        if (currentState == CharacterState.Falling || currentState == CharacterState.Jumping) {
+            _spineAnimationState.SetAnimation(1, jumpDownAnimationName, false);
+            currentState = CharacterState.Falling;
+        }            
+        _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+
+    }
 
 public void AnimationCharge()
 {
@@ -526,20 +572,7 @@ public void useMagic()
                 _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
 }
 
-public void wallJump()
-{
-    if (currentAnimationName != "attack")
-                {
-                    _spineAnimationState.SetAnimation(1, "Gameplay/wallslidinghook", true);
-                    currentState = CharacterState.Attacking;
-                                        _spineAnimationState.Event += HandleEvent;
 
-                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
-                }
-                // Add event listener for when the animation completes
-            _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
-    
-}
 
 
 public void AnimationChargeRelease()
@@ -648,7 +681,10 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 
 
 
+
 private void moving() {
+    if(!canWallJump)
+    {
     switch (rb.velocity.y) {
         case 0:
             float speed = Mathf.Abs(rb.velocity.x);
@@ -675,19 +711,24 @@ private void moving() {
 
         case > 0:
             // Player is jumping
+            
             if (currentState != CharacterState.Jumping) {
-                _spineAnimationState.SetAnimation(0, jumpAnimationName, false);
+                _spineAnimationState.SetAnimation(0, jumpAnimationName, true);
                 currentState = CharacterState.Jumping;
             }
+            
             break;
 
         case < 0:
             // Player is falling
+            
             if (currentState != CharacterState.Falling) {
-                _spineAnimationState.SetAnimation(0, jumpDownAnimationName, false);
+                _spineAnimationState.SetAnimation(0, jumpDownAnimationName, true);
                 currentState = CharacterState.Falling;
             }
+            
             break;
+    }
     }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
