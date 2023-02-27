@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Spine;
 using Spine.Unity;
+using Spine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
@@ -74,7 +74,8 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string attack_hAnimationName;
     [SpineAnimation][SerializeField] private string attack_aAnimationName;
     [SpineAnimation][SerializeField] private string blastAnimationName;
-    //[SpineAnimation][SerializeField] private string attackAnimationName;
+
+
 
     public enum CharacterState {
     Idle,
@@ -105,6 +106,9 @@ private int comboCount = 0;
     private bool isCharging;
     private bool touchGround;
     private bool isDashing;
+    public bool isAttacking = false; // vero se il personaggio sta attaccando
+    public bool isBlast = false; // vero se il personaggio sta attaccando
+
     private bool stopInput = false;
 
     public int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
@@ -112,15 +116,20 @@ private int comboCount = 0;
     [SerializeField] public GameplayManager gM;
 
     [Header("Audio")]
+    public float basePitch = 1f;
+    public float randomPitchOffset = 0.1f;
     [SerializeField] AudioSource SwSl;
     [SerializeField] AudioSource Smagic;
-    public bool isAttacking = false; // vero se il personaggio sta attaccando
-    public bool isBlast = false; // vero se il personaggio sta attaccando
+    [SerializeField] AudioSource Swalk;
+    [SerializeField] AudioSource Srun;
+    [SerializeField] AudioSource Scharge;
+    [SerializeField] AudioSource Sdash;
 
 
     private SkeletonAnimation _skeletonAnimation;
     private Spine.AnimationState _spineAnimationState;
     private Spine.Skeleton _skeleton;
+    Spine.EventData eventData;
 
     private string currentAnimationName;
 
@@ -453,6 +462,8 @@ public void dashAnm()
                 {
                     _spineAnimationState.SetAnimation(1, "Gameplay/dash", true);
                     currentState = CharacterState.Attacking;
+                                        _spineAnimationState.Event += HandleEvent;
+
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -479,7 +490,6 @@ public void AnimationChargeRelease()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/pesante", false);
                     currentState = CharacterState.Attacking;
-                    Instantiate(pesante, slashpoint.position, transform.rotation);
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -516,7 +526,8 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack", false);
                     currentState = CharacterState.Attacking;
-                    Instantiate(attack, slashpoint.position, transform.rotation);
+                    _spineAnimationState.Event += HandleEvent;
+
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -527,7 +538,8 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_h", false);
                     currentState = CharacterState.Attacking;
-                    Instantiate(attack_h, slashpoint.position, transform.rotation);
+                                        _spineAnimationState.Event += HandleEvent;
+
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -538,7 +550,8 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_l", false);
                     currentState = CharacterState.Attacking;
-                    Instantiate(attack_l, slashpoint.position, transform.rotation);
+                                        _spineAnimationState.Event += HandleEvent;
+
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -549,7 +562,8 @@ public void AddCombo()
                 {
                     _spineAnimationState.SetAnimation(1, "CS/attack_a", false);
                     currentState = CharacterState.Attacking;
-                    Instantiate(attack_a, slashpoint.position, transform.rotation);
+                                        _spineAnimationState.Event += HandleEvent;
+
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -642,12 +656,75 @@ void Blast()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void SoundSlash()
-    {
+
+void HandleEvent (TrackEntry trackEntry, Spine.Event e) {
+
+if (e.Data.Name == "VFXpesante") {
+        // Inserisci qui il codice per gestire l'evento.
+        Instantiate(pesante, slashpoint.position, transform.rotation);
+    }
+
+
+    if (e.Data.Name == "SoundSlash") {     
+    // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+        if (SwSl == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SwSl.gameObject.activeInHierarchy) {
+            SwSl.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
         SwSl.Play();
-    } 
+    }
+    
+    if (e.Data.Name == "VFXSlash") {
+        // Inserisci qui il codice per gestire l'evento.
+        Instantiate(attack, slashpoint.position, transform.rotation);
+    }
 
+if (e.Data.Name == "VFXSlash_h") {
+        // Inserisci qui il codice per gestire l'evento.
+        Instantiate(attack_h, slashpoint.position, transform.rotation);
+        // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+    }
+if (e.Data.Name == "VFXSlash_l") {
+        // Inserisci qui il codice per gestire l'evento.
+        Instantiate(attack_l, slashpoint.position, transform.rotation);
+    }
+    if (e.Data.Name == "VFXSlash_a") {
+        // Inserisci qui il codice per gestire l'evento.
+        Instantiate(attack_a, slashpoint.position, transform.rotation);
+    }
 
+if (e.Data.Name == "soundWalk") {
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        Swalk.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        Swalk.Play();
+    }
+if (e.Data.Name == "soundRun") {
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        Srun.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        Srun.Play();
+    }
+if (e.Data.Name == "SoundCharge") {
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        Scharge.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        Scharge.Play();
+    }
+if (e.Data.Name == "dash") {
+            
+        Sdash.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        Sdash.Play();
+    }
+}
 
    
 #if(UNITY_EDITOR)
