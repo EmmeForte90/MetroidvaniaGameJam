@@ -84,7 +84,16 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string attack_lAnimationName;
     [SpineAnimation][SerializeField] private string attack_hAnimationName;
     [SpineAnimation][SerializeField] private string attack_aAnimationName;
+    [SpineAnimation][SerializeField] private string chargeAnimationName;
     [SpineAnimation][SerializeField] private string blastAnimationName;
+    [SpineAnimation][SerializeField] private string landingAnimationName;
+    [SpineAnimation][SerializeField] private string walljumpAnimationName;
+    [SpineAnimation][SerializeField] private string dashAnimationName;
+    [SpineAnimation][SerializeField] private string pesanteAnimationName;
+
+
+
+
 
 
 
@@ -95,7 +104,16 @@ public class Move : MonoBehaviour
     Jumping,
     Falling,
     Attacking,
+    Attacking1,
+    Attacking2,
+    Attacking3,
+    Attacking4,
+    Attacking5,
+    Blasting,
     wallJumping,
+    Landing,
+    Dash,
+
 }
 
 private CharacterState currentState = CharacterState.Idle;
@@ -174,9 +192,9 @@ if (_skeletonAnimation == null) {
     
     private void Update()
     {
-        Debug.DrawLine(transform.position + raycastColliderOffset, transform.position + raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
-        Debug.DrawLine(transform.position - raycastColliderOffset, transform.position - raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
-        Debug.DrawLine(transform.position, transform.position + Vector3.down * distanceFromGroundRaycast, Color.red);
+       // Debug.DrawLine(transform.position + raycastColliderOffset, transform.position + raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
+       // Debug.DrawLine(transform.position - raycastColliderOffset, transform.position - raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
+       // Debug.DrawLine(transform.position, transform.position + Vector3.down * distanceFromGroundRaycast, Color.red);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -218,7 +236,7 @@ if (Input.GetButtonDown("Jump"))
 else if (Input.GetButtonDown("Jump") && canWallJump)
 {
     rb.velocity = new Vector2(-wallJumpDirection.x * wallJumpForce, wallJumpDirection.y * wallJumpForce);
-    canJumpAgain = false;
+    canJumpAgain = true;
     isWallSliding = false;
 }
 
@@ -498,46 +516,65 @@ private void modifyPhysics()
 
     }
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public void wallJump()
 {
     if (currentState != CharacterState.wallJumping)
                 {
-                    _spineAnimationState.SetAnimation(1, "Gameplay/wallslidinghook", true);
+                    _spineAnimationState.SetAnimation(1, walljumpAnimationName, true);
                     currentState = CharacterState.wallJumping;
                                         _spineAnimationState.Event += HandleEvent;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-            _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+            _spineAnimationState.GetCurrent(1).Complete += OnJumpAnimationComplete;
     
 }
 
 private void wallSlide()
     {
-        if (currentState != CharacterState.Attacking) {
-            _spineAnimationState.SetAnimation(1, "Gameplay/wallslidinghook", true);
-            currentState = CharacterState.Falling;
+        if (currentState != CharacterState.wallJumping) {
+            _spineAnimationState.SetAnimation(1, walljumpAnimationName, true);
+            currentState = CharacterState.wallJumping;
         }
     }
 
-    private void notWallSlide()
-    {
-        if (currentState == CharacterState.Falling || currentState == CharacterState.Jumping) {
-            _spineAnimationState.SetAnimation(1, jumpDownAnimationName, false);
-            currentState = CharacterState.Falling;
-        }            
-        _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+   
+private void notWallSlide()
+{
+    if (currentState == CharacterState.Falling || currentState == CharacterState.Jumping) {
+        _spineAnimationState.SetAnimation(0, jumpDownAnimationName, false);
+        currentState = CharacterState.Falling;
+        var currentAnimation = _spineAnimationState.GetCurrent(1);
+        if (currentAnimation != null) {
+            currentAnimation.Complete += OnJumpAnimationComplete;
+        }
+    }            
+}
 
-    }
+private void OnJumpAnimationComplete(Spine.TrackEntry trackEntry)
+{
+    // Remove the event listener
+    trackEntry.Complete -= OnJumpAnimationComplete;
+
+    // Clear the track 1 and reset to the idle animation
+    _spineAnimationState.ClearTrack(1);
+    _spineAnimationState.SetAnimation(1, idleAnimationName, true);
+    currentState = CharacterState.Idle;
+
+     // Reset the attack state
+    isAttacking = false;
+}
+
 
 public void AnimationCharge()
 {
-    if (currentAnimationName != "attack")
+    if (currentState != CharacterState.Attacking5)
                 {
-                    _spineAnimationState.SetAnimation(1, "CS/charge", true);
+                    _spineAnimationState.SetAnimation(2, chargeAnimationName, true);
                     currentState = CharacterState.Attacking;
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
@@ -547,29 +584,29 @@ public void AnimationCharge()
 
 public void dashAnm()
 {
-    if (currentAnimationName != "attack")
+    if (currentState != CharacterState.Dash)
                 {
-                    _spineAnimationState.SetAnimation(1, "Gameplay/dash", true);
-                    currentState = CharacterState.Attacking;
+                    _spineAnimationState.SetAnimation(1, dashAnimationName, false);
+                    currentState = CharacterState.Dash;
                                         _spineAnimationState.Event += HandleEvent;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-            _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+            _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
 public void useMagic()
 {
-    if (currentAnimationName != "attack")
+    if (currentState != CharacterState.Blasting)
                 {
-                    _spineAnimationState.SetAnimation(1, "Gameplay/blast", false);
-                    currentState = CharacterState.Attacking;
+                    _spineAnimationState.SetAnimation(1, blastAnimationName, false);
+                    currentState = CharacterState.Blasting;
                     Blast();
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
 
@@ -577,14 +614,14 @@ public void useMagic()
 
 public void AnimationChargeRelease()
 {
-    if (currentAnimationName != "attack")
+    if (currentState != CharacterState.Attacking4)
                 {
-                    _spineAnimationState.SetAnimation(1, "CS/pesante", false);
-                    currentState = CharacterState.Attacking;
+                    _spineAnimationState.SetAnimation(1, pesanteAnimationName, false);
+                    currentState = CharacterState.Attacking4;
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
 void CountDown()
@@ -613,52 +650,52 @@ public void AddCombo()
         {
             //Setta lo stato d'animazione ed esegue l'animazione in base al conto della combo
             case 1:
-                if (currentAnimationName != "attack")
+                if (currentState != CharacterState.Attacking)
                 {
-                    _spineAnimationState.SetAnimation(1, "CS/attack", false);
+                    _spineAnimationState.SetAnimation(2, attackAnimationName, false);
                     currentState = CharacterState.Attacking;
                     _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
                 break;
             case 2:
-                if (currentAnimationName != "CS/attack_h")
+                if (currentState != CharacterState.Attacking1)
                 {
-                    _spineAnimationState.SetAnimation(1, "CS/attack_h", false);
-                    currentState = CharacterState.Attacking;
+                    _spineAnimationState.SetAnimation(2, attack_hAnimationName, false);
+                    currentState = CharacterState.Attacking1;
                                         _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
                 break;
             case 3:
-                if (currentAnimationName != "CS/attack_l")
+                if (currentState != CharacterState.Attacking2)
                 {
-                    _spineAnimationState.SetAnimation(1, "CS/attack_l", false);
-                    currentState = CharacterState.Attacking;
+                    _spineAnimationState.SetAnimation(2, attack_lAnimationName, false);
+                    currentState = CharacterState.Attacking2;
                                         _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
                 break;
             case 4:
-                if (currentAnimationName != "CS/attack_a")
+                if (currentState != CharacterState.Attacking3)
                 {
-                    _spineAnimationState.SetAnimation(1, "CS/attack_a", false);
-                    currentState = CharacterState.Attacking;
+                    _spineAnimationState.SetAnimation(2, attack_aAnimationName, false);
+                    currentState = CharacterState.Attacking3;
                                         _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
                 break;
             default:
                 break;
@@ -671,9 +708,9 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
     trackEntry.Complete -= OnAttackAnimationComplete;
 
     // Clear the track 1 and reset to the idle animation
-    _spineAnimationState.ClearTrack(1);
-    _spineAnimationState.SetAnimation(0, "Gameplay/idle", true);
-    currentAnimationName = "Gameplay/idle";
+    _spineAnimationState.ClearTrack(2);
+    _spineAnimationState.SetAnimation(1, idleAnimationName, true);
+    currentState = CharacterState.Idle;
 
      // Reset the attack state
     isAttacking = false;
@@ -691,19 +728,19 @@ private void moving() {
             if (speed == 0) {
                 // Player is not moving
                 if (currentState != CharacterState.Idle) {
-                    _spineAnimationState.SetAnimation(0, idleAnimationName, true);
+                    _spineAnimationState.SetAnimation(1, idleAnimationName, true);
                     currentState = CharacterState.Idle;
                 }
             } else if (speed > runSpeedThreshold) {
                 // Player is running
                 if (currentState != CharacterState.Running) {
-                    _spineAnimationState.SetAnimation(0, runAnimationName, true);
+                    _spineAnimationState.SetAnimation(1, runAnimationName, true);
                     currentState = CharacterState.Running;
                 }
             } else {
                 // Player is walking
                 if (currentState != CharacterState.Walking) {
-                    _spineAnimationState.SetAnimation(0, walkAnimationName, true);
+                    _spineAnimationState.SetAnimation(1, walkAnimationName, true);
                     currentState = CharacterState.Walking;
                 }
             }
@@ -713,7 +750,7 @@ private void moving() {
             // Player is jumping
             
             if (currentState != CharacterState.Jumping) {
-                _spineAnimationState.SetAnimation(0, jumpAnimationName, true);
+                _spineAnimationState.SetAnimation(1, jumpAnimationName, true);
                 currentState = CharacterState.Jumping;
             }
             
@@ -723,7 +760,7 @@ private void moving() {
             // Player is falling
             
             if (currentState != CharacterState.Falling) {
-                _spineAnimationState.SetAnimation(0, jumpDownAnimationName, true);
+                _spineAnimationState.SetAnimation(1, jumpDownAnimationName, true);
                 currentState = CharacterState.Falling;
             }
             

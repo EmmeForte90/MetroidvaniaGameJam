@@ -6873,7 +6873,12 @@ MonoBehaviour:
   attack_lAnimationName: CS/attack_l
   attack_hAnimationName: CS/attack_h
   attack_aAnimationName: CS/attack_a
+  chargeAnimationName: CS/charge
   blastAnimationName: Gameplay/blast
+  landingAnimationName: Gameplay/landing
+  walljumpAnimationName: Gameplay/wallslidinghook
+  dashAnimationName: Gameplay/dash
+  pesanteAnimationName: CS/pesante
   comboCounter: 0
   nextAttackTime: 0
   attackRate: 2
