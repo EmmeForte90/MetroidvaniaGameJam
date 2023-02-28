@@ -17,7 +17,7 @@ public class PlayerBullet : MonoBehaviour
     PlayerHealth Less;
     Rigidbody2D myRigidbody;
     //Il corpo rigido
-    CharacterController2D player;
+    Move player;
     Enemy Enemy;
     //Attribuscie una variabile allo script di movimento del player
     //Per permettere al proiettile di emularne l'andamento
@@ -47,7 +47,7 @@ public class PlayerBullet : MonoBehaviour
         target = GameObject.FindWithTag(targetTag);
         myRigidbody = GetComponent<Rigidbody2D>();
         //Recupera i componenti del rigidbody
-        player = FindObjectOfType<CharacterController2D>();
+        player = FindObjectOfType<Move>();
         Less = FindObjectOfType<PlayerHealth>();
         Enemy = FindObjectOfType<Enemy>();
         //Recupera i componenti dello script

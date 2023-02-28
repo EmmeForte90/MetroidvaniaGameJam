@@ -14,8 +14,10 @@ public class StartBlastVFX : MonoBehaviour
     //Per permettere al proiettile di emularne l'andamento
     float xSpeed;
     //L'andatura
-    public bool isClang = false;
-    [SerializeField] AudioSource Sclang;
+    public bool charge = false;
+    [Header("Tempo di esplosione")]
+    [SerializeField] public float lifeTime;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,9 +35,9 @@ public class StartBlastVFX : MonoBehaviour
          rb.velocity = new Vector2 (xSpeed, 0f);
         //La velocità e la direzione del proiettile
         FlipSprite();
-        if(isClang)
+        if(!player.isCharging)
         {
-            Sclang.Play();
+            Destroy(gameObject, lifeTime);
         }
     }
 #endregion

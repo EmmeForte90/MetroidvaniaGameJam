@@ -133,7 +133,7 @@ private int comboCount = 0;
     public int maxDamage = 50; // Danno massimo dell'attacco caricato
     public int minDamage = 10; // Danno minimo dell'attacco non caricato
     private float timeSinceLastAttack = 0f;
-    private bool isCharging;
+    public bool isCharging;
     private bool touchGround;
     private bool isDashing;
     public bool isAttacking = false; // vero se il personaggio sta attaccando
@@ -185,6 +185,7 @@ if (_skeletonAnimation == null) {
             gM = GetComponent<GameplayManager>();
         }
         Less = GetComponent<PlayerHealth>();
+        _spineAnimationState = GetComponent<Spine.Unity.SkeletonAnimation>().AnimationState;
         _spineAnimationState = _skeletonAnimation.AnimationState;
         _skeleton = _skeletonAnimation.skeleton;
         rb = GetComponent<Rigidbody2D>();
@@ -586,7 +587,7 @@ public void dashAnm()
 {
     if (currentState != CharacterState.Dash)
                 {
-                    _spineAnimationState.SetAnimation(1, dashAnimationName, false);
+                    _spineAnimationState.SetAnimation(2, dashAnimationName, false);
                     currentState = CharacterState.Dash;
                                         _spineAnimationState.Event += HandleEvent;
 
@@ -600,7 +601,7 @@ public void useMagic()
 {
     if (currentState != CharacterState.Blasting)
                 {
-                    _spineAnimationState.SetAnimation(1, blastAnimationName, false);
+                    _spineAnimationState.SetAnimation(2, blastAnimationName, false);
                     currentState = CharacterState.Blasting;
                     Blast();
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
@@ -652,7 +653,7 @@ public void AddCombo()
             case 1:
                 if (currentState != CharacterState.Attacking)
                 {
-                    _spineAnimationState.SetAnimation(2, attackAnimationName, false);
+                    Spine.TrackEntry trackEntry = _spineAnimationState.SetAnimation(2, attackAnimationName, false);
                     currentState = CharacterState.Attacking;
                     _spineAnimationState.Event += HandleEvent;
 
