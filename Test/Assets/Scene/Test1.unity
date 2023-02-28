@@ -6760,6 +6760,7 @@ MonoBehaviour:
   attack_l: {fileID: 5369655398694106054, guid: 754c5b8b06f186e4c9fabf44afed4a24, type: 3}
   attack_a: {fileID: 8422698696648664815, guid: c5e708056ec42b8459509ae86de6a761, type: 3}
   pesante: {fileID: 1965291473804903622, guid: 7289f4f9c411b3d4788aae65b000eb32, type: 3}
+  charge: {fileID: 8827959948958657929, guid: bc32fe5b687377a45bd6465a5aec14ab, type: 3}
   idleAnimationName: Gameplay/idle
   walkAnimationName: Gameplay/walk
   runAnimationName: Gameplay/run

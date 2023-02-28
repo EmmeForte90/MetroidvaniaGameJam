@@ -69,6 +69,7 @@ public class Move : MonoBehaviour
     [SerializeField] GameObject attack_l;
     [SerializeField] GameObject attack_a;
     [SerializeField] GameObject pesante;
+    [SerializeField] GameObject charge;
 
 
 
@@ -578,10 +579,11 @@ public void AnimationCharge()
                 {
                     _spineAnimationState.SetAnimation(2, chargeAnimationName, true);
                     currentAnimationName = chargeAnimationName;
+                         _spineAnimationState.Event += HandleEvent;
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-               // _spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+               // _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
 public void dashAnm()
@@ -618,7 +620,7 @@ public void AnimationChargeRelease()
 {
     if (currentAnimationName != pesanteAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(1, pesanteAnimationName, false);
+                    _spineAnimationState.SetAnimation(2, pesanteAnimationName, false);
                     currentAnimationName = pesanteAnimationName;
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
@@ -851,7 +853,11 @@ if (e.Data.Name == "soundRun") {
         Srun.Play();
     }
 if (e.Data.Name == "SoundCharge") {
+            
+        Instantiate(charge, transform.position, transform.rotation);
+
         // Imposta la pitch dell'AudioSource in base ai valori specificati.
+
         Scharge.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
         // Assegna la clip audio all'AudioSource e avviala.
         Scharge.Play();

@@ -24,7 +24,10 @@ public class StartBlastVFX : MonoBehaviour
         //Recupera i componenti del rigidbody
         player = FindObjectOfType<Move>();
         //Recupera i componenti dello script
+        if(!player.isCharging)
+        {
         xSpeed = player.transform.localScale.x * bulletSpeed;
+        }
         //La variabile è uguale alla scala moltiplicata la velocità del proiettile
         //Se il player si gira  anche lo spawn del proittile farà lo stesso
     }
