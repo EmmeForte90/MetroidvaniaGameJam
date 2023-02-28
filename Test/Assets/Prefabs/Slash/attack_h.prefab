@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 1
-  isClang: 0
-  Sclang: {fileID: 0}
+  charge: 0
+  lifeTime: 0.3
 --- !u!114 &8415833659170523798
 MonoBehaviour:
   m_ObjectHideFlags: 0

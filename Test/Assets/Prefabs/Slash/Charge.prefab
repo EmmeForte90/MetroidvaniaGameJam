@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 1
-  charge: 0
+  charge: 1
   lifeTime: 0
 --- !u!50 &1509836820154618752
 Rigidbody2D:
