@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 1
   charge: 0
-  lifeTime: 0.3
+  lifeTime: 0.2
 --- !u!114 &5369655398694105659
 MonoBehaviour:
   m_ObjectHideFlags: 0
