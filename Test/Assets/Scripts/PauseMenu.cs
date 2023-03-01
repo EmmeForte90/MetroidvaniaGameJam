@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
 
     public static PauseMenu instance;
-
     public string levelSelect, mainMenu;
 
     private void Awake()
@@ -28,5 +28,6 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(mainMenu);
         Time.timeScale = 1;
     }
+
 
 }
