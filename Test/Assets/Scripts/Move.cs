@@ -215,7 +215,7 @@ if (Input.GetButtonDown("Jump"))
 }
 else if (Input.GetButtonDown("Jump") && canWallJump)
 {
-    rb.velocity = new Vector2(-wallJumpDirection.x * wallJumpForce, wallJumpDirection.y * wallJumpForce);
+    rb.velocity = new Vector2(-horDir * wallJumpForce, wallJumpDirection.y * wallJumpForce);
     canJumpAgain = true;
     isWallSliding = false;
 }
@@ -321,6 +321,7 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
         {
             gM.Pause();
             stopInput = true;
+                   InventoryManager.Instance.ListItems();
             Stop();
         }
         else if(Input.GetButtonDown("Pause") && stopInput)
