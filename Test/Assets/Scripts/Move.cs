@@ -91,6 +91,7 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string blastAnimationName;
     [SpineAnimation][SerializeField] private string landingAnimationName;
     [SpineAnimation][SerializeField] private string walljumpAnimationName;
+    [SpineAnimation][SerializeField] private string walljumpdownAnimationName;
     [SpineAnimation][SerializeField] private string dashAnimationName;
     [SpineAnimation][SerializeField] private string pesanteAnimationName;
 
@@ -218,6 +219,7 @@ if (Input.GetButtonDown("Jump"))
         if(isTouchingWall)
         {
         canDoubleJump = true;
+        wallSlide();
         }else 
         {
         canDoubleJump = false;
@@ -228,7 +230,7 @@ if (Input.GetButtonDown("Jump"))
         if (isTouchingWall && !isGrounded() && rb.velocity.y < 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
-            wallSlide();
+            wallSlidedown();
         }
         
 
@@ -537,7 +539,14 @@ private void wallSlide()
         }
     }
 
-   
+private void wallSlidedown()
+    {
+        if (currentAnimationName != walljumpdownAnimationName) {
+            _spineAnimationState.SetAnimation(1, walljumpdownAnimationName, true);
+            currentAnimationName = walljumpdownAnimationName;
+        }
+    } 
+
 private void notWallSlide()
 {
     if (currentAnimationName == jumpDownAnimationName || currentAnimationName == jumpAnimationName) {
