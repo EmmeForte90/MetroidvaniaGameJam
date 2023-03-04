@@ -7444,6 +7444,7 @@ MonoBehaviour:
   blastAnimationName: Gameplay/blast
   landingAnimationName: Gameplay/landing
   walljumpAnimationName: Gameplay/wallslidinghook
+  walljumpdownAnimationName: Gameplay/wallsliding
   dashAnimationName: Gameplay/dash
   pesanteAnimationName: CS/pesante
   comboCounter: 0
