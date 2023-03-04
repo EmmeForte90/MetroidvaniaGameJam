@@ -32,13 +32,14 @@ public class Move : MonoBehaviour
     [SerializeField] private float jumpForce;
     bool canDoubleJump = false;
     public float groundDelay = 0.1f; // The minimum time before the player can jump again after touching the ground
-    public bool isWallSliding;
-    public bool canJumpAgain;
-    public float wallJumpForce;
-    private Vector2 wallJumpDirection;
-    public float wallCheckDistance = 0.4f;
-    //public LayerMask wallLayer;
+    bool isTouchingWall = false;
+    public LayerMask wallLayer;         // layer del muro
+    public float wallJumpForce = 7f;    // forza del walljump
+    public float wallSlideSpeed = 1f;   // velocità di scivolamento lungo il muro
+    public float wallDistance = 0.5f;   // distanza dal muro per effettuare il walljump
     public bool canWallJump = false;
+    bool wallJumped = false;
+
     public int jumpCount = 1;
     public int maxJump = 2;
 
@@ -195,8 +196,11 @@ if (_skeletonAnimation == null) {
             modifyPhysics();
         }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ // Controllo se il personaggio è a contatto con un muro
+        Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+isTouchingWall = Physics2D.Raycast(transform.position, direction, wallDistance, wallLayer);
 
-        
 if (Input.GetButtonDown("Jump"))
 {
    if (lastTimeGround + groundDelay > Time.time)
@@ -210,21 +214,37 @@ if (Input.GetButtonDown("Jump"))
         // Double jump
         lastTimeJump = Time.time + jumpDelay;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        
+        if(isTouchingWall)
+        {
+        canDoubleJump = true;
+        }else 
+        {
         canDoubleJump = false;
+        }
     }
 }
-else if (Input.GetButtonDown("Jump") && canWallJump)
-{
-    rb.velocity = new Vector2(-horDir * wallJumpForce, wallJumpDirection.y * wallJumpForce);
-    canJumpAgain = true;
-    isWallSliding = false;
-}
+// Wallslide
+        if (isTouchingWall && !isGrounded() && rb.velocity.y < 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            wallSlide();
+        }
+        
 
-
+        // Walljump
+        if (Input.GetButtonDown("Jump") && isTouchingWall)
+        {
+           float horizontalVelocity = Mathf.Sign(transform.localScale.x) * wallJumpForce;
+            rb.velocity = new Vector2(horizontalVelocity, jumpForce);
+            wallJumped = true;
+            canDoubleJump = true;
+            Invoke("SetWallJumpedToFalse", 0.5f);
+        }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // gestione dell'input dello sparo
-if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime && !canWallJump)
+if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
     if (Less.currentMana > 0)
     {
@@ -242,7 +262,7 @@ if (!isBlast && Time.time >= nextAttackTime)
 }
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
-        if (Input.GetButtonDown("Fire1") && !canWallJump)
+        if (Input.GetButtonDown("Fire1"))
         {
             //Se non sta facendo un attacco caricato
             if(!isCharging)
@@ -257,7 +277,7 @@ if (!isBlast && Time.time >= nextAttackTime)
     
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
- if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate && !canWallJump)
+ if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate)
     {
         isCharging = true;
         AnimationCharge();
@@ -420,24 +440,18 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
             }
         }
 
-RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), wallCheckDistance, groundLayer);
-        if (hit.collider != null && hit.collider.tag == "Ground" && !isGrounded()) {
-            wallSlide();
-            canWallJump = true;
-        } else if (hit.collider != null && hit.collider.tag != "Ground" && !isGrounded()) {
-            notWallSlide();
-            canWallJump = false;
-        } else {
-            notWallSlide();
-            canWallJump = false;
-        }
+
 
 
 
     }
     }
 
-
+// Metodo per ripristinare il valore di wallJumped dopo 0.5 secondi
+    void SetWallJumpedToFalse()
+    {
+        wallJumped = false;
+    }
 
     private void jump()
     {
@@ -702,7 +716,7 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 
 
 private void moving() {
-    if(!canWallJump)
+    if(!isTouchingWall)
     {
     switch (rb.velocity.y) {
         case 0:
@@ -853,7 +867,7 @@ private void OnDrawGizmos()
     {
     Gizmos.color = Color.red;
     // disegna un Gizmo che rappresenta il Raycast
-Gizmos.DrawLine(transform.position, transform.position + new Vector3(transform.localScale.x, 0, 0) * wallCheckDistance);
+    Gizmos.DrawLine(transform.position, transform.position + new Vector3(transform.localScale.x, 0, 0) * wallDistance);
     }
 #endregion
 
