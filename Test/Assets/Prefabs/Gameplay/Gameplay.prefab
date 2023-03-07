@@ -6066,7 +6066,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144114532784799625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.26, y: -8.45, z: 0}
+  m_LocalPosition: {x: 13.06, y: -4.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6271,6 +6271,9 @@ MonoBehaviour:
   walljumpdownAnimationName: Gameplay/wallsliding
   dashAnimationName: Gameplay/dash
   pesanteAnimationName: CS/pesante
+  RestAnimationName: CheckpointAnimation/ch_rest_d
+  UpAnimationName: CheckpointAnimation/ch_up
+  respawnAnimationName: CheckpointAnimation/respawn
   comboCounter: 0
   nextAttackTime: 0
   attackRate: 2
@@ -6284,6 +6287,7 @@ MonoBehaviour:
   isCharging: 0
   isAttacking: 0
   isBlast: 0
+  stopInput: 0
   facingDirection: 1
   gM: {fileID: 2144114532910398337}
   basePitch: 1

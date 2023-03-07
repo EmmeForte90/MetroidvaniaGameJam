@@ -94,6 +94,9 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string walljumpdownAnimationName;
     [SpineAnimation][SerializeField] private string dashAnimationName;
     [SpineAnimation][SerializeField] private string pesanteAnimationName;
+    [SpineAnimation][SerializeField] private string RestAnimationName;
+    [SpineAnimation][SerializeField] private string UpAnimationName;
+    [SpineAnimation][SerializeField] private string respawnAnimationName;
 
 
 private string currentAnimationName;
@@ -121,7 +124,7 @@ private int comboCount = 0;
     public bool isAttacking = false; // vero se il personaggio sta attaccando
     public bool isBlast = false; // vero se il personaggio sta attaccando
 
-    private bool stopInput = false;
+    public bool stopInput = false;
 
     public int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
     PlayerHealth Less;
@@ -180,7 +183,7 @@ if (_skeletonAnimation == null) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if(!gM.PauseStop)
+        if(!gM.PauseStop || !stopInput)
         {
         horDir = Input.GetAxisRaw("Horizontal");
 
@@ -337,19 +340,22 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         }
+        else if (gM.PauseStop || stopInput)
+        {//Bloccato
+        }
 
         // gestione dell'input del Menu 
         if (Input.GetButtonDown("Pause") && !stopInput)
         {
             gM.Pause();
-            stopInput = true;
-                   InventoryManager.Instance.ListItems();
+            StopinputTrue();
+            //InventoryManager.Instance.ListItems();
             Stop();
         }
         else if(Input.GetButtonDown("Pause") && stopInput)
         {
             gM.Resume();
-            stopInput = false;
+            StopinputFalse();
         }
 
         checkFlip();
@@ -484,6 +490,15 @@ private void modifyPhysics()
     }
 }
 
+public void StopinputTrue()
+{
+   stopInput = true;   
+}
+public void StopinputFalse()
+{
+    stopInput = false;   
+}
+
     private bool isGrounded()
 {
     //TRIPLE RAYCAST FOR GROUND: check if you touch the ground even with just one leg 
@@ -506,7 +521,7 @@ private void modifyPhysics()
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
- private void Stop()
+ public void Stop()
     {
         rb.velocity = new Vector2(0f, 0f);
         horDir = 0;
@@ -722,7 +737,46 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 }
 
 
+public void AnimationRest()
+{
+    if (currentAnimationName != RestAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, RestAnimationName, false);
+                    currentAnimationName = RestAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
 
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                //_spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void animationWakeup()
+{
+    if (currentAnimationName != UpAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, UpAnimationName, false);
+                    currentAnimationName = UpAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+
+public void respawnWakeup()
+{
+    if (currentAnimationName != respawnAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, respawnAnimationName, false);
+                    currentAnimationName = respawnAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
 
 private void moving() {
     if(!isTouchingWall)

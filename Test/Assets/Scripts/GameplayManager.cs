@@ -13,9 +13,9 @@ public class GameplayManager : MonoBehaviour
 
 
     public static bool playerExists;
-    
-    private GameObject player; // Variabile per il player
     public static GameplayManager instance;
+
+    private GameObject player; // Variabile per il player
     private CinemachineVirtualCamera virtualCamera;
     [HideInInspector]
     public bool gameplayOff = false;
@@ -48,6 +48,10 @@ public class GameplayManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
         player = GameObject.FindWithTag("Player");
 virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 virtualCamera.Follow = player.transform;
@@ -119,7 +123,18 @@ public void StartPlay()
             PauseStop = false;
             PauseMenu.gameObject.SetActive(false);
         }
+public void StopInput()
+        //Funzione pausa
+        {
+            PauseStop = true;
+            //Time.timeScale = 0f;
+        }
 
+        public void StopInputResume()
+        {
+            //Time.timeScale = 1;
+            PauseStop = false;
+        }
 #endregion
 
     

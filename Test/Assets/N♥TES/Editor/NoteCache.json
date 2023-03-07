@@ -4,7 +4,7 @@
             "noteText": "Gli oggetti appaiono nell'inventario ma non nell'anteprima con la descrizione dell'oggetto",
             "show": true,
             "typeName": "UnityEngine.GameObject",
-            "GlobalObjectSerialization": "GlobalObjectId_V1-2-00000000000000000000000000000000-2144114532910398338-0"
+            "GlobalObjectSerialization": "GlobalObjectId_V1-0-00000000000000000000000000000000-0-0"
         },
         {
             "noteText": "",
@@ -29,6 +29,12 @@
             "show": true,
             "typeName": "UnityEngine.GameObject",
             "GlobalObjectSerialization": "GlobalObjectId_V1-1-3d5007bebccdac943a1832d842f5e126-2144114532910398338-0"
+        },
+        {
+            "noteText": "Si deve bloccare il personaggio quando scegli lo stage\n",
+            "show": true,
+            "typeName": "UnityEngine.GameObject",
+            "GlobalObjectSerialization": "GlobalObjectId_V1-1-037a39b0180760b42a401a84faa69eaf-6492264743620994209-0"
         }
     ]
 }
