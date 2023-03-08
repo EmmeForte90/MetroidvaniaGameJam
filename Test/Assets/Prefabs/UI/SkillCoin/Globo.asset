@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c85ffa15f85f8cf41a4902559ce464bb, type: 3}
-  m_Name: Lingotto
+  m_Name: Globo
   m_EditorClassIdentifier: 
-  id: 4
-  itemName: Lingotto
-  value: 4
-  icon: {fileID: 21300000, guid: e7314fb81ca9e0e4fb2a48109b67ee41, type: 3}
+  id: 1
+  itemName: Globo
+  value: 1
+  icon: {fileID: 21300000, guid: 4e809169c5d479e4ea27d083fabf396c, type: 3}
