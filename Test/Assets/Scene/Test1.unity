@@ -3241,22 +3241,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.65402937
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8785169
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.89305747
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.4499426
-      objectReference: {fileID: 0}
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3264,26 +3248,6 @@ PrefabInstance:
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114532784799624, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 13.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114532784799624, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114532784799731, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: UpAnimationName
-      value: CheckpointAnimation/ch_up
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114532784799731, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: RestAnimationName
-      value: CheckpointAnimation/ch_rest_d
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114532784799731, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: respawnAnimationName
-      value: CheckpointAnimation/respawn
       objectReference: {fileID: 0}
     - target: {fileID: 2144114532784799743, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_Mesh

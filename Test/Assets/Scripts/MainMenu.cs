@@ -4,16 +4,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Cinemachine;
+using TMPro;
+using Spine.Unity.AttachmentTools;
+using Spine.Unity;
+using Spine;
 
 public class MainMenu : MonoBehaviour
 {
 
     public GameObject continueButton;
+    public GameObject mainmenu;
+    public GameObject menu;
+
     public string startScene;
     public float Timelife;
     public GameObject opzioni;
     public AudioMixer MSX;
     public AudioMixer SFX;
+    private CinemachineVirtualCamera virtualCamera;
+    private GameObject player; // Variabile per il player
 
     Resolution[] resolutions;
     public Dropdown resolutionDropdown;
@@ -42,6 +52,10 @@ public class MainMenu : MonoBehaviour
         }
 
         }
+        player = GameObject.FindWithTag("Player");
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        //virtualCamera.Follow = menu.transform;
+        //virtualCamera.LookAt = player.transform;
 
 //        resolutionDropdown.ClearOptions();
 //        resolutionDropdown.value = currentResolutionIndex;
@@ -75,6 +89,20 @@ public void SetResolution(int resolutionIndex)
 
     Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 }
+public void ChooseCharacter()
+    {
+        virtualCamera.Follow = player.transform;
+        //virtualCamera.LookAt = player.transform;
+        mainmenu.gameObject.SetActive(false);
+
+    }
+public void notchoose()
+    {
+        virtualCamera.Follow = menu.transform;
+        //virtualCamera.LookAt = player.transform;
+        mainmenu.gameObject.SetActive(true);
+
+    }
 
     public void StartGame()
     {
