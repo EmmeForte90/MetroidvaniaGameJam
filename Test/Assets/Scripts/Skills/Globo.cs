@@ -42,11 +42,18 @@ public class Globo : MonoBehaviour
 private void Update()
     {
         transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+
+        if(MP == 0)
+        {
+            Destroy(gameObject);
+            MP = 0;
+        }
     }
 
 #region  MP
     void CostMP()
     {
+        MP--;
         //Less.TakeManaDamage(MPCost);
     }
 
