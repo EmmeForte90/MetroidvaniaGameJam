@@ -16,6 +16,12 @@ public class MainMenu : MonoBehaviour
     public GameObject continueButton;
     public GameObject mainmenu;
     public GameObject menu;
+    public string pGar;
+    public string pAst;
+    public string pMil;
+    public bool isAstra;
+    public bool isGarland;
+    public bool isPheresord;
 
     public string startScene;
     public float Timelife;
@@ -26,7 +32,7 @@ public class MainMenu : MonoBehaviour
     private GameObject player; // Variabile per il player
 
     Resolution[] resolutions;
-    public Dropdown resolutionDropdown;
+    //public Dropdown resolutionDropdown;
     //public PlayerAbilityTracker player;
 
     // Start is called before the first frame update
@@ -109,6 +115,27 @@ public void notchoose()
         StartCoroutine(fade());
 
     }
+    
+    public void Phere()
+    {
+        isPheresord = true;
+        isAstra = false;
+        isGarland = false;
+    } 
+
+    public void Gar()
+    {
+        isPheresord = false;
+        isAstra = false;
+        isGarland = true;
+    } 
+    public void Astr()
+    {
+        isPheresord = false;
+        isAstra = true;
+        isGarland = false;
+
+    }
 
 
     public void Options()
@@ -149,10 +176,23 @@ IEnumerator fade()
         PlayerPrefs.DeleteAll();
         yield return new WaitForSeconds(Timelife);
 //        GameplayManager.instance.gameplayOff = false;
-        SceneManager.LoadScene(startScene);
+if (isGarland)
+{
+        SceneManager.LoadScene(pGar);
+
+} else if (isPheresord)
+{
+        SceneManager.LoadScene(pMil);
+
+} else if (isAstra)
+{
+        SceneManager.LoadScene(pAst);
+
+}
 
             
     }
+
 
     IEnumerator fadeCont()
     {

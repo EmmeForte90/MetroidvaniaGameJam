@@ -251,11 +251,12 @@ if (Input.GetButtonDown("Jump"))
                 // gestione dell'input dello sparo
 if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
-    if (Less.currentMana > 0)
-    {
+    //if (Less.currentMana > 0)
+    //{
+        //Animazione
         useMagic();   
         Stop();
-    }
+    //}
     isBlast = false;
     nextAttackTime = Time.time + 1f / attackRate;
 }

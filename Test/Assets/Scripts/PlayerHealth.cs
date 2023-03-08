@@ -11,23 +11,23 @@ public class PlayerHealth : MonoBehaviour
     public Scrollbar healthBar;
 
     public float maxMana = 100f;
-    public float currentMana;
+    //public float currentMana;
     public Scrollbar manaBar;
     CharacterController2D player;
 
     void Start()
     {
         currentHealth = maxHealth;
-        currentMana = maxMana;
+        //currentMana = maxMana;
         player = GetComponent<CharacterController2D>();
     }
 
     void Update()
     {
         healthBar.size = currentHealth / maxHealth;
-        manaBar.size = currentMana / maxMana;
+        //manaBar.size = currentMana / maxMana;
         healthBar.size = Mathf.Clamp(healthBar.size, 0.01f, 1);
-        manaBar.size = Mathf.Clamp(manaBar.size, 0.01f, 1);
+        //manaBar.size = Mathf.Clamp(manaBar.size, 0.01f, 1);
     }
 
     public void Damage(float damage)
@@ -43,18 +43,18 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeManaDamage(float damage)
     {
-        currentMana -= damage;
-        if (currentMana <= 0)
+       // currentMana -= damage;
+        /*if (currentMana <= 0)
         {
             OutOfMana();
-        }
+        }*/
     }
 
     void RespawnStatus()
     {
         // gestione della morte del personaggio
         currentHealth = maxHealth;
-        currentMana = maxMana;
+       // currentMana = maxMana;
     }
 
     void OutOfMana()

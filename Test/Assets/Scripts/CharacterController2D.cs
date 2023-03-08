@@ -566,8 +566,8 @@ yield return null;
 
 void Blast()
 {
-    if(Less.currentMana > 0)
-        {
+    //if(Less.currentMana > 0)
+      //  {
 if (Time.time > nextAttackTime)
         {
         isAttacking = true;
@@ -577,8 +577,7 @@ if (Time.time > nextAttackTime)
         Instantiate(blam, gun.position, transform.rotation);
         Instantiate(bullet, gun.position, transform.rotation);
         }
-        
-}
+        //}
 }
     void Attack()
     {
