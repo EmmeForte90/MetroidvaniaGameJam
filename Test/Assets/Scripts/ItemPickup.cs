@@ -10,6 +10,7 @@ public class ItemPickup : MonoBehaviour
     void Pickup()
     {
         InventoryManager.Instance.Add(Item);
+        InventoryManager.Instance.ListItems();
         Destroy(gameObject);
     }
 

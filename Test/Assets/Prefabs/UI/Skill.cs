@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
-[CreateAssetMenu(fileName ="New Item", menuName = "Item/Create New Item")]
+[CreateAssetMenu(fileName ="New Skill", menuName = "Skill/Create New Skill")]
 
-public class Item : ScriptableObject
+public class Skill : ScriptableObject
 {
 public int id;
-public string itemName;
+public string SkillName;
 public string Description;
 public int value;
 public Sprite icon;

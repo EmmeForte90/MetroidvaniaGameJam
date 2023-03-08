@@ -45,8 +45,8 @@ private void Update()
 
         if(MP == 0)
         {
-            Destroy(gameObject);
             MP = 0;
+            Destroy(gameObject);
         }
     }
 

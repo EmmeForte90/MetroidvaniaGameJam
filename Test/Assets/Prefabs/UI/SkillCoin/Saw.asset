@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c85ffa15f85f8cf41a4902559ce464bb, type: 3}
-  m_Name: Lingotto
+  m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
+  m_Name: Saw
   m_EditorClassIdentifier: 
-  id: 3
-  itemName: Lingotto
+  id: 12
+  SkillName: Saw
   Description: 
-  value: 3
-  icon: {fileID: 21300000, guid: e7314fb81ca9e0e4fb2a48109b67ee41, type: 3}
+  value: 12
+  icon: {fileID: 21300000, guid: fa2b915bccbe78341900a551d770f217, type: 3}

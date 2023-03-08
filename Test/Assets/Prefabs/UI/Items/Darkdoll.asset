@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85ffa15f85f8cf41a4902559ce464bb, type: 3}
   m_Name: Darkdoll
   m_EditorClassIdentifier: 
-  id: 3
+  id: 2
   itemName: Darkdoll
-  value: 3
+  Description: 
+  value: 2
   icon: {fileID: 21300000, guid: 4aad937797b22bd4ead789b223995b01, type: 3}
