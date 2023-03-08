@@ -40,9 +40,9 @@ public class Move : MonoBehaviour
     public bool canWallJump = false;
     bool wallJumped = false;
 
-    public int jumpCount = 1;
-    public int maxJump = 2;
 
+    
+    float coyoteCounter = 0f;
 
     //COYOTE TIME: can jump for a short time after leave ground
     [SerializeField] private float coyoteTime;
@@ -59,6 +59,14 @@ public class Move : MonoBehaviour
     private const float distanceFromGroundRaycast = 0.3f;
     [SerializeField] private LayerMask groundLayer;
     
+    [Header("Abilitazioni")]
+    public bool unlockWalljump = false;
+    public bool unlockDoubleJump = false;
+    public bool unlockDash = false;
+    //private bool isDashing;
+
+
+
     [Header("VFX")]
     // Variabile per il gameobject del proiettile
     [SerializeField] GameObject blam;
@@ -191,7 +199,9 @@ if (_skeletonAnimation == null) {
         {
             //Debug.Log("isGrounded(): " + isGrounded());
             lastTimeGround = coyoteTime; 
+        
             canDoubleJump = true;
+        
             rb.gravityScale = 1;
         }
         else
@@ -202,18 +212,24 @@ if (_skeletonAnimation == null) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
  // Controllo se il personaggio è a contatto con un muro
+ if(unlockWalljump)
+ {
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 isTouchingWall = Physics2D.Raycast(transform.position, direction, wallDistance, wallLayer);
+ }
 
 if (Input.GetButtonDown("Jump"))
 {
-   if (lastTimeGround + groundDelay > Time.time)
-    {
-        // Regular jump
-        lastTimeJump = Time.time + jumpDelay;
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-    }
-    else if (canDoubleJump)
+            lastTimeJump = Time.time + jumpDelay;
+
+        //Pre-interrupt jump if button released
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        {
+            lastTimeGround = 0; //Avoid spam button
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);   
+        }
+    
+    if (canDoubleJump && unlockDoubleJump)
     {
         // Double jump
         lastTimeJump = Time.time + jumpDelay;
@@ -229,8 +245,11 @@ if (Input.GetButtonDown("Jump"))
         }
     }
 }
+
+
+
 // Wallslide
-        if (isTouchingWall && !isGrounded() && rb.velocity.y < 0)
+        if (isTouchingWall && !isGrounded() && rb.velocity.y < 0 && unlockWalljump)
         {
             rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
             wallSlidedown();
@@ -238,7 +257,7 @@ if (Input.GetButtonDown("Jump"))
         
 
         // Walljump
-        if (Input.GetButtonDown("Jump") && isTouchingWall)
+        if (Input.GetButtonDown("Jump") && isTouchingWall && unlockWalljump)
         {
            float horizontalVelocity = Mathf.Sign(transform.localScale.x) * wallJumpForce;
             rb.velocity = new Vector2(horizontalVelocity, jumpForce);
@@ -325,7 +344,7 @@ if (!isBlast && Time.time >= nextAttackTime)
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0)
+if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
         {
             dashing = true;
             coolDownTime = dashCoolDown;

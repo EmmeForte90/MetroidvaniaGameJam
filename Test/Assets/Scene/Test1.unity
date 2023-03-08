@@ -1587,7 +1587,6 @@ MonoBehaviour:
   currentHealth: 100
   healthBar: {fileID: 0}
   maxMana: 100
-  currentMana: 100
   manaBar: {fileID: 0}
 --- !u!50 &421623255
 Rigidbody2D:
@@ -2361,7 +2360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127351819}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.46183, y: 0.7331219, z: -10}
+  m_LocalPosition: {x: -33.761833, y: 3.743122, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2983,7 +2982,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375985260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.46183, y: 0.7331219, z: -10}
+  m_LocalPosition: {x: -32.89677, y: 3.74571, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3241,6 +3240,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65402937
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8785169
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.89305747
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.4499426
+      objectReference: {fileID: 0}
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3248,6 +3263,14 @@ PrefabInstance:
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114532784799624, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114532784799624, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.18
       objectReference: {fileID: 0}
     - target: {fileID: 2144114532784799743, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_Mesh
