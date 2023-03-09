@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   SkillName: SwordSlash
-  Description: 
+  Description: A simple sharp gust of swords that strikes and wounds the enemy.
   value: 3
   icon: {fileID: 21300000, guid: 6407e14507f423945aefb9be9bf31922, type: 3}

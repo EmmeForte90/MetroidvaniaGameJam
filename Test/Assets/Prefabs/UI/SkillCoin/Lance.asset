@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   SkillName: Lance
-  Description: 
+  Description: It generates a spear of light that strikes all the enemies it encounters.
   value: 4
   icon: {fileID: 21300000, guid: f24d8f0a9264ca941be4db5171f25cdc, type: 3}

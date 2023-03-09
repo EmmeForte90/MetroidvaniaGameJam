@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10
   SkillName: SwordWave
-  Description: 
+  Description: A heap of swords that emerge from the ground, injuring all the surrounding
+    enemies.
   value: 10
   icon: {fileID: 21300000, guid: 381b466fea8f487498616f22aedb3c9e, type: 3}
