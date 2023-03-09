@@ -7,5 +7,5 @@ public class SkillController : MonoBehaviour
    
     public Skill Skill;
 
-
+ 
 }

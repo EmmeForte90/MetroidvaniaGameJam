@@ -9,11 +9,11 @@ public class SkillPickup : MonoBehaviour
 
     public void Pickup()
     {
-        SkillsInventory.Instance.Add(Skill);
+        /*SkillsInventory.Instance.Add(Skill);
         SkillsInventory.Instance.Listabil();
         SkillInventoryHUD.Instance.Add(Skill);
         SkillInventoryHUD.Instance.Listabil();
-        Destroy(gameObject);
+        Destroy(gameObject);*/
     }
 
     private void OnTriggerExit2D(Collider2D collision)

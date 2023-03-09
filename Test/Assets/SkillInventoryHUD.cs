@@ -5,42 +5,51 @@ using UnityEngine.UI;
 
 public class SkillInventoryHUD : MonoBehaviour
 {
-     public static SkillInventoryHUD Instance;
-   public List<Skill> abil = new List<Skill>();
+    public static SkillInventoryHUD Instance;
+    public List<Skill> abil = new List<Skill>(); // Lista delle abilità
 
-   public Transform SkillContent;
-   public GameObject InventorySkill;
+    public Transform SkillContent; // Contenitore delle abilità
+    public GameObject InventorySkill; // Prefab dell'abilità nell'inventario
 
-   private void Awake()
-   {
-    Instance = this;
-   }
+    private void Awake()
+    {
+        Instance = this; // Imposta l'istanza dell'inventario come quella corrente
+    }
 
-   public void Add(Skill ab)
-   {
-    abil.Add(ab);
-   }
+    public void Add(Skill ab) // Aggiunge un'abilità all'inventario
+    {
+        abil.Add(ab);
+    }
 
-   public void Remove(Skill ab)
-   {
-     abil.Remove(ab);
-   }
+    public void Remove(Skill ab) // Rimuove un'abilità dall'inventario
+    {
+        abil.Remove(ab);
+    }
 
-   public void Listabil()
-   {
-      foreach (Transform child in SkillContent)
-      {
-         Destroy(child.gameObject);
-      }
+    public void Listabil() // Mostra le abilità nell'inventario
+    {
+        // Elimina le abilità precedenti nell'inventario
+        foreach (Transform child in SkillContent)
+        {
+            Destroy(child.gameObject);
+        }
 
-      foreach (var ab in abil)
-      {
-         GameObject obj = Instantiate(InventorySkill, SkillContent);
-         var abIcon = obj.transform.Find("skill_icon").GetComponent<Image>();
+        // Aggiunge le nuove abilità all'inventario
+        foreach (var ab in abil)
+        {
+            // Istanzia un nuovo oggetto dell'abilità nell'inventario
+            GameObject obj = Instantiate(InventorySkill, SkillContent);
 
-         abIcon.sprite = ab.icon;
-      }
-   }
+            // Imposta l'icona dell'abilità
+            var abIcon = obj.transform.Find("skill_icon").GetComponent<Image>();
+            abIcon.sprite = ab.icon;
+
+            // Imposta il testo dell'abilità
+            // Nota: Questa parte è commentata poiché il testo dell'abilità non viene utilizzato
+            //var abText = obj.transform.Find("skill_text").GetComponent<Text>();
+            //abText = ab.Description;
+        }
+    }
 }
 
 
