@@ -17,9 +17,15 @@ public bool IsSlashSword = false;
 
     public void Pickup()
     {
-        if(IsGlobe){SkillsInventory.Instance.IsGlobe = true;}
-        else if(IsDashAtk){SkillsInventory.Instance.IsDashAtk = true;}
-        else if(IsSlashSword){SkillsInventory.Instance.IsSlashSword = true;}
+        if(IsGlobe)
+        {SkillsInventory.Instance.IsGlobe = true;
+        SkillInventoryHUD.Instance.IsGlobe = true;}
+        else if(IsDashAtk)
+        {SkillsInventory.Instance.IsDashAtk = true;
+        SkillInventoryHUD.Instance.IsDashAtk = true;}
+        else if(IsSlashSword)
+        {SkillsInventory.Instance.IsSlashSword = true;
+        SkillInventoryHUD.Instance.IsSlashSword = true;}
         Destroy(gameObject);
     }
 
