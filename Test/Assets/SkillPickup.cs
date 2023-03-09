@@ -7,7 +7,7 @@ public class SkillPickup : MonoBehaviour
     public Skill Skill;
      
 
-    void Pickup()
+    public void Pickup()
     {
         SkillsInventory.Instance.Add(Skill);
         SkillsInventory.Instance.Listabil();
