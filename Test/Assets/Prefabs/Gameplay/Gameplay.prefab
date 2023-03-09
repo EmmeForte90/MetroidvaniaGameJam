@@ -3226,6 +3226,8 @@ MonoBehaviour:
   RestAnimationName: CheckpointAnimation/ch_rest_d
   UpAnimationName: CheckpointAnimation/ch_up
   respawnAnimationName: CheckpointAnimation/respawn
+  upatkjumpAnimationName: CS/jump_atk_up
+  downatkjumpAnimationName: CS/jump_atk_down
   comboCounter: 0
   nextAttackTime: 0
   attackRate: 2
@@ -3238,6 +3240,7 @@ MonoBehaviour:
   minDamage: 15
   isCharging: 0
   isAttacking: 0
+  isAttackingAir: 0
   isBlast: 0
   stopInput: 0
   facingDirection: 1

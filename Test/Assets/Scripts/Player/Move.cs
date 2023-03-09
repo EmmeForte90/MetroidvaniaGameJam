@@ -15,6 +15,8 @@ public class Move : MonoBehaviour
     [SerializeField] private float acceleration;
     [SerializeField] private float deceleration;
     private float horDir;
+    private float vertDir;
+
     public float runSpeedThreshold = 5f; // or whatever value you want
 
     [Header("Dash")]
@@ -105,6 +107,8 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string RestAnimationName;
     [SpineAnimation][SerializeField] private string UpAnimationName;
     [SpineAnimation][SerializeField] private string respawnAnimationName;
+    [SpineAnimation][SerializeField] private string upatkjumpAnimationName;
+    [SpineAnimation][SerializeField] private string downatkjumpAnimationName;
 
 
 private string currentAnimationName;
@@ -130,6 +134,7 @@ private int comboCount = 0;
     private bool touchGround;
     private bool isDashing;
     public bool isAttacking = false; // vero se il personaggio sta attaccando
+    public bool isAttackingAir = false; // vero se il personaggio sta attaccando
     public bool isBlast = false; // vero se il personaggio sta attaccando
 
     public bool stopInput = false;
@@ -194,12 +199,13 @@ if (_skeletonAnimation == null) {
         if(!gM.PauseStop || !stopInput)
         {
         horDir = Input.GetAxisRaw("Horizontal");
+        vertDir = Input.GetAxisRaw("Vertical");
 
         if (isGrounded())
         {
             //Debug.Log("isGrounded(): " + isGrounded());
             lastTimeGround = coyoteTime; 
-        
+            isAttackingAir = false;
             canDoubleJump = true;
         
             rb.gravityScale = 1;
@@ -267,6 +273,24 @@ if (Input.GetButtonDown("Jump"))
         }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        // controlla se il player è in aria e preme il tasto di attacco e il tasto direzionale basso
+         if (!isGrounded() && Input.GetButtonDown("Fire1") && vertDir < 0)
+        {
+            isAttackingAir = true;
+            DownAtk();
+
+        } else  if (!isGrounded() && Input.GetButtonDown("Fire1") && vertDir > 0)
+        {
+            isAttackingAir = true;
+            UpAtk();
+
+        }      
+                   
+                    
+                
+                
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////             
                 // gestione dell'input dello sparo
 if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
@@ -289,6 +313,8 @@ if (!isBlast && Time.time >= nextAttackTime)
 
         if (Input.GetButtonDown("Fire1"))
         {
+            if(!isAttackingAir)
+            {
             //Se non sta facendo un attacco caricato
             if(!isCharging)
             {
@@ -296,6 +322,7 @@ if (!isBlast && Time.time >= nextAttackTime)
             AddCombo();
             if(comboCount == 5)
             { comboCount = 0;}
+            }
             }
 
         }
@@ -566,6 +593,37 @@ public void wallJump()
     
 }
 
+public void UpAtk()
+{
+    if (currentAnimationName != upatkjumpAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, upatkjumpAnimationName, true);
+                    currentAnimationName = upatkjumpAnimationName;
+                                        _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+            _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+    
+}
+
+public void DownAtk()
+{
+    if (currentAnimationName != downatkjumpAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, downatkjumpAnimationName, true);
+                    currentAnimationName = downatkjumpAnimationName;
+                                        _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+            _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+    
+}
+
+
 private void wallSlide()
     {
         if (currentAnimationName != walljumpAnimationName) {
@@ -606,6 +664,7 @@ private void OnJumpAnimationComplete(Spine.TrackEntry trackEntry)
 
      // Reset the attack state
     isAttacking = false;
+    isAttackingAir = false;
 }
 
 
@@ -754,6 +813,8 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 
      // Reset the attack state
     isAttacking = false;
+    isAttackingAir = false;
+
 }
 
 

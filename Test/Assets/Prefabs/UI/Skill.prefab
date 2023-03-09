@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 1555651787898060285}
   - component: {fileID: 8384883016423726206}
   - component: {fileID: 8789239437107541638}
+  - component: {fileID: -8841805190408521703}
   m_Layer: 5
   m_Name: Skill
   m_TagString: Untagged
@@ -197,4 +198,28 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8384883016423726206}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -8841805190408521703}
+        m_TargetAssemblyTypeName: updatePreview, Assembly-CSharp
+        m_MethodName: UpdateP
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: Skill, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-8841805190408521703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2811260729746702651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47fc71136b73dd342854b27e6cade7f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
