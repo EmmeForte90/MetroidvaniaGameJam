@@ -53,6 +53,7 @@ void Update()
             player.StopinputFalse();
             Selectionmenu.gameObject.SetActive(false);   
                             isPray = false;
+                            _isInTrigger = false;
     
         }
         
@@ -68,7 +69,15 @@ private void OnTriggerEnter2D(Collider2D collision)
             
         }
     }
-
+private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            button.gameObject.SetActive(false); // Initially hide the dialogue text
+            _isInTrigger = false;
+            
+        }
+    }
 
 }
 

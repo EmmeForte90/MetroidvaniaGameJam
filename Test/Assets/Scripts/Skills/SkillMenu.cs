@@ -9,7 +9,7 @@ public class SkillMenu : MonoBehaviour
 
 //C'è da stabilere COME  deve recuperare la skill in automatico senza assegnarla pubblicamente
     private Skill Skill;
-    private int id;
+    public int id;
 
     private float horDir;
     private float vertDir;
@@ -36,23 +36,14 @@ public class SkillMenu : MonoBehaviour
 public void assignId()
 {
     Skill = descriptionData.Instance.Skill;
-    if(descriptionData.Instance.DataId == 1)
-    {
-        id = 1;
-    }else if(descriptionData.Instance.DataId == 2)
-    {
-        id = 2;
-    }if(descriptionData.Instance.DataId == 3)
-    {
-        id = 3;
-    }
+    id = descriptionData.Instance.Skill.id;
     
-
 }
 
 
 public void AssignButtonUp()
 {
+    assignId(); // Aggiorniamo il valore di id
 
     if(id > 0)
 {
@@ -70,6 +61,8 @@ public void AssignButtonUp()
 
 public void AssignButtonBottom()
 {
+        assignId(); // Aggiorniamo il valore di id
+
     if(id > 0)
 {
     if (Skill == null)
@@ -86,6 +79,8 @@ public void AssignButtonBottom()
 
 public void AssignButtonLeft()
 {
+        assignId(); // Aggiorniamo il valore di id
+
     if(id > 0)
 {
     if (Skill == null)
@@ -103,6 +98,7 @@ public void AssignButtonLeft()
 public void AssignButtonRight()
 {
 
+    assignId(); // Aggiorniamo il valore di id
 
 if(id > 0)
 {
