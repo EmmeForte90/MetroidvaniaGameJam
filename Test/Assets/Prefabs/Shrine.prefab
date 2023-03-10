@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
+  DataId: 0
   SkillDescriptionText: {fileID: 5320451299459667681}
   icon: {fileID: 4927509147369099794}
 --- !u!1 &160442778865994093
@@ -395,6 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: cfd34aa4f5c9a3949b2e1e255d7585e5, type: 2}
+  DataId: 0
   SkillDescriptionText: {fileID: 5320451299459667681}
   icon: {fileID: 4927509147369099794}
 --- !u!1 &434824147293709031
@@ -918,7 +920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2921936693801649878
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2556,6 +2558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f2c35b36c49245b39ba2d2d787e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   SkillLeft_T: {fileID: 4108711595795766420}
   SkillRight_T: {fileID: 6384666374895168234}
   SkillUp_T: {fileID: 7658089999284996239}
@@ -4098,7 +4101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2961617294738636226
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4416,6 +4419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
+  DataId: 0
   SkillDescriptionText: {fileID: 5320451299459667681}
   icon: {fileID: 4927509147369099794}
 --- !u!1 &4939389047045393862

@@ -27,8 +27,6 @@ public void DescriptionSkill()
         id = Skill.id;
          // Imposta l'icona dell'abilità
         icon.sprite = Skill.icon;
-       // var abIcon = obj.transform.Find("skill_icon").GetComponent<Image>();
-        //abIcon.sprite = ab.icon;
          
     }
 

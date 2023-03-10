@@ -8,11 +8,12 @@ public class SkillMenu : MonoBehaviour
 {
 
 //C'è da stabilere COME  deve recuperare la skill in automatico senza assegnarla pubblicamente
-    private Skill Skill;
-    public int id;
-
+    public Skill Skill;
+    public  int selectedId = -1; // Id dell'abilità selezionata
     private float horDir;
     private float vertDir;
+    [SerializeField] private TextMeshProUGUI[] skillValueTexts; // Array di TextMeshProUGUI per i valori delle abilità
+    [SerializeField] private Image[] skillIconImages; // Array di Image per le icone delle abilità
 
     [SerializeField] TextMeshProUGUI SkillLeft_T;
     [SerializeField] TextMeshProUGUI SkillRight_T;
@@ -32,20 +33,19 @@ public class SkillMenu : MonoBehaviour
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
     }
+ 
+public void AssignId(int id)
+    {
+        selectedId = id; // Assegna l'id dell'abilità selezionata
+        descriptionData.Instance.Skill.id = selectedId;
 
-public void assignId()
-{
-    Skill = descriptionData.Instance.Skill;
-    id = descriptionData.Instance.Skill.id;
-    
-}
+    }
 
 
 public void AssignButtonUp()
 {
-    assignId(); // Aggiorniamo il valore di id
 
-    if(id > 0)
+    if(selectedId > 0)
 {
     if (Skill == null)
 {
@@ -61,13 +61,13 @@ public void AssignButtonUp()
 
 public void AssignButtonBottom()
 {
-        assignId(); // Aggiorniamo il valore di id
 
-    if(id > 0)
+    if(selectedId > 0)
 {
     if (Skill == null)
 {
     Skill = descriptionData.Instance.Skill;
+
 }
 
    // descriptionData.Instance.Skill.id = id;
@@ -79,13 +79,13 @@ public void AssignButtonBottom()
 
 public void AssignButtonLeft()
 {
-        assignId(); // Aggiorniamo il valore di id
 
-    if(id > 0)
+    if(selectedId > 0)
 {
     if (Skill == null)
 {
     Skill = descriptionData.Instance.Skill;
+
 }
 
    // descriptionData.Instance.Skill.id = id;
@@ -98,13 +98,13 @@ public void AssignButtonLeft()
 public void AssignButtonRight()
 {
 
-    assignId(); // Aggiorniamo il valore di id
 
-if(id > 0)
+if(selectedId > 0)
 {
     if (Skill == null)
 {
     Skill = descriptionData.Instance.Skill;
+
 }
    // descriptionData.Instance.Skill.id = id;
     SkillRight_T.text = Skill.value.ToString();
@@ -113,16 +113,4 @@ if(id > 0)
 }
 
 
-}
-
-public class InventorySlot
-{
-    public Item type;
-    public int quantity;
-
-    public InventorySlot(Item t, int q)
-    {
-        type = t;
-        quantity = q;
-    }
 }
