@@ -3,17 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+/*Questa è una classe di script in Unity, scritta in linguaggio C#. 
+La classe è chiamata "SkillMenu" ed estende la classe "MonoBehaviour", 
+che consente di creare script che possono interagire con gli oggetti in una scena Unity.
 
+La classe SkillMenu contiene una mappa di abilità (skillMap), 
+in cui gli id delle skill sono mappati ai loro valori, e tre icone di abilità 
+(icon1, icon2, icon3). Viene anche dichiarato un valore intero "selectedId" 
+per tenere traccia dell'abilità selezionata, e due variabili float "horDir" 
+e "vertDir" per tenere traccia dell'input dell'utente.
+
+Nel metodo Start(), le tre abilità definite precedentemente vengono aggiunte 
+alla mappa skillMap.
+
+Nel metodo Update(), l'input dell'utente viene registrato e memorizzato nelle 
+variabili horDir e vertDir.
+
+Ci sono quattro metodi pubblici AssignButtonUp(), AssignButtonLeft(), AssignButtonRight(), 
+e AssignButtonBottom(), ognuno dei quali viene chiamato quando l'utente preme il pulsante 
+corrispondente sulla tastiera o sul controller. Ognuno di questi metodi recupera l'abilità 
+corrispondente all'id selezionato, se l'id è maggiore di zero (cioè se un'abilità è stata selezionata), 
+quindi aggiorna l'etichetta e l'icona dell'abilità corrispondente. L'etichetta e l'icona dell'abilità 
+vengono visualizzate in quattro posizioni differenti, corrispondenti ai pulsanti su, sinistra, 
+destra e giù dell'interfaccia grafica del menu.
+
+Infine, c'è un metodo pubblico AssignId(), che assegna l'id dell'abilità selezionata alla 
+variabile selectedId. Questo metodo viene chiamato quando l'utente seleziona un'abilità dal menu.*/
 public class SkillMenu : MonoBehaviour
 {
 
-//C'è da stabilere COME  deve recuperare la skill in automatico senza assegnarla pubblicamente
-    public Skill Skill;
-    public  int selectedId = -1; // Id dell'abilità selezionata
+// Mappa che mappa gli id delle skill ai loro valori
+    Dictionary<int, Skill> skillMap = new Dictionary<int, Skill>();
+[SerializeField] private Sprite icon1; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon2; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon3; // Define icon1 as an Image variable
+
+    public int selectedId = -1; // Id dell'abilità selezionata
     private float horDir;
     private float vertDir;
-    [SerializeField] private TextMeshProUGUI[] skillValueTexts; // Array di TextMeshProUGUI per i valori delle abilità
-    [SerializeField] private Image[] skillIconImages; // Array di Image per le icone delle abilità
+
 
     [SerializeField] TextMeshProUGUI SkillLeft_T;
     [SerializeField] TextMeshProUGUI SkillRight_T;
@@ -25,92 +53,66 @@ public class SkillMenu : MonoBehaviour
     [SerializeField] Image SkillUp;
     [SerializeField] Image SkillBottom;
 
-     
-
+    void Start()
+    {
+        // Aggiungi le tue skill alla mappa
+        skillMap.Add(1, new Skill("Skill 1", 5, icon1));//Globo
+        skillMap.Add(2, new Skill("Skill 2", 20, icon2));//SwordSlash
+        skillMap.Add(3, new Skill("Skill 3", 10, icon3));//PenetratingSlash
+    }
 
     void Update()
-    {     
+    {
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
     }
- 
-public void AssignId(int id)
+
+    public void AssignId(int id)
     {
         selectedId = id; // Assegna l'id dell'abilità selezionata
-        descriptionData.Instance.Skill.id = selectedId;
-
     }
 
-
-public void AssignButtonUp()
+   public void AssignButtonUp()
 {
+    // Recupera la skill corrispondente all'id selezionato
+    Skill selectedSkill = skillMap[selectedId];
 
-    if(selectedId > 0)
+    if (selectedId > 0)
+    {
+        SkillUp_T.text = selectedSkill.value.ToString();
+        SkillUp.sprite = selectedSkill.icon;
+    }
+}
+  public void AssignButtonleft()
 {
-    if (Skill == null)
+    // Recupera la skill corrispondente all'id selezionato
+    Skill selectedSkill = skillMap[selectedId];
+
+    if (selectedId > 0)
+    {
+        SkillLeft_T.text = selectedSkill.value.ToString();
+        SkillLeft.sprite = selectedSkill.icon;
+    }
+}  
+public void AssignButtonright()
 {
-    Skill = descriptionData.Instance.Skill;
-}
+    // Recupera la skill corrispondente all'id selezionato
+    Skill selectedSkill = skillMap[selectedId];
 
-   // descriptionData.Instance.Skill.id = id;
-    
-    SkillUp_T.text = Skill.value.ToString();
-    SkillUp.sprite = Skill.icon;
-}
-}
-
-public void AssignButtonBottom()
+    if (selectedId > 0)
+    {
+        SkillRight_T.text = selectedSkill.value.ToString();
+        SkillRight.sprite = selectedSkill.icon;
+    }
+}  public void AssignButtonbottom()
 {
+    // Recupera la skill corrispondente all'id selezionato
+    Skill selectedSkill = skillMap[selectedId];
 
-    if(selectedId > 0)
-{
-    if (Skill == null)
-{
-    Skill = descriptionData.Instance.Skill;
-
+    if (selectedId > 0)
+    {
+        SkillBottom_T.text = selectedSkill.value.ToString();
+        SkillBottom.sprite = selectedSkill.icon;
+    }
 }
-
-   // descriptionData.Instance.Skill.id = id;
-    
-    SkillBottom_T.text = Skill.value.ToString();
-    SkillBottom.sprite = Skill.icon;
-}
-}
-
-public void AssignButtonLeft()
-{
-
-    if(selectedId > 0)
-{
-    if (Skill == null)
-{
-    Skill = descriptionData.Instance.Skill;
-
-}
-
-   // descriptionData.Instance.Skill.id = id;
-    
-    SkillLeft_T.text = Skill.value.ToString();
-    SkillLeft.sprite = Skill.icon;
-}
-}
-
-public void AssignButtonRight()
-{
-
-
-if(selectedId > 0)
-{
-    if (Skill == null)
-{
-    Skill = descriptionData.Instance.Skill;
-
-}
-   // descriptionData.Instance.Skill.id = id;
-    SkillRight_T.text = Skill.value.ToString();
-    SkillRight.sprite = Skill.icon;
-}
-}
-
-
 }
