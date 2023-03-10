@@ -8,11 +8,11 @@ public class test : MonoBehaviour
 {
     public Skill Skill;
     public TextMeshProUGUI itemDescriptionText;
-public bool IsGlobe = false;
+    public bool IsGlobe = false;
 
-public bool IsDashAtk = false;
+    public bool IsDashAtk = false;
 
-public bool IsSlashSword = false;
+    public bool IsSlashSword = false;
 
 
     public void Pickup()

@@ -8,11 +8,9 @@ using TMPro;
 public class descriptionData : MonoBehaviour
 {
    public Skill Skill;
-
    public static descriptionData Instance;
-    public TextMeshProUGUI SkillDescriptionText;
-   //public Image icon;
-public Image icon;
+   public TextMeshProUGUI SkillDescriptionText;
+   public Image icon;
 
     private void Awake()
    {

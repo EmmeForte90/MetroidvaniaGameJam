@@ -6,42 +6,87 @@ using TMPro;
 
 public class SkillMenu : MonoBehaviour
 {
-   
+
+//C'è da stabilere COME  deve recuperare la skill in automatico senza assegnarla pubblicamente
+    private Skill Skill;
+    private int id;
+
+    private float horDir;
+    private float vertDir;
+
     [SerializeField] TextMeshProUGUI SkillLeft_T;
     [SerializeField] TextMeshProUGUI SkillRight_T;
     [SerializeField] TextMeshProUGUI SkillUp_T;
     [SerializeField] TextMeshProUGUI SkillBottom_T;
 
-    [SerializeField] GameObject SkillLeft;
-    [SerializeField] GameObject SkillRight;
-    [SerializeField] GameObject SkillUp;
-    [SerializeField] GameObject SkillBottom;
+    [SerializeField] Image SkillLeft;
+    [SerializeField] Image SkillRight;
+    [SerializeField] Image SkillUp;
+    [SerializeField] Image SkillBottom;
 
-    private void Awake()
-    {
-                
-    }
+     
+
 
     void Update()
     {     
-        /*if (Input.GetButtonDown("UseItem") || (!rtButtonFree && Input.GetAxisRaw("UseItem") > 0))
-        {
-            rtButtonFree = true;
-            //activeEffect();
-        }
-
-        if (Input.GetAxisRaw("UseItem") == 0)
-            rtButtonFree = false;
-
-        if (Input.GetButtonDown("ChangeItem") || (!ltButtonFree && Input.GetAxisRaw("ChangeItem") > 0))
-        {
-            ltButtonFree = true;
-            moveSlot();
-        }
-
-        if (Input.GetAxisRaw("ChangeItem") == 0)
-            ltButtonFree = false;*/
+        horDir = Input.GetAxisRaw("Horizontal");
+        vertDir = Input.GetAxisRaw("Vertical");
     }
+
+
+
+public void AssignButtonUp()
+{
+    if (Skill == null)
+{
+    Skill = descriptionData.Instance.Skill;
+}
+
+   // descriptionData.Instance.Skill.id = id;
+    
+    SkillUp_T.text = Skill.value.ToString();
+    SkillUp.sprite = Skill.icon;
+}
+
+public void AssignButtonBottom()
+{
+    if (Skill == null)
+{
+    Skill = descriptionData.Instance.Skill;
+}
+
+   // descriptionData.Instance.Skill.id = id;
+    
+    SkillBottom_T.text = Skill.value.ToString();
+    SkillBottom.sprite = Skill.icon;
+}
+
+public void AssignButtonLeft()
+{
+    if (Skill == null)
+{
+    Skill = descriptionData.Instance.Skill;
+}
+
+   // descriptionData.Instance.Skill.id = id;
+    
+    SkillLeft_T.text = Skill.value.ToString();
+    SkillLeft.sprite = Skill.icon;
+}
+
+public void AssignButtonRight()
+{
+    if (Skill == null)
+{
+    Skill = descriptionData.Instance.Skill;
+}
+
+   // descriptionData.Instance.Skill.id = id;
+    
+    SkillRight_T.text = Skill.value.ToString();
+    SkillRight.sprite = Skill.icon;
+}
+
 
 }
 
