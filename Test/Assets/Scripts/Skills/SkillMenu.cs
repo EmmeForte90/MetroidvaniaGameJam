@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-/*Questa è una classe di script in Unity, scritta in linguaggio C#. 
-La classe è chiamata "SkillMenu" ed estende la classe "MonoBehaviour", 
-che consente di creare script che possono interagire con gli oggetti in una scena Unity.
-
+/*
 La classe SkillMenu contiene una mappa di abilità (skillMap), 
 in cui gli id delle skill sono mappati ai loro valori, e tre icone di abilità 
 (icon1, icon2, icon3). Viene anche dichiarato un valore intero "selectedId" 
@@ -69,7 +66,7 @@ public static SkillMenu Instance;
     void Start()
     {
         // Aggiungi le tue skill alla mappa
-        skillMap.Add(-1, new Skill("noSkill", 0, icon0));//Globo
+        skillMap.Add(-1, new Skill("noSkill", 0, icon0));//NoSkill
         skillMap.Add(1, new Skill("Skill 1", 5, icon1));//Globo
         skillMap.Add(2, new Skill("Skill 2", 20, icon2));//SwordSlash
         skillMap.Add(3, new Skill("Skill 3", 10, icon3));//PenetratingSlash

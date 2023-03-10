@@ -17,11 +17,9 @@ private float cooldown = 0.5f;
 private float lastWeaponChangeTime;
     private int currentWeaponIndex;
 
-    CharacterController2D playerShootScript;
 
     private void Awake()
     { 
-        playerShootScript = GetComponent<CharacterController2D>();
         instance = this;
         currentWeaponIndex = 1;
     }
@@ -38,10 +36,8 @@ void Update()
 #region ChangeWeapon
 void OnChangeWeapon()
 {
-   
         int weaponIndex = (currentWeaponIndex + 1) % 4;
         SetWeapon(weaponIndex + 1);
-        FindObjectOfType<ChangeWeaponAnimation>().ChangeWeapon(weaponIndex + 1);
         currentWeaponIndex = weaponIndex;
     
 }
@@ -53,19 +49,20 @@ public void SetWeapon(int WeaponID)
     switch (WeaponID)
     {
         case 1:
-    playerShootScript.SetBulletPrefab(normal);
+    Move.instance.SetBulletPrefab(normal);
+    
     break;
 
     case 2:
-    playerShootScript.SetBulletPrefab(rapid);
+    Move.instance.SetBulletPrefab(rapid);
     break;
 
     case 3:
-    playerShootScript.SetBulletPrefab(shotgun);
+    Move.instance.SetBulletPrefab(shotgun);
     break;
 
     case 4:
-    playerShootScript.SetBulletPrefab(bomb);
+    Move.instance.SetBulletPrefab(bomb);
     break;
         
     }

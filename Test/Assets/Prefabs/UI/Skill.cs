@@ -12,6 +12,7 @@ public string SkillName;
 public string Description;
 public int value;
 public Sprite icon;
+//public gameObject bullet;
 
 
    public Skill(string name, int value, Sprite icon)

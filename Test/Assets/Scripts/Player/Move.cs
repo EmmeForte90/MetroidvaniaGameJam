@@ -172,6 +172,7 @@ public static Move instance;
         {
             instance = this;
         }
+
 _skeletonAnimation = GetComponent<SkeletonAnimation>();
 if (_skeletonAnimation == null) {
     Debug.LogError("Componente SkeletonAnimation non trovato!");
@@ -595,7 +596,26 @@ public void StopinputFalse()
         horDir = 0;
 
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    public void SetBulletPrefab(GameObject newBullet)
+    //Funzione per cambiare arma
+    {
+       bullet = newBullet;
+    }    
+    
+void Blast()
+{
+        isBlast = true;
+        Debug.Log("il blast è partito");
+        //nextAttackTime = Time.time + 1f / attackRate;
+        Smagic.Play();
+        Instantiate(blam, gun.position, transform.rotation);
+        Instantiate(bullet, gun.position, transform.rotation);
+        
+        
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -928,26 +948,6 @@ private void moving() {
             break;
     }
     }
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    public void SetBulletPrefab(GameObject newBullet)
-    //Funzione per cambiare arma
-    {
-       bullet = newBullet;
-    }    
-    
-void Blast()
-{
-        isBlast = true;
-        Debug.Log("il blast è partito");
-        //nextAttackTime = Time.time + 1f / attackRate;
-        Smagic.Play();
-        Instantiate(blam, gun.position, transform.rotation);
-        Instantiate(bullet, gun.position, transform.rotation);
-        
-        
 }
 
 
