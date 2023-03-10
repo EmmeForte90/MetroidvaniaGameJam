@@ -7,6 +7,7 @@ using TMPro;
 using Spine.Unity.AttachmentTools;
 using Spine.Unity;
 using Spine;
+using UnityEngine.Audio;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] bool isStartGame;
     [SerializeField] bool isTImeline;
     [SerializeField] AudioSource City;
+    public AudioMixer MSX;
+    public AudioMixer SFX;
     
     [Header("Fade")]
     [SerializeField] GameObject callFadeIn;
@@ -137,7 +140,19 @@ public void StopInput()
         }
 #endregion
 
-    
+    public void SetVolume(float volume)
+    {
+        MSX.SetFloat("Volume", volume);
+
+    }
+
+
+     public void SetSFX(float volume)
+    {
+        SFX.SetFloat("Volume", volume);
+
+    }
+
 #region Processo vita e morte
 
 public void StartDie()
