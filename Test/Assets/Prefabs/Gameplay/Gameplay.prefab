@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
+  DataId: 0
   SkillDescriptionText: {fileID: 5167850468072633995}
   icon: {fileID: 3864715346790489121}
 --- !u!1 &1211626460473745116
@@ -950,7 +951,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1239,6 +1240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: cfd34aa4f5c9a3949b2e1e255d7585e5, type: 2}
+  DataId: 0
   SkillDescriptionText: {fileID: 5167850468072633995}
   icon: {fileID: 3864715346790489121}
 --- !u!1 &2144114531772244811
@@ -4436,7 +4438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2144114532881305171}
-  - component: {fileID: 487939050}
+  - component: {fileID: 360781691}
   m_Layer: 5
   m_Name: Magic
   m_TagString: Untagged
@@ -4469,7 +4471,7 @@ RectTransform:
   m_AnchoredPosition: {x: -25, y: 86}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &487939050
+--- !u!114 &360781691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4478,17 +4480,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2144114532881305172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c9f2c35b36c49245b39ba2d2d787e47, type: 3}
+  m_Script: {fileID: 11500000, guid: a7c27c28d7f037947a9a7ada2eb4045a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon0: {fileID: 21300000, guid: 950d037f30f1ea34ebc8702c398441ed, type: 3}
+  icon1: {fileID: 21300000, guid: 4e809169c5d479e4ea27d083fabf396c, type: 3}
+  icon2: {fileID: 21300000, guid: 9dad48cc35dfb55498ec1a492a3293c6, type: 3}
+  icon3: {fileID: 21300000, guid: 6407e14507f423945aefb9be9bf31922, type: 3}
+  selectedId: -1
   SkillLeft_T: {fileID: 7686290771124390182}
   SkillRight_T: {fileID: 4733600543446265100}
   SkillUp_T: {fileID: 372922167646929290}
   SkillBottom_T: {fileID: 2501415111001783906}
-  SkillLeft: {fileID: 5314152315342340593}
-  SkillRight: {fileID: 4106588023770631837}
-  SkillUp: {fileID: 7467992222396667746}
-  SkillBottom: {fileID: 5368516432522059762}
+  SkillLeft: {fileID: 9177089834386914622}
+  SkillRight: {fileID: 4649066449624736432}
+  SkillUp: {fileID: 3933548408656299062}
+  SkillBottom: {fileID: 5032307709272445940}
 --- !u!1 &2144114532909233433
 GameObject:
   m_ObjectHideFlags: 0
@@ -7080,7 +7087,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8150,7 +8157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
   m_sharedMaterial: {fileID: 4267158245767620036, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
@@ -8782,7 +8789,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 950d037f30f1ea34ebc8702c398441ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9188,8 +9195,8 @@ RectTransform:
   m_Father: {fileID: 4152814927945812740}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9623,7 +9630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 950d037f30f1ea34ebc8702c398441ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9699,7 +9706,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 950d037f30f1ea34ebc8702c398441ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9775,7 +9782,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
   m_sharedMaterial: {fileID: 4267158245767620036, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
@@ -10075,6 +10082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
+  DataId: 0
   SkillDescriptionText: {fileID: 5167850468072633995}
   icon: {fileID: 3864715346790489121}
 --- !u!1 &5928607555987255503
@@ -10219,7 +10227,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
   m_sharedMaterial: {fileID: 4267158245767620036, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
@@ -11403,7 +11411,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 950d037f30f1ea34ebc8702c398441ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11605,8 +11613,8 @@ RectTransform:
   m_Father: {fileID: 6928236698806531161}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11888,7 +11896,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
   m_sharedMaterial: {fileID: 4267158245767620036, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}

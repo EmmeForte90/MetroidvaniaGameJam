@@ -55,6 +55,17 @@ public class SkillMenu : MonoBehaviour
     [SerializeField] Image SkillUp;
     [SerializeField] Image SkillBottom;
 
+public static SkillMenu Instance;
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         // Aggiungi le tue skill alla mappa
@@ -84,6 +95,9 @@ public class SkillMenu : MonoBehaviour
     {
         SkillUp_T.text = selectedSkill.value.ToString();
         SkillUp.sprite = selectedSkill.icon;
+
+         UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
+         UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
     }
 }
   public void AssignButtonleft()
@@ -95,6 +109,8 @@ public class SkillMenu : MonoBehaviour
     {
         SkillLeft_T.text = selectedSkill.value.ToString();
         SkillLeft.sprite = selectedSkill.icon;
+         UpdateMenuRapido.Instance.SkillLeft_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.SkillLeft.sprite = selectedSkill.icon;
     }
 }  
 public void AssignButtonright()
@@ -106,6 +122,9 @@ public void AssignButtonright()
     {
         SkillRight_T.text = selectedSkill.value.ToString();
         SkillRight.sprite = selectedSkill.icon;
+
+        UpdateMenuRapido.Instance.SkillRight_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.SkillRight.sprite = selectedSkill.icon;
     }
 }  public void AssignButtonbottom()
 {
@@ -116,6 +135,9 @@ public void AssignButtonright()
     {
         SkillBottom_T.text = selectedSkill.value.ToString();
         SkillBottom.sprite = selectedSkill.icon;
+
+        UpdateMenuRapido.Instance.SkillBottom_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.SkillBottom.sprite = selectedSkill.icon;
     }
 }
 }
