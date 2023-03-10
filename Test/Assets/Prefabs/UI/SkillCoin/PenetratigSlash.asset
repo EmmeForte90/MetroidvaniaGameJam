@@ -16,5 +16,5 @@ MonoBehaviour:
   SkillName: Penetrating Slash
   Description: A thrust that generates a shockwave, striking all the enemies it encounters
     on its path.
-  value: 2
+  value: 10
   icon: {fileID: 21300000, guid: 9dad48cc35dfb55498ec1a492a3293c6, type: 3}

@@ -8,6 +8,8 @@ using TMPro;
 public class descriptionData : MonoBehaviour
 {
    public Skill Skill;
+   public int DataId;
+   private int id;
    public static descriptionData Instance;
    public TextMeshProUGUI SkillDescriptionText;
    public Image icon;
@@ -15,15 +17,16 @@ public class descriptionData : MonoBehaviour
     private void Awake()
    {
     Instance = this;   
-    
+    id = Skill.id;
    }
+
 public void DescriptionSkill()
     { 
         // Inserisci qui il codice che vuoi eseguire quando l'immagine viene cliccata
-         SkillDescriptionText.text = Skill.Description;
+        SkillDescriptionText.text = Skill.Description;
+        id = Skill.id;
          // Imposta l'icona dell'abilità
-
-            icon.sprite = Skill.icon;
+        icon.sprite = Skill.icon;
        // var abIcon = obj.transform.Find("skill_icon").GetComponent<Image>();
         //abIcon.sprite = ab.icon;
          

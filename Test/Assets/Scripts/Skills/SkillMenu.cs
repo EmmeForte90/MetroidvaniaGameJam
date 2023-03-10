@@ -33,9 +33,28 @@ public class SkillMenu : MonoBehaviour
         vertDir = Input.GetAxisRaw("Vertical");
     }
 
+public void assignId()
+{
+    Skill = descriptionData.Instance.Skill;
+    if(descriptionData.Instance.DataId == 1)
+    {
+        id = 1;
+    }else if(descriptionData.Instance.DataId == 2)
+    {
+        id = 2;
+    }if(descriptionData.Instance.DataId == 3)
+    {
+        id = 3;
+    }
+    
+
+}
 
 
 public void AssignButtonUp()
+{
+
+    if(id > 0)
 {
     if (Skill == null)
 {
@@ -47,8 +66,11 @@ public void AssignButtonUp()
     SkillUp_T.text = Skill.value.ToString();
     SkillUp.sprite = Skill.icon;
 }
+}
 
 public void AssignButtonBottom()
+{
+    if(id > 0)
 {
     if (Skill == null)
 {
@@ -60,8 +82,11 @@ public void AssignButtonBottom()
     SkillBottom_T.text = Skill.value.ToString();
     SkillBottom.sprite = Skill.icon;
 }
+}
 
 public void AssignButtonLeft()
+{
+    if(id > 0)
 {
     if (Skill == null)
 {
@@ -73,18 +98,22 @@ public void AssignButtonLeft()
     SkillLeft_T.text = Skill.value.ToString();
     SkillLeft.sprite = Skill.icon;
 }
+}
 
 public void AssignButtonRight()
+{
+
+
+if(id > 0)
 {
     if (Skill == null)
 {
     Skill = descriptionData.Instance.Skill;
 }
-
    // descriptionData.Instance.Skill.id = id;
-    
     SkillRight_T.text = Skill.value.ToString();
     SkillRight.sprite = Skill.icon;
+}
 }
 
 

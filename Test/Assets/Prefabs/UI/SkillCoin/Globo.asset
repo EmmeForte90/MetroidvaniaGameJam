@@ -15,5 +15,5 @@ MonoBehaviour:
   id: 1
   SkillName: Globo
   Description: A simple sphere of light, damage one enemy.
-  value: 1
+  value: 5
   icon: {fileID: 21300000, guid: 4e809169c5d479e4ea27d083fabf396c, type: 3}
