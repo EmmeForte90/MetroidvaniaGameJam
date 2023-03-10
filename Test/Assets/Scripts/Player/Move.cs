@@ -291,7 +291,8 @@ if (Input.GetButtonDown("Jump"))
                 
                 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////             
-                // gestione dell'input dello sparo
+               
+// gestione dell'input dello sparo
 if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
     //if (Less.currentMana > 0)
@@ -309,7 +310,27 @@ if (!isBlast && Time.time >= nextAttackTime)
 {
     isBlast = true;
 }
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Scelta della skill dal menu rapido
+
+if (Input.GetButtonDown("SlotUp"))
+{
+   UpdateMenuRapido.Instance.Selup();
+}else if (Input.GetButtonDown("SlotRight"))
+{
+      UpdateMenuRapido.Instance.Selright();
+
+}else if (Input.GetButtonDown("SlotLeft"))
+{
+      UpdateMenuRapido.Instance.Selleft();
+
+}else if (Input.GetButtonDown("SlotBottom"))
+{
+      UpdateMenuRapido.Instance.Selbottom();
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         if (Input.GetButtonDown("Fire1"))
         {

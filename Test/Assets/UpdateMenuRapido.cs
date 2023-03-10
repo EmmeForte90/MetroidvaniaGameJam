@@ -24,6 +24,13 @@ public class UpdateMenuRapido : MonoBehaviour
     [SerializeField] public Image SkillUp;
     [SerializeField] public Image SkillBottom;
 
+    [SerializeField] public Image SkillLeftsel;
+    [SerializeField] public Image SkillRightsel;
+    [SerializeField] public Image SkillUpsel;
+    [SerializeField] public Image SkillBottomsel;
+    public float timeSelection = 0.1f; // ritardo tra la spawn di ogni moneta
+
+
 public static UpdateMenuRapido Instance;
 
 
@@ -35,4 +42,59 @@ public static UpdateMenuRapido Instance;
         }
     }
 
+
+
+public void Selup()
+    {
+        SkillUpsel.gameObject.SetActive(true);
+        SkillLeftsel.gameObject.SetActive(false);        
+        SkillRightsel.gameObject.SetActive(false);
+        SkillBottomsel.gameObject.SetActive(false);
+        StartCoroutine(closeSel());
+
+    }
+
+public void Selbottom()
+    {
+        SkillBottomsel.gameObject.SetActive(true);
+        SkillLeftsel.gameObject.SetActive(false);
+        SkillUpsel.gameObject.SetActive(false);
+        SkillRightsel.gameObject.SetActive(false);
+        StartCoroutine(closeSel());
+
+    }
+
+public void Selleft()
+    {
+        SkillLeftsel.gameObject.SetActive(true);
+        SkillUpsel.gameObject.SetActive(false);
+        SkillRightsel.gameObject.SetActive(false);
+        SkillBottomsel.gameObject.SetActive(false);
+        StartCoroutine(closeSel());
+
+    }
+
+    
+public void Selright()
+    {
+        SkillRightsel.gameObject.SetActive(true);
+        SkillLeftsel.gameObject.SetActive(false);
+        SkillUpsel.gameObject.SetActive(false);
+        SkillBottomsel.gameObject.SetActive(false);
+        StartCoroutine(closeSel());
+
+    }
+IEnumerator closeSel()
+{
+
+    
+        yield return new WaitForSeconds(timeSelection);
+                SkillLeftsel.gameObject.SetActive(false);
+                SkillUpsel.gameObject.SetActive(false);
+                SkillRightsel.gameObject.SetActive(false);
+                SkillBottomsel.gameObject.SetActive(false);
+
+
 }
+}
+
