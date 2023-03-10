@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 7665255585251518097}
   - component: {fileID: 4288430287371649288}
   - component: {fileID: -1801080687788462503}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Death
-  m_TagString: Untagged
+  m_TagString: death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e58ada369179c4ab61f0610e20a8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 5
+  lifeTime: 3
   isExplosion: 0
   intensity: 5
   time: 0.1

@@ -17,6 +17,8 @@ TagManager:
   - Bound
   - Chest
   - Inventory
+  - FxTemporaire
+  - death
   layers:
   - Default
   - TransparentFX
@@ -31,7 +33,7 @@ TagManager:
   - Hitbox
   - Respawn
   - Wall
-  - 
+  - Death
   - 
   - 
   - 
