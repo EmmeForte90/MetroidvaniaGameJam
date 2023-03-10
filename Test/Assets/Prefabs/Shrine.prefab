@@ -201,7 +201,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857157446821961526}
         m_TargetAssemblyTypeName: SkillMenu, Assembly-CSharp
-        m_MethodName: AssignButtonLeft
+        m_MethodName: AssignButtonleft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
-  DataId: 0
+  DataId: 1
   SkillDescriptionText: {fileID: 5320451299459667681}
   icon: {fileID: 4927509147369099794}
 --- !u!1 &160442778865994093
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: cfd34aa4f5c9a3949b2e1e255d7585e5, type: 2}
-  DataId: 0
+  DataId: 3
   SkillDescriptionText: {fileID: 5320451299459667681}
   icon: {fileID: 4927509147369099794}
 --- !u!1 &434824147293709031
@@ -920,7 +920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2921936693801649878
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1282,12 +1282,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857157446821961526}
         m_TargetAssemblyTypeName: SkillMenu, Assembly-CSharp
-        m_MethodName: assignId
-        m_Mode: 1
+        m_MethodName: AssignId
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1956,12 +1956,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857157446821961526}
         m_TargetAssemblyTypeName: SkillMenu, Assembly-CSharp
-        m_MethodName: assignId
-        m_Mode: 1
+        m_MethodName: AssignId
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2120,7 +2120,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857157446821961526}
         m_TargetAssemblyTypeName: SkillMenu, Assembly-CSharp
-        m_MethodName: AssignButtonRight
+        m_MethodName: AssignButtonright
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2558,7 +2558,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f2c35b36c49245b39ba2d2d787e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  icon0: {fileID: 21300000, guid: 950d037f30f1ea34ebc8702c398441ed, type: 3}
+  icon1: {fileID: 21300000, guid: 4e809169c5d479e4ea27d083fabf396c, type: 3}
+  icon2: {fileID: 21300000, guid: 9dad48cc35dfb55498ec1a492a3293c6, type: 3}
+  icon3: {fileID: 21300000, guid: 6407e14507f423945aefb9be9bf31922, type: 3}
+  selectedId: -1
   SkillLeft_T: {fileID: 4108711595795766420}
   SkillRight_T: {fileID: 6384666374895168234}
   SkillUp_T: {fileID: 7658089999284996239}
@@ -3675,7 +3679,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857157446821961526}
         m_TargetAssemblyTypeName: SkillMenu, Assembly-CSharp
-        m_MethodName: AssignButtonBottom
+        m_MethodName: AssignButtonbottom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4289,12 +4293,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857157446821961526}
         m_TargetAssemblyTypeName: SkillMenu, Assembly-CSharp
-        m_MethodName: assignId
-        m_Mode: 1
+        m_MethodName: AssignId
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -4419,7 +4423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skill: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
-  DataId: 0
+  DataId: 2
   SkillDescriptionText: {fileID: 5320451299459667681}
   icon: {fileID: 4927509147369099794}
 --- !u!1 &4939389047045393862

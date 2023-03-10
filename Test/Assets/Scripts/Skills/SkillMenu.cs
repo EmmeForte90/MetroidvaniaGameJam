@@ -29,11 +29,13 @@ destra e giù dell'interfaccia grafica del menu.
 
 Infine, c'è un metodo pubblico AssignId(), che assegna l'id dell'abilità selezionata alla 
 variabile selectedId. Questo metodo viene chiamato quando l'utente seleziona un'abilità dal menu.*/
+
 public class SkillMenu : MonoBehaviour
 {
 
 // Mappa che mappa gli id delle skill ai loro valori
     Dictionary<int, Skill> skillMap = new Dictionary<int, Skill>();
+[SerializeField] private Sprite icon0; // Define icon1 as an Image variable
 [SerializeField] private Sprite icon1; // Define icon1 as an Image variable
 [SerializeField] private Sprite icon2; // Define icon1 as an Image variable
 [SerializeField] private Sprite icon3; // Define icon1 as an Image variable
@@ -56,6 +58,7 @@ public class SkillMenu : MonoBehaviour
     void Start()
     {
         // Aggiungi le tue skill alla mappa
+        skillMap.Add(-1, new Skill("noSkill", 0, icon0));//Globo
         skillMap.Add(1, new Skill("Skill 1", 5, icon1));//Globo
         skillMap.Add(2, new Skill("Skill 2", 20, icon2));//SwordSlash
         skillMap.Add(3, new Skill("Skill 3", 10, icon3));//PenetratingSlash
