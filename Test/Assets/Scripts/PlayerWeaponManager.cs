@@ -12,17 +12,12 @@ public class PlayerWeaponManager : MonoBehaviour
     [SerializeField] private GameObject SlashSword;
     [SerializeField] private GameObject bomb;
    
-   // public KeyCode Kk = KeyCode.F;
-//private float cooldown = 0.5f;
-//private float lastWeaponChangeTime;
-  //  private int currentWeaponIndex;
 
     public static PlayerWeaponManager instance;
 
     private void Awake()
     { 
         instance = this;
-        //currentWeaponIndex = 1;
     }
 
     public void SetWeapon(int WeaponID)
@@ -49,27 +44,7 @@ public class PlayerWeaponManager : MonoBehaviour
     
 
  }
-    /*
-void Update()
-{
-     if (Input.GetKey(Kk) && Time.time - lastWeaponChangeTime > cooldown)
-    {
-        OnChangeWeapon();
-        lastWeaponChangeTime = Time.time;
-    }
-    
-    }
-
-#region ChangeWeapon
-void OnChangeWeapon()
-{
-        int weaponIndex = (currentWeaponIndex + 1) % 4;
-        SetWeapon(weaponIndex + 1);
-        currentWeaponIndex = weaponIndex;
-    
-}
-
-#endregion*/
+   
 
 
 }

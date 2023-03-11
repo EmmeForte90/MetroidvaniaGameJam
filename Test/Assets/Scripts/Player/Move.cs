@@ -317,24 +317,25 @@ if (!isBlast && Time.time >= nextAttackTime)
 if (Input.GetButtonDown("SlotUp"))
 {
    UpdateMenuRapido.Instance.Selup();
-    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
 
 }
 else if (Input.GetButtonDown("SlotRight"))
 {
       UpdateMenuRapido.Instance.Selright();
-        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+      //SkillMenu.Instance.AssignId();
+        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idright);
 }
 else if (Input.GetButtonDown("SlotLeft"))
 {
       UpdateMenuRapido.Instance.Selleft();
-    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idleft);
 
 }
 else if (Input.GetButtonDown("SlotBottom"))
 {
       UpdateMenuRapido.Instance.Selbottom();
-    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idbottom);
 
 }
 
