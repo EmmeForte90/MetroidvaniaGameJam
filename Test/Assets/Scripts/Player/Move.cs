@@ -82,6 +82,8 @@ public class Move : MonoBehaviour
     [SerializeField] GameObject attack_a;
     [SerializeField] GameObject pesante;
     [SerializeField] GameObject charge;
+    [SerializeField] GameObject attack_air_bottom;
+    [SerializeField] GameObject attack_air_up;
 
 
 
@@ -961,7 +963,8 @@ private void moving() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+//Non puoi giocare di local scale sui vfx perché sono vincolati dal localscale del player PERò puoi giocare sulla rotazione E ottenere gli
+//stessi effetti
 void HandleEvent (TrackEntry trackEntry, Spine.Event e) {
 
 if (e.Data.Name == "VFXpesante") {
@@ -1032,6 +1035,40 @@ if (e.Data.Name == "dash") {
         Sdash.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
         // Assegna la clip audio all'AudioSource e avviala.
         Sdash.Play();
+    }
+    if (e.Data.Name == "downslash") {
+
+        Instantiate(attack_air_bottom, slashpoint.position, attack_air_bottom.transform.rotation);
+       // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+        if (SwSl == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SwSl.gameObject.activeInHierarchy) {
+            SwSl.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        SwSl.Play();
+    }
+    if (e.Data.Name == "upSlash") {
+
+        Instantiate(attack_air_up, slashpoint.position, attack_air_up.transform.rotation);
+       // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+        if (SwSl == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SwSl.gameObject.activeInHierarchy) {
+            SwSl.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        SwSl.Play();
     }
 }
 
