@@ -14,8 +14,8 @@ public class Move : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float acceleration;
     [SerializeField] private float deceleration;
-    private float horDir;
-    private float vertDir;
+     [HideInInspector] public float horDir;
+     [HideInInspector] public float vertDir;
 
     public float runSpeedThreshold = 5f; // or whatever value you want
 
@@ -317,17 +317,24 @@ if (!isBlast && Time.time >= nextAttackTime)
 if (Input.GetButtonDown("SlotUp"))
 {
    UpdateMenuRapido.Instance.Selup();
-}else if (Input.GetButtonDown("SlotRight"))
+    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+
+}
+else if (Input.GetButtonDown("SlotRight"))
 {
       UpdateMenuRapido.Instance.Selright();
-
-}else if (Input.GetButtonDown("SlotLeft"))
+        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+}
+else if (Input.GetButtonDown("SlotLeft"))
 {
       UpdateMenuRapido.Instance.Selleft();
+    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
 
-}else if (Input.GetButtonDown("SlotBottom"))
+}
+else if (Input.GetButtonDown("SlotBottom"))
 {
       UpdateMenuRapido.Instance.Selbottom();
+    PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
 
 }
 
@@ -985,16 +992,16 @@ if (e.Data.Name == "VFXpesante") {
 
 if (e.Data.Name == "VFXSlash_h") {
         // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack_h, slashpoint.position, transform.rotation);
+        Instantiate(attack_h, slashpoint.position, attack_h.transform.rotation);
         // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
     }
 if (e.Data.Name == "VFXSlash_l") {
         // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack_l, slashpoint.position, transform.rotation);
+        Instantiate(attack_l, slashpoint.position, attack_l.transform.rotation);
     }
     if (e.Data.Name == "VFXSlash_a") {
         // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack_a, slashpoint.position, transform.rotation);
+        Instantiate(attack_a, slashpoint.position, attack_a.transform.rotation);
     }
 
 if (e.Data.Name == "soundWalk") {

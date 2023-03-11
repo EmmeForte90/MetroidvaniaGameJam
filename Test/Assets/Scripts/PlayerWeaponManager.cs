@@ -6,23 +6,50 @@ using UnityEngine;
 
 public class PlayerWeaponManager : MonoBehaviour
 {
-    public static PlayerWeaponManager instance;
-   [Header("Proiettili")]
-    [SerializeField] private GameObject normal;
-    [SerializeField] private GameObject rapid;
-    [SerializeField] private GameObject shotgun;
+   [Header("Skill")]
+    [SerializeField] private GameObject Globo;
+    [SerializeField] private GameObject PenetratingSlash;
+    [SerializeField] private GameObject SlashSword;
     [SerializeField] private GameObject bomb;
-    public KeyCode Kk = KeyCode.F;
-private float cooldown = 0.5f;
-private float lastWeaponChangeTime;
-    private int currentWeaponIndex;
+   
+   // public KeyCode Kk = KeyCode.F;
+//private float cooldown = 0.5f;
+//private float lastWeaponChangeTime;
+  //  private int currentWeaponIndex;
 
+    public static PlayerWeaponManager instance;
 
     private void Awake()
     { 
         instance = this;
-        currentWeaponIndex = 1;
+        //currentWeaponIndex = 1;
     }
+
+    public void SetWeapon(int WeaponID)
+{
+    switch (WeaponID)
+    {
+    case 1:
+    Move.instance.SetBulletPrefab(Globo);
+    break;
+
+    case 2:
+    Move.instance.SetBulletPrefab(PenetratingSlash);
+    break;
+
+    case 3:
+    Move.instance.SetBulletPrefab(SlashSword);
+    break;
+
+    case 4:
+    Move.instance.SetBulletPrefab(bomb);
+    break;
+        
+    }
+    
+
+ }
+    /*
 void Update()
 {
      if (Input.GetKey(Kk) && Time.time - lastWeaponChangeTime > cooldown)
@@ -42,32 +69,8 @@ void OnChangeWeapon()
     
 }
 
-#endregion
+#endregion*/
 
-public void SetWeapon(int WeaponID)
-{
-    switch (WeaponID)
-    {
-        case 1:
-    Move.instance.SetBulletPrefab(normal);
-    
-    break;
 
-    case 2:
-    Move.instance.SetBulletPrefab(rapid);
-    break;
-
-    case 3:
-    Move.instance.SetBulletPrefab(shotgun);
-    break;
-
-    case 4:
-    Move.instance.SetBulletPrefab(bomb);
-    break;
-        
-    }
-    
-
- }
 }
 

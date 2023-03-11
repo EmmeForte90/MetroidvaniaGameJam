@@ -4208,11 +4208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc220712a7baa9449c483eb949db0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normal: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
-  rapid: {fileID: 5232293475686507712, guid: 2d814150e3b4d6e4dad469a85c88e6f0, type: 3}
-  shotgun: {fileID: 5973347569474014298, guid: 0e8eb20af3f3dbf4987bd42a9d759842, type: 3}
+  Globo: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
+  PenetratingSlash: {fileID: 5232293475686507712, guid: 2d814150e3b4d6e4dad469a85c88e6f0, type: 3}
+  SlashSword: {fileID: 5973347569474014298, guid: 0e8eb20af3f3dbf4987bd42a9d759842, type: 3}
   bomb: {fileID: 978235844193205966, guid: f7af82967ee23064aabfbef405356efc, type: 3}
-  Kk: 102
 --- !u!114 &2144114532784799734
 MonoBehaviour:
   m_ObjectHideFlags: 0

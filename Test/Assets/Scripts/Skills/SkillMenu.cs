@@ -87,6 +87,7 @@ public static SkillMenu Instance;
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
+    PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {
@@ -101,6 +102,7 @@ public static SkillMenu Instance;
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
+    PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {
@@ -114,6 +116,7 @@ public void AssignButtonright()
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
+    PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {
@@ -127,6 +130,7 @@ public void AssignButtonright()
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
+    PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {

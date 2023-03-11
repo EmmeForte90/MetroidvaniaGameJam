@@ -43,9 +43,9 @@ public static UpdateMenuRapido Instance;
     }
 
 
-
 public void Selup()
     {
+        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
         SkillUpsel.gameObject.SetActive(true);
         SkillLeftsel.gameObject.SetActive(false);        
         SkillRightsel.gameObject.SetActive(false);
@@ -56,6 +56,7 @@ public void Selup()
 
 public void Selbottom()
     {
+        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
         SkillBottomsel.gameObject.SetActive(true);
         SkillLeftsel.gameObject.SetActive(false);
         SkillUpsel.gameObject.SetActive(false);
@@ -66,6 +67,7 @@ public void Selbottom()
 
 public void Selleft()
     {
+        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
         SkillLeftsel.gameObject.SetActive(true);
         SkillUpsel.gameObject.SetActive(false);
         SkillRightsel.gameObject.SetActive(false);
@@ -77,6 +79,7 @@ public void Selleft()
     
 public void Selright()
     {
+        PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
         SkillRightsel.gameObject.SetActive(true);
         SkillLeftsel.gameObject.SetActive(false);
         SkillUpsel.gameObject.SetActive(false);
