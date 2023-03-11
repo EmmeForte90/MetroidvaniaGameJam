@@ -9,8 +9,6 @@ public class StartBlastVFX : MonoBehaviour
     //Variabile della velocità del proiettile
     Rigidbody2D rb;
     //Il corpo rigido
-    Move player;
-    //Attribuscie una variabile allo script di movimento del player
     //Per permettere al proiettile di emularne l'andamento
     float xSpeed;
     //L'andatura
@@ -22,11 +20,10 @@ public class StartBlastVFX : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         //Recupera i componenti del rigidbody
-        player = FindObjectOfType<Move>();
         //Recupera i componenti dello script
-        if(!player.isCharging)
+        if(!Move.instance.isCharging)
         {
-        xSpeed = player.transform.localScale.x * bulletSpeed;
+        xSpeed = Move.instance.transform.localScale.x;
         }
         //La variabile è uguale alla scala moltiplicata la velocità del proiettile
         //Se il player si gira  anche lo spawn del proittile farà lo stesso
@@ -38,7 +35,7 @@ public class StartBlastVFX : MonoBehaviour
          rb.velocity = new Vector2 (xSpeed, 0f);
         //La velocità e la direzione del proiettile
         FlipSprite();
-        if(!player.isCharging)
+        if(!Move.instance.isCharging)
         {
             Destroy(gameObject, lifeTime);
         }
