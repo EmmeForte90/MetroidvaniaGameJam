@@ -8,9 +8,9 @@ public class Health : MonoBehaviour
     
         public static Health instance;
     //public int ID;
-[Header("Sistema Di HP")]
+   [Header("Sistema Di HP")]
    // Enemy enemy;
-   public float maxHealth = 100f;
+    public float maxHealth = 100f;
     public float currentHealth = 100f;
 
 }

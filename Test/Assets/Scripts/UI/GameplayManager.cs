@@ -14,7 +14,6 @@ public class GameplayManager : MonoBehaviour
 
 
     public static bool playerExists;
-    public static GameplayManager instance;
 
     private GameObject player; // Variabile per il player
     private CinemachineVirtualCamera virtualCamera;
@@ -47,6 +46,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] public GameObject PauseMenu;
 
     
+    public static GameplayManager instance;
 
 
     private void Awake()

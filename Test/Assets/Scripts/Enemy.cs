@@ -57,7 +57,7 @@ private void Awake()
 
 private void Update()
     {
-        if (!gM.PauseStop)
+        if (!GameplayManager.instance.PauseStop)
         {
             CheckState();
             switch (currentState)
