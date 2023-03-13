@@ -28,14 +28,14 @@ private Rigidbody2D rb;
 
 [Header("Attack")]
 public float chaseSpeed = 4f; // velocità di inseguimento
-
-
+public float WaitAfterAtk = 2f;
 public float attackDamage = 10; // danno d'attacco
 public float sightRadius = 5f; // raggio di vista del nemico
 public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguimento
 public float attackrange = 2f;
 public float attackCooldown = 2f; // durata del cooldown dell'attacco
 private float attackTimer;
+
 
 [Header("Abilitations")]
 private bool isChasing = false; // indica se il nemico sta inseguendo il player
@@ -46,6 +46,8 @@ private bool pauseAtck = false;
 private bool canAttack = true;
 private bool firstattack = true;
 private bool isPlayerInAttackRange = false;
+private bool activeActions = true;
+
 private float waitTimer = 0f;
 private float waitDuration = 2f;
 
@@ -172,7 +174,8 @@ private void Update()
         currentState = State.Knockback;
         return;
     }
-//Distanza per attaccare
+
+//Distanza per attaccare il player è dentro il raggio
     if (Vector2.Distance(transform.position, player.position) < attackrange)
     {
         isChasing = false;
@@ -183,9 +186,23 @@ private void Update()
         currentState = State.Attack;
         return;
     }
-    
+
+//Il player è appena uscito dal raggio e si avvia il timer di attesa prima che il nemico torni a inseguirlo
+      if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange)
+    {
+        isChasing = false;
+        isAttacking = false;
+        isMove = false;
+        isDie = false;
+        activeActions = false;
+        currentState = State.Wait;
+        StartCoroutine(waitChase());
+    }
+
 //Distanza per inseguire
-    if (!isPlayerInAttackRange && Vector2.Distance(transform.position, player.position) < chaseThreshold)
+if(!isPlayerInAttackRange)
+{
+    if (Vector2.Distance(transform.position, player.position) < chaseThreshold)
     {
         isChasing = true;
         isAttacking = false;
@@ -195,8 +212,9 @@ private void Update()
         currentState = State.Chase;
         return;
     }
+}
 
-//Il nemico entra in pausa
+//Il nemico entra in pausa se il player è troppo in alto
     if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 5f, playerlayer) )
     {
         isChasing = false;
@@ -206,12 +224,23 @@ private void Update()
         return;
     }
 //Altrimenti si muove in autonomia
+    if(activeActions)
+    {
     isMove = true;
     isChasing = false;
     isAttacking = false;
     isDie = false;
     currentState = State.Move;
+    }
 }
+
+IEnumerator waitChase()
+    {
+        yield return new WaitForSeconds(WaitAfterAtk);
+        isPlayerInAttackRange = false;
+        activeActions = true;
+
+    }
 
 private void Wait()
 {
