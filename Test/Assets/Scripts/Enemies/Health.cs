@@ -12,5 +12,6 @@ public class Health : MonoBehaviour
    // Enemy enemy;
     public float maxHealth = 100f;
     public float currentHealth = 100f;
+    public Color originalColor;
 
 }

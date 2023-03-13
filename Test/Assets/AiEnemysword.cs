@@ -35,12 +35,13 @@ public float chaseThreshold = 2f; // soglia di distanza per iniziare l'inseguime
 public float attackrange = 2f;
 public float attackCooldown = 2f; // durata del cooldown dell'attacco
 private float attackTimer;
-
+public float InvincibleTime = 1f;
 
 [Header("Abilitations")]
 private bool isChasing = false; // indica se il nemico sta inseguendo il player
 private bool isMove = false;
 private bool isAttacking = false;
+private bool isHurt = false;
 private bool isDie = false;
 private bool pauseAtck = false;
 private bool canAttack = true;
@@ -63,14 +64,21 @@ private float waitDuration = 2f;
     [HideInInspector] public float randomPitchOffset = 0.1f;
     [SerializeField] AudioSource SwSl;
     [SerializeField] AudioSource Swalk;
+    [SerializeField] AudioSource SDie;
+    [SerializeField] AudioSource SHurt;
+    [SerializeField] AudioSource SChase;
+
+
 
 [Header("VFX")]
     // Variabile per il gameobject del proiettile
     //[SerializeField] GameObject blam;
     //[SerializeField] public Transform gun;
     [SerializeField] public Transform slashpoint;
+    [SerializeField] public Transform hitpoint;
     [SerializeField] GameObject attack;
     [SerializeField] GameObject attack_h;
+    [SerializeField] GameObject Sdeng;
 
 
 
@@ -118,6 +126,11 @@ private void Update()
         if (!GameplayManager.instance.PauseStop)
         {
             CheckState();
+            if(Input.GetKeyDown(KeyCode.B))
+            {
+                Debug.Log("Il pulsante è stato premuto!");
+            Damage(10);
+            }
 
             switch (currentState)
             {
@@ -140,8 +153,11 @@ private void Update()
                     Knockback();
                     break;
                 case State.Dead:
+                Die();
                     break;
                 case State.Hurt:
+                Wait();
+                
                     break;
                 case State.Wait:
                 Wait();
@@ -155,45 +171,52 @@ private void Update()
 {
     
 //Hp finiti, muore
-    if (health.currentHealth == 0)
+    if (health.currentHealth == 0 || health.currentHealth < 0)
     {
         isChasing = false;
         isAttacking = false;
         isMove = false;
+        activeActions = false;
         isDie = true;
         currentState = State.Dead;
         return;
     }
 //Hp finiti, Indietreggia
-    if (IsKnockback())
+    if (IsKnockback() && !isDie)
     {
         isChasing = false;
         isAttacking = false;
         isMove = false;
-        isDie = false;
         currentState = State.Knockback;
         return;
     }
 
+if (isHurt && !isDie)
+    {
+        isChasing = false;
+        isAttacking = false;
+        isMove = false;
+        activeActions = false;
+        currentState = State.Hurt;
+        return;
+    }
 //Distanza per attaccare il player è dentro il raggio
-    if (Vector2.Distance(transform.position, player.position) < attackrange)
+    if (Vector2.Distance(transform.position, player.position) < attackrange && !isDie)
     {
         isChasing = false;
         isAttacking = true;
         isMove = false;
-        isDie = false;
         isPlayerInAttackRange = true;
         currentState = State.Attack;
         return;
     }
 
 //Il player è appena uscito dal raggio e si avvia il timer di attesa prima che il nemico torni a inseguirlo
-      if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange)
+      if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange && !isDie)
     {
         isChasing = false;
         isAttacking = false;
         isMove = false;
-        isDie = false;
         activeActions = false;
         currentState = State.Wait;
         StartCoroutine(waitChase());
@@ -202,12 +225,11 @@ private void Update()
 //Distanza per inseguire
 if(!isPlayerInAttackRange)
 {
-    if (Vector2.Distance(transform.position, player.position) < chaseThreshold)
+    if (Vector2.Distance(transform.position, player.position) < chaseThreshold && !isDie)
     {
         isChasing = true;
         isAttacking = false;
         isMove = false;
-        isDie = false;
         firstattack = true;
         currentState = State.Chase;
         return;
@@ -215,7 +237,7 @@ if(!isPlayerInAttackRange)
 }
 
 //Il nemico entra in pausa se il player è troppo in alto
-    if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 5f, playerlayer) )
+    if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 5f, playerlayer) && !isDie)
     {
         isChasing = false;
         isAttacking = false;
@@ -223,34 +245,36 @@ if(!isPlayerInAttackRange)
         currentState = State.Wait;
         return;
     }
-//Altrimenti si muove in autonomia
-    if(activeActions)
+
+//Altrimenti si muove in autonomia se gli è concesso
+    if(activeActions && !isDie)
     {
     isMove = true;
     isChasing = false;
     isAttacking = false;
-    isDie = false;
     currentState = State.Move;
     }
-}
 
+
+}
+//Il nemico torna a inseguirlo dopo tot tempo
 IEnumerator waitChase()
     {
         yield return new WaitForSeconds(WaitAfterAtk);
         isPlayerInAttackRange = false;
         activeActions = true;
-
     }
 
+//Aspetta
 private void Wait()
 {
     rb.velocity = new Vector3(0, 0);
     IdleAnm();
 }
 
+// Controlla se l'oggetto deve essere in movimento, il rigedbody è in KInematic
 private void Move()
 {
-    // Controlla se l'oggetto deve essere in movimento
     if (isMove && !isAttacking)
     {
         // Controlla se l'oggetto deve spostarsi verso destra o sinistra
@@ -327,7 +351,7 @@ private void Flip()
 
 private void Chase()
 {
-    
+    SChase.Play();
     if(isChasing && !isAttacking)
     {
     // inseguimento del giocatore
@@ -428,16 +452,95 @@ private void OnDrawGizmos()
     }
 #endregion
 
+  
 
    public void Damage(int damage)
     {
+        if(!isHurt)
+        {
         health.currentHealth -= damage;
-        
+        Instantiate(Sdeng, hitpoint.position, transform.rotation);
+        SHurt.Play();
+        HurtAnm();
+        currentState = State.Hurt;
+        }
+        StartCoroutine(waitHurt());
+
     }
 
+//Il nemico torna a inseguirlo dopo tot tempo
+IEnumerator waitHurt()
+    {
+        isHurt = true;
+        yield return new WaitForSeconds(InvincibleTime);
+        isHurt = false;
+        activeActions = true;
+    }
+
+public void TemporaryChangeColor(Color color)
+    {
+        _skeletonAnimation.Skeleton.SetColor(color);
+        Invoke("ResetColor", 0.5f);
+    }
+
+    private void ResetColor()
+    {
+        _skeletonAnimation.Skeleton.SetColor(originalColor);
+    }
+
+public void Die()
+{
+    SDie.Play();
+    // animazione di morte
+    // determina la direzione della morte in base alla posizione del player rispetto al nemico
+        if (horizontal == 1)//transform.position.x < player.position.x)
+        {
+            DieFront();
+            StartCoroutine(DestroyafterDeath());
+        }
+        else if (horizontal == -1)
+        {
+            DieBack();
+            StartCoroutine(DestroyafterDeath());
+        }
+}
+
+//Il nemico viene distrutto
+IEnumerator DestroyafterDeath()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(Brain);
+    }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //ANIMATIONS
 
+public void DieFront()
+{
+    if (currentAnimationName != diefrontAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(1, diefrontAnimationName, false);
+                    currentAnimationName = diefrontAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                //_spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
+
+public void DieBack()
+{
+    if (currentAnimationName != diebackAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(1, diebackAnimationName, false);
+                    currentAnimationName = diebackAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                //_spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
+}
 public void AttackAnm()
 {
             
@@ -454,7 +557,22 @@ public void AttackAnm()
                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
     
 }
+public void HurtAnm()
+{
+            
+    if (currentAnimationName != hurtAnimationName)
+                {
+                    TemporaryChangeColor(Color.red);
+                    _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
+                    currentAnimationName = hurtAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
 
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+               _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+    
+}
 public void ChaseAnm()
 {
     if (currentAnimationName != runAnimationName)
