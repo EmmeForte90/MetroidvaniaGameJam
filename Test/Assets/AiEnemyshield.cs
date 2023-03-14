@@ -6,10 +6,9 @@ using Spine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
-
-public class AiEnemysword : Health, IDamegable
+public class AiEnemyshield : Health, IDamegable
 {
- [Header("Enemy")]
+   [Header("Enemy")]
 [SerializeField] GameObject Brain;
 private Health health;
 private Transform player;
@@ -66,7 +65,7 @@ private float waitDuration = 2f;
     [SerializeField] AudioSource Swalk;
     [SerializeField] AudioSource SDie;
     [SerializeField] AudioSource SHurt;
-    [SerializeField] AudioSource SChase;
+    //[SerializeField] AudioSource SChase;
 
 
 
@@ -77,7 +76,6 @@ private float waitDuration = 2f;
     [SerializeField] public Transform slashpoint;
     [SerializeField] public Transform hitpoint;
     [SerializeField] GameObject attack;
-    [SerializeField] GameObject attack_h;
     [SerializeField] GameObject Sdeng;
 
 
@@ -85,12 +83,13 @@ private float waitDuration = 2f;
 [Header("Animations")]
     [SpineAnimation][SerializeField] private string idleAnimationName;
     [SpineAnimation][SerializeField] private string walkAnimationName;
-    [SpineAnimation][SerializeField] private string runAnimationName;
+    //[SpineAnimation][SerializeField] private string runAnimationName;
     [SpineAnimation][SerializeField] private string attackAnimationName;
     [SpineAnimation][SerializeField] private string hurtAnimationName;
     [SpineAnimation][SerializeField] private string diebackAnimationName;
     [SpineAnimation][SerializeField] private string diefrontAnimationName;
-    
+    [SpineAnimation][SerializeField] private string PerryAnimationName;
+
     private string currentAnimationName;
     public SkeletonAnimation _skeletonAnimation;
     private Spine.AnimationState _spineAnimationState;
@@ -100,7 +99,7 @@ private float waitDuration = 2f;
 private enum State { Move, Chase, Attack, Knockback, Dead, Hurt, Wait }
 private State currentState;
 
-public static AiEnemysword instance;
+public static AiEnemyshield instance;
 
 
     private void Awake()
@@ -354,7 +353,6 @@ private void Flip()
 
 private void Chase()
 {
-    SChase.Play();
     if(isChasing && !isAttacking)
     {
     // inseguimento del giocatore
@@ -370,7 +368,6 @@ private void Chase()
 
     transform.position = Vector2.MoveTowards(transform.position, targetPosition, chaseSpeed * Time.deltaTime);
 
-    ChaseAnm();
     }
 }
 
@@ -576,19 +573,6 @@ public void HurtAnm()
                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
     
 }
-public void ChaseAnm()
-{
-    if (currentAnimationName != runAnimationName)
-                {
-                    _spineAnimationState.SetAnimation(1, runAnimationName, true);
-                    currentAnimationName = runAnimationName;
-                    _spineAnimationState.Event += HandleEvent;
-
-                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
-                }
-                // Add event listener for when the animation completes
-                //_spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
-}
 
 public void MovingAnm()
 {
@@ -655,35 +639,6 @@ if (e.Data.Name == "VFXslash") {
         SwSl.Play();
     }
 
-if (e.Data.Name == "VFXslash_h") {
-        // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack_h, slashpoint.position, transform.rotation);
-         if (SwSl == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!SwSl.gameObject.activeInHierarchy) {
-            SwSl.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        SwSl.Play();
-        
-    }
-
-    if (e.Data.Name == "attack") {
-        // Inserisci qui il codice per gestire l'evento.
-        if(horizontal == 1)
-        {
-        transform.position += transform.right * atckForward * Time.deltaTime; //sposta il nemico in avanti
-        } else if(horizontal == 1)
-        {
-        transform.position += transform.right * -atckForward * Time.deltaTime; //sposta il nemico in avanti
-        } 
-
-    }
 
     if (e.Data.Name == "walk") {
         // Inserisci qui il codice per gestire l'evento.
