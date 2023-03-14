@@ -48,6 +48,16 @@ public class SkillMenu : MonoBehaviour
     [HideInInspector]
     public int idbottom= -1; // Id dell'abilità selezionata
 
+
+    [HideInInspector]
+    public int MXVleft; // Id dell'abilità selezionata
+    [HideInInspector]
+    public int MXVright; // Id dell'abilità selezionata
+    [HideInInspector]
+    public int MXVup; // Id dell'abilità selezionata
+    [HideInInspector]
+    public int MXVbottom; // Id dell'abilità selezionata
+
     private float horDir;
     private float vertDir;
 
@@ -108,6 +118,7 @@ public static SkillMenu Instance;
          UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
          UpdateMenuRapido.Instance.Vup = selectedSkill.value;
          UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
+         MXVup = selectedSkill.value;
     }
 }
   public void AssignButtonleft()
@@ -125,6 +136,8 @@ public static SkillMenu Instance;
         UpdateMenuRapido.Instance.SkillLeft_T.text = selectedSkill.value.ToString();
         UpdateMenuRapido.Instance.Vleft = selectedSkill.value;
         UpdateMenuRapido.Instance.SkillLeft.sprite = selectedSkill.icon;
+        MXVleft = selectedSkill.value;
+        
     }
 }  
 public void AssignButtonright()
@@ -142,6 +155,7 @@ public void AssignButtonright()
         UpdateMenuRapido.Instance.SkillRight_T.text = selectedSkill.value.ToString();
         UpdateMenuRapido.Instance.Vright = selectedSkill.value;
         UpdateMenuRapido.Instance.SkillRight.sprite = selectedSkill.icon;
+        MXVright = selectedSkill.value;
     }
 }  public void AssignButtonbottom()
 {
@@ -158,6 +172,7 @@ public void AssignButtonright()
         UpdateMenuRapido.Instance.SkillBottom_T.text = selectedSkill.value.ToString();
         UpdateMenuRapido.Instance.Vbottom = selectedSkill.value;
         UpdateMenuRapido.Instance.SkillBottom.sprite = selectedSkill.icon;
+        MXVbottom = selectedSkill.value;
     }
 }
 }

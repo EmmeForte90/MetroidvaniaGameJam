@@ -655,6 +655,24 @@ public void Respawn()
 
     // Aspetta che la nuova scena sia completamente caricata
     StartCoroutine(WaitForSceneLoad());
+    
+    //Ripristina gli utilizzi se hai gli slot pieni
+            if(UpdateMenuRapido.Instance.idup > 0 || 
+            UpdateMenuRapido.Instance.idleft > 0 || 
+            UpdateMenuRapido.Instance.idbottom > 0||
+            UpdateMenuRapido.Instance.idright > 0 )
+            {
+    UpdateMenuRapido.Instance.Vleft = SkillMenu.Instance.MXVleft;
+    UpdateMenuRapido.Instance.Vup = SkillMenu.Instance.MXVup;
+    UpdateMenuRapido.Instance.Vright = SkillMenu.Instance.MXVright;
+    UpdateMenuRapido.Instance.Vbottom = SkillMenu.Instance.MXVbottom;
+    UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
+    UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
+    UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
+    UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
+            }
+
+
 }
  public void Stop()
     {
