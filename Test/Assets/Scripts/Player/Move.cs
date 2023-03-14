@@ -300,12 +300,11 @@ if (Input.GetButtonDown("Jump"))
 // gestione dell'input dello sparo
 if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
-    //if (Less.currentMana > 0)
-    //{
+    if(UpdateMenuRapido.Instance.idup > 0 || UpdateMenuRapido.Instance.idright > 0 || UpdateMenuRapido.Instance.idleft > 0 || UpdateMenuRapido.Instance.idbottom > 0 )
         //Animazione
         useMagic();   
         Stop();
-    //}
+    
     isBlast = false;
     nextAttackTime = Time.time + 1f / attackRate;
 }
@@ -317,26 +316,25 @@ if (!isBlast && Time.time >= nextAttackTime)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Scelta della skill dal menu rapido
-
-if (Input.GetButtonDown("SlotUp"))
+if (Input.GetButtonDown("SlotUp") && UpdateMenuRapido.Instance.idup > 0)
 {
    UpdateMenuRapido.Instance.Selup();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
 
 }
-else if (Input.GetButtonDown("SlotRight"))
+else if (Input.GetButtonDown("SlotRight")&& UpdateMenuRapido.Instance.idright > 0)
 {
       UpdateMenuRapido.Instance.Selright();
       //SkillMenu.Instance.AssignId();
         PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idright);
 }
-else if (Input.GetButtonDown("SlotLeft"))
+else if (Input.GetButtonDown("SlotLeft")&& UpdateMenuRapido.Instance.idleft > 0)
 {
       UpdateMenuRapido.Instance.Selleft();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idleft);
 
 }
-else if (Input.GetButtonDown("SlotBottom"))
+else if (Input.GetButtonDown("SlotBottom")&& UpdateMenuRapido.Instance.idbottom > 0)
 {
       UpdateMenuRapido.Instance.Selbottom();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idbottom);

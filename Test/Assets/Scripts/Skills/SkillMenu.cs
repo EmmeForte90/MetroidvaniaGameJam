@@ -77,9 +77,9 @@ public static SkillMenu Instance;
     {
         // Aggiungi le tue skill alla mappa
         skillMap.Add(-1, new Skill("noSkill", 0, icon0));//NoSkill
-        skillMap.Add(1, new Skill("Skill 1", 5, icon1));//Globo
-        skillMap.Add(2, new Skill("Skill 2", 20, icon2));//SwordSlash
-        skillMap.Add(3, new Skill("Skill 3", 10, icon3));//PenetratingSlash
+        skillMap.Add(1, new Skill("Skill 1", 5, icon1));//PenetratingSlash
+        skillMap.Add(2, new Skill("Skill 2", 20, icon2));//Globo
+        skillMap.Add(3, new Skill("Skill 3", 10, icon3));//SwordSlash
     }
 
     void Update()
@@ -104,6 +104,7 @@ public static SkillMenu Instance;
         SkillUp_T.text = selectedSkill.value.ToString();
         SkillUp.sprite = selectedSkill.icon;
         idup = selectedId;
+        UpdateMenuRapido.Instance.idup = selectedId;
          UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
          UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
     }
@@ -119,6 +120,7 @@ public static SkillMenu Instance;
         SkillLeft_T.text = selectedSkill.value.ToString();
         SkillLeft.sprite = selectedSkill.icon;
         idleft = selectedId;
+        UpdateMenuRapido.Instance.idleft = selectedId;
          UpdateMenuRapido.Instance.SkillLeft_T.text = selectedSkill.value.ToString();
         UpdateMenuRapido.Instance.SkillLeft.sprite = selectedSkill.icon;
     }
@@ -134,6 +136,7 @@ public void AssignButtonright()
         SkillRight_T.text = selectedSkill.value.ToString();
         SkillRight.sprite = selectedSkill.icon;
         idright = selectedId;
+        UpdateMenuRapido.Instance.idright = selectedId;
         UpdateMenuRapido.Instance.SkillRight_T.text = selectedSkill.value.ToString();
         UpdateMenuRapido.Instance.SkillRight.sprite = selectedSkill.icon;
     }
@@ -148,6 +151,7 @@ public void AssignButtonright()
         SkillBottom_T.text = selectedSkill.value.ToString();
         SkillBottom.sprite = selectedSkill.icon;
         idbottom = selectedId;
+        UpdateMenuRapido.Instance.idbottom = selectedId;
         UpdateMenuRapido.Instance.SkillBottom_T.text = selectedSkill.value.ToString();
         UpdateMenuRapido.Instance.SkillBottom.sprite = selectedSkill.icon;
     }

@@ -13,6 +13,14 @@ public class UpdateMenuRapido : MonoBehaviour
 [SerializeField] public Sprite icon2; // Define icon1 as an Image variable
 [SerializeField] public Sprite icon3; // Define icon1 as an Image variable
 
+ [HideInInspector]
+    public int idleft = -1; // Id dell'abilità selezionata
+    [HideInInspector]
+    public int idright = -1; // Id dell'abilità selezionata
+    [HideInInspector]
+    public int idup= -1; // Id dell'abilità selezionata
+    [HideInInspector]
+    public int idbottom= -1; // Id dell'abilità selezionata
 
     [SerializeField] public TextMeshProUGUI SkillLeft_T;
     [SerializeField] public TextMeshProUGUI SkillRight_T;
@@ -50,7 +58,7 @@ public void Selup()
         SkillLeftsel.gameObject.SetActive(false);        
         SkillRightsel.gameObject.SetActive(false);
         SkillBottomsel.gameObject.SetActive(false);
-        StartCoroutine(closeSel());
+        //StartCoroutine(closeSel());
 
     }
 
@@ -61,7 +69,7 @@ public void Selbottom()
         SkillLeftsel.gameObject.SetActive(false);
         SkillUpsel.gameObject.SetActive(false);
         SkillRightsel.gameObject.SetActive(false);
-        StartCoroutine(closeSel());
+        //StartCoroutine(closeSel());
 
     }
 
@@ -72,7 +80,7 @@ public void Selleft()
         SkillUpsel.gameObject.SetActive(false);
         SkillRightsel.gameObject.SetActive(false);
         SkillBottomsel.gameObject.SetActive(false);
-        StartCoroutine(closeSel());
+       // StartCoroutine(closeSel());
 
     }
 
@@ -84,7 +92,7 @@ public void Selright()
         SkillLeftsel.gameObject.SetActive(false);
         SkillUpsel.gameObject.SetActive(false);
         SkillBottomsel.gameObject.SetActive(false);
-        StartCoroutine(closeSel());
+        //StartCoroutine(closeSel());
 
     }
 IEnumerator closeSel()
