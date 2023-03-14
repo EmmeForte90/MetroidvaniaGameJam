@@ -25,11 +25,11 @@ public class PlayerWeaponManager : MonoBehaviour
     switch (WeaponID)
     {
     case 1:
-    Move.instance.SetBulletPrefab(Globo);
+    Move.instance.SetBulletPrefab(PenetratingSlash);
     break;
 
     case 2:
-    Move.instance.SetBulletPrefab(PenetratingSlash);
+    Move.instance.SetBulletPrefab(Globo);
     break;
 
     case 3:

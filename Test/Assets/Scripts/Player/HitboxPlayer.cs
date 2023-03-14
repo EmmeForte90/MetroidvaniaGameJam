@@ -28,12 +28,20 @@ void OnTriggerEnter2D(Collider2D other)
             IDamegable hit = other.GetComponent<IDamegable>();
             hit.Damage(Player.Damage);
             //Debug.Log("Damage:" + Player.Damage);
+            if(Move.instance.rb.velocity.y > 0)
+            {
+                Move.instance.Bump();
+            }
 
         }
         if(other.gameObject.tag == "Bound")
         //Se il proiettile tocca il nemico
         {            
             Instantiate(Clang, Pos.transform.position, transform.rotation);
+            if(Move.instance.rb.velocity.y > 0)
+            {
+                Move.instance.Bump();
+            }
         }
         }
         

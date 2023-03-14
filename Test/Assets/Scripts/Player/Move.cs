@@ -32,6 +32,7 @@ public class Move : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float jumpForce;
+    [SerializeField] private float bumpForce;
     bool canDoubleJump = false;
     public float groundDelay = 0.1f; // The minimum time before the player can jump again after touching the ground
     bool isTouchingWall = false;
@@ -163,7 +164,7 @@ private int comboCount = 0;
 
 
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
 public static Move instance;
 
@@ -243,7 +244,8 @@ if (Input.GetButtonDown("Jump"))
         // Double jump
         lastTimeJump = Time.time + jumpDelay;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        
+        Instantiate(Circle, circlePoint.position, transform.rotation);
+
         if(isTouchingWall)
         {
         canDoubleJump = true;
@@ -358,8 +360,14 @@ else if (Input.GetButtonDown("SlotBottom"))
             }
 
         }
-    
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    #region testForanysituation
+            if(Input.GetKeyDown(KeyCode.C))
+            {
+                Debug.Log("Il pulsante è stato premuto!");
+            }
+            #endregion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
  if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate)
     {
@@ -533,7 +541,12 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
 
     }
     }
-
+public void Bump()
+    {
+         // applica l'impulso del salto se il personaggio è a contatto con il terreno
+            rb.AddForce(new Vector2(0f, bumpForce), ForceMode2D.Impulse);
+       // lastTimeJump = Time.time + jumpDelay;
+    }
 // Metodo per ripristinare il valore di wallJumped dopo 0.5 secondi
     void SetWallJumpedToFalse()
     {
