@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: SwordSlash
+  m_Name: SwordRain
   m_EditorClassIdentifier: 
-  id: 3
-  SkillName: SwordSlash
-  Description: A simple sharp gust of swords that strikes and wounds the enemy.
-  value: 20
-  icon: {fileID: 21300000, guid: 6407e14507f423945aefb9be9bf31922, type: 3}
+  id: 2
+  SkillName: SwordRain
+  Description: '"Swords that emerge from the ground and damage all nearby enemies"'
+  value: 5
+  icon: {fileID: 21300000, guid: 381b466fea8f487498616f22aedb3c9e, type: 3}

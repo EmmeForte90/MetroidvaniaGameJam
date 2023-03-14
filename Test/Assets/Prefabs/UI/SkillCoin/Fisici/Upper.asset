@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: Globo
+  m_Name: Upper
   m_EditorClassIdentifier: 
   id: 1
-  SkillName: Globo
-  Description: A simple sphere of light, damage one enemy.
-  value: 5
-  icon: {fileID: 21300000, guid: 4e809169c5d479e4ea27d083fabf396c, type: 3}
+  SkillName: Upper
+  Description: '"You can hit with enough force to launch more opponents in the air"'
+  value: 10
+  icon: {fileID: 21300000, guid: 424ffa5a20180ce4493cb0d5c1d7351f, type: 3}

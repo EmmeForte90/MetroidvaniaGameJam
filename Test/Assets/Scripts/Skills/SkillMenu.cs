@@ -36,26 +36,44 @@ public class SkillMenu : MonoBehaviour
 [SerializeField] private Sprite icon1; // Define icon1 as an Image variable
 [SerializeField] private Sprite icon2; // Define icon1 as an Image variable
 [SerializeField] private Sprite icon3; // Define icon1 as an Image variable
-   
+[SerializeField] private Sprite icon4; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon5; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon6; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon7; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon8; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon9; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon10; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon11; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon12; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon13; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon14; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon15; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon16; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon17; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon18; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon19; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon20; // Define icon1 as an Image variable
+[SerializeField] private Sprite icon21; // Define icon1 as an Image variable
+
     [HideInInspector]
     public int selectedId = -1; // Id dell'abilità selezionata
-    [HideInInspector]
+    
     public int idleft = -1; // Id dell'abilità selezionata
-    [HideInInspector]
+    
     public int idright = -1; // Id dell'abilità selezionata
-    [HideInInspector]
+   
     public int idup= -1; // Id dell'abilità selezionata
-    [HideInInspector]
+   
     public int idbottom= -1; // Id dell'abilità selezionata
 
 
-    [HideInInspector]
+    
     public int MXVleft; // Id dell'abilità selezionata
-    [HideInInspector]
+   
     public int MXVright; // Id dell'abilità selezionata
-    [HideInInspector]
+    
     public int MXVup; // Id dell'abilità selezionata
-    [HideInInspector]
+   
     public int MXVbottom; // Id dell'abilità selezionata
 
     private float horDir;
@@ -87,9 +105,28 @@ public static SkillMenu Instance;
     {
         // Aggiungi le tue skill alla mappa
         skillMap.Add(-1, new Skill("noSkill", 0, icon0));//NoSkill
-        skillMap.Add(1, new Skill("Skill 1", 5, icon1));//PenetratingSlash
-        skillMap.Add(2, new Skill("Skill 2", 20, icon2));//Globo
-        skillMap.Add(3, new Skill("Skill 3", 10, icon3));//SwordSlash
+        skillMap.Add(1, new Skill("Skill 1", 10, icon1));//upper
+        skillMap.Add(2, new Skill("Skill 2", 5, icon2));//Shockwave
+        skillMap.Add(3, new Skill("Skill 3", 5, icon3));//tornado
+        skillMap.Add(4, new Skill("Skill 4", 10, icon4));//spinner
+        skillMap.Add(5, new Skill("Skill 5", 5, icon5));//dashlunge
+        skillMap.Add(6, new Skill("Skill 6", 7, icon6));//multilunge
+        skillMap.Add(7, new Skill("Skill 7", 10, icon7));//slash
+        skillMap.Add(8, new Skill("Skill 8", 10, icon8));//Penetrating
+        skillMap.Add(9, new Skill("Skill 9", 5, icon9));//Globo
+        skillMap.Add(10, new Skill("Skill 10", 5, icon10));//shotgun
+        skillMap.Add(11, new Skill("Skill 11", 5, icon11));//dashsaw
+        skillMap.Add(12, new Skill("Skill 12", 3, icon12));//wall
+        skillMap.Add(13, new Skill("Skill 13", 5, icon13));//bomb
+        skillMap.Add(14, new Skill("Skill 14", 10, icon14));//boomerang
+        skillMap.Add(15, new Skill("Skill 15", 5, icon15));//gladio
+        skillMap.Add(16, new Skill("Skill 16", 2, icon16));//lumen
+        skillMap.Add(17, new Skill("Skill 17", 3, icon17));//turris
+        skillMap.Add(18, new Skill("Skill 18", 5, icon18));//shield
+        skillMap.Add(19, new Skill("Skill 19", 5, icon19));//flame
+        skillMap.Add(20, new Skill("Skill 20", 3, icon20));//aura
+        skillMap.Add(21, new Skill("Skill 21", 3, icon21));//heal
+
     }
 
     void Update()
@@ -107,7 +144,7 @@ public static SkillMenu Instance;
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
-    PlayerWeaponManager.instance.SetWeapon(selectedId);
+    //PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {
@@ -125,7 +162,7 @@ public static SkillMenu Instance;
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
-    PlayerWeaponManager.instance.SetWeapon(selectedId);
+    //PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {
@@ -144,7 +181,7 @@ public void AssignButtonright()
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
-    PlayerWeaponManager.instance.SetWeapon(selectedId);
+    //PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {
@@ -161,7 +198,7 @@ public void AssignButtonright()
 {
     // Recupera la skill corrispondente all'id selezionato
     Skill selectedSkill = skillMap[selectedId];
-    PlayerWeaponManager.instance.SetWeapon(selectedId);
+   // PlayerWeaponManager.instance.SetWeapon(selectedId);
 
     if (selectedId > 0)
     {

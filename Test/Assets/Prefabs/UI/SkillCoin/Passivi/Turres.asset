@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: Lance
+  m_Name: Turres
   m_EditorClassIdentifier: 
-  id: 4
-  SkillName: Lance
-  Description: It generates a spear of light that strikes all the enemies it encounters.
-  value: 4
-  icon: {fileID: 21300000, guid: f24d8f0a9264ca941be4db5171f25cdc, type: 3}
+  id: 17
+  SkillName: Turres
+  Description: '"Lances emerge from the ground and randomly strike the enemy"'
+  value: 3
+  icon: {fileID: 21300000, guid: bff55a1caa1268e4098c60ab3a739bb6, type: 3}

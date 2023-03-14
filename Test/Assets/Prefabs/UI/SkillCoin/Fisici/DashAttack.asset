@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: SwordWave
+  m_Name: DashAttack
   m_EditorClassIdentifier: 
-  id: 10
-  SkillName: SwordWave
-  Description: A heap of swords that emerge from the ground, injuring all the surrounding
-    enemies.
-  value: 10
-  icon: {fileID: 21300000, guid: 381b466fea8f487498616f22aedb3c9e, type: 3}
+  id: 5
+  SkillName: DashAttack
+  Description: '"An attack who hit all enemy in front of him"'
+  value: 5
+  icon: {fileID: 21300000, guid: f4984535bb2c57b42b03265d9dd130b8, type: 3}

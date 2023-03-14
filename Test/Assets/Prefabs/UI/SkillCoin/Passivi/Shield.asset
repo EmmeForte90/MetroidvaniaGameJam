@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: Multilunge
+  m_Name: Shield
   m_EditorClassIdentifier: 
-  id: 7
-  SkillName: Multilunge
-  Description: An attack that repeatedly strikes the enemies, inflicting a lot of
-    damage.
-  value: 7
-  icon: {fileID: 21300000, guid: 92947a74e483781408ddc55097d1ab18, type: 3}
+  id: 18
+  SkillName: Shield
+  Description: '"A shield of light that protects against enemy attacks"'
+  value: 5
+  icon: {fileID: 21300000, guid: 1081269d224feb74d90d19873ac1ab28, type: 3}

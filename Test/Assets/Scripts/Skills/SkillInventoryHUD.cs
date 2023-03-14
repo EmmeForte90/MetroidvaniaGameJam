@@ -12,13 +12,52 @@ public class SkillInventoryHUD : MonoBehaviour
    // public Image imageSkill;
    //public List<Skill> abil = new List<Skill>();
 
+public bool IsUpper = false;
+[SerializeField] GameObject  UpperSkill;
+public bool IsSwordRain = false;
+[SerializeField] GameObject  SwordRainSkill;
+public bool IsTornado = false;
+[SerializeField] GameObject  TornadoSkill;
+public bool IsSpinner = false;
+[SerializeField] GameObject  SpinnerSkill;
+public bool IsDash = false;
+[SerializeField] GameObject  DashSkill;
+public bool IsMultilunge = false;
+[SerializeField] GameObject  MultilungeSkill;
+public bool IsSlash = false;
+[SerializeField] GameObject  SlashSkill;
+
+////////////////////////////////////////
+public bool IsPenetratig = false;
+[SerializeField] GameObject  PenetratigSkill;
 public bool IsGlobe = false;
 [SerializeField] GameObject  GlobeSkill;
-public bool IsDashAtk = false;
-[SerializeField] GameObject  DashSkill;
-public bool IsSlashSword = false;
-[SerializeField] GameObject  slashsk;
+public bool IsShotgun = false;
+[SerializeField] GameObject  ShotgunSkill;
+public bool IsSawDash = false;
+[SerializeField] GameObject  SawDashSkill;
+public bool IsWall = false;
+[SerializeField] GameObject  WallSkill;
+public bool IsBomb = false;
+[SerializeField] GameObject  BombSkill;
+public bool IsBoomerang = false;
+[SerializeField] GameObject  BoomerangSkill;
 
+////////////////////////////////////////
+public bool IsGladio = false;
+[SerializeField] GameObject  GladioSkill;
+public bool IsLumen = false;
+[SerializeField] GameObject  LumenSkill;
+public bool IsTurris = false;
+[SerializeField] GameObject  TurrisSkill;
+public bool IsShield = false;
+[SerializeField] GameObject  ShieldSkill;
+public bool IsFlame = false;
+[SerializeField] GameObject  FlameSkill;
+public bool IsAura = false;
+[SerializeField] GameObject  AuraSkill;
+public bool IsHeal = false;
+[SerializeField] GameObject  HealSkill;
 
 private void Awake()
    {
@@ -28,19 +67,115 @@ private void Awake()
 
 private void Update()
 {
-   if(IsGlobe)
+   if(IsUpper)
    {
-      GlobeSkill.gameObject.SetActive(true);
+      UpperSkill.gameObject.SetActive(true);
    }
-if(IsDashAtk)
+if(IsSwordRain)
+   {
+      SwordRainSkill.gameObject.SetActive(true);
+   }
+
+if(IsTornado)
+   {
+      TornadoSkill.gameObject.SetActive(true);
+   }
+if(IsSpinner)
+   {
+      SpinnerSkill.gameObject.SetActive(true);
+   }
+if(IsDash)
    {
       DashSkill.gameObject.SetActive(true);
    }
 
-if(IsSlashSword)
+if(IsMultilunge)
    {
-      slashsk.gameObject.SetActive(true);
+      MultilungeSkill.gameObject.SetActive(true);
    }
+
+if(IsSlash)
+   {
+      SlashSkill.gameObject.SetActive(true);
+   }
+
+///////////////////////////////////////////
+
+if(IsPenetratig)
+   {
+      PenetratigSkill.gameObject.SetActive(true);
+   }
+if(IsGlobe)
+   {
+      GlobeSkill.gameObject.SetActive(true);
+   }
+
+if(IsShotgun)
+   {
+      ShotgunSkill.gameObject.SetActive(true);
+   }
+if(IsSawDash)
+   {
+      SawDashSkill.gameObject.SetActive(true);
+   }
+if(IsDash)
+   {
+      DashSkill.gameObject.SetActive(true);
+   }
+
+if(IsWall)
+   {
+      WallSkill.gameObject.SetActive(true);
+   }
+
+if(IsBomb)
+   {
+      BombSkill.gameObject.SetActive(true);
+   }
+
+if(IsBoomerang)
+   {
+      BoomerangSkill.gameObject.SetActive(true);
+   }
+
+/////////////////////////////////////////////////
+
+if(IsGladio)
+   {
+      GladioSkill.gameObject.SetActive(true);
+   }
+if(IsLumen)
+   {
+      LumenSkill.gameObject.SetActive(true);
+   }
+
+if(IsTurris)
+   {
+      TurrisSkill.gameObject.SetActive(true);
+   }
+if(IsAura)
+   {
+      AuraSkill.gameObject.SetActive(true);
+   }
+if(IsFlame)
+   {
+      FlameSkill.gameObject.SetActive(true);
+   }
+
+if(IsHeal)
+   {
+      HealSkill.gameObject.SetActive(true);
+   }
+
+if(IsShield)
+   {
+      ShieldSkill.gameObject.SetActive(true);
+   }
+
+
+
+
+
 }
 
 }

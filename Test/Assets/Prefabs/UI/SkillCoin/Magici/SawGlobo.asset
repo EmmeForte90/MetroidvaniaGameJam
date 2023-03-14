@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: Saw
+  m_Name: SawGlobo
   m_EditorClassIdentifier: 
-  id: 12
-  SkillName: Saw
-  Description: A shockwave that circularly strikes all the surrounding enemies.
-  value: 12
-  icon: {fileID: 21300000, guid: fa2b915bccbe78341900a551d770f217, type: 3}
+  id: 11
+  SkillName: Saw Globo
+  Description: '"You generate circular globes that hit the enemy in a zigzag pattern"'
+  value: 5
+  icon: {fileID: 21300000, guid: 7294712d25f8d4848b91112c628184f4, type: 3}

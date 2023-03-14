@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec8756eac038249924a1cb3ca756d2, type: 3}
-  m_Name: Tornado
+  m_Name: Aura
   m_EditorClassIdentifier: 
-  id: 8
-  SkillName: Tornado
-  Description: A 360-degree attack that injures the enemies in front of and behind
-    the knight.
-  value: 8
-  icon: {fileID: 21300000, guid: aceb3d9edad22c047afa95f4c4c1a18d, type: 3}
+  id: 20
+  SkillName: Aura
+  Description: '"A sacred aura that restores the use of divine spells"'
+  value: 3
+  icon: {fileID: 21300000, guid: edeb18bb16e55ab45ac837990c83f2d4, type: 3}
