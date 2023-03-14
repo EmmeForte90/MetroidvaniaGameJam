@@ -17,8 +17,8 @@ private Transform player;
 
 [Header("Move")]
 public float moveSpeed = 2f; // velocità di movimento
-public float atckForward = 5; // velocità di movimento
-private float pauseDuration = 0.5f; // durata della pausa
+[SerializeField] float atckForward = 5; // velocità di movimento
+[SerializeField] float pauseDuration = 0.5f; // durata della pausa
 private float pauseTimer; // timer per la pausa
 [SerializeField] private Vector3[] positions;
 private int id_positions;
@@ -318,7 +318,7 @@ private void Move()
         transform.position = Vector2.MoveTowards(transform.position, positions[id_positions], moveSpeed * Time.deltaTime);
 
         // Controlla se l'oggetto è arrivato alla posizione obiettivo corrente
-        if (Vector2.Distance(transform.position, positions[id_positions]) < 0.1f)
+        if (Vector2.Distance(transform.position, positions[id_positions]) < 0.0001f)
         {
             // Imposta il timer di pausa
             pauseTimer = pauseDuration;
@@ -459,7 +459,8 @@ private void OnDrawGizmos()
 
    public void Damage(int damage)
     {
-        if(!isHurt)
+        if(!isDie){
+        if(!isHurt )
         {
         health.currentHealth -= damage;
         Instantiate(Sdeng, hitpoint.position, transform.rotation);
@@ -468,6 +469,7 @@ private void OnDrawGizmos()
         currentState = State.Hurt;
         }
         StartCoroutine(waitHurt());
+        }
 
     }
 

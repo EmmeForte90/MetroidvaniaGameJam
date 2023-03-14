@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 1491630832013084090}
   - component: {fileID: 1491630832013084069}
   - component: {fileID: 1491630832013084068}
-  - component: {fileID: 1491630832013084071}
-  - component: {fileID: 1036474284545973944}
-  - component: {fileID: 6917372898740251976}
   m_Layer: 0
   m_Name: Blue_S_A
   m_TagString: Untagged
@@ -30,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 1491630832013084070}
   m_LocalRotation: {x: 0.9848078, y: 0.17364807, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1491630832827057859}
   - {fileID: 1491630832226107783}
@@ -4829,58 +4826,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &1491630832013084071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491630832013084070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e58ada369179c4ab61f0610e20a8a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 0.3
-  isExplosion: 0
-  intensity: 5
-  time: 0.1
---- !u!114 &1036474284545973944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491630832013084070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6f06bce2723db440a83d766aadd5e43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSpeed: 1
-  charge: 0
-  lifeTime: 0.2
---- !u!50 &6917372898740251976
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491630832013084070}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &1491630832226107782
 GameObject:
   m_ObjectHideFlags: 0

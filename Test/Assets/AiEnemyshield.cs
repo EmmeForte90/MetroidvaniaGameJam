@@ -456,7 +456,8 @@ private void OnDrawGizmos()
 
    public void Damage(int damage)
     {
-        if(!isHurt)
+        if(!isDie){
+        if(!isHurt )
         {
         health.currentHealth -= damage;
         Instantiate(Sdeng, hitpoint.position, transform.rotation);
@@ -465,6 +466,7 @@ private void OnDrawGizmos()
         currentState = State.Hurt;
         }
         StartCoroutine(waitHurt());
+        }
 
     }
 
