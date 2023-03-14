@@ -22,13 +22,10 @@ public class UpdateMenuRapido : MonoBehaviour
     [HideInInspector]
     public int idbottom= -1; // Id dell'abilità selezionata
 
-    [HideInInspector]
+   
     public int Vleft; // Id dell'abilità selezionata
-    [HideInInspector]
     public int Vright; // Id dell'abilità selezionata
-    [HideInInspector]
     public int Vup; // Id dell'abilità selezionata
-    [HideInInspector]
     public int Vbottom; // Id dell'abilità selezionata
 
     [SerializeField] public TextMeshProUGUI SkillLeft_T;

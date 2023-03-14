@@ -306,11 +306,13 @@ if (Input.GetButtonDown("Jump"))
 // gestione dell'input dello sparo
 if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
+    //Se non hai finito gli utilizzi
     if(UpdateMenuRapido.Instance.Vbottom > 0 ||
     UpdateMenuRapido.Instance.Vup > 0 ||
     UpdateMenuRapido.Instance.Vleft > 0 ||
     UpdateMenuRapido.Instance.Vright > 0)
     {
+        //Se lo slot non è vuoto
     if(UpdateMenuRapido.Instance.idup > 0 || 
     UpdateMenuRapido.Instance.idright > 0 || 
     UpdateMenuRapido.Instance.idleft > 0 || 
@@ -321,13 +323,21 @@ if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
     
     isBlast = false;
     nextAttackTime = Time.time + 1f / attackRate;
+    } else if(UpdateMenuRapido.Instance.Vbottom == 0 ||
+    UpdateMenuRapido.Instance.Vup == 0 ||
+    UpdateMenuRapido.Instance.Vleft == 0 ||
+    UpdateMenuRapido.Instance.Vright == 0)
+    {
+        
     }
+    
 }
 // ripristina la possibilità di attaccare dopo il tempo di attacco
 if (!isBlast && Time.time >= nextAttackTime)
 {
     isBlast = true;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Scelta della skill dal menu rapido
 if (Input.GetButtonDown("SlotUp") && UpdateMenuRapido.Instance.idup > 0)
@@ -679,23 +689,41 @@ void Blast()
         Smagic.Play();
         if(slotB)
         {
+            if(UpdateMenuRapido.Instance.Vbottom > 0)
+            {
         UpdateMenuRapido.Instance.Vbottom--;
         UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
-        }else if(slotU)
-        {
-        UpdateMenuRapido.Instance.Vup--;
-        UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
-        }else if(slotL)
-        {
-        UpdateMenuRapido.Instance.Vleft--;
-        UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
-        }else if(slotR)
-        {
-        UpdateMenuRapido.Instance.Vright--;
-        UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
-        }
         Instantiate(blam, gun.position, transform.rotation);
         Instantiate(bullet, gun.position, transform.rotation);
+            }
+        }else if(slotU)
+        {
+            if(UpdateMenuRapido.Instance.Vup > 0)
+            {
+        UpdateMenuRapido.Instance.Vup--;
+        UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
+        Instantiate(blam, gun.position, transform.rotation);
+        Instantiate(bullet, gun.position, transform.rotation);
+            }
+        }else if(slotL)
+        {
+            if(UpdateMenuRapido.Instance.Vleft > 0)
+            {
+        UpdateMenuRapido.Instance.Vleft--;
+        UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
+        Instantiate(blam, gun.position, transform.rotation);
+        Instantiate(bullet, gun.position, transform.rotation);
+            }
+        }else if(slotR)
+        {
+            if(UpdateMenuRapido.Instance.Vright > 0)
+            {
+        UpdateMenuRapido.Instance.Vright--;
+        UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
+        Instantiate(blam, gun.position, transform.rotation);
+        Instantiate(bullet, gun.position, transform.rotation);
+            }
+        }
         
         
 }
