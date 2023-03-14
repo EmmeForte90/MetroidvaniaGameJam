@@ -7,7 +7,6 @@ public class Globo : MonoBehaviour
    public float speed = 10f; // velocità del proiettile
     //Enemy Enemy;
     [SerializeField] GameObject Explode;
-    [SerializeField] int MP = 5;
     [SerializeField] Transform prefabExp;
     [SerializeField] int damage = 50;
     public float rotationSpeed = 2500f;
@@ -31,28 +30,13 @@ public class Globo : MonoBehaviour
     }
         //La variabile è uguale alla scala moltiplicata la velocità del proiettile
         //Se il player si gira  anche lo spawn del proittile farà lo stesso
-        CostMP();
+       
     // Update is called once per frame
     }
 private void Update()
     {
         transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
-
-        if(MP == 0)
-        {
-            MP = 0;
-            Destroy(gameObject);
-        }
     }
-
-#region  MP
-    void CostMP()
-    {
-        MP--;
-        //Less.TakeManaDamage(MPCost);
-    }
-
-#endregion
 
 void OnTriggerEnter2D(Collider2D other)
 {

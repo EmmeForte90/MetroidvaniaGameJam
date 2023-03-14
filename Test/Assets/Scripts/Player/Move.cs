@@ -14,9 +14,8 @@ public class Move : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float acceleration;
     [SerializeField] private float deceleration;
-     [HideInInspector] public float horDir;
-     [HideInInspector] public float vertDir;
-
+    [HideInInspector] public float horDir;
+    [HideInInspector] public float vertDir;
     public float runSpeedThreshold = 5f; // or whatever value you want
 
     [Header("Dash")]
@@ -133,24 +132,22 @@ private int comboCount = 0;
     [SerializeField] private GameObject bullet;
     // Dichiarazione delle variabili
     public int Damage;
-    public int currentTime;
-    public int timeLimit = 3; // Tempo massimo per caricare l'attacco
-    public int maxDamage = 50; // Danno massimo dell'attacco caricato
-    public int minDamage = 10; // Danno minimo dell'attacco non caricato
+    private int currentTime;
+    private int timeLimit = 3; // Tempo massimo per caricare l'attacco
+    private int maxDamage = 50; // Danno massimo dell'attacco caricato
+    private int minDamage = 10; // Danno minimo dell'attacco non caricato
     private float timeSinceLastAttack = 0f;
     public bool isCharging;
     private bool touchGround;
     private bool isDashing;
-    public bool isAttacking = false; // vero se il personaggio sta attaccando
-    public bool isAttackingAir = false; // vero se il personaggio sta attaccando
-    public bool isBlast = false; // vero se il personaggio sta attaccando
+    private bool isAttacking = false; // vero se il personaggio sta attaccando
+    private bool isAttackingAir = false; // vero se il personaggio sta attaccando
+    private bool isBlast = false; // vero se il personaggio sta attaccando
 
     public bool stopInput = false;
 
-    public int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
-    PlayerHealth Less;
-    [SerializeField] public GameplayManager gM;
-
+    private int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
+    
     [Header("Audio")]
     public float basePitch = 1f;
     public float randomPitchOffset = 0.1f;
@@ -186,11 +183,6 @@ if (_skeletonAnimation == null) {
     Debug.LogError("Componente SkeletonAnimation non trovato!");
 }        rb = GetComponent<Rigidbody2D>();
        
-        if (gM == null)
-        {
-            gM = GetComponent<GameplayManager>();
-        }
-        Less = GetComponent<PlayerHealth>();
         _spineAnimationState = GetComponent<Spine.Unity.SkeletonAnimation>().AnimationState;
         _spineAnimationState = _skeletonAnimation.AnimationState;
         _skeleton = _skeletonAnimation.skeleton;
@@ -205,7 +197,7 @@ if (_skeletonAnimation == null) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if(!gM.PauseStop || !stopInput)
+        if(!GameplayManager.instance.PauseStop || !stopInput)
         {
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
@@ -462,21 +454,21 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         }
-        else if (gM.PauseStop || stopInput)
+        else if (GameplayManager.instance.PauseStop || stopInput)
         {//Bloccato
         }
 
         // gestione dell'input del Menu 
         if (Input.GetButtonDown("Pause") && !stopInput)
         {
-            gM.Pause();
+            GameplayManager.instance.Pause();
             StopinputTrue();
             //InventoryManager.Instance.ListItems();
             Stop();
         }
         else if(Input.GetButtonDown("Pause") && stopInput)
         {
-            gM.Resume();
+            GameplayManager.instance.Resume();
             StopinputFalse();
         }
 
@@ -488,7 +480,7 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
 
     private void FixedUpdate()
     {
-        if(!gM.PauseStop || !isAttacking || !isCharging || !touchGround || !isDashing)
+        if(!GameplayManager.instance.PauseStop || !isAttacking || !isCharging || !touchGround || !isDashing)
         {
         float playerSpeed = horDir * speed;
         float accelRate = Mathf.Abs(playerSpeed) > 0.01f? acceleration : deceleration;
@@ -655,7 +647,7 @@ public void Respawn()
 
     // Aspetta che la nuova scena sia completamente caricata
     StartCoroutine(WaitForSceneLoad());
-    
+
     //Ripristina gli utilizzi se hai gli slot pieni
             if(UpdateMenuRapido.Instance.idup > 0 || 
             UpdateMenuRapido.Instance.idleft > 0 || 
@@ -702,8 +694,7 @@ public void Respawn()
 void Blast()
 {
         isBlast = true;
-        Debug.Log("il blast è partito");
-        //nextAttackTime = Time.time + 1f / attackRate;
+       // Debug.Log("il blast è partito");
         Smagic.Play();
         if(slotB)
         {
