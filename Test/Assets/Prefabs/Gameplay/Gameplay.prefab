@@ -4099,11 +4099,14 @@ MonoBehaviour:
   speed: 7
   acceleration: 5
   deceleration: 7
+  horDir: 0
+  vertDir: 0
   runSpeedThreshold: 5
   dashForce: 10
   dashDuration: 0.5
   dashCoolDown: 1
   jumpForce: 9
+  bumpForce: 3
   groundDelay: 0.1
   wallLayer:
     serializedVersion: 2
@@ -4122,22 +4125,31 @@ MonoBehaviour:
   unlockWalljump: 0
   unlockDoubleJump: 0
   unlockDash: 0
+  slotR: 0
+  slotL: 0
+  slotU: 0
+  slotB: 0
+  sceneName: 
   blam: {fileID: 9173311337577857821, guid: 321cbfc0bda51b94e81734a3bcbe971a, type: 3}
   gun: {fileID: 2144114532700355957}
   Circle: {fileID: 8377799538609817746, guid: 36cd24acadc3a3242b08bf90b61abdc4, type: 3}
   circlePoint: {fileID: 2144114532483221924}
   slashpoint: {fileID: 2144114533230465875}
-  attack: {fileID: 6267794247920000516, guid: 0593d3116fdedb644a637aaac1d8c54b, type: 3}
-  attack_h: {fileID: 8415833659170524011, guid: 94043a3debd9d1848b9b5fb085077b8b, type: 3}
-  attack_l: {fileID: 5369655398694106054, guid: 754c5b8b06f186e4c9fabf44afed4a24, type: 3}
-  attack_a: {fileID: 8422698696648664815, guid: c5e708056ec42b8459509ae86de6a761, type: 3}
-  pesante: {fileID: 1965291473804903622, guid: 7289f4f9c411b3d4788aae65b000eb32, type: 3}
-  charge: {fileID: 8827959948958657929, guid: bc32fe5b687377a45bd6465a5aec14ab, type: 3}
+  attack: {fileID: 373540190890739687, guid: 8d0b9628500edbb4c8d3824cf30b21a8, type: 3}
+  attack_h: {fileID: 1742106620432101355, guid: f65ef780c563d5e4a9dcd8c350e01803, type: 3}
+  attack_l: {fileID: 3660265162668111692, guid: 81524b4d8af81574ba5a9b6c2b0d4fc7, type: 3}
+  attack_a: {fileID: 3884612801999318708, guid: 4d440d1e265462940a8b57f31d048a36, type: 3}
+  pesante: {fileID: 1711415356284938385, guid: 03ccc154214b13e4b9b6292937634096, type: 3}
+  charge: {fileID: 3575686585380099012, guid: b1f4bcf8216acd04fabd510142c4c96c, type: 3}
+  attack_air_bottom: {fileID: 3231990439449419396, guid: 07ae8645b52eaa94e8ff3d0fe5ec94f8, type: 3}
+  attack_air_up: {fileID: 373540190890739687, guid: 8d0b9628500edbb4c8d3824cf30b21a8, type: 3}
   idleAnimationName: Gameplay/idle
   walkAnimationName: Gameplay/walk
   runAnimationName: Gameplay/run
   jumpAnimationName: Gameplay/jump
   jumpDownAnimationName: Gameplay/fall
+  hurtAnimationName: 
+  deathAnimationName: 
   attackAnimationName: CS/attack
   attack_lAnimationName: CS/attack_l
   attack_hAnimationName: CS/attack_h
@@ -4179,6 +4191,7 @@ MonoBehaviour:
   Srun: {fileID: 2144114533040824334}
   Scharge: {fileID: 2144114533066670915}
   Sdash: {fileID: 2144114532093812712}
+  rb: {fileID: 0}
 --- !u!114 &2144114532784799732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4566,12 +4579,20 @@ MonoBehaviour:
   icon1: {fileID: 21300000, guid: 4e809169c5d479e4ea27d083fabf396c, type: 3}
   icon2: {fileID: 21300000, guid: 9dad48cc35dfb55498ec1a492a3293c6, type: 3}
   icon3: {fileID: 21300000, guid: 6407e14507f423945aefb9be9bf31922, type: 3}
-  SkillLeft_T: {fileID: 4733600543446265100}
-  SkillRight_T: {fileID: 7686290771124390182}
+  idleft: -1
+  idright: -1
+  idup: -1
+  idbottom: -1
+  Vleft: 0
+  Vright: 0
+  Vup: 0
+  Vbottom: 0
+  SkillLeft_T: {fileID: 7686290771124390182}
+  SkillRight_T: {fileID: 4733600543446265100}
   SkillUp_T: {fileID: 372922167646929290}
   SkillBottom_T: {fileID: 2501415111001783906}
-  SkillLeft: {fileID: 4649066449624736432}
-  SkillRight: {fileID: 9177089834386914622}
+  SkillLeft: {fileID: 9177089834386914622}
+  SkillRight: {fileID: 4649066449624736432}
   SkillUp: {fileID: 3933548408656299062}
   SkillBottom: {fileID: 5032307709272445940}
   SkillLeftsel: {fileID: 8162063774471505068}
@@ -5257,7 +5278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2144114533230465875}
   m_Layer: 3
-  m_Name: WallCheck
+  m_Name: Slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5271,7 +5292,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144114533230465876}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.609, y: 0, z: 0}
+  m_LocalPosition: {x: 0.609, y: 0.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7278,7 +7299,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 76c2009011c86e24abf0af5584d0457b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: de8cb94ae024f094797415ce151c8e0e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8186,7 +8207,7 @@ GameObject:
   - component: {fileID: 2106213149751028378}
   - component: {fileID: 7686290771124390182}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8818,7 +8839,7 @@ GameObject:
   - component: {fileID: 9056468200869260502}
   - component: {fileID: 4649066449624736432}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: IR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9659,7 +9680,7 @@ GameObject:
   - component: {fileID: 4035104055164706181}
   - component: {fileID: 9177089834386914622}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: IL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9735,7 +9756,7 @@ GameObject:
   - component: {fileID: 4422754731406385967}
   - component: {fileID: 5032307709272445940}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: IB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9811,7 +9832,7 @@ GameObject:
   - component: {fileID: 6159817426875421226}
   - component: {fileID: 4733600543446265100}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10332,7 +10353,7 @@ GameObject:
   - component: {fileID: 1486907823116224620}
   - component: {fileID: 2501415111001783906}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11668,7 +11689,7 @@ GameObject:
   - component: {fileID: 2140166560353279158}
   - component: {fileID: 3933548408656299062}
   m_Layer: 5
-  m_Name: Image
+  m_Name: IU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12153,7 +12174,7 @@ GameObject:
   - component: {fileID: 280712989627450334}
   - component: {fileID: 372922167646929290}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -67,8 +67,11 @@ public class Move : MonoBehaviour
     public bool unlockDoubleJump = false;
     public bool unlockDash = false;
     //private bool isDashing;
-
-
+    public bool slotR,slotL,slotU,slotB = false;
+    [Header("Respawn")]
+    //[HideInInspector]
+    private Transform respawnPoint; // il punto di respawn del giocatore
+    public string sceneName; // il nome della scena in cui si trova il punto di respawn
 
     [Header("VFX")]
     // Variabile per il gameobject del proiettile
@@ -96,6 +99,8 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string runAnimationName;
     [SpineAnimation][SerializeField] private string jumpAnimationName;
     [SpineAnimation][SerializeField] private string jumpDownAnimationName;
+    [SpineAnimation][SerializeField] private string hurtAnimationName;
+    [SpineAnimation][SerializeField] private string deathAnimationName;
     [SpineAnimation][SerializeField] private string attackAnimationName;
     [SpineAnimation][SerializeField] private string attack_lAnimationName;
     [SpineAnimation][SerializeField] private string attack_hAnimationName;
@@ -296,19 +301,28 @@ if (Input.GetButtonDown("Jump"))
                 
                 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////             
-               
+
+
 // gestione dell'input dello sparo
 if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
 {
-    if(UpdateMenuRapido.Instance.idup > 0 || UpdateMenuRapido.Instance.idright > 0 || UpdateMenuRapido.Instance.idleft > 0 || UpdateMenuRapido.Instance.idbottom > 0 )
+    if(UpdateMenuRapido.Instance.Vbottom > 0 ||
+    UpdateMenuRapido.Instance.Vup > 0 ||
+    UpdateMenuRapido.Instance.Vleft > 0 ||
+    UpdateMenuRapido.Instance.Vright > 0)
+    {
+    if(UpdateMenuRapido.Instance.idup > 0 || 
+    UpdateMenuRapido.Instance.idright > 0 || 
+    UpdateMenuRapido.Instance.idleft > 0 || 
+    UpdateMenuRapido.Instance.idbottom > 0 )
         //Animazione
         useMagic();   
         Stop();
     
     isBlast = false;
     nextAttackTime = Time.time + 1f / attackRate;
+    }
 }
-
 // ripristina la possibilità di attaccare dopo il tempo di attacco
 if (!isBlast && Time.time >= nextAttackTime)
 {
@@ -320,25 +334,38 @@ if (Input.GetButtonDown("SlotUp") && UpdateMenuRapido.Instance.idup > 0)
 {
    UpdateMenuRapido.Instance.Selup();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
-
+    slotU = true;
+    slotB = false;
+    slotL = false;
+    slotR = false;
 }
 else if (Input.GetButtonDown("SlotRight")&& UpdateMenuRapido.Instance.idright > 0)
 {
       UpdateMenuRapido.Instance.Selright();
       //SkillMenu.Instance.AssignId();
         PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idright);
+    slotU = false;
+    slotB = false;
+    slotL = false;
+    slotR = true;
 }
 else if (Input.GetButtonDown("SlotLeft")&& UpdateMenuRapido.Instance.idleft > 0)
 {
       UpdateMenuRapido.Instance.Selleft();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idleft);
-
+    slotU = false;
+    slotB = false;
+    slotL = true;
+    slotR = false;
 }
 else if (Input.GetButtonDown("SlotBottom")&& UpdateMenuRapido.Instance.idbottom > 0)
 {
       UpdateMenuRapido.Instance.Selbottom();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idbottom);
-
+    slotU = false;
+    slotB = true;
+    slotL = false;
+    slotR = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -611,12 +638,30 @@ public void StopinputFalse()
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
+public void Respawn()
+{
+    // Cambia la scena
+    SceneManager.LoadScene(sceneName);
+
+    // Aspetta che la nuova scena sia completamente caricata
+    StartCoroutine(WaitForSceneLoad());
+}
  public void Stop()
     {
         rb.velocity = new Vector2(0f, 0f);
         horDir = 0;
 
     }
+    IEnumerator WaitForSceneLoad()
+{
+    yield return new WaitForSeconds(0);
+
+    // Trova l'oggetto con il tag "respawn" nella nuova scena
+    GameObject respawnPoint = GameObject.FindWithTag("Respawn");
+
+    // Teletrasporta il giocatore alla posizione dell'oggetto "respawn"
+    transform.position = respawnPoint.transform.position;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -632,6 +677,23 @@ void Blast()
         Debug.Log("il blast è partito");
         //nextAttackTime = Time.time + 1f / attackRate;
         Smagic.Play();
+        if(slotB)
+        {
+        UpdateMenuRapido.Instance.Vbottom--;
+        UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
+        }else if(slotU)
+        {
+        UpdateMenuRapido.Instance.Vup--;
+        UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
+        }else if(slotL)
+        {
+        UpdateMenuRapido.Instance.Vleft--;
+        UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
+        }else if(slotR)
+        {
+        UpdateMenuRapido.Instance.Vright--;
+        UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
+        }
         Instantiate(blam, gun.position, transform.rotation);
         Instantiate(bullet, gun.position, transform.rotation);
         
@@ -877,6 +939,43 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
     isAttacking = false;
     isAttackingAir = false;
 
+}
+public void AnmHurt()
+{
+             if (currentAnimationName != hurtAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
+                    currentAnimationName = hurtAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void death()
+{
+             if (currentAnimationName != deathAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, deathAnimationName, false);
+                    currentAnimationName = deathAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+}
+public void respawn()
+{
+             if (currentAnimationName != respawnAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, respawnAnimationName, false);
+                    currentAnimationName = respawnAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
 }
 
 

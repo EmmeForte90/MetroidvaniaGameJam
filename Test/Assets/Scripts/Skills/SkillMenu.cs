@@ -106,6 +106,7 @@ public static SkillMenu Instance;
         idup = selectedId;
         UpdateMenuRapido.Instance.idup = selectedId;
          UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
+         UpdateMenuRapido.Instance.Vup = selectedSkill.value;
          UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
     }
 }
@@ -121,7 +122,8 @@ public static SkillMenu Instance;
         SkillLeft.sprite = selectedSkill.icon;
         idleft = selectedId;
         UpdateMenuRapido.Instance.idleft = selectedId;
-         UpdateMenuRapido.Instance.SkillLeft_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.SkillLeft_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.Vleft = selectedSkill.value;
         UpdateMenuRapido.Instance.SkillLeft.sprite = selectedSkill.icon;
     }
 }  
@@ -138,6 +140,7 @@ public void AssignButtonright()
         idright = selectedId;
         UpdateMenuRapido.Instance.idright = selectedId;
         UpdateMenuRapido.Instance.SkillRight_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.Vright = selectedSkill.value;
         UpdateMenuRapido.Instance.SkillRight.sprite = selectedSkill.icon;
     }
 }  public void AssignButtonbottom()
@@ -153,6 +156,7 @@ public void AssignButtonright()
         idbottom = selectedId;
         UpdateMenuRapido.Instance.idbottom = selectedId;
         UpdateMenuRapido.Instance.SkillBottom_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.Vbottom = selectedSkill.value;
         UpdateMenuRapido.Instance.SkillBottom.sprite = selectedSkill.icon;
     }
 }

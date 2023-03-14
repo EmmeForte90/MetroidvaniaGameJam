@@ -13,13 +13,21 @@ public class PlayerHealth : MonoBehaviour
     public float maxMana = 100f;
     //public float currentMana;
     public Scrollbar manaBar;
-    CharacterController2D player;
+public static PlayerHealth Instance;
 
-    void Start()
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+    
+        void Start()
     {
         currentHealth = maxHealth;
         //currentMana = maxMana;
-        player = GetComponent<CharacterController2D>();
     }
 
     void Update()
@@ -32,11 +40,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void Damage(float damage)
     {
-        player.AnmHurt();
+        Move.instance.AnmHurt();
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            player.Respawn();
+            Move.instance.Respawn();
             RespawnStatus();
         }
     }

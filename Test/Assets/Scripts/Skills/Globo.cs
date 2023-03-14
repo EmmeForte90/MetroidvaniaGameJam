@@ -5,8 +5,7 @@ using UnityEngine;
 public class Globo : MonoBehaviour
 {
    public float speed = 10f; // velocità del proiettile
-    Move player;
-    Enemy Enemy;
+    //Enemy Enemy;
     [SerializeField] GameObject Explode;
     [SerializeField] int MP = 5;
     [SerializeField] Transform prefabExp;
@@ -15,22 +14,18 @@ public class Globo : MonoBehaviour
 
     [SerializeField] float lifeTime = 0.5f;
     Rigidbody2D rb;    
-    PlayerHealth Less;
 
     // Start is called before the first frame update
     void Start()
     {
         //Recupera i componenti del rigidbody
-        player = FindObjectOfType<Move>();
-        Less = FindObjectOfType<PlayerHealth>();
-        Enemy = FindObjectOfType<Enemy>();
         rb = GetComponent<Rigidbody2D>();
         //Recupera i componenti dello script
-        if(player.transform.localScale.x > 0)
+        if(Move.instance.transform.localScale.x > 0)
     {
         rb.velocity = transform.right * speed;
     } 
-    else if(player.transform.localScale.x < 0)
+    else if(Move.instance.transform.localScale.x < 0)
     {
         rb.velocity = -transform.right * speed;
     }
