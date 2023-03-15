@@ -11,6 +11,10 @@ public class Shield : MonoBehaviour
     private float timer;
     [SerializeField] GameObject Explode;
     [SerializeField] Transform prefabExp;
+      [Header("Audio")]
+    [SerializeField] AudioSource SExp;
+    [SerializeField] AudioSource SBomb;
+
     void Start()
     {
         Move.instance.Evocation();
