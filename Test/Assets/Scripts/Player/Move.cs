@@ -25,7 +25,9 @@ public class Move : MonoBehaviour
     private bool dashing;
     private bool Atkdashing;
     private float dashForceAtk = 10f;
+    private float upperForceAtk = 0.5f;
     private bool attackNormal;
+    private bool attackUpper;
     public float dashCoolDown = 1f;
     private float coolDownTime;
 
@@ -512,6 +514,13 @@ public void attackDash()
             DashAttack();        
 }
 
+public void attackupper()
+{
+            attackUpper = true;
+            coolDownTime = dashCoolDown;
+            dashTime = dashDuration;
+            Upper();        
+}
 
 
     private void FixedUpdate()
@@ -586,8 +595,9 @@ public void attackDash()
         }
         else if (horDir == 0)
         {
-                dashing = false;
-                attackNormal = false;
+            
+        dashing = false;
+        attackNormal = false;
         }
 
             if (dashTime <= 0)
@@ -597,8 +607,23 @@ public void attackDash()
 
             }
         }
+        
+        
+        if (attackUpper)
+        { 
 
-
+            //Bisogna aggiungere un limite a questo punto
+            if(dashTime > 0)
+            {
+        rb.AddForce(transform.up * upperForceAtk, ForceMode2D.Impulse);
+        dashTime -= Time.deltaTime;
+            }
+            else if (dashTime <= 0)
+            {
+                dashing = false;
+                attackNormal = false;
+            }
+        }
 
 
 
@@ -1214,6 +1239,7 @@ public void AnimationRest()
 {
     if (currentAnimationName != RestAnimationName)
                 {
+                    Stop();
                     _spineAnimationState.SetAnimation(2, RestAnimationName, false);
                     currentAnimationName = RestAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -1227,6 +1253,7 @@ public void animationWakeup()
 {
     if (currentAnimationName != UpAnimationName)
                 {
+                    Stop();
                     _spineAnimationState.SetAnimation(2, UpAnimationName, false);
                     currentAnimationName = UpAnimationName;
                     _spineAnimationState.Event += HandleEvent;

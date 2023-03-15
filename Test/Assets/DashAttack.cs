@@ -6,6 +6,7 @@ public class DashAttack : MonoBehaviour
 {
     [SerializeField] int damage = 50;
     [SerializeField] float lifeTime = 0.5f;
+    public bool upper = false;    
 
     [Header("Audio")]
     [SerializeField] AudioSource SExp;
@@ -13,8 +14,15 @@ public class DashAttack : MonoBehaviour
 
     public void Start()
     {
+        if(upper)
+        {
+        Move.instance.attackupper();
+        Invoke("Destroy", lifeTime);
+        }else
+        {
         Move.instance.attackDash();
         Invoke("Destroy", lifeTime);
+        }
 
     } 
     
