@@ -408,7 +408,7 @@ MonoBehaviour:
   Globe: 0
   Needtwohands: 1
   isBig: 0
-  lifeTime: 0.5
+  lifeTime: 0.6
   SExp: {fileID: 1025938810681017630}
   SBomb: {fileID: 6943632565091256338}
 --- !u!50 &6750383313131376356

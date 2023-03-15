@@ -87,6 +87,8 @@ public class Move : MonoBehaviour
     [SerializeField] GameObject charge;
     [SerializeField] GameObject attack_air_bottom;
     [SerializeField] GameObject attack_air_up;
+    [SerializeField] GameObject swordRain;
+
 
 
 
@@ -1384,6 +1386,23 @@ if (e.Data.Name == "dash") {
     if (e.Data.Name == "upSlash") {
 
         Instantiate(attack_air_up, slashpoint.position, attack_air_up.transform.rotation);
+       // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+        if (SwSl == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SwSl.gameObject.activeInHierarchy) {
+            SwSl.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        SwSl.Play();
+    }
+    if (e.Data.Name == "evocationSwordRain") {
+
+        Instantiate(swordRain, transform.position, transform.rotation);
        // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
         if (SwSl == null) {
             Debug.LogError("AudioSource non trovato");

@@ -86,8 +86,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 363298311
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4689791480848074212
@@ -190,9 +190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  growSpeed: 0.2
-  maxScale: 5
-  lifeTime: 3
+  growSpeed: 6
+  maxScale: 10
+  lifeTime: 5
   Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   damage: 50
