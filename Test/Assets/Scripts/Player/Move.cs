@@ -24,7 +24,7 @@ public class Move : MonoBehaviour
     private float dashTime;
     private bool dashing;
     private bool Atkdashing;
-    private float dashForceAtk = 40f;
+    private float dashForceAtk = 10f;
     private bool attackNormal;
     public float dashCoolDown = 1f;
     private float coolDownTime;
@@ -502,6 +502,17 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
     }
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
+
+public void attackDash()
+{
+            attackNormal = true;
+            coolDownTime = dashCoolDown;
+            dashTime = dashDuration;
+            DashAttack();        
+}
+
+
 
     private void FixedUpdate()
     {
