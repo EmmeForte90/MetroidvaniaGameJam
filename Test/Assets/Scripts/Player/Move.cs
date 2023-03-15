@@ -98,24 +98,48 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string runAnimationName;
     [SpineAnimation][SerializeField] private string jumpAnimationName;
     [SpineAnimation][SerializeField] private string jumpDownAnimationName;
+    [SpineAnimation][SerializeField] private string landingAnimationName;
+    [SpineAnimation][SerializeField] private string walljumpAnimationName;
+    [SpineAnimation][SerializeField] private string walljumpdownAnimationName;
+    [SpineAnimation][SerializeField] private string dashAnimationName;
+    //////////////////////////////////////////////////////////////////////////
     [SpineAnimation][SerializeField] private string hurtAnimationName;
     [SpineAnimation][SerializeField] private string deathAnimationName;
+    [SpineAnimation][SerializeField] private string RestAnimationName;
+    [SpineAnimation][SerializeField] private string UpAnimationName;
+    [SpineAnimation][SerializeField] private string respawnAnimationName;
+    ///////////////////////////////////////////////////////////////////////////
     [SpineAnimation][SerializeField] private string attackAnimationName;
     [SpineAnimation][SerializeField] private string attack_lAnimationName;
     [SpineAnimation][SerializeField] private string attack_hAnimationName;
     [SpineAnimation][SerializeField] private string attack_aAnimationName;
     [SpineAnimation][SerializeField] private string chargeAnimationName;
-    [SpineAnimation][SerializeField] private string blastAnimationName;
-    [SpineAnimation][SerializeField] private string landingAnimationName;
-    [SpineAnimation][SerializeField] private string walljumpAnimationName;
-    [SpineAnimation][SerializeField] private string walljumpdownAnimationName;
-    [SpineAnimation][SerializeField] private string dashAnimationName;
     [SpineAnimation][SerializeField] private string pesanteAnimationName;
-    [SpineAnimation][SerializeField] private string RestAnimationName;
-    [SpineAnimation][SerializeField] private string UpAnimationName;
-    [SpineAnimation][SerializeField] private string respawnAnimationName;
     [SpineAnimation][SerializeField] private string upatkjumpAnimationName;
     [SpineAnimation][SerializeField] private string downatkjumpAnimationName;
+    /////////////////////////////////////////////////////////////////////
+    [SpineAnimation][SerializeField] private string blastAnimationName;
+    [SpineAnimation][SerializeField] private string bigblastAnimationName;
+    [SpineAnimation][SerializeField] private string TornadoAnimationName;
+    [SpineAnimation][SerializeField] private string SwordrainAnimationName;
+    [SpineAnimation][SerializeField] private string multilungeAnimationName;
+    [SpineAnimation][SerializeField] private string DashAttackAnimationName;
+    [SpineAnimation][SerializeField] private string evocationAnimationName;
+    [SpineAnimation][SerializeField] private string throwAnimationName;
+    [SpineAnimation][SerializeField] private string upperAnimationName;
+    [SpineAnimation][SerializeField] private string dashsawAnimationName;
+    [SpineAnimation][SerializeField] private string SawinAnimationName;
+    [SpineAnimation][SerializeField] private string SpecialAnimationName;
+
+
+
+
+
+
+    
+    
+    
+    
 
 
 private string currentAnimationName;
@@ -309,10 +333,9 @@ if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
     UpdateMenuRapido.Instance.idright > 0 || 
     UpdateMenuRapido.Instance.idleft > 0 || 
     UpdateMenuRapido.Instance.idbottom > 0 )
-        //Animazione
-        useMagic();   
-        Stop();
-    
+       
+    //L Animazione è gestita dagli script dei bullets visto che cambia a seconda del bullet
+    Blast();
     isBlast = false;
     nextAttackTime = Time.time + 1f / attackRate;
     } else if(UpdateMenuRapido.Instance.Vbottom == 0 ||
@@ -855,23 +878,159 @@ public void dashAnm()
                 // Add event listener for when the animation completes
             _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
-
-public void useMagic()
+public void DashAttack()
 {
-    if (currentAnimationName != blastAnimationName)
+    if (currentAnimationName != DashAttackAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, blastAnimationName, false);
-                    currentAnimationName = blastAnimationName;
-                    Blast();
+                    _spineAnimationState.SetAnimation(2, DashAttackAnimationName, false);
+                    currentAnimationName = DashAttackAnimationName;
+                    
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
+public void DashSaw()
+{
+    if (currentAnimationName != dashsawAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, dashsawAnimationName, false);
+                    currentAnimationName = dashsawAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void Blasting()
+{
+    if (currentAnimationName != blastAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, blastAnimationName, false);
+                    currentAnimationName = blastAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
 
+public void Evocation()
+{
+    if (currentAnimationName != evocationAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, evocationAnimationName, false);
+                    currentAnimationName = evocationAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
 
+public void Upper()
+{
+    if (currentAnimationName != upperAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, upperAnimationName, false);
+                    currentAnimationName = upperAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
 
+public void SwordRain()
+{
+    if (currentAnimationName != SwordrainAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, SwordrainAnimationName, false);
+                    currentAnimationName = SwordrainAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void Multilunge()
+{
+    if (currentAnimationName != multilungeAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, multilungeAnimationName, false);
+                    currentAnimationName = multilungeAnimationName;
+                    
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void Saw()
+{
+    if (currentAnimationName != SawinAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, SawinAnimationName, false);
+                    currentAnimationName = SawinAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void Special()
+{
+    if (currentAnimationName != SpecialAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, SpecialAnimationName, false);
+                    currentAnimationName = SpecialAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+
+public void Bigblast()
+{
+    if (currentAnimationName != bigblastAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, bigblastAnimationName, false);
+                    currentAnimationName = bigblastAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+
+public void Slash()
+{
+    if (currentAnimationName != attackAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, attackAnimationName, false);
+                    currentAnimationName = attackAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+
+public void Tornado()
+{
+    if (currentAnimationName != TornadoAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, TornadoAnimationName, false);
+                    currentAnimationName = TornadoAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+
+public void Throw()
+{
+    if (currentAnimationName != throwAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, throwAnimationName, false);
+                    currentAnimationName = throwAnimationName;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
 public void AnimationChargeRelease()
 {
     if (currentAnimationName != pesanteAnimationName)
