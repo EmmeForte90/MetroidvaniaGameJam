@@ -19677,6 +19677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8919316949894991551}
   - component: {fileID: 8919316949894991548}
+  - component: {fileID: 4311229467461500651}
   m_Layer: 0
   m_Name: B_Tornado
   m_TagString: Untagged
@@ -19718,9 +19719,35 @@ MonoBehaviour:
   Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   damage: 50
-  lifeTime: 0.5
+  lifeTime: 1
   SExp: {fileID: 8919316948457744772}
   SBomb: {fileID: 8919316949115040762}
+--- !u!61 &4311229467461500651
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8919316949894991550}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.10846567, y: 2.5904834}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.6465406, y: 4.5917125}
+  m_EdgeRadius: 0
 --- !u!1 &9084144008178895280
 GameObject:
   m_ObjectHideFlags: 0

@@ -458,8 +458,10 @@ MonoBehaviour:
   damage: 50
   rotationSpeed: 2500
   isRotating: 1
+  isSlash: 0
   Globe: 1
-  Shotgun: 0
+  Needtwohands: 0
+  isBig: 0
   lifeTime: 0.5
   SExp: {fileID: 125489500578937303}
   SBomb: {fileID: 9132019637580268048}

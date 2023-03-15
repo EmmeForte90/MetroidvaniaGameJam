@@ -17,6 +17,9 @@ public class Tornado : MonoBehaviour
     {
         Move.instance.Tornado();
          Invoke("Destroy", lifeTime);
+          
+          // Imposta l'oggetto Tornado come figlio del player
+    transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
      void OnTriggerEnter2D(Collider2D other)

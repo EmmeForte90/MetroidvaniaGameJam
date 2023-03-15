@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4689791480848074213}
   - component: {fileID: 4689791480848074212}
   - component: {fileID: 4689791480848074200}
-  - component: {fileID: 4689791480848074201}
+  - component: {fileID: -6287461408215689183}
+  - component: {fileID: 3806573276293272639}
   m_Layer: 0
   m_Name: B_Wall
   m_TagString: Untagged
@@ -155,7 +156,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3845749, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4689791480848074201
+--- !u!50 &-6287461408215689183
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4689791480848074215}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &3806573276293272639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,20 +186,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4689791480848074215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35253cc861702104cb773007aa3523db, type: 3}
+  m_Script: {fileID: 11500000, guid: 8accb90507fe46047a3e9abd8fa1e932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  Explode: {fileID: 3521028388216535397, guid: 73fa29b238860e44a9538824e70af93a, type: 3}
-  prefabExp: {fileID: 8269559013247857369, guid: 73fa29b238860e44a9538824e70af93a, type: 3}
+  speed: 5
+  growSpeed: 0.2
+  maxScale: 5
+  lifeTime: 3
+  Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   damage: 50
-  rotationSpeed: 2500
-  isRotating: 0
-  isSlash: 0
-  Globe: 0
-  Needtwohands: 1
-  isBig: 1
-  lifeTime: 0.5
   SExp: {fileID: 4689791481743611477}
   SBomb: {fileID: 4689791481412827149}
 --- !u!1 &4689791481412827148

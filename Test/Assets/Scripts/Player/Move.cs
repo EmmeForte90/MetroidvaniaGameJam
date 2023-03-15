@@ -726,7 +726,14 @@ void Blast()
         UpdateMenuRapido.Instance.Vbottom--;
         UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
         Instantiate(blam, gun.position, transform.rotation);
+        if(UpdateMenuRapido.Instance.idbottom == 3 || UpdateMenuRapido.Instance.idbottom == 2)
+        {
+        Instantiate(bullet, transform.position, transform.rotation);
+        }else
+        {
         Instantiate(bullet, gun.position, transform.rotation);
+        }
+
             }
         }else if(slotU)
         {
@@ -735,8 +742,13 @@ void Blast()
         UpdateMenuRapido.Instance.Vup--;
         UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
         Instantiate(blam, gun.position, transform.rotation);
+        if(UpdateMenuRapido.Instance.idup == 3 || UpdateMenuRapido.Instance.idup == 2)
+        {
+        Instantiate(bullet, transform.position, transform.rotation);
+        }else
+        {
         Instantiate(bullet, gun.position, transform.rotation);
-            }
+        }            }
         }else if(slotL)
         {
             if(UpdateMenuRapido.Instance.Vleft > 0)
@@ -744,8 +756,13 @@ void Blast()
         UpdateMenuRapido.Instance.Vleft--;
         UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
         Instantiate(blam, gun.position, transform.rotation);
+        if(UpdateMenuRapido.Instance.idleft == 3 || UpdateMenuRapido.Instance.idleft == 2)
+        {
+        Instantiate(bullet, transform.position, transform.rotation);
+        }else
+        {
         Instantiate(bullet, gun.position, transform.rotation);
-            }
+        }            }
         }else if(slotR)
         {
             if(UpdateMenuRapido.Instance.Vright > 0)
@@ -753,8 +770,13 @@ void Blast()
         UpdateMenuRapido.Instance.Vright--;
         UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
         Instantiate(blam, gun.position, transform.rotation);
+        if(UpdateMenuRapido.Instance.idright == 3 || UpdateMenuRapido.Instance.idright == 2)
+        {
+        Instantiate(bullet, transform.position, transform.rotation);
+        }else
+        {
         Instantiate(bullet, gun.position, transform.rotation);
-            }
+        }            }
         }
         
         

@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1919f98c8b2394ab45c546f7c583ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombSpeed: 10
+  bombSpeed: 5
   Explode: {fileID: 3521028388216535397, guid: 73fa29b238860e44a9538824e70af93a, type: 3}
   prefabExp: {fileID: 8269559013247857369, guid: 73fa29b238860e44a9538824e70af93a, type: 3}
   damage: 50

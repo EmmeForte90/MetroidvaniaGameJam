@@ -5,10 +5,11 @@ using UnityEngine;
 public class SwordRain : MonoBehaviour
 {
     public float scaleFactor = 1.5f; // fattore di scala
-    public float duration = 2.0f; // durata dell'animazione di scaling
+    public float duration = 1f; // durata dell'animazione di scaling
     public float destroyDelay = 1.0f; // intervallo di tempo prima della distruzione del gameobject
 
     private float scaleTimer = 0.0f; // timer per il conteggio della durata dell'animazione di scaling
+    [SerializeField] GameObject Animation;
     [SerializeField] GameObject Explode;
     [SerializeField] Transform prefabExp;
         [SerializeField] int damage = 50;
@@ -22,8 +23,14 @@ public class SwordRain : MonoBehaviour
     {
         Move.instance.SwordRain();
         Move.instance.Stop();
-                 //Invoke("Destroy", lifeTime);
+        StartCoroutine(StartSkill());
+    }
 
+     IEnumerator StartSkill()
+    {
+        yield return new WaitForSeconds(duration);
+        Animation.gameObject.SetActive(true);
+    
     }
     // Update is called once per frame
     void Update()

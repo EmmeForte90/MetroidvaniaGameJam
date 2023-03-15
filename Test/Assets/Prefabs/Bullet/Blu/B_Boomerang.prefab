@@ -474,8 +474,8 @@ MonoBehaviour:
   returnDelay: 2
   rotationSpeed: 2500
   damage: 50
-  Explode: {fileID: 6353872326894538400, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
-  prefabExp: {fileID: 1887898322871059740, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
+  Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   SExp: {fileID: 8616531204116423035}
   SBomb: {fileID: 985401052728343498}
 --- !u!61 &8151873219484602366
