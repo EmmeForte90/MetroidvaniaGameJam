@@ -16,8 +16,9 @@ public class Move : MonoBehaviour
     [SerializeField] private float deceleration;
     [HideInInspector] public float horDir;
     [HideInInspector] public float vertDir;
-    public float DpadX;
-    public float DpadY;
+    [HideInInspector] public float DpadX;//DPad del joypad per il menu rapido
+    [HideInInspector] public float DpadY;//DPad del joypad per il menu rapido
+    public float Dorsali;
     public float runSpeedThreshold = 5f; // or whatever value you want
 
     [Header("Dash")]
@@ -231,6 +232,7 @@ if (_skeletonAnimation == null) {
         vertDir = Input.GetAxisRaw("Vertical");
         DpadX = Input.GetAxis("DPad X");
         DpadY = Input.GetAxis("DPad Y");
+        Dorsali = Input.GetAxis("Dorsali");
         if (isGrounded())
         {
             //Debug.Log("isGrounded(): " + isGrounded());
@@ -470,7 +472,7 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Ins
         Stop();
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- if (Input.GetButtonUp("Dash") && !dashing && coolDownTime <= 0 && unlockDash)
+ if (Input.GetButtonUp("Dash") || Dorsali == 1 && !dashing && coolDownTime <= 0 && unlockDash)
         {
             dashing = true;
             coolDownTime = dashCoolDown;

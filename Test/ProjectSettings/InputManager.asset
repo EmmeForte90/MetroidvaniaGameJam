@@ -694,11 +694,11 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: SlotBottom
+    m_Name: Dorsali
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 1
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -707,6 +707,6 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 6
+    axis: 9
     joyNum: 0
   m_UsePhysicalKeys: 0
