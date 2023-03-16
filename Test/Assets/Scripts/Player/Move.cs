@@ -16,6 +16,8 @@ public class Move : MonoBehaviour
     [SerializeField] private float deceleration;
     [HideInInspector] public float horDir;
     [HideInInspector] public float vertDir;
+    public float DpadX;
+    public float DpadY;
     public float runSpeedThreshold = 5f; // or whatever value you want
 
     [Header("Dash")]
@@ -227,7 +229,8 @@ if (_skeletonAnimation == null) {
         {
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
-
+        DpadX = Input.GetAxis("DPad X");
+        DpadY = Input.GetAxis("DPad Y");
         if (isGrounded())
         {
             //Debug.Log("isGrounded(): " + isGrounded());
@@ -357,7 +360,7 @@ if (!isBlast && Time.time >= nextAttackTime)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Scelta della skill dal menu rapido
-if (Input.GetButtonDown("SlotUp") && UpdateMenuRapido.Instance.idup > 0)
+if (Input.GetButtonDown("SlotUp") || DpadY == 1 && UpdateMenuRapido.Instance.idup > 0)
 {
    UpdateMenuRapido.Instance.Selup();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
@@ -366,7 +369,7 @@ if (Input.GetButtonDown("SlotUp") && UpdateMenuRapido.Instance.idup > 0)
     slotL = false;
     slotR = false;
 }
-else if (Input.GetButtonDown("SlotRight")&& UpdateMenuRapido.Instance.idright > 0)
+else if (Input.GetButtonDown("SlotRight") || DpadX == 1 && UpdateMenuRapido.Instance.idright > 0)
 {
       UpdateMenuRapido.Instance.Selright();
       //SkillMenu.Instance.AssignId();
@@ -376,7 +379,7 @@ else if (Input.GetButtonDown("SlotRight")&& UpdateMenuRapido.Instance.idright > 
     slotL = false;
     slotR = true;
 }
-else if (Input.GetButtonDown("SlotLeft")&& UpdateMenuRapido.Instance.idleft > 0)
+else if (Input.GetButtonDown("SlotLeft")|| DpadX == -1 && UpdateMenuRapido.Instance.idleft > 0)
 {
       UpdateMenuRapido.Instance.Selleft();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idleft);
@@ -385,7 +388,7 @@ else if (Input.GetButtonDown("SlotLeft")&& UpdateMenuRapido.Instance.idleft > 0)
     slotL = true;
     slotR = false;
 }
-else if (Input.GetButtonDown("SlotBottom")&& UpdateMenuRapido.Instance.idbottom > 0)
+else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Instance.idbottom > 0)
 {
       UpdateMenuRapido.Instance.Selbottom();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idbottom);
@@ -418,7 +421,12 @@ else if (Input.GetButtonDown("SlotBottom")&& UpdateMenuRapido.Instance.idbottom 
             {
                 Debug.Log("Il pulsante è stato premuto!");
             }
+
+
+            
             #endregion
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
  if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate)
@@ -462,8 +470,7 @@ else if (Input.GetButtonDown("SlotBottom")&& UpdateMenuRapido.Instance.idbottom 
         Stop();
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
+ if (Input.GetButtonUp("Dash") && !dashing && coolDownTime <= 0 && unlockDash)
         {
             dashing = true;
             coolDownTime = dashCoolDown;
@@ -474,7 +481,8 @@ if (Input.GetButton("Dash")&& !dashing && coolDownTime <= 0 && unlockDash)
         if (coolDownTime > 0)
         {
             coolDownTime -= Time.deltaTime;
-        }
+        }    
+
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
