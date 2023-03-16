@@ -78,6 +78,7 @@ public class Move : MonoBehaviour
     // Variabile per il gameobject del proiettile
     [SerializeField] GameObject blam;
     [SerializeField] public Transform gun;
+    [SerializeField] public Transform top;
     [SerializeField] GameObject Circle;
     [SerializeField] public Transform circlePoint;
     [SerializeField] public Transform slashpoint;
@@ -219,9 +220,6 @@ if (_skeletonAnimation == null) {
     
     private void Update()
     {
-       // Debug.DrawLine(transform.position + raycastColliderOffset, transform.position + raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
-       // Debug.DrawLine(transform.position - raycastColliderOffset, transform.position - raycastColliderOffset + Vector3.down * distanceFromGroundRaycast, Color.red);
-       // Debug.DrawLine(transform.position, transform.position + Vector3.down * distanceFromGroundRaycast, Color.red);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -593,11 +591,23 @@ public void attackupper()
             rb.AddForce(transform.right * dashForceAtk, ForceMode2D.Impulse);
             dashTime -= Time.deltaTime;
         }
-        else if (horDir == 0)
+         else if (horDir == 0)
         {
-            
-        dashing = false;
-        attackNormal = false;
+            if (rb.transform.localScale.x == -1)
+        {
+
+           rb.AddForce(-transform.right * dashForce, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+        else if (rb.transform.localScale.x == 1)
+        {
+            //anim.SetTrigger("Dash");
+
+            rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+            dashTime -= Time.deltaTime;
+        }
+                //dashing = false;
+                //Atkdashing = false;
         }
 
             if (dashTime <= 0)
@@ -606,10 +616,7 @@ public void attackupper()
                 attackNormal = false;
 
             }
-        }
-        
-        
-        if (attackUpper)
+        } else if (attackUpper)
         { 
 
             //Bisogna aggiungere un limite a questo punto
@@ -621,7 +628,7 @@ public void attackupper()
             else if (dashTime <= 0)
             {
                 dashing = false;
-                attackNormal = false;
+                attackUpper = false;
             }
         }
 
@@ -764,10 +771,18 @@ void Blast()
         UpdateMenuRapido.Instance.Vbottom--;
         UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
         Instantiate(blam, gun.position, transform.rotation);
-        if(UpdateMenuRapido.Instance.idbottom == 3 || UpdateMenuRapido.Instance.idbottom == 2)
+        //Eccezioni di spawn
+        if(UpdateMenuRapido.Instance.idbottom == 3 || 
+        UpdateMenuRapido.Instance.idbottom == 2 || 
+        UpdateMenuRapido.Instance.idbottom == 1)
         {
         Instantiate(bullet, transform.position, transform.rotation);
-        }else
+        }
+        else if(UpdateMenuRapido.Instance.idbottom == 15)
+        {
+        Instantiate(bullet, top.position, transform.rotation);
+        }
+        else
         {
         Instantiate(bullet, gun.position, transform.rotation);
         }
@@ -780,13 +795,20 @@ void Blast()
         UpdateMenuRapido.Instance.Vup--;
         UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
         Instantiate(blam, gun.position, transform.rotation);
-        if(UpdateMenuRapido.Instance.idup == 3 || UpdateMenuRapido.Instance.idup == 2)
+        //Eccezioni di spawn
+        if(UpdateMenuRapido.Instance.idup == 3 || 
+        UpdateMenuRapido.Instance.idup == 2 || 
+        UpdateMenuRapido.Instance.idup == 1 )
         {
         Instantiate(bullet, transform.position, transform.rotation);
+        }else if(UpdateMenuRapido.Instance.idup == 15)
+        {
+        Instantiate(bullet, top.position, transform.rotation);
         }else
         {
         Instantiate(bullet, gun.position, transform.rotation);
-        }            }
+        }            
+        }
         }else if(slotL)
         {
             if(UpdateMenuRapido.Instance.Vleft > 0)
@@ -794,13 +816,20 @@ void Blast()
         UpdateMenuRapido.Instance.Vleft--;
         UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
         Instantiate(blam, gun.position, transform.rotation);
-        if(UpdateMenuRapido.Instance.idleft == 3 || UpdateMenuRapido.Instance.idleft == 2)
+        //Eccezioni di spawn
+        if(UpdateMenuRapido.Instance.idleft == 3 || 
+        UpdateMenuRapido.Instance.idleft == 2 ||
+        UpdateMenuRapido.Instance.idleft == 1)
         {
         Instantiate(bullet, transform.position, transform.rotation);
+        }else if(UpdateMenuRapido.Instance.idleft == 15)
+        {
+        Instantiate(bullet, top.position, transform.rotation);
         }else
         {
         Instantiate(bullet, gun.position, transform.rotation);
-        }            }
+        }            
+        }
         }else if(slotR)
         {
             if(UpdateMenuRapido.Instance.Vright > 0)
@@ -808,13 +837,20 @@ void Blast()
         UpdateMenuRapido.Instance.Vright--;
         UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
         Instantiate(blam, gun.position, transform.rotation);
-        if(UpdateMenuRapido.Instance.idright == 3 || UpdateMenuRapido.Instance.idright == 2)
+        //Eccezioni di spawn
+        if(UpdateMenuRapido.Instance.idright == 3 || 
+        UpdateMenuRapido.Instance.idright == 2 || 
+        UpdateMenuRapido.Instance.idright == 1 )
         {
         Instantiate(bullet, transform.position, transform.rotation);
+        }else if(UpdateMenuRapido.Instance.idright == 15)
+        {
+        Instantiate(bullet, top.position, transform.rotation);
         }else
         {
         Instantiate(bullet, gun.position, transform.rotation);
-        }            }
+        }            
+        }
         }
         
         

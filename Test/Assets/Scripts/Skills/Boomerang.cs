@@ -65,19 +65,27 @@ public class Boomerang : MonoBehaviour
         targetPos = startPos;  // cambia il bersaglio in modo che il boomerang torni indietro
     }
 
-    void OnTriggerEnter2D(Collider2D other) 
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
-        //Se il proiettile tocca il nemico
-        {            
-            SExp.Play();
+        if (other.gameObject.tag == "Enemy")
+        {  
+            //Debug.Log("Colpito");
             Instantiate(Explode, transform.position, transform.rotation);
             IDamegable hit = other.GetComponent<IDamegable>();
             hit.Damage(damage);
-            Destroy(gameObject);
-
+            
         }
-        
+
+        if (other.gameObject.tag == "Ground")
+        { 
+            Destroy(gameObject);
+        }
+    }
+
+    private void Destroy()
+    {
+        Destroy(gameObject);
+    }
         
     }
-}
+

@@ -18,16 +18,18 @@ public class DashAttack : MonoBehaviour
         {
         Move.instance.attackupper();
         Invoke("Destroy", lifeTime);
-        }else
+        }else if(!upper)
+        {
         {
         Move.instance.attackDash();
         Invoke("Destroy", lifeTime);
         }
 
     } 
-    
+    }
     private void Destroy()
     {
         Destroy(gameObject);
     }
 }
+

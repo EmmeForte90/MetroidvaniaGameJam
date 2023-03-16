@@ -377,8 +377,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4140563968305162889}
   - component: {fileID: 4140563968305162902}
-  - component: {fileID: 3815346680881143918}
   - component: {fileID: 8151873219484602366}
+  - component: {fileID: 3815346680881143918}
   m_Layer: 0
   m_Name: B_Boomerang
   m_TagString: Untagged
@@ -456,28 +456,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3815346680881143918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4140563968305162903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20df7fbe800116b499b056176682cc92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  range: 10
-  returnSpeed: 20
-  returnDelay: 2
-  rotationSpeed: 2500
-  damage: 50
-  Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
-  prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
-  SExp: {fileID: 8616531204116423035}
-  SBomb: {fileID: 985401052728343498}
 --- !u!61 &8151873219484602366
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -504,3 +482,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.65313053, y: 0.51030207}
   m_EdgeRadius: 0
+--- !u!114 &3815346680881143918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4140563968305162903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20df7fbe800116b499b056176682cc92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  range: 10
+  returnSpeed: 20
+  returnDelay: 2
+  rotationSpeed: 2500
+  damage: 50
+  Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  SExp: {fileID: 8616531204116423035}
+  SBomb: {fileID: 985401052728343498}

@@ -7,6 +7,7 @@ using TMPro;
 public class test : MonoBehaviour
 {
     public Skill Skill;
+    [SerializeField] GameObject VFX;
     //public TextMeshProUGUI itemDescriptionText;
 public bool IsUpper = false;
 public bool IsSwordRain = false;
@@ -112,6 +113,8 @@ public bool IsHeal = false;
         if (collision.CompareTag("Player"))
         {
             Pickup();
+        Instantiate(VFX, transform.position, transform.rotation);
+
         }
     }
 }

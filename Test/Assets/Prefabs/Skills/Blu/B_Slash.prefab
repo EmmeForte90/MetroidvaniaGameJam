@@ -139,8 +139,9 @@ GameObject:
   - component: {fileID: 7498967726903588340}
   - component: {fileID: 7498967726903588343}
   - component: {fileID: 7498967726903588331}
-  - component: {fileID: 7498967726903588330}
   - component: {fileID: 7498967726903588341}
+  - component: {fileID: 8210175663389834152}
+  - component: {fileID: 5956235769040117276}
   m_Layer: 0
   m_Name: B_Slash
   m_TagString: Untagged
@@ -234,30 +235,6 @@ MonoBehaviour:
   isExplosion: 0
   intensity: 5
   time: 0.1
---- !u!114 &7498967726903588330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498967726903588342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35253cc861702104cb773007aa3523db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 30
-  Explode: {fileID: 6353872326894538400, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
-  prefabExp: {fileID: 1887898322871059740, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
-  damage: 5
-  rotationSpeed: 2500
-  isRotating: 0
-  isSlash: 1
-  Globe: 1
-  Shotgun: 0
-  lifeTime: 0.5
-  SExp: {fileID: 7498967728493691391}
-  SBomb: {fileID: 7498967726566087694}
 --- !u!50 &7498967726903588341
 Rigidbody2D:
   serializedVersion: 4
@@ -279,6 +256,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!61 &8210175663389834152
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498967726903588342}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.77483416, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.1, y: 3.77}
+    newSize: {x: 3.1, y: 3.77}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0033906, y: 3.77}
+  m_EdgeRadius: 0
+--- !u!114 &5956235769040117276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498967726903588342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd73811ea9808f429d98636aee8a260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 30
+  Explode: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  prefabExp: {fileID: 1581658538409014935, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  damage: 50
+  lifeTime: 0.5
+  SExp: {fileID: 7498967728493691391}
+  SBomb: {fileID: 7498967726566087694}
 --- !u!1 &7498967727678117803
 GameObject:
   m_ObjectHideFlags: 0

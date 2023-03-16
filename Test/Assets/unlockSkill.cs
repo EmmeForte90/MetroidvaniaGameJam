@@ -7,6 +7,7 @@ public class unlockSkill : MonoBehaviour
     public bool Isdoublejump = false;
     public bool IsDash = false;
     public bool Iswalljump = false;
+    [SerializeField] GameObject VFX;
 
 
     public void Pickup()
@@ -28,6 +29,8 @@ public class unlockSkill : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Pickup();
+                    Instantiate(VFX, transform.position, transform.rotation);
+
         }
     }
 }

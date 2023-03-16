@@ -977,6 +977,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1213828163803754025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5342359951848815601}
+  m_Layer: 3
+  m_Name: Top
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5342359951848815601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213828163803754025}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2144114532784799624}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1280481559304892089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,8 +2604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6567bcc2a81744693243eaaad8b44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Clang: {fileID: 4740457793111715934, guid: 98e6baff25d789c4e87386b544c4fb4e, type: 3}
-  Sdeng: {fileID: 7866759376238776375, guid: 808ff1c2d53047f428488a13db9c4843, type: 3}
+  Clang: {fileID: 5006902587877455861, guid: 28e3e099063311f439f5a38096f63cad, type: 3}
+  Sdeng: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
   Pos: {fileID: 2144114532784799624}
   attackDamage: 10
   pesante: 0
@@ -4942,6 +4973,7 @@ Transform:
   - {fileID: 2144114532632929125}
   - {fileID: 2144114532353334260}
   - {fileID: 2144114533685694106}
+  - {fileID: 5342359951848815601}
   m_Father: {fileID: 2144114532910398336}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5120,6 +5152,7 @@ MonoBehaviour:
   sceneName: 
   blam: {fileID: 9173311337577857821, guid: 321cbfc0bda51b94e81734a3bcbe971a, type: 3}
   gun: {fileID: 2144114532700355957}
+  top: {fileID: 5342359951848815601}
   Circle: {fileID: 8377799538609817746, guid: 36cd24acadc3a3242b08bf90b61abdc4, type: 3}
   circlePoint: {fileID: 2144114532483221924}
   slashpoint: {fileID: 2144114533230465875}
@@ -5131,29 +5164,41 @@ MonoBehaviour:
   charge: {fileID: 3575686585380099012, guid: b1f4bcf8216acd04fabd510142c4c96c, type: 3}
   attack_air_bottom: {fileID: 3231990439449419396, guid: 07ae8645b52eaa94e8ff3d0fe5ec94f8, type: 3}
   attack_air_up: {fileID: 373540190890739687, guid: 8d0b9628500edbb4c8d3824cf30b21a8, type: 3}
+  swordRain: {fileID: 733048841792382525, guid: 0f0a5d94f58ff824083c224aea7b1f34, type: 3}
   idleAnimationName: Gameplay/idle
   walkAnimationName: Gameplay/walk
   runAnimationName: Gameplay/run
   jumpAnimationName: Gameplay/jump
   jumpDownAnimationName: Gameplay/fall
+  landingAnimationName: Gameplay/landing
+  walljumpAnimationName: Gameplay/wallslidinghook
+  walljumpdownAnimationName: Gameplay/wallsliding
+  dashAnimationName: Gameplay/dash
   hurtAnimationName: Gameplay/hurt
   deathAnimationName: Gameplay/die
+  RestAnimationName: CheckpointAnimation/ch_rest_d
+  UpAnimationName: CheckpointAnimation/ch_up
+  respawnAnimationName: CheckpointAnimation/respawn
   attackAnimationName: CS/attack
   attack_lAnimationName: CS/attack_l
   attack_hAnimationName: CS/attack_h
   attack_aAnimationName: CS/attack_a
   chargeAnimationName: CS/charge
-  blastAnimationName: Gameplay/blast
-  landingAnimationName: Gameplay/landing
-  walljumpAnimationName: Gameplay/wallslidinghook
-  walljumpdownAnimationName: Gameplay/wallsliding
-  dashAnimationName: Gameplay/dash
   pesanteAnimationName: CS/pesante
-  RestAnimationName: CheckpointAnimation/ch_rest_d
-  UpAnimationName: CheckpointAnimation/ch_up
-  respawnAnimationName: CheckpointAnimation/respawn
   upatkjumpAnimationName: CS/jump_atk_up
   downatkjumpAnimationName: CS/jump_atk_down
+  blastAnimationName: Skills/blast
+  bigblastAnimationName: Skills/bigblast
+  TornadoAnimationName: Skills/tornado
+  SwordrainAnimationName: Skills/swordrain
+  multilungeAnimationName: Skills/multilunge
+  DashAttackAnimationName: Skills/dashattack
+  evocationAnimationName: Skills/evocation
+  throwAnimationName: Skills/throw
+  upperAnimationName: Skills/upper
+  dashsawAnimationName: Skills/dashsaw
+  SawinAnimationName: Skills/saw_loop
+  SpecialAnimationName: Skills/special_attack
   comboCounter: 0
   nextAttackTime: 0
   attackRate: 2
@@ -5200,27 +5245,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc220712a7baa9449c483eb949db0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Upper: {fileID: 5973347569474014298, guid: 0e8eb20af3f3dbf4987bd42a9d759842, type: 3}
-  Swordrain: {fileID: 7361950450965343212, guid: 69ac5a91ed75cb540aad136cefeee3a5, type: 3}
-  Tornado: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  Upper: {fileID: 819066220119405821, guid: bd1de81095b6a8d4d9d3ed798ce50b42, type: 3}
+  Swordrain: {fileID: 2258345599846898468, guid: ef0b82e91ea961a40ba174e2f626c82e, type: 3}
+  Tornado: {fileID: 8919316949894991550, guid: 02cde04ea5a0b674c90051cedb378a5f, type: 3}
   Spinner: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
-  DashLunge: {fileID: 3521028388216535397, guid: 73fa29b238860e44a9538824e70af93a, type: 3}
-  Multilunge: {fileID: 9173311337577857821, guid: 321cbfc0bda51b94e81734a3bcbe971a, type: 3}
-  Slash: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  DashLunge: {fileID: 5915012339577137253, guid: 1fe9995882b2461428d54f6fce28b803, type: 3}
+  Multilunge: {fileID: 5595649912770679897, guid: 667c753ce886526449797eb7b808e33c, type: 3}
+  Slash: {fileID: 7498967726903588342, guid: 43fc2676e17709e4eb9a45eb9e2c3606, type: 3}
   PenetratingSlash: {fileID: 5232293475686507712, guid: 2d814150e3b4d6e4dad469a85c88e6f0, type: 3}
   Globo: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
   Shotgun: {fileID: 5973347569474014298, guid: 0e8eb20af3f3dbf4987bd42a9d759842, type: 3}
-  Dashsaw: {fileID: 4740457793111715934, guid: 98e6baff25d789c4e87386b544c4fb4e, type: 3}
-  Wall: {fileID: 6353872326894538400, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
+  Dashsaw: {fileID: 5915012339577137253, guid: 1fe9995882b2461428d54f6fce28b803, type: 3}
+  Wall: {fileID: 4689791480848074215, guid: d63056de833fa9c4993bca7924223da5, type: 3}
   Bomb: {fileID: 978235844193205966, guid: f7af82967ee23064aabfbef405356efc, type: 3}
-  Boomerang: {fileID: 4740457793111715934, guid: 98e6baff25d789c4e87386b544c4fb4e, type: 3}
-  Gladio: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
-  Lumen: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
+  Boomerang: {fileID: 4140563968305162903, guid: baf3dfcd368edf546960266856471cfd, type: 3}
+  Gladio: {fileID: 5818335592138700485, guid: 10cec72fe37a1374cb3fa98b206d0bcb, type: 3}
+  Lumen: {fileID: 3682144403767118341, guid: aa4952ee82603d142a117c23cae0eb4d, type: 3}
   Turris: {fileID: 7262327318912496866, guid: 25a2665b8fe48c2438678ad5d012312f, type: 3}
-  Shield: {fileID: 5232293475686507712, guid: 2d814150e3b4d6e4dad469a85c88e6f0, type: 3}
+  Shield: {fileID: 7035802523300568314, guid: 1a90421a406abe042ae9c4331bb985a5, type: 3}
   Flame: {fileID: 6353872326894538400, guid: b3af23cb85b0fe34882465c81edbc10e, type: 3}
-  Aura: {fileID: 6002612636095783793, guid: a807139c9a4c2354fb50a973b5493ce9, type: 3}
-  Heal: {fileID: 4740457793111715934, guid: 98e6baff25d789c4e87386b544c4fb4e, type: 3}
+  Aura: {fileID: 7578246637489735169, guid: 7aac1e0e27c62874abbc0495d4b278e6, type: 3}
+  Heal: {fileID: 1146382902682580273, guid: 8609719da54e9ad43b2005dbb8eb614c, type: 3}
 --- !u!114 &2144114532784799734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8696,6 +8741,7 @@ GameObject:
   - component: {fileID: 5624011895361676885}
   - component: {fileID: 6915550439455681100}
   - component: {fileID: 2351941829342885102}
+  - component: {fileID: 1062845614}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -8744,7 +8790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8761,6 +8807,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1062845614
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2683899270010739046}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 985927ce760b8d54bb4c33fa4d65de3a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2714317387423702381
 GameObject:
   m_ObjectHideFlags: 0
