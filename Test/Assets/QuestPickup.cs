@@ -23,7 +23,7 @@ public bool Quest3 = false;
         Destroy(gameObject);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnEnterExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
