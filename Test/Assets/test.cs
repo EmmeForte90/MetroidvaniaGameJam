@@ -108,7 +108,7 @@ public bool IsHeal = false;
         Destroy(gameObject);
     }
 
-    private void OnEnterExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
