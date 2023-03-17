@@ -44,6 +44,7 @@ public class GameplayManager : MonoBehaviour
 
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
+    //public Transform QuestContent;
 
     
     public static GameplayManager instance;
@@ -55,6 +56,7 @@ public class GameplayManager : MonoBehaviour
         {
             instance = this;
         }
+        //QuestManager.Instance.QuestContent = QuestContent;
         player = GameObject.FindWithTag("Player");
 virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 virtualCamera.Follow = player.transform;

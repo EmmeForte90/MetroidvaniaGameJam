@@ -15,7 +15,9 @@ public static TitleQuest Instance;
 private void Awake()
 {
     Instance = this;
-   
 }
+
+
+
 
 }

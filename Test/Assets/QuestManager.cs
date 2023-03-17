@@ -17,6 +17,7 @@ public class QuestManager : MonoBehaviour
     Instance = this;
    }
 
+
    public void Add(Quests quest)
    {
     Quest.Add(quest);
