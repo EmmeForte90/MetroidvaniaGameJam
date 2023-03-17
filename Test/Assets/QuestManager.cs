@@ -39,10 +39,11 @@ public class QuestManager : MonoBehaviour
       {
          GameObject obj = Instantiate(InventoryQuest, QuestContent);
          //var questIcon = obj.transform.Find("Icon_quest").GetComponent<Image>();
-//         var questName = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
+
+          var questName = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
 
        //  questIcon.sprite = quest.icon;
-     //  questName.text = quest.questName;
+       questName.text = quest.questName;
 
 
       }
