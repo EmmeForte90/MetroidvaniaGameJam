@@ -7,44 +7,43 @@ using TMPro;
 public class InventoryManager : MonoBehaviour
 {
    public static InventoryManager Instance;
-   public List<Item> Items = new List<Item>();
+   //public List<Item> Items = new List<Item>();
 
    public Transform ItemContent;
    public GameObject InventoryItem;
    public TextMeshProUGUI itemDes;
    public Image itemPre;
 
-   private void Awake()
+public bool KeyN = false;
+[SerializeField] GameObject  Key_N;
+public bool Lingotto = false;
+[SerializeField] GameObject  Lingotto_N;
+public bool Seme = false;
+[SerializeField] GameObject  Seme_N;
+
+
+private void Awake()
    {
-    Instance = this;
+    Instance = this;   
+    
    }
 
-   public void Add(Item item)
+private void Update()
+{
+   if(KeyN)
    {
-    Items.Add(item);
+      Key_N.gameObject.SetActive(true);
+   }
+if(Lingotto)
+   {
+      Lingotto_N.gameObject.SetActive(true);
    }
 
-   public void Remove(Item item)
+if(Seme)
    {
-     Items.Remove(item);
+      Seme_N.gameObject.SetActive(true);
    }
 
-   public void ListItems()
-   {
-      foreach (Transform child in ItemContent)
-      {
-         Destroy(child.gameObject);
-      }
-
-      foreach (var item in Items)
-      {
-         GameObject obj = Instantiate(InventoryItem, ItemContent);
-         var itemIcon = obj.transform.Find("Item_icon").GetComponent<Image>();
-
-         itemPre.sprite = item.icon;
-         itemDes.text = item.Description;
-         itemIcon.sprite = item.icon;
-      }
-   }
+}
 }
 
