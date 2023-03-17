@@ -5,48 +5,45 @@ using UnityEngine.UI;
 using TMPro;
 
 public class QuestManager : MonoBehaviour
+{    
+public static QuestManager Instance;
+
+public bool Quest1 = false;
+[SerializeField] GameObject  Quest_1;
+public bool Quest2 = false;
+[SerializeField] GameObject  Quest_2;
+public bool Quest3 = false;
+[SerializeField] GameObject  Quest_3;
+
+
+private void Awake()
+   {
+    Instance = this;   
+    
+   }
+
+private void Update()
 {
-   public static QuestManager Instance;
-   public List<Quests> Quest = new List<Quests>();
-
-   public Transform QuestContent;
-   public GameObject InventoryQuest;
-
-   private void Awake()
+   if(Quest1)
    {
-    Instance = this;
+      Quest_1.gameObject.SetActive(true);
+   }
+if(Quest2)
+   {
+      Quest_2.gameObject.SetActive(true);
    }
 
-
-   public void Add(Quests quest)
+if(Quest3)
    {
-    Quest.Add(quest);
+      Quest_3.gameObject.SetActive(true);
    }
 
-   public void Remove(Quests quest)
-   {
-     Quest.Remove(quest);
-   }
-
-   public void ListQuest()
-   {
-      foreach (Transform child in QuestContent)
-      {
-         Destroy(child.gameObject);
-      }
-
-      foreach (var quest in Quest)
-      {
-         GameObject obj = Instantiate(InventoryQuest, QuestContent);
-         //var questIcon = obj.transform.Find("Icon_quest").GetComponent<Image>();
-
-          var questName = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
-
-       //  questIcon.sprite = quest.icon;
-       questName.text = quest.questName;
-
-
-      }
-   }
 }
+
+}
+
+
+
+
+
 

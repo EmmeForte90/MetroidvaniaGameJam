@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 32.615925, y: -19.032341}
-  m_SizeDelta: {x: 18.7985, y: 25.6978}
+  m_AnchoredPosition: {x: 12.0141, y: -18.0606}
+  m_SizeDelta: {x: 12.4267, y: 23.7544}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4684024264944098734
 CanvasRenderer:
@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 74.58325, y: -19.623688}
+  m_AnchoredPosition: {x: 52.9, y: -19.623688}
   m_SizeDelta: {x: 25, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9220670697696960531
@@ -169,8 +169,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.9
-  m_fontSizeBase: 8.9
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -14.568517, y: 0, z: -50.375793, w: 0}
+  m_margin: {x: -14.568517, y: 0, z: -41.77388, w: 1.9433651}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -355,7 +355,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 4758344457679859437}
           m_TargetAssemblyTypeName: DescriptionQuest, Assembly-CSharp
-          m_MethodName: DescriptionQ
+          m_MethodName: QuestSign
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -377,5 +377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4437f230d47463848a8a6a370e631aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myQuest: {fileID: 0}
   id: 0
-  selectedId: -1
+  guid: 

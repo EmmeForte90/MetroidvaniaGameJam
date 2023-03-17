@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class InventoryManager : MonoBehaviour
 
    public Transform ItemContent;
    public GameObject InventoryItem;
+   public TextMeshProUGUI itemDes;
+   public Image itemPre;
 
    private void Awake()
    {
@@ -38,6 +41,8 @@ public class InventoryManager : MonoBehaviour
          GameObject obj = Instantiate(InventoryItem, ItemContent);
          var itemIcon = obj.transform.Find("Item_icon").GetComponent<Image>();
 
+         itemPre.sprite = item.icon;
+         itemDes.text = item.Description;
          itemIcon.sprite = item.icon;
       }
    }

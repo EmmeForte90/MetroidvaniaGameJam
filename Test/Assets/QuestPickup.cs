@@ -5,14 +5,21 @@ using UnityEngine;
 public class QuestPickup : MonoBehaviour
 {
     public Quests quest;
-   
+    [SerializeField] GameObject VFX;
 
-
-
+public bool Quest1 = false;
+public bool Quest2 = false;
+public bool Quest3 = false;
     public void Pickup()
     {
-        QuestManager.Instance.Add(quest);
-        QuestManager.Instance.ListQuest();
+        
+        if(Quest1)
+        {QuestManager.Instance.Quest1 = true;}
+        else if(Quest2)
+        {QuestManager.Instance.Quest2 = true;}
+        else if(Quest3)
+        {QuestManager.Instance.Quest3 = true;}
+
         Destroy(gameObject);
     }
 
@@ -20,7 +27,9 @@ public class QuestPickup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Pickup();
+        Pickup();
+        Instantiate(VFX, transform.position, transform.rotation);
+
         }
     }
 }
