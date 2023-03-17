@@ -8,13 +8,30 @@ public class UIControllers : MonoBehaviour
 {
 
     public GameObject Button;
+        public GameObject ActivePauseMenu;
 
+    public static UIControllers instance;
 
+private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
    public void SetSelectedGameObjectToSettings()
     {
         //Clear
         EventSystem.current.SetSelectedGameObject(null);
         //Reassign
         EventSystem.current.SetSelectedGameObject(Button);
+    }
+
+    public void SetSelectedGameObjectToSettingsPM()
+    {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(ActivePauseMenu);
     }
 }
