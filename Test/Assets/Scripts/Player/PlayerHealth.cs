@@ -49,7 +49,6 @@ public static PlayerHealth Instance;
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            Move.instance.isDeath = true;
             Move.instance.Respawn();
             RespawnStatus();
         }

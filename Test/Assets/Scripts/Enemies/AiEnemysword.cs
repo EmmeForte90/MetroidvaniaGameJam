@@ -15,7 +15,7 @@ private Health health;
 private Transform player;
 [SerializeField] LayerMask playerlayer;
 
-[Header("Move")]
+[Header("Moving")]
 public float moveSpeed = 2f; // velocità di movimento
 [SerializeField] float atckForward = 5; // velocità di movimento
 [SerializeField] float pauseDuration = 0.5f; // durata della pausa
@@ -97,7 +97,7 @@ private float waitDuration = 2f;
     private Spine.Skeleton _skeleton;
     Spine.EventData eventData;
 
-private enum State { Move, Chase, Attack, Knockback, Dead, Hurt, Wait }
+private enum State { Moving, Chase, Attack, Knockback, Dead, Hurt, Wait }
 private State currentState;
 
 public static AiEnemysword instance;
@@ -137,8 +137,8 @@ private void Update()
             
             switch (currentState)
             {
-                case State.Move:
-                    Move();
+                case State.Moving:
+                    Moving();
                     break;
                 case State.Chase:
                     Chase();
@@ -172,7 +172,8 @@ private void Update()
 
     private void CheckState()
 {
-    
+    if (!Move.instance.isDeath)
+{
 //Hp finiti, muore
     if (health.currentHealth == 0 || health.currentHealth < 0)
     {
@@ -204,6 +205,7 @@ if (isHurt && !isDie)
         return;
     }
 //Distanza per attaccare il player è dentro il raggio
+
     if (Vector2.Distance(transform.position, player.position) < attackrange && !isDie)
     {
         isChasing = false;
@@ -213,6 +215,7 @@ if (isHurt && !isDie)
         currentState = State.Attack;
         return;
     }
+
 
 //Il player è appena uscito dal raggio e si avvia il timer di attesa prima che il nemico torni a inseguirlo
       if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange && !isDie)
@@ -255,10 +258,10 @@ if(!isPlayerInAttackRange)
     isMove = true;
     isChasing = false;
     isAttacking = false;
-    currentState = State.Move;
+    currentState = State.Moving;
     }
 
-
+}
 }
 //Il nemico torna a inseguirlo dopo tot tempo
 IEnumerator waitChase()
@@ -276,7 +279,7 @@ private void Wait()
 }
 
 // Controlla se l'oggetto deve essere in movimento, il rigedbody è in KInematic
-private void Move()
+private void Moving()
 {
     if (isMove && !isAttacking)
     {

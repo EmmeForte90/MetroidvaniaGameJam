@@ -117,6 +117,7 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string HealEndAnimationName;
     [SpineAnimation][SerializeField] private string deathAnimationName;
     [SpineAnimation][SerializeField] private string RestAnimationName;
+    [SpineAnimation][SerializeField] private string respawnRestAnimationName;
     [SpineAnimation][SerializeField] private string UpAnimationName;
     [SpineAnimation][SerializeField] private string respawnAnimationName;
     ///////////////////////////////////////////////////////////////////////////
@@ -767,10 +768,10 @@ public void StopinputFalse()
 
 public void Respawn()
 {
+
     //Animazione di morte
     death();
-    // Cambia la scena
-    SceneManager.LoadScene(sceneName);
+    isDeath = true;
 
     // Aspetta che la nuova scena sia completamente caricata
     StartCoroutine(WaitForSceneLoad());
@@ -801,15 +802,17 @@ public void Respawn()
     }
 
 IEnumerator WaitForSceneLoad()
-{
+{   
+    yield return new WaitForSeconds(5f);
+    // Cambia la scena
+    SceneManager.LoadScene(sceneName);
     // Trova l'oggetto con il tag "respawn" nella nuova scena
     GameObject respawnPoint = GameObject.FindWithTag("Respawn");
+    respawnRest();
     // Teletrasporta il giocatore alla posizione dell'oggetto "respawn"
     transform.position = respawnPoint.transform.position;
+    yield return new WaitForSeconds(3f);
     respawn();
-
-    yield return new WaitForSeconds(1f);
-
     isDeath = false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1333,13 +1336,15 @@ public void death()
 {
              if (currentAnimationName != deathAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, deathAnimationName, false);
+                    _spineAnimationState.SetAnimation(2, deathAnimationName, true);
                     currentAnimationName = deathAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
+            //_spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+
 }
 public void respawn()
 {
@@ -1352,8 +1357,23 @@ public void respawn()
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-}
+            _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 
+}
+public void respawnRest()
+{
+             if (currentAnimationName != respawnRestAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, respawnRestAnimationName, true);
+                    currentAnimationName = respawnRestAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+            //_spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+
+}
 
 public void AnimationRest()
 {

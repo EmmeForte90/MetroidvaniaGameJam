@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitboxPlayer : MonoBehaviour
 {
-    [SerializeField] GameObject Clang;
+    //[SerializeField] GameObject Clang;
     [SerializeField] GameObject Sdeng;
     [SerializeField] public Transform Pos;
     [SerializeField] public int attackDamage = 10;
@@ -29,7 +29,7 @@ void OnTriggerEnter2D(Collider2D other)
             }
 
         }
-        if(other.gameObject.tag == "Bound")
+       /* if(other.gameObject.tag == "Bound")
         //Se il proiettile tocca il nemico
         {            
             Instantiate(Clang, Pos.transform.position, transform.rotation);
@@ -40,6 +40,6 @@ void OnTriggerEnter2D(Collider2D other)
         }
         }
         
-
-        
+*/
+    }    
 }

@@ -19,8 +19,10 @@ public class EnmAtk : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            if (!Move.instance.isDeath)
+            {
             player.GetComponent<PlayerHealth>().Damage(attackDamage);
-
-        }
+            }
     }
+}
 }
