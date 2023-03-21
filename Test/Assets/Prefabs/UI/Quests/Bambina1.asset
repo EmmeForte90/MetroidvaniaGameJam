@@ -17,3 +17,14 @@ MonoBehaviour:
   Description: 'This girl wants to see some violence, what a wasted youth.    '
   value: 2
   Bigicon: {fileID: 21300000, guid: 686253a17cbc3134ba802db467ef40be, type: 3}
+  Startdialogue:
+  - Hello
+  - Kill the knighs
+  Middledialogue:
+  - Are you stupid?
+  - Kill the knighs!
+  Endingdialogue:
+  - Welldonee
+  - kek
+  isActive: 0
+  isComplete: 0
