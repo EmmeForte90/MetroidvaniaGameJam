@@ -364,35 +364,28 @@ if (!isBlast && Time.time >= nextAttackTime)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Se l'essenza è a zero o il player è morto, il tasto non può essere premuto
-        if (PlayerHealth.Instance.currentEssence <= 0f || isDeath) 
-        {
-            isHeal = false;
-            return;
-        }
-if (Input.GetButtonDown("Heal") && !isHeal 
-&& PlayerHealth.Instance.currentHealth != PlayerHealth.Instance.maxHealth 
-&& PlayerHealth.Instance.currentEssence > 0)
-    {
-        isHeal = true;
-        AnimationHeal();
-        Stop();
-        
-    }
+if (isHeal && PlayerHealth.Instance.currentEssence == 0 || isDeath) 
+{
+    isHeal = false;
+    AnimationHealEnd();
+}
+if (PlayerHealth.Instance.currentEssence > 0) 
+{
+if (Input.GetButtonDown("Heal") && !isHeal && PlayerHealth.Instance.currentHealth != PlayerHealth.Instance.maxHealth)
+{
+    isHeal = true;
+    AnimationHeal();
+}
+}
 
-
-    if (Input.GetButtonUp("Heal") && isHeal)
-    {
-        isHeal = false;
-        AnimationHealEnd();
-
-
-    }
-
-    if (isHeal)
-    {
-        Stop();
-    }
+if (PlayerHealth.Instance.currentEssence > 0) 
+{
+if (Input.GetButtonUp("Heal"))
+{
+    isHeal = false;
+    AnimationHealEnd();
+}
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -937,8 +930,8 @@ public void AnimationHealEnd()
 {
     if (currentAnimationName != HealEndAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, HealEndAnimationName, true);
-                    currentAnimationName = HealAnimationName;
+                    _spineAnimationState.SetAnimation(2, HealEndAnimationName, false);
+                    currentAnimationName = HealEndAnimationName;
                          _spineAnimationState.Event += HandleEvent;
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
