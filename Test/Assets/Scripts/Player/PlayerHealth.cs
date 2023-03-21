@@ -6,13 +6,17 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-       public float maxHealth = 100f;
+    public float maxHealth = 100f;
     public float currentHealth;
     public Scrollbar healthBar;
-
-    public float maxMana = 100f;
+    public GameObject Essence;
+    public float currentEssence;
+    public float maxEssence = 100f; // il massimo valore di essenza disponibile
+    public float essencePerSecond = 10f; // quantità di essenza consumata ogni secondo
+    public float hpIncreasePerSecond = 10f; // quantità di hp incrementata ogni secondo quando il tasto viene premuto
+    //public float maxMana = 100f;
     //public float currentMana;
-    public Scrollbar manaBar;
+    //public Scrollbar manaBar;
 public static PlayerHealth Instance;
 
 
@@ -27,6 +31,7 @@ public static PlayerHealth Instance;
         void Start()
     {
         currentHealth = maxHealth;
+        currentEssence = maxEssence;
         //currentMana = maxMana;
     }
 
@@ -44,10 +49,30 @@ public static PlayerHealth Instance;
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            Move.instance.isDeath = true;
             Move.instance.Respawn();
             RespawnStatus();
         }
     }
+
+public void IncreaseHP(float amount)
+{
+    currentHealth += amount;
+    currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+      //Essence.transform.localScale = new Vector3(currentHealth / maxHealth, currentHealth / maxHealth, currentHealth / maxHealth);
+    float scaleReduction = amount / maxHealth;
+    Essence.transform.localScale -= new Vector3(scaleReduction, scaleReduction, scaleReduction);
+    //Il valore del LocalScale deve essere un Vector3. In questo caso, stiamo settando la scala x,y,z tutti uguali in base alla salute attuale del personaggio.
+
+    currentEssence -= amount;
+    currentEssence = Mathf.Clamp(currentEssence, 0f, maxEssence);
+}
+
+
+
+
+ 
 
     public void TakeManaDamage(float damage)
     {
@@ -62,6 +87,7 @@ public static PlayerHealth Instance;
     {
         // gestione della morte del personaggio
         currentHealth = maxHealth;
+        currentEssence = maxEssence;
        // currentMana = maxMana;
     }
 

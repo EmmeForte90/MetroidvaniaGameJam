@@ -112,6 +112,8 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string dashAnimationName;
     //////////////////////////////////////////////////////////////////////////
     [SpineAnimation][SerializeField] private string hurtAnimationName;
+    [SpineAnimation][SerializeField] private string HealAnimationName;
+    [SpineAnimation][SerializeField] private string HealEndAnimationName;
     [SpineAnimation][SerializeField] private string deathAnimationName;
     [SpineAnimation][SerializeField] private string RestAnimationName;
     [SpineAnimation][SerializeField] private string UpAnimationName;
@@ -172,6 +174,8 @@ private int comboCount = 0;
     public bool isCharging;
     private bool touchGround;
     private bool isDashing;
+    private bool isHeal;
+    [HideInInspector]public bool isDeath;
     private bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isAttackingAir = false; // vero se il personaggio sta attaccando
     private bool isBlast = false; // vero se il personaggio sta attaccando
@@ -226,7 +230,7 @@ if (_skeletonAnimation == null) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if(!GameplayManager.instance.PauseStop || !stopInput)
+        if(!GameplayManager.instance.PauseStop || !stopInput || !isDeath)
         {
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
@@ -325,9 +329,8 @@ if (Input.GetButtonDown("Jump"))
                 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////             
 
-
 // gestione dell'input dello sparo
-if (Input.GetButtonDown("Fire2") && isBlast && Time.time >= nextAttackTime)
+if (Input.GetButtonDown("Fire2") || Dorsali == -1 && isBlast && Time.time >= nextAttackTime)
 {
     //Se non hai finito gli utilizzi
     if(UpdateMenuRapido.Instance.Vbottom > 0 ||
@@ -359,6 +362,38 @@ if (!isBlast && Time.time >= nextAttackTime)
 {
     isBlast = true;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Se l'essenza è a zero o il player è morto, il tasto non può essere premuto
+        if (PlayerHealth.Instance.currentEssence <= 0f || isDeath) 
+        {
+            isHeal = false;
+            return;
+        }
+if (Input.GetButtonDown("Heal") && !isHeal 
+&& PlayerHealth.Instance.currentHealth != PlayerHealth.Instance.maxHealth 
+&& PlayerHealth.Instance.currentEssence > 0)
+    {
+        isHeal = true;
+        AnimationHeal();
+        Stop();
+        
+    }
+
+
+    if (Input.GetButtonUp("Heal") && isHeal)
+    {
+        isHeal = false;
+        AnimationHealEnd();
+
+
+    }
+
+    if (isHeal)
+    {
+        Stop();
+    }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Scelta della skill dal menu rapido
@@ -421,9 +456,15 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Ins
     #region testForanysituation
             if(Input.GetKeyDown(KeyCode.C))
             {
-                Debug.Log("Il pulsante è stato premuto!");
+                Debug.Log("Ok testiamo!");
+                PlayerHealth.Instance.currentHealth = 30;
             }
-
+if(Input.GetKeyDown(KeyCode.X))
+            {
+                Debug.Log("Recupero!");
+                PlayerHealth.Instance.currentHealth = PlayerHealth.Instance.maxHealth;
+                PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
+            }
 
             
             #endregion
@@ -533,8 +574,16 @@ public void attackupper()
 
     private void FixedUpdate()
     {
-        if(!GameplayManager.instance.PauseStop || !isAttacking || !isCharging || !touchGround || !isDashing)
+        if(!GameplayManager.instance.PauseStop || !isAttacking || !isCharging || !touchGround || !isDashing || !isDeath)
         {
+
+
+        if (isHeal)
+        {
+            PlayerHealth.Instance.currentEssence -= PlayerHealth.Instance.essencePerSecond * Time.fixedDeltaTime;
+            PlayerHealth.Instance.IncreaseHP(PlayerHealth.Instance.hpIncreasePerSecond * Time.fixedDeltaTime);
+        }
+
         float playerSpeed = horDir * speed;
         float accelRate = Mathf.Abs(playerSpeed) > 0.01f? acceleration : deceleration;
         rb.AddForce((playerSpeed - rb.velocity.x) * accelRate * Vector2.right);
@@ -720,6 +769,8 @@ public void StopinputFalse()
 
 public void Respawn()
 {
+    //Animazione di morte
+    death();
     // Cambia la scena
     SceneManager.LoadScene(sceneName);
 
@@ -750,15 +801,18 @@ public void Respawn()
         horDir = 0;
 
     }
-    IEnumerator WaitForSceneLoad()
-{
-    yield return new WaitForSeconds(0);
 
+IEnumerator WaitForSceneLoad()
+{
     // Trova l'oggetto con il tag "respawn" nella nuova scena
     GameObject respawnPoint = GameObject.FindWithTag("Respawn");
-
     // Teletrasporta il giocatore alla posizione dell'oggetto "respawn"
     transform.position = respawnPoint.transform.position;
+    respawn();
+
+    yield return new WaitForSeconds(1f);
+
+    isDeath = false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -867,7 +921,30 @@ void Blast()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+public void AnimationHeal()
+{
+    if (currentAnimationName != HealAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, HealAnimationName, true);
+                    currentAnimationName = HealAnimationName;
+                         _spineAnimationState.Event += HandleEvent;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                //_spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+public void AnimationHealEnd()
+{
+    if (currentAnimationName != HealEndAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, HealEndAnimationName, true);
+                    currentAnimationName = HealAnimationName;
+                         _spineAnimationState.Event += HandleEvent;
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
 public void wallJump()
 {
     if (currentAnimationName != walljumpAnimationName)
@@ -956,7 +1033,6 @@ private void OnJumpAnimationComplete(Spine.TrackEntry trackEntry)
     isAttacking = false;
     isAttackingAir = false;
 }
-
 
 public void AnimationCharge()
 {
