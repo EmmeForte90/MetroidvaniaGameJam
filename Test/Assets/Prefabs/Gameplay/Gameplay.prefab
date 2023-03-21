@@ -7730,7 +7730,7 @@ MonoBehaviour:
     m_Bits: 64
   unlockWalljump: 0
   unlockDoubleJump: 0
-  unlockDash: 1
+  unlockDash: 0
   slotR: 0
   slotL: 0
   slotU: 0
@@ -7796,6 +7796,7 @@ MonoBehaviour:
   bullet: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
   Damage: 10
   isCharging: 0
+  isHeal: 0
   isDeath: 0
   stopInput: 0
   basePitch: 1
@@ -9468,7 +9469,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8646437091190172746}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -9495,6 +9496,30 @@ MonoBehaviour:
       - m_Target: {fileID: 4072623079051778904}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 126203492301679874}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 126203492301679874}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettingsPM
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9551,8 +9576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfcda952830bc44fbe75dd11ddc6c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 0}
-  ActivePauseMenu: {fileID: 0}
+  Button: {fileID: 2144114533437017723}
+  ActivePauseMenu: {fileID: 2144114533437017723}
 --- !u!1 &2144114533494050706
 GameObject:
   m_ObjectHideFlags: 0
@@ -28379,10 +28404,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 356833767503560433}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettings
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -28546,8 +28571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfcda952830bc44fbe75dd11ddc6c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 0}
-  ActivePauseMenu: {fileID: 0}
+  Button: {fileID: 5373805948071568783}
+  ActivePauseMenu: {fileID: 5373805948071568783}
 --- !u!1001 &3116135910154692880
 PrefabInstance:
   m_ObjectHideFlags: 0
