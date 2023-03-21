@@ -86,7 +86,9 @@ private float waitDuration = 2f;
     [SpineAnimation][SerializeField] private string idleAnimationName;
     [SpineAnimation][SerializeField] private string walkAnimationName;
     [SpineAnimation][SerializeField] private string runAnimationName;
-    [SpineAnimation][SerializeField] private string attackAnimationName;
+    [SpineAnimation][SerializeField] private string attack1AnimationName;
+    [SpineAnimation][SerializeField] private string attack2AnimationName;
+    [SpineAnimation][SerializeField] private string attack3AnimationName;
     [SpineAnimation][SerializeField] private string hurtAnimationName;
     [SpineAnimation][SerializeField] private string diebackAnimationName;
     [SpineAnimation][SerializeField] private string diefrontAnimationName;
@@ -394,7 +396,7 @@ private void Attack()
 
         if (canAttack && Vector2.Distance(transform.position, player.position) < attackrange)
         {
-            AttackAnm();
+            Attack1Anm();
             //player.GetComponent<PlayerHealth>().Damage(attackDamage);
             attackTimer = attackCooldown;
         }
@@ -549,14 +551,47 @@ public void DieBack()
                 // Add event listener for when the animation completes
                 //_spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
 }
-public void AttackAnm()
+public void Attack1Anm()
 {
             
    
-    if (currentAnimationName != attackAnimationName)
+    if (currentAnimationName != attack1AnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, attackAnimationName, false);
-                    currentAnimationName = attackAnimationName;
+                    _spineAnimationState.SetAnimation(2, attack1AnimationName, false);
+                    currentAnimationName = attack1AnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+               _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+    
+}
+public void Attack2Anm()
+{
+            
+   
+    if (currentAnimationName != attack2AnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, attack2AnimationName, false);
+                    currentAnimationName = attack2AnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+               _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+    
+}
+
+public void Attack3Anm()
+{
+            
+   
+    if (currentAnimationName != attack3AnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, attack3AnimationName, false);
+                    currentAnimationName = attack3AnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
