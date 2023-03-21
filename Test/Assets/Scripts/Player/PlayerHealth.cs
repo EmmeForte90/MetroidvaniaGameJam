@@ -70,7 +70,13 @@ public void IncreaseHP(float amount)
 }
 
 
-
+public void EssenceImg()
+{
+    //Essence.transform.localScale = new Vector3(currentHealth / maxHealth, currentHealth / maxHealth, currentHealth / maxHealth);
+float scale = currentHealth / maxHealth;
+    scale = Mathf.Clamp(scale, 0f, 0.5f);
+    Essence.transform.localScale = new Vector3(scale, scale, scale);
+}
 
  
 

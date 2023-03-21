@@ -94,7 +94,8 @@ public class Move : MonoBehaviour
     [SerializeField] GameObject attack_air_bottom;
     [SerializeField] GameObject attack_air_up;
     [SerializeField] GameObject swordRain;
-
+    [SerializeField] GameObject VFXHeal;
+    [SerializeField] GameObject StopHeal;
 
 
 
@@ -171,10 +172,10 @@ private int comboCount = 0;
     private int maxDamage = 50; // Danno massimo dell'attacco caricato
     private int minDamage = 10; // Danno minimo dell'attacco non caricato
     private float timeSinceLastAttack = 0f;
-    public bool isCharging;
+    [HideInInspector]public bool isCharging;
     private bool touchGround;
     private bool isDashing;
-    private bool isHeal;
+    [HideInInspector]public bool isHeal;
     [HideInInspector]public bool isDeath;
     private bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isAttackingAir = false; // vero se il personaggio sta attaccando
@@ -193,6 +194,8 @@ private int comboCount = 0;
     [SerializeField] AudioSource Srun;
     [SerializeField] AudioSource Scharge;
     [SerializeField] AudioSource Sdash;
+    [SerializeField] AudioSource SHeal;
+
 
 
     private SkeletonAnimation _skeletonAnimation;
@@ -229,8 +232,9 @@ if (_skeletonAnimation == null) {
     {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        if(!GameplayManager.instance.PauseStop || !stopInput || !isDeath)
+if(!stopInput)
+        {
+        if(!isDeath)
         {
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
@@ -523,7 +527,8 @@ if(Input.GetKeyDown(KeyCode.X))
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         }
-        else if (GameplayManager.instance.PauseStop || stopInput)
+        }
+        else if (stopInput)
         {//Bloccato
         }
 
@@ -1569,6 +1574,29 @@ if (e.Data.Name == "dash") {
         SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
         // Assegna la clip audio all'AudioSource e avviala.
         SwSl.Play();
+    }
+if (e.Data.Name == "VFXHeal") {
+
+        Instantiate(VFXHeal, transform.position, transform.rotation);
+       // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+        if (SHeal == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SHeal.gameObject.activeInHierarchy) {
+            SHeal.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SHeal.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        SHeal.Play();
+    }
+
+    if (e.Data.Name == "VFXStopHeal") {
+
+        Instantiate(StopHeal, transform.position, transform.rotation);
+        SHeal.Stop();
     }
 }
 

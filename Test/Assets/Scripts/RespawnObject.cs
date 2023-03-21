@@ -9,27 +9,11 @@ public class RespawnObject : MonoBehaviour
     [SerializeField] public Transform Pos;
     //[SerializeField] public GameplayManager gM;
     public GameObject button;
-    private Move player;
-    private GameplayManager gM;
 
     private bool _isInTrigger;
     private bool isPray = false;
 
-void Awake()
-    {
-        GameObject playerObject = GameObject.Find("Knight");
-         if (player == null)
-        {
-        player = playerObject.GetComponent<Move>();
-        }
 
-        GameObject GmObject = GameObject.Find("Gameplay");
-         if (gM == null)
-        {
-        gM = GmObject.GetComponent<GameplayManager>();
-        }
-
-    }
 
 void Update()
     {
@@ -37,11 +21,11 @@ void Update()
         if (_isInTrigger && Input.GetButtonDown("Talk") && !isPray)
         {
             Instantiate(Sdeng, Pos.transform.position, transform.rotation);
-            gM.StopInput();
-            player.StopinputTrue();
+            GameplayManager.instance.StopInput();
+            Move.instance.StopinputTrue();
             //InventoryManager.Instance.ListItems();
-            player.AnimationRest();
-            player.Stop();
+             Move.instance.AnimationRest();
+             Move.instance.Stop();
             Selectionmenu.gameObject.SetActive(true);
 
             //Ripristina gli utilizzi se hai gli slot pieni
@@ -60,15 +44,18 @@ void Update()
             UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
             UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
             }
+            //Ripristina L'essenza
+            PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
+            PlayerHealth.Instance.EssenceImg();
 
             isPray = true;
 
         }
         else if (isPray && Input.GetButtonDown("Talk"))
         {
-            player.animationWakeup();
-            gM.StopInputResume();
-            player.StopinputFalse();
+            Move.instance.animationWakeup();
+            GameplayManager.instance.StopInputResume();
+            Move.instance.StopinputFalse();
             Selectionmenu.gameObject.SetActive(false);   
                             isPray = false;
                             _isInTrigger = false;

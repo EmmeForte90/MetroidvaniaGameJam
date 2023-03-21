@@ -13,6 +13,8 @@ public class StartBlastVFX : MonoBehaviour
     float xSpeed;
     //L'andatura
     public bool charge = false;
+    public bool heal = false;
+
     [Header("Tempo di esplosione")]
     [SerializeField] public float lifeTime;
 
@@ -21,7 +23,7 @@ public class StartBlastVFX : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         //Recupera i componenti del rigidbody
         //Recupera i componenti dello script
-        if(!Move.instance.isCharging)
+        if(!Move.instance.isCharging && !Move.instance.isHeal)
         {
         xSpeed = Move.instance.transform.localScale.x;
         }
@@ -35,9 +37,18 @@ public class StartBlastVFX : MonoBehaviour
          rb.velocity = new Vector2 (xSpeed, 0f);
         //La velocità e la direzione del proiettile
         FlipSprite();
+        if(charge)
+        {
         if(!Move.instance.isCharging)
         {
             Destroy(gameObject, lifeTime);
+        }
+        } else if(heal)
+        {
+        if(!Move.instance.isHeal)
+        {
+            Destroy(gameObject, lifeTime);
+        }
         }
     }
 #endregion
