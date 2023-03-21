@@ -86,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 1
   charge: 0
+  heal: 0
   lifeTime: 0.3
 --- !u!1 &8025401816285981241
 GameObject:
@@ -9821,6 +9822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 1
   charge: 0
+  heal: 0
   lifeTime: 0.2
 --- !u!114 &7673615295966024783
 MonoBehaviour:
@@ -9876,7 +9878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8742033083774022381
 Transform:
   m_ObjectHideFlags: 0
