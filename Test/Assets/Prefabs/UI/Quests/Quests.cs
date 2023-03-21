@@ -14,5 +14,9 @@ public int value;
 //public Sprite icon;
 public Sprite Bigicon;
 
+public bool isActive;
+//public Dialog dialog;
+public bool isComplete;
+
 
 }

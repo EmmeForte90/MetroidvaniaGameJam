@@ -434,7 +434,7 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Ins
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !isAttacking)
         {
             if(!isAttackingAir)
             {
@@ -443,7 +443,7 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Ins
             {
             isAttacking = true;
             AddCombo();
-            if(comboCount == 5)
+            if(comboCount == 4)
             { comboCount = 0;}
             }
             }

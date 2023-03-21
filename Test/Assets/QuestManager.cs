@@ -8,6 +8,9 @@ public class QuestManager : MonoBehaviour
 {    
 public static QuestManager Instance;
 
+// Riferimento al VFX da attivare
+public GameObject questCompleteVFX;
+
 public bool Quest1 = false;
 [SerializeField] GameObject  Quest_1;
 public bool Quest2 = false;
@@ -40,6 +43,38 @@ if(Quest3)
 
 }
 
+ // Metodo per attivare una quest
+   /* public void ActivateQuest(string questTitle)
+    {
+        currentQuest = quests[questTitle];
+
+        // Attiva il pannello delle informazioni sulla quest
+        questInfoPanel.SetActive(true);
+
+        // Mostra il titolo e la descrizione della quest corrente
+        questTitleText.text = currentQuest.title;
+        questDescriptionText.text = currentQuest.description;
+
+        // Attiva il dialogo della quest corrente
+        questDialogPanel.SetActive(true);
+        questDialogPanel.GetComponent<DialogManager>().StartDialog(currentQuest.dialog);
+    }
+
+    // Metodo per completare una quest
+    public void CompleteQuest()
+    {
+        // Attiva il VFX di completamento
+        Instantiate(questCompleteVFX, transform.position, Quaternion.identity);
+
+        // Disattiva la quest corrente
+        currentQuest.isActive = false;
+
+        // Mostra il pannello di completamento della quest
+        questCompletePanel.SetActive(true);
+
+        // Rimuove la quest dal dizionario
+        quests.Remove(currentQuest.title);
+    }*/
 }
 
 
