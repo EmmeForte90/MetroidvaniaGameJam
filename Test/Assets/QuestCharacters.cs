@@ -31,8 +31,8 @@ public class QuestCharacters : MonoBehaviour
     public bool isInteragible;
     public bool heFlip;
     public bool FirstD = true;
-    public bool EndDia = false;
-    public bool EndQue = false;
+    //public bool EndDia = false;
+    //public bool EndQue = false;
 
     private bool _isInTrigger;
     private bool _isDialogueActive;
@@ -68,7 +68,7 @@ void Awake()
 {
     dialogue = Quest.Startdialogue;
 }
-else if (EndDia || EndQue)
+else if (Quest.isActive || Quest.isComplete)//EndDia
 {
     dialogue = Quest.Endingdialogue;
 }
@@ -175,7 +175,7 @@ Clang.Play();
             {
             StartCoroutine(StartQuest());
             }
-            else if(EndDia)
+            else if(Quest.isActive)
             {
             StartCoroutine(EndQuest());
             }
@@ -199,8 +199,10 @@ Clang.Play();
         QuestEnd.gameObject.SetActive(false); 
         yield return new WaitForSeconds(1f); 
         QuestManager.Instance.QuestComplete3 = true;
-        EndDia = false;
-        EndQue = true;
+        Quest.isActive = false;
+        Quest.isComplete = true;
+        //EndDia = false;
+        //EndQue = true;
         Move.instance.stopInput = false;
         
 

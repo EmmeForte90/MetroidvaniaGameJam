@@ -6,7 +6,7 @@ public class TestEndQuest : MonoBehaviour
 {
      public void Pickup()
     {
-        QuestCharacters.Instance.EndDia = true;
+        QuestCharacters.Instance.Quest.isActive = true;
         Destroy(gameObject);
     }
 
