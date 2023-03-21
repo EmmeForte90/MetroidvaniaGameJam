@@ -6,17 +6,26 @@ using TMPro;
 
 public class QuestManager : MonoBehaviour
 {    
-public static QuestManager Instance;
 
 // Riferimento al VFX da attivare
-public GameObject questCompleteVFX;
+//public GameObject questCompleteVFX;
 
 public bool Quest1 = false;
+[HideInInspector] public bool QuestComplete1 = false;
 [SerializeField] GameObject  Quest_1;
+[SerializeField] GameObject  Quest_1_Complete;
+
 public bool Quest2 = false;
+[HideInInspector] public bool QuestComplete2 = false;
 [SerializeField] GameObject  Quest_2;
+[SerializeField] GameObject  Quest_2_Complete;
+
 public bool Quest3 = false;
+[HideInInspector] public bool QuestComplete3 = false;
 [SerializeField] GameObject  Quest_3;
+[SerializeField] GameObject  Quest_3_Complete;
+
+public static QuestManager Instance;
 
 
 private void Awake()
@@ -40,7 +49,12 @@ if(Quest3)
    {
       Quest_3.gameObject.SetActive(true);
    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+if(QuestComplete3)
+   {
+      Quest_3_Complete.gameObject.SetActive(true);
+   }
 }
 
  // Metodo per attivare una quest

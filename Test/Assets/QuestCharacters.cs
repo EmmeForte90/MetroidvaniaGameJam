@@ -17,6 +17,11 @@ public class QuestCharacters : MonoBehaviour
     public GameObject button;
     public GameObject dialogueBox;
     public GameObject QuestStart;
+    public GameObject QuestEnd;
+
+    public GameObject Reward;
+    public Transform RewardPoint;
+
     private string[] dialogue; // array of string to store the dialogues
     public float dialogueDuration; // variable to set the duration of the dialogue
     private int dialogueIndex; // variable to keep track of the dialogue status
@@ -26,6 +31,8 @@ public class QuestCharacters : MonoBehaviour
     public bool isInteragible;
     public bool heFlip;
     public bool FirstD = true;
+    public bool EndDia = false;
+    public bool EndQue = false;
 
     private bool _isInTrigger;
     private bool _isDialogueActive;
@@ -34,8 +41,12 @@ public class QuestCharacters : MonoBehaviour
 [SerializeField] AudioSource Clang;
 
 
+public static QuestCharacters Instance;
+
+
 void Awake()
 {
+        Instance = this;   
         player = GameObject.FindWithTag("Player");
 
 }
@@ -53,15 +64,18 @@ void Awake()
 
     void Update()
     {
-        if(FirstD)
-        {
-        dialogue = Quest.Startdialogue;
-
-        }else 
-        {
-        dialogue = Quest.Middledialogue;
-        }
-
+        if (FirstD)
+{
+    dialogue = Quest.Startdialogue;
+}
+else if (EndDia || EndQue)
+{
+    dialogue = Quest.Endingdialogue;
+}
+else
+{
+    dialogue = Quest.Middledialogue;
+}
         anim.SetBool("talk", _isInTrigger);
         if(heFlip)
         {
@@ -71,6 +85,7 @@ void Awake()
         if (_isInTrigger && Input.GetButtonDown("Talk") && !_isDialogueActive)
         {
             Move.instance.stopInput = true;
+            dialogueIndex = 0;
             StartCoroutine(ShowDialogue());
         }
         else if (_isDialogueActive && Input.GetButtonDown("Talk"))
@@ -78,6 +93,7 @@ void Awake()
             NextDialogue();
         }
     }
+    
 
 public void clang()
 {
@@ -85,17 +101,18 @@ Clang.Play();
 }
 
     private void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.CompareTag("Player"))
     {
-        if (collision.CompareTag("Player"))
+        button.gameObject.SetActive(true);
+        _isInTrigger = true;
+        if (!isInteragible)
         {
-            button.gameObject.SetActive(true); // Initially hide the dialogue text
-            _isInTrigger = true;
-            if (!isInteragible)
-            {
-                StartCoroutine(ShowDialogue());
-            }
+            dialogueIndex = 0; // Reset the dialogue index to start from the beginning
+            StartCoroutine(ShowDialogue());
         }
     }
+}
 
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -157,7 +174,12 @@ Clang.Play();
             if(FirstD)
             {
             StartCoroutine(StartQuest());
-            }else
+            }
+            else if(EndDia)
+            {
+            StartCoroutine(EndQuest());
+            }
+            else
             {
             Move.instance.stopInput = false;
             }
@@ -168,6 +190,22 @@ Clang.Play();
             StartCoroutine(ShowDialogue());
         }
     }
+ IEnumerator EndQuest()
+{
+        QuestEnd.gameObject.SetActive(true); 
+        //QuestManager.Instance.Quest3 = true;
+        yield return new WaitForSeconds(3f); 
+        Instantiate(Reward, RewardPoint.position, transform.rotation);
+        QuestEnd.gameObject.SetActive(false); 
+        yield return new WaitForSeconds(1f); 
+        QuestManager.Instance.QuestComplete3 = true;
+        EndDia = false;
+        EndQue = true;
+        Move.instance.stopInput = false;
+        
+
+    }
+            
  IEnumerator StartQuest()
 {
         QuestStart.gameObject.SetActive(true); 
@@ -179,8 +217,6 @@ Clang.Play();
         FirstD = false;
 
     }
-            
-
 
     void FacePlayer()
     {
