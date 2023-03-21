@@ -48,6 +48,9 @@ void Update()
             PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
             PlayerHealth.Instance.EssenceImg();
 
+            //Salva la partita
+            SaveSystem.SavePlayer(Move.instance);
+
             isPray = true;
 
         }

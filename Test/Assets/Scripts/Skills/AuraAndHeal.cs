@@ -34,7 +34,11 @@ public class AuraAndHeal : MonoBehaviour
             }
     } else if(IsHeal)
     {
-      //Cura ma ancora devo creare il codice per la cura quindi questa parte resta in stand by
+      //Ripristina L'essenza
+            PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
+            PlayerHealth.Instance.EssenceImg();
+            Invoke("Destroy", lifeTime);
+
     }
             
     }
