@@ -14,13 +14,14 @@ public class Move : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float acceleration;
     [SerializeField] private float deceleration;
+    public float Test;
+
     [HideInInspector] public float horDir;
     [HideInInspector] public float vertDir;
     [HideInInspector] public float DpadX;//DPad del joypad per il menu rapido
     [HideInInspector] public float DpadY;//DPad del joypad per il menu rapido
     public float Dorsali;
     public float runSpeedThreshold = 5f; // or whatever value you want
-
     [Header("Dash")]
     public float dashForce = 50f;
     public float dashDuration = 0.5f;
@@ -1424,7 +1425,8 @@ private void moving() {
     switch (rb.velocity.y) {
         case 0:
             float speed = Mathf.Abs(rb.velocity.x);
-            if (speed == 0) {
+            Test = speed;
+            if (Mathf.Abs(Input.GetAxis("Horizontal")) < 0.01f) {
                 // Player is not moving
                 if (currentAnimationName != idleAnimationName) {
                     _spineAnimationState.SetAnimation(1, idleAnimationName, true);
