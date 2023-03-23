@@ -17,12 +17,19 @@ public class EnmAtk : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.CompareTag("Player"))
         {
             if (!Move.instance.isDeath)
             {
+                if (!Move.instance.isHurt)
+            {
             player.GetComponent<PlayerHealth>().Damage(attackDamage);
             }
+            }
+    }else if (collision.CompareTag("Hitbox"))
+    {
+           
     }
 }
 }

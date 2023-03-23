@@ -15,6 +15,8 @@ public class Move : MonoBehaviour
     [SerializeField] private float acceleration;
     [SerializeField] private float deceleration;
     public float Test;
+    public float InvincibleTime = 1f;
+    [HideInInspector] public bool isHurt = false;
 
     [HideInInspector] public float horDir;
     [HideInInspector] public float vertDir;
@@ -38,6 +40,7 @@ public class Move : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float bumpForce;
+    [SerializeField] private float knockForce = 10f;
     bool canDoubleJump = false;
     public float groundDelay = 0.1f; // The minimum time before the player can jump again after touching the ground
     bool isTouchingWall = false;
@@ -193,7 +196,6 @@ private int comboCount = 0;
     [SerializeField] AudioSource SwSl;
     [SerializeField] AudioSource Smagic;
     [SerializeField] AudioSource Swalk;
-    [SerializeField] AudioSource Srun;
     [SerializeField] AudioSource Scharge;
     [SerializeField] AudioSource Sdash;
     [SerializeField] AudioSource SHeal;
@@ -238,11 +240,14 @@ if(!stopInput)
         {
         if(!isDeath)
         {
+        if(!isHeal)
+        {
         horDir = Input.GetAxisRaw("Horizontal");
         vertDir = Input.GetAxisRaw("Vertical");
         DpadX = Input.GetAxis("DPad X");
         DpadY = Input.GetAxis("DPad Y");
         Dorsali = Input.GetAxis("Dorsali");
+        }
         if (isGrounded())
         {
             //Debug.Log("isGrounded(): " + isGrounded());
@@ -379,6 +384,7 @@ if (PlayerHealth.Instance.currentEssence > 0)
 {
 if (Input.GetButtonDown("Heal") && !isHeal && PlayerHealth.Instance.currentHealth != PlayerHealth.Instance.maxHealth)
 {
+    Stop();
     isHeal = true;
     AnimationHeal();
 }
@@ -445,7 +451,7 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Ins
             {
             isAttacking = true;
             AddCombo();
-            if(comboCount == 4)
+            if(comboCount == 3)
             { comboCount = 0;}
             }
             }
@@ -701,6 +707,26 @@ public void Bump()
             rb.AddForce(new Vector2(0f, bumpForce), ForceMode2D.Impulse);
        // lastTimeJump = Time.time + jumpDelay;
     }
+public void Knockback()
+    {
+         // applica l'impulso del salto se il personaggio è a contatto con il terreno
+            if (horDir < 0)
+        {
+        rb.AddForce(new Vector2(knockForce, 0f), ForceMode2D.Impulse);
+        }
+        else if (horDir > 0)
+        {
+        rb.AddForce(new Vector2(-knockForce, 0f), ForceMode2D.Impulse);
+    
+        }
+         /*else if (horDir == 0)
+        {
+        rb.AddForce(new Vector2(0f, bumpForce), ForceMode2D.Impulse);
+        }*/
+       // lastTimeJump = Time.time + jumpDelay;
+    }
+
+
 // Metodo per ripristinare il valore di wallJumped dopo 0.5 secondi
     void SetWallJumpedToFalse()
     {
@@ -772,6 +798,8 @@ public void Respawn()
 
     //Animazione di morte
     death();
+    Stop();
+    stopInput = true;
     isDeath = true;
 
     // Aspetta che la nuova scena sia completamente caricata
@@ -799,11 +827,13 @@ public void Respawn()
     {
         rb.velocity = new Vector2(0f, 0f);
         horDir = 0;
-
+        Swalk.Stop();
     }
+
 
 IEnumerator WaitForSceneLoad()
 {   
+    GameplayManager.instance.FadeOut();
     yield return new WaitForSeconds(5f);
     // Cambia la scena
     SceneManager.LoadScene(sceneName);
@@ -812,9 +842,13 @@ IEnumerator WaitForSceneLoad()
     respawnRest();
     // Teletrasporta il giocatore alla posizione dell'oggetto "respawn"
     transform.position = respawnPoint.transform.position;
+        
+    GameplayManager.instance.FadeIn();
     yield return new WaitForSeconds(3f);
     respawn();
     isDeath = false;
+    stopInput = false;
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1277,22 +1311,23 @@ public void AddCombo()
                 _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
                 break;
             case 3:
-                if (currentAnimationName != attack_lAnimationName)
+            if (currentAnimationName != attack_aAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, attack_lAnimationName, false);
-                    currentAnimationName = attack_lAnimationName;
+                    _spineAnimationState.SetAnimation(2, attack_aAnimationName, false);
+                    currentAnimationName = attack_aAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+                
                 break;
             case 4:
-                if (currentAnimationName != attack_aAnimationName)
+                if (currentAnimationName != attack_lAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, attack_aAnimationName, false);
-                    currentAnimationName = attack_aAnimationName;
+                    _spineAnimationState.SetAnimation(2, attack_lAnimationName, false);
+                    currentAnimationName = attack_lAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
@@ -1424,6 +1459,10 @@ private void moving() {
     {
         if(!stopInput)
         {
+             if(!isHeal)
+        {
+            if(!isDeath)
+        {
     switch (rb.velocity.y) {
         case 0:
             float speed = Mathf.Abs(rb.velocity.x);
@@ -1469,6 +1508,8 @@ private void moving() {
             
             break;
     }
+    }else{    _spineAnimationState.ClearTrack(1);}
+    }else{    _spineAnimationState.ClearTrack(1);}
     }
     }
 }
@@ -1529,9 +1570,9 @@ if (e.Data.Name == "soundWalk") {
     }
 if (e.Data.Name == "soundRun") {
         // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        Srun.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        Swalk.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
         // Assegna la clip audio all'AudioSource e avviala.
-        Srun.Play();
+        Swalk.Play();
     }
 if (e.Data.Name == "SoundCharge") {
             

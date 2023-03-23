@@ -210,11 +210,36 @@ public void ProcessPlayerDeath()
         //Lo scenario viene ricaricato
     }
 
+
+public void FadeIn()
+    {
+
+StartCoroutine(StartFadeIn());
+
+    }
+
+    public void FadeOut()
+    {
+
+StartCoroutine(StartFadeOut());
+
+    }
+
 IEnumerator StartFadeIn()
     {
         callFadeIn.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         callFadeIn.gameObject.SetActive(false);
+
+
+    }
+
+IEnumerator StartFadeOut()
+    {
+        yield return new WaitForSeconds(2f);
+        callFadeOut.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        callFadeOut.gameObject.SetActive(false);
 
 
     }

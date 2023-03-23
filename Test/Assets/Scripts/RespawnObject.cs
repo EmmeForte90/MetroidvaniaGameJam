@@ -49,7 +49,8 @@ void Update()
             PlayerHealth.Instance.EssenceImg();
 
             //Salva la partita
-            SaveSystem.SavePlayer(Move.instance);
+          
+          // SaveSystem.SavePlayer(Move.instance);
 
             isPray = true;
 

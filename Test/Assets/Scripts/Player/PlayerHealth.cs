@@ -46,12 +46,21 @@ public static PlayerHealth Instance;
     public void Damage(float damage)
     {
         Move.instance.AnmHurt();
+        // invincibilità per tot tempo
+        StartCoroutine(waitHurt());
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
             Move.instance.Respawn();
             RespawnStatus();
         }
+    }
+
+IEnumerator waitHurt()
+    {
+        Move.instance.isHurt = true;
+        yield return new WaitForSeconds(Move.instance.InvincibleTime);
+        Move.instance.isHurt = false;
     }
 
 public void IncreaseHP(float amount)

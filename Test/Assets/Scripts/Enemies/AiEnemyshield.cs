@@ -564,7 +564,6 @@ public void HurtAnm()
             
     if (currentAnimationName != hurtAnimationName)
                 {
-                    TemporaryChangeColor(Color.red);
                     _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
                     currentAnimationName = hurtAnimationName;
                     _spineAnimationState.Event += HandleEvent;

@@ -41,6 +41,7 @@ public float InvincibleTime = 1f;
 private bool isChasing = false; // indica se il nemico sta inseguendo il player
 private bool isMove = false;
 private bool isAttacking = false;
+private bool isKnockback = false;
 private bool isHurt = false;
 private bool isDie = false;
 private bool pauseAtck = false;
@@ -48,6 +49,7 @@ private bool canAttack = true;
 private bool firstattack = true;
 private bool isPlayerInAttackRange = false;
 private bool activeActions = true;
+public bool isSmall = false;
 
 private float waitTimer = 0f;
 private float waitDuration = 2f;
@@ -155,7 +157,6 @@ private void Update()
         }
                     break;
                 case State.Knockback:
-                    Knockback();
                     break;
                 case State.Dead:
                 Die();
@@ -188,7 +189,7 @@ private void Update()
         return;
     }
 //Hp finiti, Indietreggia
-    if (IsKnockback() && !isDie)
+    if (isKnockback && !isDie)
     {
         isChasing = false;
         isAttacking = false;
@@ -379,26 +380,26 @@ private void Chase()
     }
 }
 
+
 private void Attack()
 {
-    if (isAttacking)
+    if (isAttacking) // Se il personaggio sta attaccando...
     {
-        if (attackTimer > 0)
+        if (attackTimer > 0) // ...e l'attacco non è ancora disponibile...
         {
-            attackTimer -= Time.deltaTime;
-            canAttack = false;
-            return;
+            attackTimer -= Time.deltaTime; // ...decrementa il timer dell'attacco...
+            canAttack = false; // ...e imposta la variabile "canAttack" su "false".
+            return; // Esci dalla funzione.
         }
-        else
+        else // Altrimenti...
         {
-            canAttack = true;
+            canAttack = true; // ...imposta la variabile "canAttack" su "true".
         }
 
-        if (canAttack && Vector2.Distance(transform.position, player.position) < attackrange)
+        if (canAttack && Vector2.Distance(transform.position, player.position) < attackrange) // Se l'attacco è disponibile e il personaggio è abbastanza vicino al giocatore...
         {
-            Attack1Anm();
-            //player.GetComponent<PlayerHealth>().Damage(attackDamage);
-            attackTimer = attackCooldown;
+            Attack1Anm(); // ...esegui l'animazione dell'attacco...
+            attackTimer = attackCooldown; // ...e reimposta il timer dell'attacco.
         }
     }
 }
@@ -423,7 +424,6 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
 
         if (rb != null)
         {
-            kb = true;
             Vector2 knockbackDirection = new Vector2(0f, jumpHeight); // direzione del knockback verso l'alto
             if (rb.transform.position.x < player.transform.position.x) // se la posizione x del nemico è inferiore a quella del player
                 knockbackDirection = new Vector2(-1, jumpHeight); // la direzione del knockback è verso sinistra
@@ -431,22 +431,20 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
                 knockbackDirection = new Vector2(1, jumpHeight); // la direzione del knockback è verso destra
             rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse); // applica il knockback
             yield return new WaitForSeconds(knockbackTime); // aspetta il tempo di knockback
-            kb = false;
+            isKnockback = false;
+
         }
     }
 
 
     
-private void Knockback()
-{
-    // gestione del knockback
-    // utilizzare la fisica di Unity per gestire la forza e il tempo di knockback
-}
+
 
 private bool IsKnockback()
 {
     // controllo se il nemico è in knockback
-    return kb;
+    StartCoroutine(JumpBackCo(rb));
+    return isKnockback = false;
 }
 
 #region Gizmos
@@ -467,11 +465,18 @@ private void OnDrawGizmos()
         if(!isDie){
         if(!isHurt )
         {
+        TemporaryChangeColor(Color.red);
         health.currentHealth -= damage;
         Instantiate(Sdeng, hitpoint.position, transform.rotation);
         SHurt.Play();
+        if(isSmall)
+        {
         HurtAnm();
+        isKnockback = true;
+        IsKnockback();
         currentState = State.Hurt;
+        }
+
         }
         StartCoroutine(waitHurt());
         }
@@ -560,7 +565,8 @@ public void Attack1Anm()
                     _spineAnimationState.SetAnimation(2, attack1AnimationName, false);
                     currentAnimationName = attack1AnimationName;
                     _spineAnimationState.Event += HandleEvent;
-
+                    //attack.gameObject.SetActive(true);
+                    // StartCoroutine(VFXCont());
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -576,7 +582,7 @@ public void Attack2Anm()
                     _spineAnimationState.SetAnimation(2, attack2AnimationName, false);
                     currentAnimationName = attack2AnimationName;
                     _spineAnimationState.Event += HandleEvent;
-
+                    
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
@@ -620,7 +626,7 @@ public void ChaseAnm()
 {
     if (currentAnimationName != runAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(1, runAnimationName, true);
+                    _spineAnimationState.SetAnimation(2, runAnimationName, true);
                     currentAnimationName = runAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
@@ -676,11 +682,22 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 //EVENTS
 //Non puoi giocare di local scale sui vfx perché sono vincolati dal localscale del player PERò puoi giocare sulla rotazione E ottenere gli
 //stessi effetti
+IEnumerator VFXCont()
+{   
+    yield return new WaitForSeconds(0.5f);
+    attack_h.gameObject.SetActive(false);
+    attack.gameObject.SetActive(false);
+
+}
+
+
 void HandleEvent (TrackEntry trackEntry, Spine.Event e) {
 
 if (e.Data.Name == "VFXslash") {
         // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack, slashpoint.position, transform.rotation);
+        //Instantiate(attack, slashpoint.position, transform.rotation);
+        attack.gameObject.SetActive(true);
+                    StartCoroutine(VFXCont());
          if (SwSl == null) {
             Debug.LogError("AudioSource non trovato");
             return;
@@ -697,7 +714,9 @@ if (e.Data.Name == "VFXslash") {
 
 if (e.Data.Name == "VFXslash_h") {
         // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack_h, slashpoint.position, transform.rotation);
+        attack_h.gameObject.SetActive(true);
+                    StartCoroutine(VFXCont());
+        //Instantiate(attack_h, slashpoint.position, transform.rotation);
          if (SwSl == null) {
             Debug.LogError("AudioSource non trovato");
             return;
@@ -727,7 +746,7 @@ if (e.Data.Name == "VFXslash_h") {
 
     if (e.Data.Name == "walk") {
         // Inserisci qui il codice per gestire l'evento.
-         if (Swalk == null) {
+         /*if (Swalk == null) {
             Debug.LogError("AudioSource non trovato");
             return;
         }
@@ -739,7 +758,7 @@ if (e.Data.Name == "VFXslash_h") {
         Swalk.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
         // Assegna la clip audio all'AudioSource e avviala.
         Swalk.Play();
-        
+        */
     }
 }
 
