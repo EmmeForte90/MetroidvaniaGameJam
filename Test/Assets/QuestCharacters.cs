@@ -12,6 +12,7 @@ using Spine.Unity;
 public class QuestCharacters : MonoBehaviour
 {
     public Quests Quest;
+    private int IDQuest;
     private GameObject player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
     public GameObject button;
@@ -48,7 +49,7 @@ void Awake()
 {
         Instance = this;   
         player = GameObject.FindWithTag("Player");
-
+        IDQuest = Quest.id;
 }
 
 
@@ -198,7 +199,7 @@ Clang.Play();
         Instantiate(Reward, RewardPoint.position, transform.rotation);
         QuestEnd.gameObject.SetActive(false); 
         yield return new WaitForSeconds(1f); 
-        QuestManager.Instance.QuestComplete3 = true;
+        QuestManager.Instance.QuestComplete(IDQuest);
         Quest.isActive = false;
         Quest.isComplete = true;
         //EndDia = false;
@@ -211,7 +212,7 @@ Clang.Play();
  IEnumerator StartQuest()
 {
         QuestStart.gameObject.SetActive(true); 
-        QuestManager.Instance.Quest3 = true;
+        QuestManager.Instance.QuestStart(IDQuest);
         yield return new WaitForSeconds(3f); 
                  
         QuestStart.gameObject.SetActive(false); 

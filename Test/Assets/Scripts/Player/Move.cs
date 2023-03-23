@@ -1422,6 +1422,8 @@ public void respawnWakeup()
 private void moving() {
     if(!isTouchingWall)
     {
+        if(!stopInput)
+        {
     switch (rb.velocity.y) {
         case 0:
             float speed = Mathf.Abs(rb.velocity.x);
@@ -1466,6 +1468,7 @@ private void moving() {
             }
             
             break;
+    }
     }
     }
 }

@@ -15,5 +15,16 @@ MonoBehaviour:
   id: 1
   questName: I lost my precious action figure!
   Description: Antoine lost his precious statue, find them all and give him back
-  value: 1
+  value: 0
   Bigicon: {fileID: 21300000, guid: 008118e965b24b04890aca4b04413e76, type: 3}
+  Startdialogue:
+  - Hello
+  - Take that things
+  Middledialogue:
+  - I'm Beautiful
+  - So go on
+  Endingdialogue:
+  - Thank you
+  - KEK
+  isActive: 1
+  isComplete: 1

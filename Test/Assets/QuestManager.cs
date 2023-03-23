@@ -34,28 +34,49 @@ private void Awake()
     
    }
 
-private void Update()
+public void QuestStart(int id)
 {
-   if(Quest1)
-   {
-      Quest_1.gameObject.SetActive(true);
-   }
-if(Quest2)
-   {
-      Quest_2.gameObject.SetActive(true);
-   }
+   switch (id)
+    {
+    case 1:
+    Quest1 = true;
+   Quest_1.gameObject.SetActive(true);
+    break;
+    case 2:
+    Quest2 = true;
+   Quest_2.gameObject.SetActive(true);
 
-if(Quest3)
-   {
-      Quest_3.gameObject.SetActive(true);
-   }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    break;
+    case 3:
+    Quest3 = true;
+   Quest_3.gameObject.SetActive(true);
 
-if(QuestComplete3)
-   {
-      Quest_3_Complete.gameObject.SetActive(true);
-   }
+    break;
 }
+}
+
+public void QuestComplete(int id)
+{
+   switch (id)
+    {
+    case 1:
+   QuestComplete1 = true;
+   Quest_1_Complete.gameObject.SetActive(true);
+
+    break;
+    case 2:
+     QuestComplete2 = true;
+   Quest_2_Complete.gameObject.SetActive(true);
+    break;
+    case 3:
+     QuestComplete3 = true;
+   Quest_3_Complete.gameObject.SetActive(true);
+    break;
+}
+
+}
+
+
 
  // Metodo per attivare una quest
    /* public void ActivateQuest(string questTitle)

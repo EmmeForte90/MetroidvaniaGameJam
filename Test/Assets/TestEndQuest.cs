@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class TestEndQuest : MonoBehaviour
 {
+
+    public Quests Quest;
+
      public void Pickup()
     {
-        QuestCharacters.Instance.Quest.isActive = true;
+        Quest.isActive = true;
+        //QuestCharacters.Instance.Quest.isActive = true;
         Destroy(gameObject);
     }
 
