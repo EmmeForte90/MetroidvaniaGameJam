@@ -23,7 +23,8 @@ void OnTriggerEnter2D(Collider2D other)
             hit.Damage(Move.instance.Damage);
             //Debug.Log("Damage:" + Player.Damage);
             if(Move.instance.rb.velocity.y > 0)
-            {
+            {               
+                Move.instance.isBump = true;
                 Move.instance.Bump();
             }
 
@@ -37,6 +38,7 @@ void OnTriggerEnter2D(Collider2D other)
 
             if(Move.instance.rb.velocity.y > 0)
             {
+                Move.instance.isBump = true;
                 Move.instance.Bump();
             }
 

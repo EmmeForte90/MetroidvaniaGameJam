@@ -17,6 +17,7 @@ public class Move : MonoBehaviour
     public float Test;
     public float InvincibleTime = 1f;
     [HideInInspector] public bool isHurt = false;
+    [HideInInspector] public bool isBump = false;
 
     [HideInInspector] public float horDir;
     [HideInInspector] public float vertDir;
@@ -40,7 +41,7 @@ public class Move : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float bumpForce;
-    [SerializeField] private float knockForce = 10f;
+    [SerializeField] private float knockForce;
     bool canDoubleJump = false;
     public float groundDelay = 0.1f; // The minimum time before the player can jump again after touching the ground
     bool isTouchingWall = false;
@@ -703,26 +704,28 @@ public void attackupper()
     }
 public void Bump()
     {
+        if(isBump)
+        {
          // applica l'impulso del salto se il personaggio è a contatto con il terreno
             rb.AddForce(new Vector2(0f, bumpForce), ForceMode2D.Impulse);
-       // lastTimeJump = Time.time + jumpDelay;
+            isBump = false;
+        }
     }
 public void Knockback()
     {
          // applica l'impulso del salto se il personaggio è a contatto con il terreno
-            if (horDir < 0)
+            if (transform.localScale.x < 0)
         {
         rb.AddForce(new Vector2(knockForce, 0f), ForceMode2D.Impulse);
         }
-        else if (horDir > 0)
+        else if (transform.localScale.x > 0)
         {
         rb.AddForce(new Vector2(-knockForce, 0f), ForceMode2D.Impulse);
-    
         }
-         /*else if (horDir == 0)
+         else if (horDir == 0)
         {
-        rb.AddForce(new Vector2(0f, bumpForce), ForceMode2D.Impulse);
-        }*/
+        rb.AddForce(new Vector2(-knockForce, 0f), ForceMode2D.Impulse);
+        }
        // lastTimeJump = Time.time + jumpDelay;
     }
 
@@ -787,10 +790,11 @@ public void StopinputFalse()
     
     private void checkFlip()
     {
+        
         if (horDir > 0)
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector2(1, 1);
         else if (horDir < 0)
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector2(-1, 1);
     }
 
 public void Respawn()
@@ -1086,7 +1090,9 @@ public void AnimationCharge()
 public void dashAnm()
 {
     if (currentAnimationName != dashAnimationName)
-                {
+                {    
+                    _spineAnimationState.ClearTrack(2);
+                    _spineAnimationState.ClearTrack(1);
                     _spineAnimationState.SetAnimation(2, dashAnimationName, false);
                     currentAnimationName = dashAnimationName;
                                         _spineAnimationState.Event += HandleEvent;
@@ -1359,6 +1365,7 @@ public void AnmHurt()
 {
              if (currentAnimationName != hurtAnimationName)
                 {
+                    _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
                     currentAnimationName = hurtAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -1372,10 +1379,10 @@ public void death()
 {
              if (currentAnimationName != deathAnimationName)
                 {
+                    _spineAnimationState.ClearTrack(1);
                     _spineAnimationState.SetAnimation(2, deathAnimationName, true);
                     currentAnimationName = deathAnimationName;
                     _spineAnimationState.Event += HandleEvent;
-
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes

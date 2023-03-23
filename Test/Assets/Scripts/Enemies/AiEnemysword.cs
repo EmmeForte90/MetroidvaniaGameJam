@@ -532,7 +532,8 @@ IEnumerator DestroyafterDeath()
 public void DieFront()
 {
     if (currentAnimationName != diefrontAnimationName)
-                {
+                {    
+                    _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.SetAnimation(1, diefrontAnimationName, false);
                     currentAnimationName = diefrontAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -546,7 +547,8 @@ public void DieFront()
 public void DieBack()
 {
     if (currentAnimationName != diebackAnimationName)
-                {
+                {    
+                    _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.SetAnimation(1, diebackAnimationName, false);
                     currentAnimationName = diebackAnimationName;
                     _spineAnimationState.Event += HandleEvent;

@@ -29,7 +29,7 @@ public class EnmAtk : MonoBehaviour
             }
     }else if (collision.CompareTag("Hitbox"))
     {
-           
+           Move.instance.Knockback();
     }
 }
 }

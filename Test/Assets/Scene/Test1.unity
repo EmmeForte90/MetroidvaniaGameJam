@@ -25514,7 +25514,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088912155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -35928,6 +35928,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65402937
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8785169
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.89305747
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.4499426
+      objectReference: {fileID: 0}
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -35935,6 +35951,14 @@ PrefabInstance:
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114532784799731, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: bumpForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144114532784799731, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: knockForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2144114532784799743, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_Mesh
@@ -39135,6 +39159,14 @@ PrefabInstance:
     - target: {fileID: 2367949721856169529, guid: f816611ac8821a9479157fe5e4772b6c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367949721856169530, guid: f816611ac8821a9479157fe5e4772b6c, type: 3}
+      propertyPath: WaitAfterAtk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367949721856169530, guid: f816611ac8821a9479157fe5e4772b6c, type: 3}
+      propertyPath: InvincibleTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2367949721856169533, guid: f816611ac8821a9479157fe5e4772b6c, type: 3}
       propertyPath: m_Name
