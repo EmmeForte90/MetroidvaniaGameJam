@@ -118,7 +118,7 @@ public void StartPlay()
         //Funzione pausa
         {
             PauseMenu.gameObject.SetActive(true);
-            UIControllers.instance.SetSelectedGameObjectToSettingsPM();
+            UIControllers.instance.SetSelectedGameObjectToSettings();
             PauseStop = true;
             //Time.timeScale = 0f;
         }
@@ -127,7 +127,7 @@ public void StartPlay()
         {
             //Time.timeScale = 1;
             PauseStop = false;
-            UIControllers.instance.SetSelectedGameObjectToSettingsPM();
+            UIControllers.instance.SetSelectedGameObjectToSettings();
             PauseMenu.gameObject.SetActive(false);
         }
 public void StopInput()

@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UIControllers : MonoBehaviour
+public class ShrineUiController : MonoBehaviour
 {
-
-    public GameObject Button;
+   public GameObject Button;
    
-    public static UIControllers instance;
+    public static ShrineUiController instance;
 
 private void Awake()
     {

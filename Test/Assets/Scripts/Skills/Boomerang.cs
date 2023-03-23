@@ -36,8 +36,16 @@ public class Boomerang : MonoBehaviour
 
         if (!returning)
         {
+            if(Move.instance.transform.localScale.x > 0)
+            {
             // se il boomerang non sta tornando indietro, si muove verso il bersaglio
             transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+            }else if(Move.instance.transform.localScale.x < 0)
+            {
+            // se il boomerang non sta tornando indietro, si muove verso il bersaglio
+            transform.position = Vector2.MoveTowards(transform.position, targetPos, -speed * Time.deltaTime);
+            }
+
             if ((Vector2)transform.position == targetPos)
             {
                 // se il boomerang ha raggiunto il bersaglio, inizia il ritorno

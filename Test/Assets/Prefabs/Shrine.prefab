@@ -88,6 +88,8 @@ GameObject:
   - component: {fileID: 2403574420802777091}
   - component: {fileID: 4323230279132549180}
   - component: {fileID: 8465295177202162072}
+  - component: {fileID: 1248881439}
+  - component: {fileID: 1248881440}
   m_Layer: 5
   m_Name: SkillLeft
   m_TagString: Untagged
@@ -211,6 +213,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1248881439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12827652130522542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1248881440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12827652130522542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &30155231085551396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2373,7 +2410,6 @@ GameObject:
   - component: {fileID: 7467040493932977068}
   - component: {fileID: 7586669951102822662}
   - component: {fileID: 204626058061941213}
-  - component: {fileID: 3657774277482077528}
   m_Layer: 5
   m_Name: DecC
   m_TagString: Untagged
@@ -2439,213 +2475,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3657774277482077528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856215853210167818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca300b8ff772d98448a163aa8e1e28eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  properties:
-  - type: 4
-    propName: _MainTex
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 0
-    propName: _Color
-    colorValue: {r: 1, g: 1, b: 1, a: 1}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: PixelSnap
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 4
-    propName: _AlphaTex
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _ShaderSpace
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _PixelsPerUnit
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 100
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _ScreenWidthUnits
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 10
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _RectWidth
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 100
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _RectHeight
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 100
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _TimeSettings
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _TimeScale
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 1
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _TimeFrequency
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 2
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _TimeRange
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0.5
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _TimeFPS
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 5
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _TimeValue
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _FrozenFade
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 1
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 0
-    propName: _FrozenTint
-    colorValue: {r: 5.992157, g: 4.9714556, b: 1.8509802, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _FrozenContrast
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 2
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 0
-    propName: _FrozenSnowColor
-    colorValue: {r: 1.123529, g: 1.373203, b: 1.498039, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _FrozenSnowContrast
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 1
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _FrozenSnowDensity
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0.25
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 1
-    propName: _FrozenSnowScale
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0.1, y: 0.1, z: 0, w: 0}
-  - type: 0
-    propName: _FrozenHighlightColor
-    colorValue: {r: 7.283019, g: 7.7628036, b: 8, a: 1}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _FrozenHighlightContrast
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 2
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 2
-    propName: _FrozenHighlightDensity
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 1
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 1
-    propName: _FrozenHighlightSpeed
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0.1, y: 0.1, z: 0, w: 0}
-  - type: 1
-    propName: _FrozenHighlightScale
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0.2, y: 0.2, z: 0, w: 0}
-  - type: 1
-    propName: _FrozenHighlightDistortion
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0.5, y: 0.5, z: 0, w: 0}
-  - type: 1
-    propName: _FrozenHighlightDistortionSpeed
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: -0.05, y: -0.05, z: 0, w: 0}
-  - type: 1
-    propName: _FrozenHighlightDistortionScale
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0.2, y: 0.2, z: 0, w: 0}
-  - type: 4
-    propName: _FrozenNoiseTexture
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 2800000, guid: cd21d0de17dcd734691f79979be13330, type: 3}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  - type: 4
-    propName: _texcoord
-    colorValue: {r: 0, g: 0, b: 0, a: 0}
-    floatValue: 0
-    textureValue: {fileID: 0}
-    vectorValue: {x: 0, y: 0, z: 0, w: 0}
-  shader: {fileID: 4800000, guid: 0083e10c90ca4ee4ab0c55b1ccb866ba, type: 3}
-  original: {fileID: 0}
 --- !u!1 &1869196816668824246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2855,6 +2684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 2331860536412094099}
+  ActivePauseMenu: {fileID: 0}
 --- !u!1 &1906338206466993538
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,6 +3117,8 @@ GameObject:
   - component: {fileID: 7620906606333687266}
   - component: {fileID: 1936258727644436378}
   - component: {fileID: 2914507279667320164}
+  - component: {fileID: 938254204}
+  - component: {fileID: 938254205}
   m_Layer: 5
   m_Name: SkillRight
   m_TagString: Untagged
@@ -3410,6 +3242,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &938254204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290265028357992387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &938254205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290265028357992387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &2291422231575130072
 GameObject:
   m_ObjectHideFlags: 0
@@ -3726,6 +3593,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 640973002}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettingsPM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &640973000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3774,6 +3653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 1869196816668824246}
+  ActivePauseMenu: {fileID: 2331860536412094099}
 --- !u!1 &2363140626718203955
 GameObject:
   m_ObjectHideFlags: 0
@@ -4834,6 +4714,7 @@ GameObject:
   - component: {fileID: 5961198488480021408}
   - component: {fileID: 1717247388}
   - component: {fileID: 1717247389}
+  - component: {fileID: 1717247390}
   m_Layer: 5
   m_Name: Select Stage
   m_TagString: Untagged
@@ -4992,6 +4873,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1717247390}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1717247390}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettingsPM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1717247388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5027,6 +4932,20 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 3034807453927473772}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &1717247390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3034807453927473772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfcda952830bc44fbe75dd11ddc6c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 5855272438472797397}
+  ActivePauseMenu: {fileID: 3034807453927473772}
 --- !u!1 &3036905064636633619
 GameObject:
   m_ObjectHideFlags: 0
@@ -6288,6 +6207,8 @@ GameObject:
   - component: {fileID: 2481497600978874265}
   - component: {fileID: 270592791061164931}
   - component: {fileID: 1715350854806846276}
+  - component: {fileID: 1895918140}
+  - component: {fileID: 1895918141}
   m_Layer: 5
   m_Name: Skillup
   m_TagString: Untagged
@@ -6411,6 +6332,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1895918140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4045934231965956196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1895918141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4045934231965956196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &4075321401113777644
 GameObject:
   m_ObjectHideFlags: 0
@@ -6423,6 +6379,8 @@ GameObject:
   - component: {fileID: 6706295390536442395}
   - component: {fileID: 1042824411475439297}
   - component: {fileID: 2321759878617051432}
+  - component: {fileID: 206164488}
+  - component: {fileID: 206164489}
   m_Layer: 5
   m_Name: Skillbottom
   m_TagString: Untagged
@@ -6546,6 +6504,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &206164488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075321401113777644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &206164489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075321401113777644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &4085296455989659440
 GameObject:
   m_ObjectHideFlags: 0
@@ -8531,6 +8524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 2331860536412094099}
+  ActivePauseMenu: {fileID: 0}
 --- !u!114 &1633953185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11197,6 +11191,9 @@ GameObject:
   - component: {fileID: 5527874732524030545}
   - component: {fileID: 714876947039320373}
   - component: {fileID: 5552739901536121143}
+  - component: {fileID: 597959240}
+  - component: {fileID: 597959241}
+  - component: {fileID: 597959242}
   m_Layer: 5
   m_Name: Bestiary
   m_TagString: Untagged
@@ -11306,7 +11303,68 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 714876947039320373}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 597959240}
+        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
+        m_MethodName: SetSelectedGameObjectToSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &597959240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575641910346953891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfcda952830bc44fbe75dd11ddc6c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 8575641910346953891}
+  ActivePauseMenu: {fileID: 8575641910346953891}
+--- !u!114 &597959241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575641910346953891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &597959242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575641910346953891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 8575641910346953891}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &8874049400432831826
 GameObject:
   m_ObjectHideFlags: 0

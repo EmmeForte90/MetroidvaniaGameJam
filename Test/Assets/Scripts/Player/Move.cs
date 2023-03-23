@@ -23,7 +23,9 @@ public class Move : MonoBehaviour
     [HideInInspector] public float vertDir;
     [HideInInspector] public float DpadX;//DPad del joypad per il menu rapido
     [HideInInspector] public float DpadY;//DPad del joypad per il menu rapido
-    public float Dorsali;
+    public float L2;
+    public float R2;
+
     public float runSpeedThreshold = 5f; // or whatever value you want
     [Header("Dash")]
     public float dashForce = 50f;
@@ -247,7 +249,9 @@ if(!stopInput)
         vertDir = Input.GetAxisRaw("Vertical");
         DpadX = Input.GetAxis("DPad X");
         DpadY = Input.GetAxis("DPad Y");
-        Dorsali = Input.GetAxis("Dorsali");
+        L2 = Input.GetAxis("L2");
+        R2 = Input.GetAxis("R2");
+
         }
         if (isGrounded())
         {
@@ -342,7 +346,7 @@ if (Input.GetButtonDown("Jump"))
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////             
 
 // gestione dell'input dello sparo
-if (Input.GetButtonDown("Fire2") || Dorsali == -1 && isBlast && Time.time >= nextAttackTime)
+if (Input.GetButtonDown("Fire2") || L2 == 1 && isBlast && Time.time >= nextAttackTime)
 {
     //Se non hai finito gli utilizzi
     if(UpdateMenuRapido.Instance.Vbottom > 0 ||
@@ -519,7 +523,9 @@ if(Input.GetKeyDown(KeyCode.X))
         Stop();
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- if (Input.GetButtonUp("Dash") || Dorsali == 1 && !dashing && coolDownTime <= 0 && unlockDash)
+  if (unlockDash)
+        {
+ if (Input.GetButtonUp("Dash") || R2 == 1 && !dashing && coolDownTime <= 0)
         {
             dashing = true;
             coolDownTime = dashCoolDown;
@@ -531,7 +537,7 @@ if(Input.GetKeyDown(KeyCode.X))
         {
             coolDownTime -= Time.deltaTime;
         }    
-
+        }
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
@@ -1294,7 +1300,7 @@ public void AddCombo()
             //Setta lo stato d'animazione ed esegue l'animazione in base al conto della combo
             case 1:
                 if (currentAnimationName != attackAnimationName)
-                {
+                {Stop();
                     _spineAnimationState.SetAnimation(2, attackAnimationName, false);
                     currentAnimationName = attackAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -1306,7 +1312,7 @@ public void AddCombo()
                 break;
             case 2:
                 if (currentAnimationName != attack_hAnimationName)
-                {
+                {Stop();
                     _spineAnimationState.SetAnimation(2, attack_hAnimationName, false);
                     currentAnimationName = attack_hAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -1318,7 +1324,7 @@ public void AddCombo()
                 break;
             case 3:
             if (currentAnimationName != attack_aAnimationName)
-                {
+                {Stop();
                     _spineAnimationState.SetAnimation(2, attack_aAnimationName, false);
                     currentAnimationName = attack_aAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -1331,7 +1337,7 @@ public void AddCombo()
                 break;
             case 4:
                 if (currentAnimationName != attack_lAnimationName)
-                {
+                {Stop();
                     _spineAnimationState.SetAnimation(2, attack_lAnimationName, false);
                     currentAnimationName = attack_lAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -1536,6 +1542,7 @@ if (e.Data.Name == "VFXpesante") {
 
     if (e.Data.Name == "SoundSlash") {     
     // Controlla se la variabile "SwSl" è stata inizializzata correttamente.
+    
         if (SwSl == null) {
             Debug.LogError("AudioSource non trovato");
             return;

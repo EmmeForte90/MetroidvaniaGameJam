@@ -66,10 +66,8 @@ private float waitDuration = 2f;
     [HideInInspector] public float basePitch = 1f;
     [HideInInspector] public float randomPitchOffset = 0.1f;
     [SerializeField] AudioSource SwSl;
-    [SerializeField] AudioSource Swalk;
     [SerializeField] AudioSource SDie;
     [SerializeField] AudioSource SHurt;
-    [SerializeField] AudioSource SChase;
 
 
 
@@ -80,7 +78,6 @@ private float waitDuration = 2f;
     [SerializeField] public Transform slashpoint;
     [SerializeField] public Transform hitpoint;
     [SerializeField] GameObject attack;
-    [SerializeField] GameObject attack_h;
     [SerializeField] GameObject Sdeng;
 
 
@@ -379,7 +376,6 @@ private void Flip()
 
 private void Chase()
 {
-    SChase.Play();
     if(isChasing && !isAttacking)
     {
     // inseguimento del giocatore
@@ -553,7 +549,7 @@ public void DieFront()
     if (currentAnimationName != diefrontAnimationName)
                 {    
                     _spineAnimationState.ClearTrack(2);
-                    _spineAnimationState.SetAnimation(1, diefrontAnimationName, false);
+                    _spineAnimationState.SetAnimation(2, diefrontAnimationName, false);
                     currentAnimationName = diefrontAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
@@ -568,7 +564,7 @@ public void DieBack()
     if (currentAnimationName != diebackAnimationName)
                 {    
                     _spineAnimationState.ClearTrack(2);
-                    _spineAnimationState.SetAnimation(1, diebackAnimationName, false);
+                    _spineAnimationState.SetAnimation(2, diebackAnimationName, false);
                     currentAnimationName = diebackAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
@@ -601,7 +597,7 @@ public void HurtAnm()
     if (currentAnimationName != hurtAnimationName)
                 {
                     TemporaryChangeColor(Color.red);
-                    _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
+                    _spineAnimationState.SetAnimation(0, hurtAnimationName, false);
                     currentAnimationName = hurtAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
@@ -613,10 +609,10 @@ public void HurtAnm()
 }
 public void ChaseAnm()
 {
-    if (currentAnimationName != DefeceAnimationName)
+    if (currentAnimationName != walkAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, DefeceAnimationName, true);
-                    currentAnimationName = DefeceAnimationName;
+                    _spineAnimationState.SetAnimation(1, walkAnimationName, true);
+                    currentAnimationName = walkAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
@@ -629,22 +625,22 @@ public void MovingAnm()
 {
     
     if (currentAnimationName != walkAnimationName)
-                {
-                    _spineAnimationState.SetAnimation(2, walkAnimationName, true);
+                {    
+                    _spineAnimationState.SetAnimation(0, walkAnimationName, true);
                     currentAnimationName = walkAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
-                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+                //_spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
 public void Defencing()
 {
     if (currentAnimationName != DefeceAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(1, DefeceAnimationName, true);
+                    _spineAnimationState.SetAnimation(0, DefeceAnimationName, true);
                     currentAnimationName = DefeceAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
@@ -658,7 +654,7 @@ public void IdleAnm()
 {
     if (currentAnimationName != idleAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(1, idleAnimationName, true);
+                    _spineAnimationState.SetAnimation(0, idleAnimationName, true);
                     currentAnimationName = idleAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
@@ -688,7 +684,6 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 IEnumerator VFXCont()
 {   
     yield return new WaitForSeconds(0.5f);
-    attack_h.gameObject.SetActive(false);
     attack.gameObject.SetActive(false);
 
 }
@@ -715,25 +710,7 @@ if (e.Data.Name == "VFXslash") {
         SwSl.Play();
     }
 
-if (e.Data.Name == "VFXslash_h") {
-        // Inserisci qui il codice per gestire l'evento.
-        attack_h.gameObject.SetActive(true);
-                    StartCoroutine(VFXCont());
-        //Instantiate(attack_h, slashpoint.position, transform.rotation);
-         if (SwSl == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!SwSl.gameObject.activeInHierarchy) {
-            SwSl.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        SwSl.Play();
-        
-    }
+
 
     if (e.Data.Name == "attack") {
         // Inserisci qui il codice per gestire l'evento.

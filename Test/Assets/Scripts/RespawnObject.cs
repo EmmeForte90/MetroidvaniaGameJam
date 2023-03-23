@@ -24,9 +24,10 @@ void Update()
             GameplayManager.instance.StopInput();
             Move.instance.StopinputTrue();
             //InventoryManager.Instance.ListItems();
-             Move.instance.AnimationRest();
-             Move.instance.Stop();
+            Move.instance.AnimationRest();
+            Move.instance.Stop();
             Selectionmenu.gameObject.SetActive(true);
+            ShrineUiController.instance.SetSelectedGameObjectToSettings();
 
             //Ripristina gli utilizzi se hai gli slot pieni
             if(UpdateMenuRapido.Instance.idup > 0 || 
@@ -60,6 +61,7 @@ void Update()
             Move.instance.animationWakeup();
             GameplayManager.instance.StopInputResume();
             Move.instance.StopinputFalse();
+            ShrineUiController.instance.SetSelectedGameObjectToSettings();
             Selectionmenu.gameObject.SetActive(false);   
                             isPray = false;
                             _isInTrigger = false;

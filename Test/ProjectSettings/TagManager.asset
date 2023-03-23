@@ -23,6 +23,7 @@ TagManager:
   - Icon
   - Container_Q
   - Hitbox_E
+  - Shield_E
   layers:
   - Default
   - TransparentFX

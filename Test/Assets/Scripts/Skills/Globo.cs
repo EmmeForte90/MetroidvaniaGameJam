@@ -86,7 +86,7 @@ public class Globo : MonoBehaviour
             Invoke("Destroy", lifeTime);
         }
     }
-
+    }
     private void Destroy()
     {
         Destroy(gameObject);
