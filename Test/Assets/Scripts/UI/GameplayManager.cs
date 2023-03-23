@@ -127,7 +127,6 @@ public void StartPlay()
         {
             //Time.timeScale = 1;
             PauseStop = false;
-            UIControllers.instance.SetSelectedGameObjectToSettings();
             PauseMenu.gameObject.SetActive(false);
         }
 public void StopInput()

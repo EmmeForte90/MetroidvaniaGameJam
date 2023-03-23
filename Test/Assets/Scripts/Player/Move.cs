@@ -407,7 +407,9 @@ if (Input.GetButtonUp("Heal"))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Scelta della skill dal menu rapido
-if (Input.GetButtonDown("SlotUp") || DpadY == 1 && UpdateMenuRapido.Instance.idup > 0)
+if (Input.GetButtonDown("SlotUp") || DpadY == 1)
+{
+    if (UpdateMenuRapido.Instance.idup > 0)
 {
    UpdateMenuRapido.Instance.Selup();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
@@ -416,7 +418,10 @@ if (Input.GetButtonDown("SlotUp") || DpadY == 1 && UpdateMenuRapido.Instance.idu
     slotL = false;
     slotR = false;
 }
-else if (Input.GetButtonDown("SlotRight") || DpadX == 1 && UpdateMenuRapido.Instance.idright > 0)
+}
+else if (Input.GetButtonDown("SlotRight") || DpadX == 1)
+{
+    if (UpdateMenuRapido.Instance.idright > 0)
 {
       UpdateMenuRapido.Instance.Selright();
       //SkillMenu.Instance.AssignId();
@@ -426,7 +431,10 @@ else if (Input.GetButtonDown("SlotRight") || DpadX == 1 && UpdateMenuRapido.Inst
     slotL = false;
     slotR = true;
 }
-else if (Input.GetButtonDown("SlotLeft")|| DpadX == -1 && UpdateMenuRapido.Instance.idleft > 0)
+}
+else if (Input.GetButtonDown("SlotLeft")|| DpadX == -1)
+{
+    if (UpdateMenuRapido.Instance.idleft > 0)
 {
       UpdateMenuRapido.Instance.Selleft();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idleft);
@@ -435,14 +443,18 @@ else if (Input.GetButtonDown("SlotLeft")|| DpadX == -1 && UpdateMenuRapido.Insta
     slotL = true;
     slotR = false;
 }
-else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1 && UpdateMenuRapido.Instance.idbottom > 0)
+}
+else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1)
 {
+    if (UpdateMenuRapido.Instance.idbottom > 0)
+    {
       UpdateMenuRapido.Instance.Selbottom();
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idbottom);
     slotU = false;
     slotB = true;
     slotL = false;
     slotR = false;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -546,7 +558,8 @@ if(Input.GetKeyDown(KeyCode.X))
         else if (stopInput)
         {//Bloccato
         }
-
+if (!RespawnObject.instance.isPray)
+        {
         // gestione dell'input del Menu 
         if (Input.GetButtonDown("Pause") && !stopInput)
         {
@@ -560,7 +573,7 @@ if(Input.GetKeyDown(KeyCode.X))
             GameplayManager.instance.Resume();
             StopinputFalse();
         }
-
+        }
         checkFlip();
         moving();
     }

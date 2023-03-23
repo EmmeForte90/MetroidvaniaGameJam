@@ -11,9 +11,17 @@ public class RespawnObject : MonoBehaviour
     public GameObject button;
 
     private bool _isInTrigger;
-    private bool isPray = false;
+    [HideInInspector]public bool isPray = false;
+
+ public static RespawnObject instance;
 
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }}
 
 void Update()
     {
@@ -27,7 +35,7 @@ void Update()
             Move.instance.AnimationRest();
             Move.instance.Stop();
             Selectionmenu.gameObject.SetActive(true);
-            ShrineUiController.instance.SetSelectedGameObjectToSettings();
+            UIControllers.instance.SetSelectedGameObjectToSettings();
 
             //Ripristina gli utilizzi se hai gli slot pieni
             if(UpdateMenuRapido.Instance.idup > 0 || 
@@ -61,7 +69,7 @@ void Update()
             Move.instance.animationWakeup();
             GameplayManager.instance.StopInputResume();
             Move.instance.StopinputFalse();
-            ShrineUiController.instance.SetSelectedGameObjectToSettings();
+            UIControllers.instance.SetSelectedGameObjectToSettings();
             Selectionmenu.gameObject.SetActive(false);   
                             isPray = false;
                             _isInTrigger = false;
