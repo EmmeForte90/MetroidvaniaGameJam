@@ -11,7 +11,16 @@ public class HitboxPlayer : MonoBehaviour
     public bool normal;
     [SerializeField] AudioSource SClang;
 
+public static HitboxPlayer Instance;
 
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
 void OnTriggerEnter2D(Collider2D other) 
     {

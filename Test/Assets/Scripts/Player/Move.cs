@@ -183,7 +183,7 @@ private int comboCount = 0;
     private bool isDashing;
     [HideInInspector]public bool isHeal;
     [HideInInspector]public bool isDeath;
-    private bool isAttacking = false; // vero se il personaggio sta attaccando
+    [HideInInspector]public bool isAttacking = false; // vero se il personaggio sta attaccando
     private bool isAttackingAir = false; // vero se il personaggio sta attaccando
     private bool isBlast = false; // vero se il personaggio sta attaccando
 

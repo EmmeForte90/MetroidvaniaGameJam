@@ -79,6 +79,12 @@ public class Globo : MonoBehaviour
         { 
             Invoke("Destroy", lifeTime);
         }
+        if (other.gameObject.tag == "Shield_E")
+        { 
+            if (!Needtwohands)
+        { 
+            Invoke("Destroy", lifeTime);
+        }
     }
 
     private void Destroy()

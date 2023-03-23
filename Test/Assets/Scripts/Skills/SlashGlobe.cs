@@ -54,6 +54,10 @@ public class SlashGlobe : MonoBehaviour
         { 
             Invoke("Destroy", lifeTime);
         }
+        if (other.gameObject.tag == "Shield_E")
+        { 
+            Invoke("Destroy", lifeTime);
+        }
     }
 
     private void Destroy()

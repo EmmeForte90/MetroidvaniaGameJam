@@ -8,16 +8,16 @@ using UnityEngine.Audio;
 
 public class AiEnemyshield : Health, IDamegable
 {
-   [Header("Enemy")]
+ [Header("Enemy")]
 [SerializeField] GameObject Brain;
 private Health health;
 private Transform player;
 [SerializeField] LayerMask playerlayer;
 
-[Header("Move")]
+[Header("Moving")]
 public float moveSpeed = 2f; // velocità di movimento
-public float atckForward = 5; // velocità di movimento
-private float pauseDuration = 0.5f; // durata della pausa
+[SerializeField] float atckForward = 5; // velocità di movimento
+[SerializeField] float pauseDuration = 0.5f; // durata della pausa
 private float pauseTimer; // timer per la pausa
 [SerializeField] private Vector3[] positions;
 private int id_positions;
@@ -40,6 +40,7 @@ public float InvincibleTime = 1f;
 private bool isChasing = false; // indica se il nemico sta inseguendo il player
 private bool isMove = false;
 private bool isAttacking = false;
+private bool isKnockback = false;
 private bool isHurt = false;
 private bool isDie = false;
 private bool pauseAtck = false;
@@ -47,6 +48,9 @@ private bool canAttack = true;
 private bool firstattack = true;
 private bool isPlayerInAttackRange = false;
 private bool activeActions = true;
+private bool isDefence = false;
+
+public bool isSmall = false;
 
 private float waitTimer = 0f;
 private float waitDuration = 2f;
@@ -65,7 +69,7 @@ private float waitDuration = 2f;
     [SerializeField] AudioSource Swalk;
     [SerializeField] AudioSource SDie;
     [SerializeField] AudioSource SHurt;
-    //[SerializeField] AudioSource SChase;
+    [SerializeField] AudioSource SChase;
 
 
 
@@ -76,6 +80,7 @@ private float waitDuration = 2f;
     [SerializeField] public Transform slashpoint;
     [SerializeField] public Transform hitpoint;
     [SerializeField] GameObject attack;
+    [SerializeField] GameObject attack_h;
     [SerializeField] GameObject Sdeng;
 
 
@@ -83,20 +88,19 @@ private float waitDuration = 2f;
 [Header("Animations")]
     [SpineAnimation][SerializeField] private string idleAnimationName;
     [SpineAnimation][SerializeField] private string walkAnimationName;
-    //[SpineAnimation][SerializeField] private string runAnimationName;
-    [SpineAnimation][SerializeField] private string attackAnimationName;
+    [SpineAnimation][SerializeField] private string DefeceAnimationName;
+    [SpineAnimation][SerializeField] private string attack1AnimationName;
     [SpineAnimation][SerializeField] private string hurtAnimationName;
     [SpineAnimation][SerializeField] private string diebackAnimationName;
     [SpineAnimation][SerializeField] private string diefrontAnimationName;
-    [SpineAnimation][SerializeField] private string PerryAnimationName;
-
+    
     private string currentAnimationName;
     public SkeletonAnimation _skeletonAnimation;
     private Spine.AnimationState _spineAnimationState;
     private Spine.Skeleton _skeleton;
     Spine.EventData eventData;
 
-private enum State { Move, Chase, Attack, Knockback, Dead, Hurt, Wait }
+private enum State { Moving, Chase, Defence, Attack, Knockback, Dead, Hurt, Wait }
 private State currentState;
 
 public static AiEnemyshield instance;
@@ -136,8 +140,8 @@ private void Update()
             
             switch (currentState)
             {
-                case State.Move:
-                    Move();
+                case State.Moving:
+                    Moving();
                     break;
                 case State.Chase:
                     Chase();
@@ -150,20 +154,21 @@ private void Update()
         attackTimer = 0;
         firstattack = false;
         }
-                    break;
+                break;
                 case State.Knockback:
-                    Knockback();
-                    break;
+                break;
                 case State.Dead:
                 Die();
-                    break;
+                break;
+                case State.Defence:
+                Defencing();
+                break;  
                 case State.Hurt:
                 Wait();
-                
-                    break;
+                break;
                 case State.Wait:
                 Wait();
-                    break;
+                break;
             }
         }
     }
@@ -171,7 +176,8 @@ private void Update()
 
     private void CheckState()
 {
-    
+    if (!Move.instance.isDeath)
+{
 //Hp finiti, muore
     if (health.currentHealth == 0 || health.currentHealth < 0)
     {
@@ -180,15 +186,17 @@ private void Update()
         isMove = false;
         activeActions = false;
         isDie = true;
+        isDefence = false;
         currentState = State.Dead;
         return;
     }
 //Hp finiti, Indietreggia
-    if (IsKnockback() && !isDie)
+    if (isKnockback && !isDie)
     {
         isChasing = false;
         isAttacking = false;
         isMove = false;
+        isDefence = false;
         currentState = State.Knockback;
         return;
     }
@@ -199,19 +207,23 @@ if (isHurt && !isDie)
         isAttacking = false;
         isMove = false;
         activeActions = false;
+        isDefence = false;
         currentState = State.Hurt;
         return;
     }
 //Distanza per attaccare il player è dentro il raggio
+
     if (Vector2.Distance(transform.position, player.position) < attackrange && !isDie)
     {
         isChasing = false;
         isAttacking = true;
         isMove = false;
         isPlayerInAttackRange = true;
+        isDefence = false;
         currentState = State.Attack;
         return;
     }
+
 
 //Il player è appena uscito dal raggio e si avvia il timer di attesa prima che il nemico torni a inseguirlo
       if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange && !isDie)
@@ -221,6 +233,7 @@ if (isHurt && !isDie)
         isMove = false;
         activeActions = false;
         currentState = State.Wait;
+        isDefence = false;
         StartCoroutine(waitChase());
     }
 
@@ -233,6 +246,7 @@ if(!isPlayerInAttackRange)
         isAttacking = false;
         isMove = false;
         firstattack = true;
+        isDefence = false;
         currentState = State.Chase;
         return;
     }
@@ -244,6 +258,7 @@ if(!isPlayerInAttackRange)
         isChasing = false;
         isAttacking = false;
         isMove = false;
+        isDefence = false;
         currentState = State.Wait;
         return;
     }
@@ -254,10 +269,21 @@ if(!isPlayerInAttackRange)
     isMove = true;
     isChasing = false;
     isAttacking = false;
-    currentState = State.Move;
+    isDefence = false;
+    currentState = State.Moving;
     }
 
+//Altrimenti si muove in autonomia se gli è concesso
+    if(Move.instance.isAttacking)
+    {
+    isMove = false;
+    isChasing = false;
+    isAttacking = false;
+    isDefence = true;
+    currentState = State.Defence;
+    }
 
+}
 }
 //Il nemico torna a inseguirlo dopo tot tempo
 IEnumerator waitChase()
@@ -275,7 +301,7 @@ private void Wait()
 }
 
 // Controlla se l'oggetto deve essere in movimento, il rigedbody è in KInematic
-private void Move()
+private void Moving()
 {
     if (isMove && !isAttacking)
     {
@@ -317,7 +343,7 @@ private void Move()
         transform.position = Vector2.MoveTowards(transform.position, positions[id_positions], moveSpeed * Time.deltaTime);
 
         // Controlla se l'oggetto è arrivato alla posizione obiettivo corrente
-        if (Vector2.Distance(transform.position, positions[id_positions]) < 0.1f)
+        if (Vector2.Distance(transform.position, positions[id_positions]) < 0.0001f)
         {
             // Imposta il timer di pausa
             pauseTimer = pauseDuration;
@@ -353,6 +379,7 @@ private void Flip()
 
 private void Chase()
 {
+    SChase.Play();
     if(isChasing && !isAttacking)
     {
     // inseguimento del giocatore
@@ -368,29 +395,30 @@ private void Chase()
 
     transform.position = Vector2.MoveTowards(transform.position, targetPosition, chaseSpeed * Time.deltaTime);
 
+    ChaseAnm();
     }
 }
 
+
 private void Attack()
 {
-    if (isAttacking)
+    if (isAttacking) // Se il personaggio sta attaccando...
     {
-        if (attackTimer > 0)
+        if (attackTimer > 0) // ...e l'attacco non è ancora disponibile...
         {
-            attackTimer -= Time.deltaTime;
-            canAttack = false;
-            return;
+            attackTimer -= Time.deltaTime; // ...decrementa il timer dell'attacco...
+            canAttack = false; // ...e imposta la variabile "canAttack" su "false".
+            return; // Esci dalla funzione.
         }
-        else
+        else // Altrimenti...
         {
-            canAttack = true;
+            canAttack = true; // ...imposta la variabile "canAttack" su "true".
         }
 
-        if (canAttack && Vector2.Distance(transform.position, player.position) < attackrange)
+        if (canAttack && Vector2.Distance(transform.position, player.position) < attackrange) // Se l'attacco è disponibile e il personaggio è abbastanza vicino al giocatore...
         {
-            AttackAnm();
-            //player.GetComponent<PlayerHealth>().Damage(attackDamage);
-            attackTimer = attackCooldown;
+            Attack1Anm(); // ...esegui l'animazione dell'attacco...
+            attackTimer = attackCooldown; // ...e reimposta il timer dell'attacco.
         }
     }
 }
@@ -415,7 +443,6 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
 
         if (rb != null)
         {
-            kb = true;
             Vector2 knockbackDirection = new Vector2(0f, jumpHeight); // direzione del knockback verso l'alto
             if (rb.transform.position.x < player.transform.position.x) // se la posizione x del nemico è inferiore a quella del player
                 knockbackDirection = new Vector2(-1, jumpHeight); // la direzione del knockback è verso sinistra
@@ -423,22 +450,20 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
                 knockbackDirection = new Vector2(1, jumpHeight); // la direzione del knockback è verso destra
             rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse); // applica il knockback
             yield return new WaitForSeconds(knockbackTime); // aspetta il tempo di knockback
-            kb = false;
+            isKnockback = false;
+
         }
     }
 
 
     
-private void Knockback()
-{
-    // gestione del knockback
-    // utilizzare la fisica di Unity per gestire la forza e il tempo di knockback
-}
+
 
 private bool IsKnockback()
 {
     // controllo se il nemico è in knockback
-    return kb;
+    StartCoroutine(JumpBackCo(rb));
+    return isKnockback = false;
 }
 
 #region Gizmos
@@ -459,11 +484,18 @@ private void OnDrawGizmos()
         if(!isDie){
         if(!isHurt )
         {
+        TemporaryChangeColor(Color.red);
         health.currentHealth -= damage;
         Instantiate(Sdeng, hitpoint.position, transform.rotation);
         SHurt.Play();
+        if(isSmall)
+        {
         HurtAnm();
+        isKnockback = true;
+        IsKnockback();
         currentState = State.Hurt;
+        }
+
         }
         StartCoroutine(waitHurt());
         }
@@ -519,7 +551,8 @@ IEnumerator DestroyafterDeath()
 public void DieFront()
 {
     if (currentAnimationName != diefrontAnimationName)
-                {
+                {    
+                    _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.SetAnimation(1, diefrontAnimationName, false);
                     currentAnimationName = diefrontAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -533,7 +566,8 @@ public void DieFront()
 public void DieBack()
 {
     if (currentAnimationName != diebackAnimationName)
-                {
+                {    
+                    _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.SetAnimation(1, diebackAnimationName, false);
                     currentAnimationName = diebackAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -543,27 +577,30 @@ public void DieBack()
                 // Add event listener for when the animation completes
                 //_spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
 }
-public void AttackAnm()
+public void Attack1Anm()
 {
             
    
-    if (currentAnimationName != attackAnimationName)
+    if (currentAnimationName != attack1AnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, attackAnimationName, false);
-                    currentAnimationName = attackAnimationName;
+                    _spineAnimationState.SetAnimation(2, attack1AnimationName, false);
+                    currentAnimationName = attack1AnimationName;
                     _spineAnimationState.Event += HandleEvent;
-
+                    //attack.gameObject.SetActive(true);
+                    // StartCoroutine(VFXCont());
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes
                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
     
 }
+
 public void HurtAnm()
 {
             
     if (currentAnimationName != hurtAnimationName)
                 {
+                    TemporaryChangeColor(Color.red);
                     _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
                     currentAnimationName = hurtAnimationName;
                     _spineAnimationState.Event += HandleEvent;
@@ -573,6 +610,19 @@ public void HurtAnm()
                 // Add event listener for when the animation completes
                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
     
+}
+public void ChaseAnm()
+{
+    if (currentAnimationName != DefeceAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(2, DefeceAnimationName, true);
+                    currentAnimationName = DefeceAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                //_spineAnimationState.GetCurrent(1).Complete += OnAttackAnimationComplete;
 }
 
 public void MovingAnm()
@@ -588,6 +638,20 @@ public void MovingAnm()
                 }
                 // Add event listener for when the animation completes
                 _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
+}
+
+public void Defencing()
+{
+    if (currentAnimationName != DefeceAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(1, DefeceAnimationName, true);
+                    currentAnimationName = DefeceAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+                //_spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 
 public void IdleAnm()
@@ -621,11 +685,22 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 //EVENTS
 //Non puoi giocare di local scale sui vfx perché sono vincolati dal localscale del player PERò puoi giocare sulla rotazione E ottenere gli
 //stessi effetti
+IEnumerator VFXCont()
+{   
+    yield return new WaitForSeconds(0.5f);
+    attack_h.gameObject.SetActive(false);
+    attack.gameObject.SetActive(false);
+
+}
+
+
 void HandleEvent (TrackEntry trackEntry, Spine.Event e) {
 
 if (e.Data.Name == "VFXslash") {
         // Inserisci qui il codice per gestire l'evento.
-        Instantiate(attack, slashpoint.position, transform.rotation);
+        //Instantiate(attack, slashpoint.position, transform.rotation);
+        attack.gameObject.SetActive(true);
+                    StartCoroutine(VFXCont());
          if (SwSl == null) {
             Debug.LogError("AudioSource non trovato");
             return;
@@ -640,10 +715,41 @@ if (e.Data.Name == "VFXslash") {
         SwSl.Play();
     }
 
+if (e.Data.Name == "VFXslash_h") {
+        // Inserisci qui il codice per gestire l'evento.
+        attack_h.gameObject.SetActive(true);
+                    StartCoroutine(VFXCont());
+        //Instantiate(attack_h, slashpoint.position, transform.rotation);
+         if (SwSl == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SwSl.gameObject.activeInHierarchy) {
+            SwSl.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        SwSl.Play();
+        
+    }
+
+    if (e.Data.Name == "attack") {
+        // Inserisci qui il codice per gestire l'evento.
+        if(horizontal == 1)
+        {
+        transform.position += transform.right * atckForward * Time.deltaTime; //sposta il nemico in avanti
+        } else if(horizontal == 1)
+        {
+        transform.position += transform.right * -atckForward * Time.deltaTime; //sposta il nemico in avanti
+        } 
+
+    }
 
     if (e.Data.Name == "walk") {
         // Inserisci qui il codice per gestire l'evento.
-         if (Swalk == null) {
+         /*if (Swalk == null) {
             Debug.LogError("AudioSource non trovato");
             return;
         }
@@ -655,7 +761,7 @@ if (e.Data.Name == "VFXslash") {
         Swalk.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
         // Assegna la clip audio all'AudioSource e avviala.
         Swalk.Play();
-        
+        */
     }
 }
 
