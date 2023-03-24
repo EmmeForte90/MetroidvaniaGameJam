@@ -6,20 +6,18 @@ public class ItemPickup : MonoBehaviour
 {
     public Item Item;
     [SerializeField] GameObject VFX;
-public int Value = 1;
+    public int Value = 1;
+    private int IDItem;
 
-public bool KeyN = false;
-public bool Lingotto = false;
-public bool Seme = false;
+public void Awake()
+    {
+            IDItem = Item.id;
+    }
     public void Pickup()
     {
         
-        if(KeyN)
-        {InventoryManager.Instance.KeyN = true;}
-        else if(Lingotto)
-        {InventoryManager.Instance.Lingotto = true;}
-        else if(Seme)
-        {InventoryManager.Instance.Seme = true;}
+        InventoryManager.Instance.AddItem(Item);
+        InventoryManager.Instance.ListItem(IDItem);
 
         Destroy(gameObject);
     }

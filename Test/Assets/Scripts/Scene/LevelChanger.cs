@@ -6,74 +6,95 @@ using UnityEngine.UI;
 
 public class LevelChanger : MonoBehaviour
 {
-    // Variabili per memorizzare la scena attuale e la posizione del player
-    public string spawnPointTag = "SpawnPoint";
-    public GameObject button;
-    public bool interactWithKey = true;
-    //public KeyCode changeSceneKey = "Talk";
-    public string sceneName;
-    public bool needButton;
-    public bool isDoor = false;
+   // Variabili per memorizzare la scena attuale e la posizione del player
+public string spawnPointTag = "SpawnPoint";
+public GameObject button;
+public bool interactWithKey = true;
+//public KeyCode changeSceneKey = "Talk";
+public string sceneName;
+public bool needButton;
+public bool isDoor = false;
 
-    private SceneEvent sceneEvent;
-    private GameObject player;
-    [Header("Audio")]
-    [SerializeField] AudioSource Door;
+// Riferimento all'evento di cambio scena
+private SceneEvent sceneEvent;
+// Riferimento al game object del player
+private GameObject player;
+[Header("Audio")]
+[SerializeField] AudioSource Door;
 
-    private void Start()
-    {
-        button.gameObject.SetActive(false); // Initially hide the dialogue text
-        sceneEvent = GetComponent<SceneEvent>();
-        sceneEvent.onSceneChange.AddListener(ChangeScene);
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
-
-    private void ChangeScene()
-    {
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        if (player != null)
-        {
-            GameObject spawnPoint = GameObject.FindWithTag(spawnPointTag);
-            if (spawnPoint != null)
-            {
-                player.transform.position = spawnPoint.transform.position;
-            }
-        }
-    }
-
-    private void Update()
-    {
-        
-    
+private void Start()
+{
+    // Inizialmente nascondiamo il testo del dialogo
+    button.gameObject.SetActive(false); 
+    // Recuperiamo il riferimento allo script dell'evento di cambio scena
+    sceneEvent = GetComponent<SceneEvent>();
+    // Aggiungiamo un listener all'evento di cambio scena
+    sceneEvent.onSceneChange.AddListener(ChangeScene);
+    // Troviamo il game object del player
+    player = GameObject.FindGameObjectWithTag("Player");
 }
 
+// Metodo per cambiare scena
+private void ChangeScene()
+{
+    SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    SceneManager.sceneLoaded += OnSceneLoaded;
+}
+
+// Metodo eseguito quando la scena è stata caricata
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+    if (player != null)
+    {
+        // Troviamo il game object del punto di spawn
+        GameObject spawnPoint = GameObject.FindWithTag(spawnPointTag);
+        if (spawnPoint != null)
+        {
+            // Muoviamo il player al punto di spawn
+            player.transform.position = spawnPoint.transform.position;
+        }
+    }
+}
+
+// Coroutine per attendere il caricamento della scena
+IEnumerator WaitForSceneLoad()
+{   
+    Move.instance.stopInput = true;
+    GameplayManager.instance.FadeOut();
+    yield return new WaitForSeconds(5f);
+    // Invochiamo l'evento di cambio scena
+    sceneEvent.InvokeOnSceneChange();
+    GameplayManager.instance.FadeIn();
+    yield return new WaitForSeconds(3f);
+    Move.instance.stopInput = false;
+}
+
+// Metodo eseguito quando il player entra nel trigger
 private void OnTriggerStay2D(Collider2D other)
 {
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+        // Mostriamo il testo del dialogo se necessario
         if(needButton)
         {
-            button.gameObject.SetActive(true); // Initially hide the dialogue text
+            button.gameObject.SetActive(true); 
         }
+        // Verifichiamo se l'interazione avviene tramite il tasto "Talk"
         if (interactWithKey && Input.GetButton("Talk"))
-{
-    if(isDoor)
-    {
-    Door.Play();
-
+        {
+            // Riproduciamo l'audio della porta se necessario
+            if(isDoor)
+            {
+                Door.Play();
+            }
+            // Avviamo la coroutine per attendere il caricamento della scena
+            StartCoroutine(WaitForSceneLoad());
+        }  
     }
-sceneEvent.InvokeOnSceneChange();
 }
-       
-}
-}
+
 
 private void OnTriggerEnter2D(Collider2D other)
 {
@@ -87,7 +108,7 @@ private void OnTriggerEnter2D(Collider2D other)
 
          if (!interactWithKey)
         {
-            sceneEvent.InvokeOnSceneChange();
+    StartCoroutine(WaitForSceneLoad());
         }
        
 }

@@ -120,6 +120,7 @@ public class Move : MonoBehaviour
     [SpineAnimation][SerializeField] private string walljumpAnimationName;
     [SpineAnimation][SerializeField] private string walljumpdownAnimationName;
     [SpineAnimation][SerializeField] private string dashAnimationName;
+    [SpineAnimation][SerializeField] private string talkAnimationName;
     //////////////////////////////////////////////////////////////////////////
     [SpineAnimation][SerializeField] private string hurtAnimationName;
     [SpineAnimation][SerializeField] private string HealAnimationName;
@@ -1384,12 +1385,12 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 }
 public void Stooping()
 {
-             if (currentAnimationName != idleAnimationName)
+             if (currentAnimationName != talkAnimationName)
                 {
                     _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.ClearTrack(1);
-                    _spineAnimationState.SetAnimation(1, idleAnimationName, true);
-                    currentAnimationName = idleAnimationName;
+                    _spineAnimationState.SetAnimation(1, talkAnimationName, true);
+                    currentAnimationName = talkAnimationName;
                     _spineAnimationState.Event += HandleEvent;
 
                     //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");

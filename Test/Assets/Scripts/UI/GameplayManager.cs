@@ -45,7 +45,8 @@ public class GameplayManager : MonoBehaviour
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
     //public Transform QuestContent;
-    
+    [SerializeField] GameObject Scenary;
+
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
     public bool unlockDoubleJump = false;
@@ -63,6 +64,7 @@ public class GameplayManager : MonoBehaviour
         }
         //QuestManager.Instance.QuestContent = QuestContent;
         player = GameObject.FindWithTag("Player");
+        Scenary = GameObject.FindWithTag("Scenary");
 virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 virtualCamera.Follow = player.transform;
 virtualCamera.LookAt = player.transform;
@@ -123,6 +125,7 @@ public void StartPlay()
         //Funzione pausa
         {
             PauseMenu.gameObject.SetActive(true);
+            Scenary.gameObject.SetActive(false);
             UIControllers.instance.SetSelectedGameObjectToSettings();
             //Move.instance.Player.gameObject.SetActive(false);
             PauseStop = true;
@@ -134,6 +137,8 @@ public void StartPlay()
             //Time.timeScale = 1;
             PauseStop = false;
             PauseMenu.gameObject.SetActive(false);
+            Scenary.gameObject.SetActive(true);
+
             //Move.instance.Player.gameObject.SetActive(true);
 
         }
