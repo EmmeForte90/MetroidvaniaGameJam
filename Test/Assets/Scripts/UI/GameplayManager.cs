@@ -45,8 +45,13 @@ public class GameplayManager : MonoBehaviour
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
     //public Transform QuestContent;
-
     
+    [Header("Abilitazioni")]
+    public bool unlockWalljump = false;
+    public bool unlockDoubleJump = false;
+    public bool unlockDash = false;
+    public bool unlockCrash = false;
+
     public static GameplayManager instance;
 
 

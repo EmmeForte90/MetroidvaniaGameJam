@@ -1,115 +1,111 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using System;
 using UnityEngine.UI;
 using TMPro;
 
 public class QuestManager : MonoBehaviour
 {    
+    // Riferimento al contenitore dei pulsanti delle quest
+    public Transform QuestContent;
+   public GameObject InventoryQuest;
+   [HideInInspector] public int qID;
+    // Scriptable Object delle quest
+public List<Quests> questDatabase;
 
-// Riferimento al VFX da attivare
-//public GameObject questCompleteVFX;
+    // Riferimenti ai componenti delle immagini di preview e delle descrizioni
+    public Image previewImages;
+    public TextMeshProUGUI descriptions;
 
-public bool Quest1 = false;
-[HideInInspector] public bool QuestComplete1 = false;
-[SerializeField] GameObject  Quest_1;
-[SerializeField] GameObject  Quest_1_Complete;
 
-public bool Quest2 = false;
-[HideInInspector] public bool QuestComplete2 = false;
-[SerializeField] GameObject  Quest_2;
-[SerializeField] GameObject  Quest_2_Complete;
+    // Array di booleani che mantengono lo stato delle quest
+    public bool[] quest;
+    public bool[] _QuestComplete;
 
-public bool Quest3 = false;
-[HideInInspector] public bool QuestComplete3 = false;
-[SerializeField] GameObject  Quest_3;
-[SerializeField] GameObject  Quest_3_Complete;
+     // Id unico del bottone della quest selezionata
+    private static int uniqueId;
+//public TextMeshProUGUI Title;
+//public TextMeshProUGUI QuestsDescriptionText;
+//public Image icon;
 
+// Singleton pattern per accedere a QuestManager da altre classi
 public static QuestManager Instance;
 
-
 private void Awake()
-   {
-    Instance = this;   
-    
-   }
+{
+    Instance = this;
+}
 
+
+   
+
+     // Metodo per aggiungere una nuova quest al database
+    public void AddQuest(Quests newQuest)
+{
+    questDatabase.Add(newQuest);
+}
+
+public void ListQuest(int questId)
+{
+    // Cerca la quest con l'id specificato
+    Quests quest = questDatabase.Find(q => q.id == questId);
+
+    if (quest != null)
+    {
+        // Istanzia il prefab del bottone della quest nella lista UI
+        GameObject obj = Instantiate(InventoryQuest, QuestContent);
+
+        // Recupera il riferimento al componente del titolo della quest e del bottone
+        var questName = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
+
+        // Assegna l'id univoco al game object istanziato
+        obj.name = "QuestButton_" + quest.id;
+
+        // Assegna il nome della quest al componente del titolo
+        questName.text = quest.questName;
+
+        // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della quest
+        previewImages.sprite = quest.Bigicon;
+        descriptions.text = quest.Description;
+
+        // Aggiungi un listener per il click del bottone
+        var button = obj.GetComponent<Button>();
+        button.onClick.AddListener(() => OnQuestButtonClicked(quest.id, previewImages, descriptions));
+    }
+}
+
+public void OnQuestButtonClicked(int questId, Image previewImages, TextMeshProUGUI descriptions)
+{
+    if (questId >= 0 && questId < questDatabase.Count)
+    {
+        // Qui puoi fare qualcosa quando il pulsante della quest viene cliccato, ad esempio aprire una finestra con i dettagli della quest
+        // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione
+        previewImages.sprite = questDatabase.Find(q => q.id == questId).Bigicon;
+        descriptions.text = questDatabase.Find(q => q.id == questId).Description;
+    }
+}
+
+
+
+
+
+// Metodo per iniziare una quest
+// id: l'indice della quest nell'array
 public void QuestStart(int id)
 {
-   switch (id)
-    {
-    case 1:
-    Quest1 = true;
-   Quest_1.gameObject.SetActive(true);
-    break;
-    case 2:
-    Quest2 = true;
-   Quest_2.gameObject.SetActive(true);
-
-    break;
-    case 3:
-    Quest3 = true;
-   Quest_3.gameObject.SetActive(true);
-
-    break;
+    // Imposta lo stato della quest a true
+    quest[id] = true;   
 }
-}
-
+// Metodo per completare una quest
+// id: l'indice della quest nell'array
 public void QuestComplete(int id)
 {
-   switch (id)
-    {
-    case 1:
-   QuestComplete1 = true;
-   Quest_1_Complete.gameObject.SetActive(true);
-
-    break;
-    case 2:
-     QuestComplete2 = true;
-   Quest_2_Complete.gameObject.SetActive(true);
-    break;
-    case 3:
-     QuestComplete3 = true;
-   Quest_3_Complete.gameObject.SetActive(true);
-    break;
+    // Imposta lo stato di completamento della quest a true
+    _QuestComplete[id] = true;  
 }
 
-}
-
-
-
- // Metodo per attivare una quest
-   /* public void ActivateQuest(string questTitle)
-    {
-        currentQuest = quests[questTitle];
-
-        // Attiva il pannello delle informazioni sulla quest
-        questInfoPanel.SetActive(true);
-
-        // Mostra il titolo e la descrizione della quest corrente
-        questTitleText.text = currentQuest.title;
-        questDescriptionText.text = currentQuest.description;
-
-        // Attiva il dialogo della quest corrente
-        questDialogPanel.SetActive(true);
-        questDialogPanel.GetComponent<DialogManager>().StartDialog(currentQuest.dialog);
-    }
-
-    // Metodo per completare una quest
-    public void CompleteQuest()
-    {
-        // Attiva il VFX di completamento
-        Instantiate(questCompleteVFX, transform.position, Quaternion.identity);
-
-        // Disattiva la quest corrente
-        currentQuest.isActive = false;
-
-        // Mostra il pannello di completamento della quest
-        questCompletePanel.SetActive(true);
-
-        // Rimuove la quest dal dizionario
-        quests.Remove(currentQuest.title);
-    }*/
 }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuestPickup : MonoBehaviour
 {
-    public Quests quest;
+   /* public Quests quest;
     [SerializeField] GameObject VFX;
 
 public bool Quest1 = false;
@@ -31,5 +31,5 @@ public bool Quest3 = false;
         Instantiate(VFX, transform.position, transform.rotation);
 
         }
-    }
+    }*/
 }

@@ -7,19 +7,22 @@ public class unlockSkill : MonoBehaviour
     public bool Isdoublejump = false;
     public bool IsDash = false;
     public bool Iswalljump = false;
+    public bool IsCrash = false;
     [SerializeField] GameObject VFX;
 
 
     public void Pickup()
     {
         if(Isdoublejump)
-        {Move.instance.unlockDoubleJump = true;
+        {GameplayManager.instance.unlockDoubleJump = true;
         }
         else if(IsDash)
-        {Move.instance.unlockDash = true;
+        {GameplayManager.instance.unlockDash = true;
         }
         else if(Iswalljump)
-        {Move.instance.unlockWalljump = true;
+        {GameplayManager.instance.unlockWalljump = true;
+        }else if(IsCrash)
+        {GameplayManager.instance.unlockCrash = true;
         }
         Destroy(gameObject);
     }

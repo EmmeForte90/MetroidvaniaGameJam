@@ -86,6 +86,7 @@ else
         if (_isInTrigger && Input.GetButtonDown("Talk") && !_isDialogueActive)
         {
             Move.instance.stopInput = true;
+            Move.instance.Stop();
             dialogueIndex = 0;
             StartCoroutine(ShowDialogue());
         }
@@ -193,6 +194,7 @@ Clang.Play();
     }
  IEnumerator EndQuest()
 {
+
         QuestEnd.gameObject.SetActive(true); 
         //QuestManager.Instance.Quest3 = true;
         yield return new WaitForSeconds(3f); 
@@ -212,6 +214,8 @@ Clang.Play();
  IEnumerator StartQuest()
 {
         QuestStart.gameObject.SetActive(true); 
+        QuestManager.Instance.AddQuest(Quest);
+        QuestManager.Instance.ListQuest(IDQuest);
         QuestManager.Instance.QuestStart(IDQuest);
         yield return new WaitForSeconds(3f); 
                  
