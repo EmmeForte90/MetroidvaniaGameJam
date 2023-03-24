@@ -15,10 +15,10 @@ EditorBuildSettings:
     path: Assets/Scene/Loading_Astra.unity
     guid: 5c2d5e9d761a75b48978bc356c05e0cb
   - enabled: 1
-    path: Assets/Scene/Nowhere/Nowhere.unity
+    path: Assets/Scene/Nowhere/Nowhere/Nowhere.unity
     guid: 8b53874dd7877164cba34496e8e06810
   - enabled: 1
-    path: Assets/Scene/Nowhere/Blacksmith.unity
+    path: Assets/Scene/Nowhere/Fabbro/Blacksmith.unity
     guid: b845ce229424ba3468b6bdc82e6427d6
   - enabled: 1
     path: Assets/Scene/MortrichCastle/MortA_1.unity
@@ -39,10 +39,10 @@ EditorBuildSettings:
     path: Assets/Scene/Maleborge/Male_18.unity
     guid: 64102dfdf65a7e143b49948b65562cd3
   - enabled: 1
-    path: Assets/Scene/Nowhere/Emporio.unity
+    path: Assets/Scene/Nowhere/Emporio/Emporio.unity
     guid: 8241ce4f3ae246f49a95a8b8ac0c9c20
   - enabled: 1
-    path: Assets/Scene/Nowhere/Temple.unity
+    path: Assets/Scene/Nowhere/Temple/Temple.unity
     guid: 4acc8622d7c859f4e91bbb92669183bd
   - enabled: 1
     path: Assets/Scene/Sanctuary/San_A2.unity

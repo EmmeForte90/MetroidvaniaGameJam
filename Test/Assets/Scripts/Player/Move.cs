@@ -1388,8 +1388,8 @@ public void Stooping()
 {
              if (currentAnimationName != talkAnimationName)
                 {
-                    _spineAnimationState.ClearTrack(2);
-                    _spineAnimationState.ClearTrack(1);
+                    //_spineAnimationState.ClearTrack(2);
+                    //_spineAnimationState.ClearTrack(1);
                     _spineAnimationState.SetAnimation(1, talkAnimationName, true);
                     currentAnimationName = talkAnimationName;
                     _spineAnimationState.Event += HandleEvent;

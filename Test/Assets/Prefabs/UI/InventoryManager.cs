@@ -57,14 +57,15 @@ public void ListItem(int itemId)
         GameObject obj = Instantiate(InventoryItem, ItemContent);
 
         // Recupera il riferimento al componente del titolo della item e del bottone
-        var questName = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
+        //var questName = obj.transform.Find("Name_Item").GetComponent<TextMeshProUGUI>();
+        var Itemimg = obj.transform.Find("Icon_item").GetComponent<Image>();
 
         // Assegna l'id univoco al game object istanziato
-        obj.name = "QuestButton_" + item.id;
+        obj.name = "ItemButton_" + item.id;
 
         // Assegna il nome della item al componente del titolo
-        questName.text = item.itemName;
-
+        //questName.text = item.itemName;
+        Itemimg.sprite =  item.icon;
         // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della item
         previewImages.sprite = item.icon;
         descriptions.text = item.Description;
@@ -78,7 +79,7 @@ public void ListItem(int itemId)
 
 public void OnQuestButtonClicked(int itemId, Image previewImages, TextMeshProUGUI descriptions)
 {
-    if (itemId >= 0 && itemId < itemDatabase.Count)
+    if (itemId >= 0)
     {
         // Qui puoi fare qualcosa quando il pulsante della item viene cliccato, ad esempio aprire una finestra con i dettagli della item
         // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione

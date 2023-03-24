@@ -45,7 +45,7 @@ public class GameplayManager : MonoBehaviour
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
     //public Transform QuestContent;
-    [SerializeField] GameObject Scenary;
+    private GameObject Scenary;
 
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
@@ -68,7 +68,7 @@ public class GameplayManager : MonoBehaviour
 virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 virtualCamera.Follow = player.transform;
 virtualCamera.LookAt = player.transform;
-StartCoroutine(StartFadeIn());
+StartCoroutine(StartFadeInSTART());
 
 
         // Verifica se un'istanza del GameObject esiste già e distruggila se necessario
@@ -125,7 +125,7 @@ public void StartPlay()
         //Funzione pausa
         {
             PauseMenu.gameObject.SetActive(true);
-            Scenary.gameObject.SetActive(false);
+           // Scenary.gameObject.SetActive(false);
             UIControllers.instance.SetSelectedGameObjectToSettings();
             //Move.instance.Player.gameObject.SetActive(false);
             PauseStop = true;
@@ -137,7 +137,7 @@ public void StartPlay()
             //Time.timeScale = 1;
             PauseStop = false;
             PauseMenu.gameObject.SetActive(false);
-            Scenary.gameObject.SetActive(true);
+           // Scenary.gameObject.SetActive(true);
 
             //Move.instance.Player.gameObject.SetActive(true);
 
@@ -250,6 +250,16 @@ StartCoroutine(StartFadeIn());
 StartCoroutine(StartFadeOut());
 
     }
+IEnumerator StartFadeInSTART()
+    {
+        callFadeIn.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        callFadeIn.gameObject.SetActive(false);
+        //callFadeIn.gameObject.SetActive(false);
+
+
+    }
+
 
 IEnumerator StartFadeIn()
     {

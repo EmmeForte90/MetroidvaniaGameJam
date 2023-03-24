@@ -77,14 +77,19 @@ public void ListQuest(int questId)
 }
 
 public void OnQuestButtonClicked(int questId, Image previewImages, TextMeshProUGUI descriptions)
-{
-    if (questId >= 0 && questId < questDatabase.Count)
-    {
+{    
+   // print(questId+"  "+questDatabase.Count);
+    //if (questId >= 0 && questId < questDatabase.Count) non so perché non funzionava
+
+    if (questId >= 0)
+    {    
+       // print("Ci sono");
         // Qui puoi fare qualcosa quando il pulsante della quest viene cliccato, ad esempio aprire una finestra con i dettagli della quest
         // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione
         previewImages.sprite = questDatabase.Find(q => q.id == questId).Bigicon;
         descriptions.text = questDatabase.Find(q => q.id == questId).Description;
     }
+    
 }
 
 

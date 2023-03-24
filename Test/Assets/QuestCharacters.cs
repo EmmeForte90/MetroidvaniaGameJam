@@ -28,7 +28,7 @@ public class QuestCharacters : MonoBehaviour
     private int dialogueIndex; // variable to keep track of the dialogue status
     private float elapsedTime; // variable to keep track of the elapsed time
     private Animator anim; // componente Animator del personaggio
-
+    private bool notGo = false;
     public bool isInteragible;
     public bool heFlip;
     public bool FirstD = true;
@@ -82,7 +82,8 @@ else
         {
         FacePlayer();
         }
-
+if(!notGo)
+{
         if (_isInTrigger && Input.GetButtonDown("Talk") && !_isDialogueActive)
         {
             Move.instance.stopInput = true;
@@ -96,6 +97,7 @@ else
             NextDialogue();
         }
     }
+}
     
 
 public void clang()
@@ -195,7 +197,7 @@ Clang.Play();
     }
  IEnumerator EndQuest()
 {
-
+        notGo = true;
         QuestEnd.gameObject.SetActive(true); 
         //QuestManager.Instance.Quest3 = true;
         yield return new WaitForSeconds(3f); 
@@ -207,21 +209,23 @@ Clang.Play();
         Quest.isComplete = true;
         //EndDia = false;
         //EndQue = true;
+        notGo = false;
         Move.instance.stopInput = false;
         
 
     }
             
  IEnumerator StartQuest()
-{
+{            
+        notGo = true;
         QuestStart.gameObject.SetActive(true); 
         QuestManager.Instance.AddQuest(Quest);
         QuestManager.Instance.ListQuest(IDQuest);
         QuestManager.Instance.QuestStart(IDQuest);
-        yield return new WaitForSeconds(3f); 
-                 
+        yield return new WaitForSeconds(3f);      
         QuestStart.gameObject.SetActive(false); 
         Move.instance.stopInput = false;
+        notGo = false;
         FirstD = false;
 
     }
