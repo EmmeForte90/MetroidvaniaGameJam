@@ -561,7 +561,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6492264743620994210}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &516016782941836023
 MonoBehaviour:
@@ -1883,7 +1883,7 @@ RectTransform:
   - {fileID: 343059147803136564}
   - {fileID: 2961617294738636226}
   m_Father: {fileID: 6492264743620994210}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2684,7 +2684,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 2331860536412094099}
-  ActivePauseMenu: {fileID: 0}
 --- !u!1 &1906338206466993538
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,18 +3592,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 640973002}
-        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
-        m_MethodName: SetSelectedGameObjectToSettingsPM
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &640973000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3652,8 +3639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfcda952830bc44fbe75dd11ddc6c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 1869196816668824246}
-  ActivePauseMenu: {fileID: 2331860536412094099}
+  Button: {fileID: 5855272438472797397}
 --- !u!1 &2363140626718203955
 GameObject:
   m_ObjectHideFlags: 0
@@ -4873,25 +4859,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1717247390}
-        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
-        m_MethodName: SetSelectedGameObjectToSettings
+      - m_Target: {fileID: 5855272438472797397}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1717247390}
-        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
-        m_MethodName: SetSelectedGameObjectToSettingsPM
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4945,7 +4919,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 5855272438472797397}
-  ActivePauseMenu: {fileID: 3034807453927473772}
 --- !u!1 &3036905064636633619
 GameObject:
   m_ObjectHideFlags: 0
@@ -8524,7 +8497,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 2331860536412094099}
-  ActivePauseMenu: {fileID: 0}
 --- !u!114 &1633953185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9282,12 +9254,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6438134174866484478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.55, y: -3.7, z: 0}
+  m_LocalPosition: {x: 0, y: -3.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6492264743620994210}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6492264743620994209
 GameObject:
@@ -9318,6 +9290,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6492264745088941517}
+  - {fileID: 686183654605576185}
   - {fileID: 6784971808690327999}
   - {fileID: 6778874786069785634}
   - {fileID: 6492264744462484123}
@@ -9464,14 +9437,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6492264744462484121}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.45, y: -4.94, z: 0}
+  m_LocalPosition: {x: 0, y: -4.94, z: 0}
   m_LocalScale: {x: 0.34522715, y: 0.34522715, z: 0.34522715}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6492264744097053180}
   - {fileID: 3878811592606044019}
   m_Father: {fileID: 6492264743620994210}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6492264744462484124
 MonoBehaviour:
@@ -9490,7 +9463,9 @@ MonoBehaviour:
   Sdeng: {fileID: 9060609366315020121, guid: 9c91bdbb32880d0499de24da1430d9ba, type: 3}
   Selectionmenu: {fileID: 1419537366515286268}
   Pos: {fileID: 6492264745088941517}
+  menu: {fileID: 6745870434537389436}
   button: {fileID: 7802841562735587271}
+  isPray: 0
 --- !u!61 &6492264744462484125
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9595,7 +9570,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6492264745088941516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.681302, y: -2.155459, z: 0}
+  m_LocalPosition: {x: 0, y: -2.155459, z: 0}
   m_LocalScale: {x: 0.34522715, y: 0.34522715, z: 0.34522715}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9908,6 +9883,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!1 &6745870434537389436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 686183654605576185}
+  m_Layer: 0
+  m_Name: For Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &686183654605576185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6745870434537389436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6492264743620994210}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6831818752352582350
 GameObject:
   m_ObjectHideFlags: 0
@@ -10096,12 +10102,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6942298321609606490}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.45, y: -1.5360606, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5360606, z: 0}
   m_LocalScale: {x: 0.34522715, y: 0.34522715, z: 0.34522715}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6492264743620994210}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1671459770858519395
 SpriteRenderer:
@@ -11303,19 +11309,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 714876947039320373}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 597959240}
-        m_TargetAssemblyTypeName: UIControllers, Assembly-CSharp
-        m_MethodName: SetSelectedGameObjectToSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &597959240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11329,7 +11323,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 8575641910346953891}
-  ActivePauseMenu: {fileID: 8575641910346953891}
 --- !u!114 &597959241
 MonoBehaviour:
   m_ObjectHideFlags: 0

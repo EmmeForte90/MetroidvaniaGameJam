@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cinemachine;
 
 public class RespawnObject : MonoBehaviour
 {
@@ -7,8 +8,11 @@ public class RespawnObject : MonoBehaviour
     [SerializeField] GameObject Sdeng;
     [SerializeField] GameObject Selectionmenu;
     [SerializeField] public Transform Pos;
+    public GameObject Camera;
     //[SerializeField] public GameplayManager gM;
     public GameObject button;
+    private CinemachineVirtualCamera virtualCamera; //riferimento alla virtual camera di Cinemachine
+    private GameObject player; // Variabile per il player
 
     private bool _isInTrigger;
     [HideInInspector]public bool isPray = false;
@@ -19,15 +23,19 @@ public class RespawnObject : MonoBehaviour
     private void Awake()
     {
         if (instance == null)
-        {
+        {    
             instance = this;
-        }}
+        }
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
+        player = GameObject.FindWithTag("Player");
+    }
 
 void Update()
     {
 
         if (_isInTrigger && Input.GetButtonDown("Talk") && !isPray)
         {
+            virtualCamera.Follow = Camera.transform;
             Instantiate(Sdeng, Pos.transform.position, transform.rotation);
             GameplayManager.instance.StopInput();
             Move.instance.StopinputTrue();
@@ -60,7 +68,7 @@ void Update()
             //Salva la partita
           
           // SaveSystem.SavePlayer(Move.instance);
-
+            Move.instance.isPray = true;
             isPray = true;
 
         }
@@ -71,13 +79,25 @@ void Update()
             Move.instance.StopinputFalse();
             UIControllers.instance.SetSelectedGameObjectToSettings();
             Selectionmenu.gameObject.SetActive(false);   
-                            isPray = false;
-                            _isInTrigger = false;
+            isPray = false;
+            Move.instance.isPray = false;
+            _isInTrigger = false;
+            virtualCamera.Follow = player.transform;        
+
     
         }
         
     }
 
+public void ChooseCharacter()
+    {
+
+    }
+public void notchoose()
+    {
+        virtualCamera.Follow = Camera.transform;
+
+    }
     
 private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -186,6 +186,7 @@ private int comboCount = 0;
     [HideInInspector]public bool isCharging;
     private bool touchGround;
     private bool isDashing;
+    [HideInInspector]public bool isPray;//DPad del joypad per il menu rapido
     [HideInInspector]public bool isHeal;
     [HideInInspector]public bool isDeath;
     [HideInInspector]public bool isAttacking = false; // vero se il personaggio sta attaccando
@@ -561,7 +562,7 @@ if(Input.GetKeyDown(KeyCode.X))
         else if (stopInput)
         {//Bloccato
         }
-if (!RespawnObject.instance.isPray)
+if (!isPray)
         {
         // gestione dell'input del Menu 
         if (Input.GetButtonDown("Pause") && !stopInput)

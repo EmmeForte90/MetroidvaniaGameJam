@@ -223,6 +223,20 @@ public void ProcessPlayerDeath()
     }
 
 
+
+
+public void StopFade()
+    {
+        StartCoroutine(EndFede());
+    }
+// Coroutine per attendere il caricamento della scena
+IEnumerator EndFede()
+{   
+    yield return new WaitForSeconds(1f);
+    callFadeOut.gameObject.SetActive(false);
+    callFadeIn.gameObject.SetActive(false);
+    
+}
 public void FadeIn()
     {
 
@@ -239,22 +253,27 @@ StartCoroutine(StartFadeOut());
 
 IEnumerator StartFadeIn()
     {
+        callFadeOut.gameObject.SetActive(false);
         callFadeIn.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        callFadeIn.gameObject.SetActive(false);
+        yield return new WaitForSeconds(5f);
+        //callFadeOut.gameObject.SetActive(false);
+        //callFadeIn.gameObject.SetActive(false);
 
 
     }
 
 IEnumerator StartFadeOut()
-    {
-        yield return new WaitForSeconds(2f);
+    {        
+        callFadeIn.gameObject.SetActive(false);
         callFadeOut.gameObject.SetActive(true);
         yield return new WaitForSeconds(5f);
-        callFadeOut.gameObject.SetActive(false);
+       // callFadeIn.gameObject.SetActive(false);
+       // callFadeOut.gameObject.SetActive(false);
 
 
     }
+
+
 
     IEnumerator StartStage()
     {

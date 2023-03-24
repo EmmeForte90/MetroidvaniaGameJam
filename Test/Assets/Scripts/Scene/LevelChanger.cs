@@ -44,30 +44,33 @@ private void ChangeScene()
 // Metodo eseguito quando la scena è stata caricata
 private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 {
+    GameplayManager.instance.FadeIn();
     SceneManager.sceneLoaded -= OnSceneLoaded;
     if (player != null)
     {
+        Move.instance.stopInput = false;
+
         // Troviamo il game object del punto di spawn
         GameObject spawnPoint = GameObject.FindWithTag(spawnPointTag);
         if (spawnPoint != null)
         {
             // Muoviamo il player al punto di spawn
             player.transform.position = spawnPoint.transform.position;
+            //yield return new WaitForSeconds(3f);
         }
     }
+    GameplayManager.instance.StopFade();    
 }
 
 // Coroutine per attendere il caricamento della scena
 IEnumerator WaitForSceneLoad()
 {   
-    Move.instance.stopInput = true;
     GameplayManager.instance.FadeOut();
-    yield return new WaitForSeconds(5f);
+    Move.instance.stopInput = true;
+    yield return new WaitForSeconds(2f);
     // Invochiamo l'evento di cambio scena
     sceneEvent.InvokeOnSceneChange();
-    GameplayManager.instance.FadeIn();
-    yield return new WaitForSeconds(3f);
-    Move.instance.stopInput = false;
+    
 }
 
 // Metodo eseguito quando il player entra nel trigger
@@ -83,7 +86,7 @@ private void OnTriggerStay2D(Collider2D other)
         }
         // Verifichiamo se l'interazione avviene tramite il tasto "Talk"
         if (interactWithKey && Input.GetButton("Talk"))
-        {
+        {    
             // Riproduciamo l'audio della porta se necessario
             if(isDoor)
             {
@@ -108,7 +111,7 @@ private void OnTriggerEnter2D(Collider2D other)
 
          if (!interactWithKey)
         {
-    StartCoroutine(WaitForSceneLoad());
+        StartCoroutine(WaitForSceneLoad());
         }
        
 }
