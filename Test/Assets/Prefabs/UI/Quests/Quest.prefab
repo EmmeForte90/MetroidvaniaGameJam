@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 4211793314615435951}
   - component: {fileID: 7201273385392398253}
   - component: {fileID: 5676677934188294577}
-  - component: {fileID: 4758344457679859437}
+  - component: {fileID: -916231084367956098}
   m_Layer: 5
   m_Name: Quest
   m_TagString: Untagged
@@ -352,20 +352,8 @@ MonoBehaviour:
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4758344457679859437}
-          m_TargetAssemblyTypeName: DescriptionQuest, Assembly-CSharp
-          m_MethodName: QuestSign
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &4758344457679859437
+        m_Calls: []
+--- !u!114 &-916231084367956098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -377,6 +365,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4437f230d47463848a8a6a370e631aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myQuest: {fileID: 0}
-  id: 0
-  guid: 

@@ -56,6 +56,10 @@ void Awake()
 
         if (_isInTrigger && Input.GetButtonDown("Talk") && !_isDialogueActive)
         {
+            Move.instance.stopInput = true;
+            Move.instance.Stop();
+            Move.instance.Stooping();
+            dialogueIndex = 0;
             StartCoroutine(ShowDialogue());
         }
         else if (_isDialogueActive && Input.GetButtonDown("Talk"))
@@ -77,6 +81,7 @@ Clang.Play();
             _isInTrigger = true;
             if (!isInteragible)
             {
+                 dialogueIndex = 0; // Reset the dialogue index to start from the beginning
                 StartCoroutine(ShowDialogue());
             }
         }
@@ -139,6 +144,7 @@ Clang.Play();
             _isDialogueActive = false;
             dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
+            Move.instance.stopInput = false;
         }
         else
         {

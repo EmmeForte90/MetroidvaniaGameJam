@@ -87,6 +87,7 @@ else
         {
             Move.instance.stopInput = true;
             Move.instance.Stop();
+            Move.instance.Stooping();
             dialogueIndex = 0;
             StartCoroutine(ShowDialogue());
         }

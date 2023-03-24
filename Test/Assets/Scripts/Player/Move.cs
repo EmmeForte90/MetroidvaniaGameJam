@@ -9,7 +9,9 @@ using UnityEngine.Audio;
 
 public class Move : MonoBehaviour
 {
-    
+    [SerializeField] public GameObject Player;
+
+
     [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float acceleration;
@@ -1379,6 +1381,21 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
     isAttacking = false;
     isAttackingAir = false;
 
+}
+public void Stooping()
+{
+             if (currentAnimationName != idleAnimationName)
+                {
+                    _spineAnimationState.ClearTrack(2);
+                    _spineAnimationState.ClearTrack(1);
+                    _spineAnimationState.SetAnimation(1, idleAnimationName, true);
+                    currentAnimationName = idleAnimationName;
+                    _spineAnimationState.Event += HandleEvent;
+
+                    //Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+                // Add event listener for when the animation completes
+//                _spineAnimationState.GetCurrent(2).Complete += OnAttackAnimationComplete;
 }
 public void AnmHurt()
 {
