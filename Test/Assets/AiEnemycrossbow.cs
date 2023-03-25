@@ -13,7 +13,7 @@ public class AiEnemycrossbow : Health, IDamegable
 private Health health;
 private Transform player;
 [SerializeField] LayerMask playerlayer;
-public float chaseThreshold = 2f; // soglia di distanza per iniziare a scappare
+public float RunFact = 2f; // soglia di distanza per iniziare a scappare
 private float fleeDistance;
 
 [Header("Moving")]
@@ -141,7 +141,7 @@ private void Update()
                     break;
                 case State.Attack:
                 Shoot();
-                    FacePlayer();
+                FacePlayer();
                     break;
                 case State.Knockback:
                     break;
@@ -199,11 +199,12 @@ if (isHurt && !isDie)
         currentState = State.Hurt;
         return;
     }
-//Distanza per attaccare il player è dentro il raggio
 
+    
+    //Distanza per attaccare il player è dentro il raggio
     if (Vector2.Distance(transform.position, player.position) < attackrange && !isDie)
     {
-        isRun = false;
+        //isRun = false;
         isAttacking = true;
         isMove = false;
         isPlayerInAttackRange = true;
@@ -211,10 +212,22 @@ if (isHurt && !isDie)
         return;
     }
 
-    //Distanza per Scappare
+
+//Il player è appena uscito dal raggio e si avvia il timer di attesa prima che il nemico torni a inseguirlo
+      if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange && !isDie)
+    {
+        isRun = false;
+        isAttacking = false;
+        isMove = false;
+        activeActions = false;
+        currentState = State.Wait;
+        StartCoroutine(waitChase());
+    }
+
+//Distanza per scappare MA NON FUNZIONA
 if(!isPlayerInAttackRange)
 {
-    if (Vector2.Distance(transform.position, player.position) < chaseThreshold && !isDie)
+    if (Vector2.Distance(transform.position, player.position) < RunFact && !isDie)
     {
         isRun = true;
         isAttacking = false;
@@ -345,7 +358,7 @@ private void Flip()
 private void Run()
 {
     //SChase.Play();
-    if (isRun && !isAttacking)
+    if (isRun)
     {
         // Fuga dal giocatore
         Vector2 targetPosition = new Vector2(player.position.x, transform.position.y);
@@ -369,6 +382,8 @@ private void Run()
 
 public void Shoot()
 {
+    if (!isRun)
+    {
     shotCounter -= Time.deltaTime;
     isAttacking = true;
             if (shotCounter <= 0)
@@ -382,6 +397,7 @@ public void Shoot()
             {
                 Recharge();
             }
+    }
 }
 
 
@@ -404,10 +420,10 @@ void FacePlayer()
 private void OnDrawGizmos()
     {
     Gizmos.color = Color.red;
-    Gizmos.DrawWireSphere(transform.position, chaseThreshold);
+    Gizmos.DrawWireSphere(transform.position, RunFact);
     Gizmos.color = Color.blue;
     Gizmos.DrawWireSphere(transform.position, attackrange);
-        //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
+        //Debug.DrawRay(transform.position, new Vector3(RunFact, 0), Color.red);
     }
 #endregion
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
