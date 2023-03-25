@@ -24,6 +24,7 @@ TagManager:
   - Container_Q
   - Hitbox_E
   - Shield_E
+  - Timeline
   layers:
   - Default
   - TransparentFX

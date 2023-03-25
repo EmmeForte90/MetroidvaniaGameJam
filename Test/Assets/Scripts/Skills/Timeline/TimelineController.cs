@@ -7,21 +7,33 @@ using UnityEngine.Timeline;
     public class TimelineController : MonoBehaviour 
     {
     private PlayableDirector _director;
-    
+    public GameObject Cutscene;
+    public int ID;
+
 
     private void Awake()
     {
         _director = GetComponent<PlayableDirector>();
+        
     }
 
     private void Update()
     {
-        //Press F to next dialogue in timeline//
         if ((Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0)) && _director.time != 0)
         { 
             StartTimeline();
         }
     }
+
+public  void TimelineRepeat()
+{
+    CutsceneManager.Instance.TimelineStart(ID);
+}
+
+public  void TimelineDontRepeat()
+{
+    CutsceneManager.Instance.TimelineEnd(ID);
+}
 
     public void StartTimeline()
     {  
