@@ -385,12 +385,6 @@ if (isHeal && PlayerHealth.Instance.currentEssence == 0 || isDeath)
     AnimationHealEnd();
 }
 
-if (PlayerHealth.Instance.currentHealth == PlayerHealth.Instance.maxHealth) 
-{
-isHeal = false;
-AnimationHealEnd();
-}
-
 
 if (PlayerHealth.Instance.currentEssence > 0) 
 {
