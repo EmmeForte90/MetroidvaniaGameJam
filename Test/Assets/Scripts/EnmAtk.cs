@@ -27,7 +27,7 @@ public class EnmAtk : MonoBehaviour
             player.GetComponent<PlayerHealth>().Damage(attackDamage);
             }
             }
-    }else if (collision.CompareTag("Hitbox"))
+    }else if (collision.gameObject.tag == "Hitbox")
     {
            Move.instance.Knockback();
     }

@@ -6,7 +6,7 @@ public class Globo : MonoBehaviour
 {
    public float speed = 10f; // velocità del proiettile
     [SerializeField] GameObject Explode;
-    [SerializeField] Transform prefabExp;
+   // [SerializeField] Transform prefabExp;
     [SerializeField] int damage = 50;
     public float rotationSpeed = 2500f;
     public bool isRotating = false;
@@ -77,10 +77,12 @@ public class Globo : MonoBehaviour
 
         if (other.gameObject.tag == "Ground")
         { 
+            Instantiate(Explode, transform.position, transform.rotation);
             Invoke("Destroy", lifeTime);
         }
         if (other.gameObject.tag == "Shield_E")
         { 
+
             if (!Needtwohands)
         { 
             Invoke("Destroy", lifeTime);
