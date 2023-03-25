@@ -74,13 +74,8 @@ public class Move : MonoBehaviour
     private readonly Vector3 raycastColliderOffset = new (0.25f, 0, 0);
     private const float distanceFromGroundRaycast = 0.3f;
     [SerializeField] private LayerMask groundLayer;
-    
-    [Header("Abilitazioni")]
-    public bool unlockWalljump = false;
-    public bool unlockDoubleJump = false;
-    public bool unlockDash = false;
-    //private bool isDashing;
-    public bool slotR,slotL,slotU,slotB = false;
+   
+    [HideInInspector] public bool slotR,slotL,slotU,slotB = false;
     [Header("Respawn")]
     //[HideInInspector]
     private Transform respawnPoint; // il punto di respawn del giocatore
@@ -272,9 +267,9 @@ if(!stopInput)
             modifyPhysics();
         }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- 
+
  // Controllo se il personaggio è a contatto con un muro
- if(unlockWalljump)
+ if( GameplayManager.instance.unlockWalljump)
  {
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 isTouchingWall = Physics2D.Raycast(transform.position, direction, wallDistance, wallLayer);
@@ -291,7 +286,7 @@ if (Input.GetButtonDown("Jump"))
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);   
         }
     
-    if (canDoubleJump && unlockDoubleJump)
+    if (canDoubleJump && GameplayManager.instance.unlockDoubleJump)
     {
         // Double jump
         lastTimeJump = Time.time + jumpDelay;
@@ -312,7 +307,7 @@ if (Input.GetButtonDown("Jump"))
 
 
 // Wallslide
-        if (isTouchingWall && !isGrounded() && rb.velocity.y < 0 && unlockWalljump)
+        if (isTouchingWall && !isGrounded() && rb.velocity.y < 0 &&  GameplayManager.instance.unlockWalljump)
         {
             rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
             wallSlidedown();
@@ -320,7 +315,7 @@ if (Input.GetButtonDown("Jump"))
         
 
         // Walljump
-        if (Input.GetButtonDown("Jump") && isTouchingWall && unlockWalljump)
+        if (Input.GetButtonDown("Jump") && isTouchingWall &&  GameplayManager.instance.unlockWalljump)
         {
            float horizontalVelocity = Mathf.Sign(transform.localScale.x) * wallJumpForce;
             rb.velocity = new Vector2(horizontalVelocity, jumpForce);
@@ -389,6 +384,14 @@ if (isHeal && PlayerHealth.Instance.currentEssence == 0 || isDeath)
     isHeal = false;
     AnimationHealEnd();
 }
+
+if (PlayerHealth.Instance.currentHealth == PlayerHealth.Instance.maxHealth) 
+{
+isHeal = false;
+AnimationHealEnd();
+}
+
+
 if (PlayerHealth.Instance.currentEssence > 0) 
 {
 if (Input.GetButtonDown("Heal") && !isHeal && PlayerHealth.Instance.currentHealth != PlayerHealth.Instance.maxHealth)
@@ -398,6 +401,7 @@ if (Input.GetButtonDown("Heal") && !isHeal && PlayerHealth.Instance.currentHealt
     AnimationHeal();
 }
 }
+
 
 if (PlayerHealth.Instance.currentEssence > 0) 
 {
@@ -497,7 +501,8 @@ if(Input.GetKeyDown(KeyCode.X))
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
-
+if(GameplayManager.instance.unlockCrash)
+{
  if (Input.GetButtonDown("Fire3") && !isCharging && Time.time - timeSinceLastAttack > attackRate)
     {
         isCharging = true;
@@ -538,8 +543,9 @@ if(Input.GetKeyDown(KeyCode.X))
     {
         Stop();
     }
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  if (unlockDash)
+  if ( GameplayManager.instance.unlockDash)
         {
  if (Input.GetButtonUp("Dash") || R2 == 1 && !dashing && coolDownTime <= 0)
         {
