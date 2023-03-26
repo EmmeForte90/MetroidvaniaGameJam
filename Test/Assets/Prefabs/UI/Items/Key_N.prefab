@@ -2352,9 +2352,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: f9bd65b908e412947a8f2bd106912bed, type: 2}
   VFX: {fileID: 7543257715761203544, guid: 9a2c11c52e8735746be778a3b912fb92, type: 3}
   Value: 1
-  KeyN: 1
-  Lingotto: 0
-  Seme: 0
+  isCollected: 0
 --- !u!1001 &718670853375524960
 PrefabInstance:
   m_ObjectHideFlags: 0

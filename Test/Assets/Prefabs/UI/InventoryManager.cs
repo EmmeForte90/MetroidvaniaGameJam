@@ -11,8 +11,8 @@ public class InventoryManager : MonoBehaviour
    //public List<Item> Items = new List<Item>();
 
    // Riferimento al contenitore dei pulsanti delle item
-    public Transform ItemContent;
-   public GameObject InventoryItem;
+   public Transform ItemContent;
+   public  GameObject InventoryItem;
    [HideInInspector] public int qID;
     // Scriptable Object delle item
    public List<Item> itemDatabase;
@@ -34,12 +34,18 @@ public class InventoryManager : MonoBehaviour
 //public Image icon;
 
 
-
 private void Awake()
-{
-    Instance = this;
-}
-
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
    
 
@@ -48,37 +54,65 @@ private void Awake()
 {
     itemDatabase.Add(newItem);
 }
+public void RemoveItem(Item newItem)
+{
+        itemDatabase.Remove(newItem);
+       // Destroy(button);
+    
+}
+
 
 public void ListItem(int itemId)
-{
-    // Cerca la item con l'id specificato
-    Item item = itemDatabase.Find(q => q.id == itemId);
-
-    if (item != null)
     {
-        // Istanzia il prefab del bottone della item nella lista UI
-        GameObject obj = Instantiate(InventoryItem, ItemContent);
+        // Cerca la item con l'id specificato
+        Item item = itemDatabase.Find(q => q.id == itemId);
+       
 
-        // Recupera il riferimento al componente del titolo della item e del bottone
-        //var questName = obj.transform.Find("Name_Item").GetComponent<TextMeshProUGUI>();
-        var Itemimg = obj.transform.Find("Icon_item").GetComponent<Image>();
+        if (item != null)
+        {
+            // Istanzia il prefab del bottone della item nella lista UI
+             InventoryItem = Instantiate(InventoryItem, ItemContent);
+            // Recupera il riferimento al componente del titolo della item e del bottone
+            //var questName = obj.transform.Find("Name_Item").GetComponent<TextMeshProUGUI>();
+            var Itemimg = InventoryItem.transform.Find("Icon_item").GetComponent<Image>();
 
-        // Assegna l'id univoco al game object istanziato
-        obj.name = "ItemButton_" + item.id;
+            // Assegna l'id univoco al game object istanziato
+            InventoryItem.name = "ItemButton_" + item.id;
 
-        // Assegna il nome della item al componente del titolo
-        //questName.text = item.itemName;
-        Itemimg.sprite =  item.icon;
-        // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della item
-        previewImages.sprite = item.icon;
-        descriptions.text = item.Description;
-        Num.text = item.value.ToString(); 
-        NameItems.text = item.itemName;
-        // Aggiungi un listener per il click del bottone
-        var button = obj.GetComponent<Button>();
-        button.onClick.AddListener(() => OnQuestButtonClicked(item.id, previewImages, descriptions));
+            // Assegna il nome della item al componente del titolo
+            //questName.text = item.itemName;
+
+            if (Itemimg != null && item.icon != null)
+            {
+                Itemimg.sprite = item.icon;
+            }
+
+            // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della item
+            if (previewImages != null)
+            {
+                previewImages.sprite = item.icon;
+            }
+
+            if (descriptions != null)
+            {
+                descriptions.text = item.Description;
+            }
+
+            if (Num != null)
+            {
+                Num.text = item.value.ToString();
+            }
+
+            if (NameItems != null)
+            {
+                NameItems.text = item.itemName;
+            }
+
+            // Aggiungi un listener per il click del bottone
+            var button = InventoryItem.GetComponent<Button>();
+            button.onClick.AddListener(() => OnQuestButtonClicked(item.id, previewImages, descriptions));
+        }
     }
-}
 
 public void OnQuestButtonClicked(int itemId, Image previewImages, TextMeshProUGUI descriptions)
 {
@@ -90,6 +124,7 @@ public void OnQuestButtonClicked(int itemId, Image previewImages, TextMeshProUGU
         descriptions.text = itemDatabase.Find(q => q.id == itemId).Description;
     }
 }
+
 
 
 private void OnEnable()

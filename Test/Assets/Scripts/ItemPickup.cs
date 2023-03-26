@@ -13,6 +13,7 @@ public class ItemPickup : MonoBehaviour
 public void Awake()
     {
             IDItem = Item.id;
+          
     }
 
 public void Update()
