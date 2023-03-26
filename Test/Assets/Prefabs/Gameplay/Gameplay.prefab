@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 7696596140613249903}
   - component: {fileID: 7621460561251685990}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Bkg_Skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,6 +678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca8fe4619d3fd04b969caaa2d4eaa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  filmati: 0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
 --- !u!1 &467018514602924885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,7 +1788,7 @@ GameObject:
   - component: {fileID: 3697060579350426745}
   - component: {fileID: 5063430883689106588}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Logo_Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5658,7 +5659,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144114532784799625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 32.81, y: 0.35, z: 0}
+  m_LocalPosition: {x: 28.38, y: -4.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6206,7 +6207,7 @@ GameObject:
   - component: {fileID: 2144114532853660159}
   - component: {fileID: 2144114532853660144}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Back_img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12214,6 +12215,7 @@ MonoBehaviour:
   InventoryItem: {fileID: 5483065537784696399, guid: fe10984d25b5399499f8925a9020357f, type: 3}
   qID: 0
   itemDatabase: []
+  itemActive: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   previewImages: {fileID: 1333970135169260150}
   descriptions: {fileID: 4909188492163409684}
   Num: {fileID: 5727440028560436618}
@@ -13909,6 +13911,7 @@ MonoBehaviour:
   previewImages: {fileID: 4749046329414806643}
   descriptions: {fileID: 2335998189205853617}
   quest: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _QuestActive: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   _QuestComplete: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &5148374172752711025
 GameObject:
@@ -16836,7 +16839,7 @@ GameObject:
   - component: {fileID: 788128406730076230}
   - component: {fileID: 5652402849314733722}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Pr_Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17050,7 +17053,7 @@ GameObject:
   - component: {fileID: 4787889811112645563}
   - component: {fileID: 7144564214339916637}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Mex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17126,7 +17129,7 @@ GameObject:
   - component: {fileID: 6766299494774048832}
   - component: {fileID: 2464468630461094267}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Dec2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17202,7 +17205,7 @@ GameObject:
   - component: {fileID: 2943226520836075405}
   - component: {fileID: 4801070053434797747}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Dec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19795,7 +19798,7 @@ GameObject:
   - component: {fileID: 201396553861459530}
   - component: {fileID: 8157704962834044734}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Dec1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

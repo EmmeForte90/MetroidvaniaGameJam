@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class InventoryManager : MonoBehaviour
    [HideInInspector] public int qID;
     // Scriptable Object delle item
    public List<Item> itemDatabase;
+    
+    public bool[] itemActive;
 
     // Riferimenti ai componenti delle immagini di preview e delle descrizioni
     public Image previewImages;
@@ -87,5 +90,56 @@ public void OnQuestButtonClicked(int itemId, Image previewImages, TextMeshProUGU
         descriptions.text = itemDatabase.Find(q => q.id == itemId).Description;
     }
 }
+
+
+private void OnEnable()
+{
+    SceneManager.sceneLoaded += OnSceneLoaded;
+}
+
+private void OnDisable()
+{
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+}
+public void ItemActive(int id)
+{
+    // Imposta lo stato di completamento della quest a true
+    itemActive[id] = true;  
+}
+// Questo metodo viene chiamato quando una nuova scena viene caricata
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    // Cerca tutti gli oggetti con il tag "Item" nella scena appena caricata
+    GameObject[] collectibleItem = GameObject.FindGameObjectsWithTag("Item");
+
+    // Cicla su tutti gli oggetti trovati
+    foreach (GameObject Item in collectibleItem)
+    {
+        // Cerca il componente "ItemPickup" collegato all'oggetto
+        ItemPickup ItemTake = Item.GetComponent<ItemPickup>();
+
+        // Se l'oggetto ha il componente "ItemPickup"
+        if (ItemTake != null)
+        {
+            // Recupera l'identificatore dell'oggetto
+            int ItemId = ItemTake.Item.id;
+
+            // Verifica se l'oggetto è già stato raccolto
+            for (int i = 0; i < itemActive.Length; i++)
+            {
+                if (itemActive[i] && i == ItemId)
+                {
+                    // Se l'oggetto è stato raccolto, imposta il suo stato "isCollected" su true
+                    ItemTake.isCollected = true;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
+
+
 }
 

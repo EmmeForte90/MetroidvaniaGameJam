@@ -8,18 +8,26 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] GameObject VFX;
     public int Value = 1;
     private int IDItem;
+    public bool isCollected = false;
 
 public void Awake()
     {
             IDItem = Item.id;
     }
+
+public void Update()
+    {
+            if(isCollected)
+            {Destroy(gameObject);}
+    }
+
+     
     public void Pickup()
     {
-        
         InventoryManager.Instance.AddItem(Item);
         InventoryManager.Instance.ListItem(IDItem);
-
-        Destroy(gameObject);
+        InventoryManager.Instance.ItemActive(IDItem);
+        isCollected = true; // Imposta la variabile booleana a "true" quando l'oggetto viene raccolto
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

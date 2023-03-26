@@ -60,6 +60,7 @@ public class GameplayManager : MonoBehaviour
     {
         if (instance == null)
         {
+            Application.targetFrameRate = 60;
             instance = this;
         }
         //QuestManager.Instance.QuestContent = QuestContent;
@@ -93,6 +94,10 @@ StartCoroutine(StartFadeInSTART());
         moneyTextM.text = money.ToString();    
         //Il testo assume il valore dello money
     }
+
+
+
+    
 
 public void StartPlay()
     {

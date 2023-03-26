@@ -26,6 +26,7 @@ TagManager:
   - Shield_E
   - Timeline
   - Ch_Quest
+  - Item
   layers:
   - Default
   - TransparentFX
