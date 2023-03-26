@@ -73,13 +73,12 @@ private float waitDuration = 2f;
 
 
 [Header("VFX")]
-    // Variabile per il gameobject del proiettile
-    //[SerializeField] GameObject blam;
-    //[SerializeField] public Transform gun;
+
     [SerializeField] public Transform slashpoint;
     [SerializeField] public Transform hitpoint;
     [SerializeField] GameObject attack;
     [SerializeField] GameObject attack_h;
+    [SerializeField] GameObject attack_B;
     [SerializeField] GameObject Sdeng;
 
 
@@ -688,6 +687,7 @@ IEnumerator VFXCont()
 {   
     yield return new WaitForSeconds(0.5f);
     attack_h.gameObject.SetActive(false);
+    attack_B.gameObject.SetActive(false);
     attack.gameObject.SetActive(false);
 
 }
@@ -733,7 +733,25 @@ if (e.Data.Name == "VFXslash_h") {
         SwSl.Play();
         
     }
-
+if (e.Data.Name == "VFXSlashB") {
+        // Inserisci qui il codice per gestire l'evento.
+        attack_B.gameObject.SetActive(true);
+                    StartCoroutine(VFXCont());
+        //Instantiate(attack_h, slashpoint.position, transform.rotation);
+         if (SwSl == null) {
+            Debug.LogError("AudioSource non trovato");
+            return;
+        }
+        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
+        if (!SwSl.gameObject.activeInHierarchy) {
+            SwSl.gameObject.SetActive(true);
+        }
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        // Assegna la clip audio all'AudioSource e avviala.
+        SwSl.Play();
+        
+    }
     if (e.Data.Name == "attack") {
         // Inserisci qui il codice per gestire l'evento.
         if(horizontal == 1)

@@ -52,8 +52,18 @@ private void Awake()
      // Metodo per aggiungere una nuova item al database
     public void AddItem(Item newItem)
 {
-    itemDatabase.Add(newItem);
+      Item existingItem = itemDatabase.Find(q => q.id == newItem.id);
+    if (existingItem != null)
+    {
+        existingItem.value += newItem.value;
+    }
+    else
+    {
+        itemDatabase.Add(newItem);
+    } 
 }
+
+
 public void RemoveItem(Item newItem)
 {
         itemDatabase.Remove(newItem);

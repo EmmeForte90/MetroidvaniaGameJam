@@ -11,31 +11,62 @@ using Spine.Unity;
 
 public class NPCDialogue : MonoBehaviour
 {
-   private GameObject player; // Reference to the player's position
+    public Dialogues DManager;
+    public List<Dialogues> ListDialogue;
+    private bool changeD = false; // o la variabile che deve attivare la sostituzione
+    private bool StopButton = false; // o la variabile che deve attivare la sostituzione
+
+    public int IDCharater;
+    private string[] dialogue; // array of string to store the dialogues
+    private GameObject player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
+    public TextMeshProUGUI CharacterName; // Reference to the TextMeshProUGUI component
     public GameObject button;
     public GameObject dialogueBox;
-    [SerializeField] private string[] dialogue; // array of string to store the dialogues
     public float dialogueDuration; // variable to set the duration of the dialogue
     private int dialogueIndex; // variable to keep track of the dialogue status
     private float elapsedTime; // variable to keep track of the elapsed time
     private Animator anim; // componente Animator del personaggio
-
     public bool isInteragible;
     public bool heFlip;
-
+    public bool moreDialogue;
     private bool _isInTrigger;
     private bool _isDialogueActive;
+
+
 [Header("Audio")]
 [SerializeField] AudioSource talk;
 [SerializeField] AudioSource Clang;
 
+public static NPCDialogue instance;
+
 
 void Awake()
 {
-        player = GameObject.FindWithTag("Player");
-
+    if (instance == null)
+        {
+            instance = this;
+        }
+    player = GameObject.FindWithTag("Player");
+    dialogue = DManager.dialogue;
+    CharacterName.text = DManager.CharacterName;
 }
+
+public void changeDialogue()
+    {
+        if (changeD) // o qualsiasi condizione basata sulla variabile specificata
+        {
+            foreach (Dialogues dialogueObject in ListDialogue)
+            {
+                if (dialogueObject != DManager)
+                {
+                    DManager = dialogueObject;
+                    dialogue = DManager.dialogue;
+                    break;
+                }
+            }
+        }
+    }
 
 
     void Start()
@@ -48,6 +79,7 @@ void Awake()
 
     void Update()
     {
+        
         anim.SetBool("talk", _isInTrigger);
         if(heFlip)
         {
@@ -62,9 +94,10 @@ void Awake()
             dialogueIndex = 0;
             StartCoroutine(ShowDialogue());
         }
-        else if (_isDialogueActive && Input.GetButtonDown("Talk"))
+        else if (_isDialogueActive && Input.GetButtonDown("Talk") && StopButton)
         {
             NextDialogue();
+            StopButton = false;
         }
     }
 
@@ -124,9 +157,10 @@ Clang.Play();
         {
             break;
         }
-        yield return new WaitForSeconds(0); // Wait before showing the next letter
+        yield return new WaitForSeconds(0.001f); // Wait before showing the next letter
     }
             dialogueText.text = currentDialogue; // Set the dialogue text to the full current dialogue
+            StopButton = true;
 
 }
 
@@ -145,6 +179,9 @@ Clang.Play();
             dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             Move.instance.stopInput = false;
+            if(moreDialogue)
+            {changeD = true;}
+            changeDialogue();
         }
         else
         {

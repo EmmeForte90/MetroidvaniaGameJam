@@ -38,7 +38,15 @@ public static QuestManager Instance;
 
 private void Awake()
 {
-    Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 }
 
 private void Start()
