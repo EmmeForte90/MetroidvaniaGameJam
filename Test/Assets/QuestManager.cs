@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class QuestManager : MonoBehaviour
 {    
@@ -14,6 +15,7 @@ public class QuestManager : MonoBehaviour
    [HideInInspector] public int qID;
     // Scriptable Object delle quest
 public List<Quests> questDatabase;
+private GameObject[] CharacterQ;
 
     // Riferimenti ai componenti delle immagini di preview e delle descrizioni
     public Image previewImages;
@@ -22,6 +24,7 @@ public List<Quests> questDatabase;
 
     // Array di booleani che mantengono lo stato delle quest
     public bool[] quest;
+    public bool[] _QuestActive;
     public bool[] _QuestComplete;
 
      // Id unico del bottone della quest selezionata
@@ -38,6 +41,11 @@ private void Awake()
     Instance = this;
 }
 
+private void Start()
+{
+    // Cerca tutti i GameObjects con il tag "Timeline" all'inizio dello script
+    CharacterQ = GameObject.FindGameObjectsWithTag("Ch_Quest");
+}
 
    
 
@@ -105,11 +113,68 @@ public void QuestStart(int id)
 }
 // Metodo per completare una quest
 // id: l'indice della quest nell'array
+public void QuestActive(int id)
+{
+    // Imposta lo stato di completamento della quest a true
+    _QuestActive[id] = true;  
+}
+
+
+// Metodo per completare una quest
+// id: l'indice della quest nell'array
 public void QuestComplete(int id)
 {
     // Imposta lo stato di completamento della quest a true
     _QuestComplete[id] = true;  
 }
+
+
+
+
+
+
+private void OnEnable()
+{
+    SceneManager.sceneLoaded += OnSceneLoaded;
+}
+
+private void OnDisable()
+{
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+}
+
+
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    // Cerca tutti i GameObjects con il tag "Ch_Quest"
+    GameObject[] CharacterQ = GameObject.FindGameObjectsWithTag("Ch_Quest");
+
+    // Itera attraverso tutti gli oggetti trovati
+    foreach (GameObject Character in CharacterQ)
+    {
+        // Ottiene il componente QuestCharacters
+        QuestCharacters questCharacter = Character.GetComponent<QuestCharacters>();
+
+        // Verifica se il componente esiste
+        if (questCharacter != null)
+        {
+            // Verifica se l'id della quest corrisponde all'id di un gameobject in _QuestActive
+            int questId = questCharacter.Quest.id;
+            for (int i = 0; i < _QuestActive.Length; i++)
+            {
+                if (_QuestActive[i] && i == questId)
+                {
+                    // Imposta questCharacter.FirstD a false
+                    questCharacter.FirstD = false;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
+
 
 }
 

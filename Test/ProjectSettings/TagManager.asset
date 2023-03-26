@@ -25,6 +25,7 @@ TagManager:
   - Hitbox_E
   - Shield_E
   - Timeline
+  - Ch_Quest
   layers:
   - Default
   - TransparentFX
