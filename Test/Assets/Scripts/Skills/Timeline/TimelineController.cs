@@ -7,20 +7,20 @@ using Cinemachine;
 
     public class TimelineController : MonoBehaviour 
     {
-    private PlayableDirector _director;
+    public PlayableDirector _director;
     public GameObject Cutscene;
     public int ID;
     private CinemachineVirtualCamera virtualCamera; //riferimento alla virtual camera di Cinemachine
     private GameObject player; // Variabile per il player
-    private GameObject Camera;
+    //private GameObject Camera;
 
 
     private void Awake()
     {
-        _director = GetComponent<PlayableDirector>();
+       // _director = GetComponent<PlayableDirector>();
        virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
         player = GameObject.FindWithTag("Player");
-        Camera =  GameObject.FindWithTag("MainCamera");
+     //   Camera =  GameObject.FindWithTag("MainCamera");
     }
 
     private void Update()
@@ -35,9 +35,11 @@ public  void CameraTakePlayer()
 {
             virtualCamera.Follow = player.transform;        
 }
-public  void CameraNotTakePlaye()
+
+
+public  void ResetCamera()
 {
-            virtualCamera.Follow = Camera.transform;
+GameplayManager.instance.TakeCamera();
 }
 
 public  void TimelineRepeat()

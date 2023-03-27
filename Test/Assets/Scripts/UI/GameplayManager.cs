@@ -40,7 +40,8 @@ public class GameplayManager : MonoBehaviour
     [Header("Fade")]
     [SerializeField] GameObject callFadeIn;
     [SerializeField] GameObject callFadeOut;
-    [SerializeField] GameObject centerCanvas;
+    //[SerializeField] GameObject centerCanvas;
+   // [SerializeField] GameObject StartingGameContent;
 
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
@@ -65,19 +66,10 @@ public class GameplayManager : MonoBehaviour
     {
         if (instance == null)
         {
-            Application.targetFrameRate = 60;
             instance = this;
         }
-        //QuestManager.Instance.QuestContent = QuestContent;
-        player = GameObject.FindWithTag("Player");
-        Scenary = GameObject.FindWithTag("Scenary");
-virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-virtualCamera.Follow = player.transform;
-virtualCamera.LookAt = player.transform;
-StartCoroutine(StartFadeInSTART());
-
-
-        // Verifica se un'istanza del GameObject esiste già e distruggila se necessario
+        Application.targetFrameRate = 60;
+          // Verifica se un'istanza del GameObject esiste già e distruggila se necessario
         if (playerExists) //&& gameplayOff) 
         {
             Destroy(gameObject);
@@ -88,6 +80,19 @@ StartCoroutine(StartFadeInSTART());
             DontDestroyOnLoad(gameObject);
             
         }
+
+        Scenary = GameObject.FindWithTag("Scenary");
+        virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
+        player = GameObject.FindWithTag("Player");
+        StartCoroutine(StartFadeInSTART());
+
+        if(!startGame)
+        {
+            virtualCamera.Follow = player.transform;
+            virtualCamera.LookAt = player.transform;
+        }
+
+      
 
 
         if(!moneyObject.gameObject)
@@ -101,7 +106,11 @@ StartCoroutine(StartFadeInSTART());
     }
 
 
-
+public void TakeCamera()
+    {
+            virtualCamera.Follow = player.transform;
+            virtualCamera.LookAt = player.transform;    
+    }
     
 
 public void StartPlay()

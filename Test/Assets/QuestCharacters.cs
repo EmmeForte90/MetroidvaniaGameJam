@@ -204,7 +204,6 @@ Clang.Play();
 {
         notGo = true;
         QuestEnd.gameObject.SetActive(true); 
-        //QuestManager.Instance.Quest3 = true;
         yield return new WaitForSeconds(3f); 
         Instantiate(Reward, RewardPoint.position, transform.rotation);
         QuestEnd.gameObject.SetActive(false); 
@@ -212,8 +211,7 @@ Clang.Play();
         QuestManager.Instance.QuestComplete(IDQuest);
         Quest.isActive = false;
         Quest.isComplete = true;
-        //EndDia = false;
-        //EndQue = true;
+    
         notGo = false;
         Move.instance.stopInput = false;
         

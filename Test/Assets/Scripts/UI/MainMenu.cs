@@ -175,6 +175,7 @@ IEnumerator fade()
         
         PlayerPrefs.DeleteAll();
         yield return new WaitForSeconds(Timelife);
+        GameplayManager.instance.startGame = true;
 //        GameplayManager.instance.gameplayOff = false;
 if (isGarland)
 {

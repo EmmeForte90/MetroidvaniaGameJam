@@ -13,12 +13,12 @@ public string Description;
 public int value;
 //public Sprite icon;
 public Sprite Bigicon;
-
-[SerializeField] public string[] Startdialogue; // array of string to store the dialogues
-
-[SerializeField] public string[] Middledialogue; // array of string to store the dialogues
-
-[SerializeField] public string[] Endingdialogue; // array of string to store the dialogues
+[SerializeField][TextArea(3, 10)]
+public string[] Startdialogue; // array of string to store the dialogues
+[SerializeField][TextArea(3, 10)]
+public string[] Middledialogue; // array of string to store the dialogues
+[SerializeField][TextArea(3, 10)]
+public string[] Endingdialogue; // array of string to store the dialogues
 
 public bool isActive;
 //public Dialog dialog;

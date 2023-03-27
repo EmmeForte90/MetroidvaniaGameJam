@@ -10,7 +10,8 @@ public class ActorOrdalia : MonoBehaviour
 
     [SpineAnimation][SerializeField] private string WaitAnimationName;
     [SpineAnimation][SerializeField] private string StartAnimationName;
-    
+        [SpineAnimation][SerializeField] private string idleAnimationName;
+
     private string currentAnimationName;
     public SkeletonAnimation _skeletonAnimation;
     private Spine.AnimationState _spineAnimationState;
@@ -40,7 +41,7 @@ public void Wait()
 {
    if (currentAnimationName != WaitAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, WaitAnimationName, true);
+                    _spineAnimationState.SetAnimation(0, WaitAnimationName, true);
                     currentAnimationName = WaitAnimationName;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
@@ -51,8 +52,19 @@ public void Standup()
 {
     if (currentAnimationName != StartAnimationName)
                 {
-                    _spineAnimationState.SetAnimation(2, StartAnimationName, false);
+                    _spineAnimationState.SetAnimation(0, StartAnimationName, false);
                     currentAnimationName = StartAnimationName;
+
+                   // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
+                }
+}
+
+public void idle()
+{
+    if (currentAnimationName != idleAnimationName)
+                {
+                    _spineAnimationState.SetAnimation(0, idleAnimationName, true);
+                    currentAnimationName = idleAnimationName;
 
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }

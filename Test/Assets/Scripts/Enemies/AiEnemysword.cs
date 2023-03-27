@@ -174,97 +174,64 @@ private void Update()
 
     private void CheckState()
 {
-    if (!Move.instance.isDeath)
-{
-//Hp finiti, muore
-    if (health.currentHealth == 0 || health.currentHealth < 0)
+    if (Move.instance.isDeath) 
     {
-        isChasing = false;
-        isAttacking = false;
-        isMove = false;
-        activeActions = false;
-        isDie = true;
-        currentState = State.Dead;
-        return;
-    }
-//Hp finiti, Indietreggia
-    if (isKnockback && !isDie)
-    {
-        isChasing = false;
-        isAttacking = false;
-        isMove = false;
-        currentState = State.Knockback;
-        return;
-    }
-
-if (isHurt && !isDie)
-    {
-        isChasing = false;
-        isAttacking = false;
-        isMove = false;
-        activeActions = false;
-        currentState = State.Hurt;
-        return;
-    }
-//Distanza per attaccare il player è dentro il raggio
-
-    if (Vector2.Distance(transform.position, player.position) < attackrange && !isDie)
-    {
-        isChasing = false;
-        isAttacking = true;
-        isMove = false;
-        isPlayerInAttackRange = true;
-        currentState = State.Attack;
-        return;
-    }
-
-
-//Il player è appena uscito dal raggio e si avvia il timer di attesa prima che il nemico torni a inseguirlo
-      if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange && !isDie)
-    {
-        isChasing = false;
-        isAttacking = false;
-        isMove = false;
-        activeActions = false;
-        currentState = State.Wait;
-        StartCoroutine(waitChase());
-    }
-
-//Distanza per inseguire
-if(!isPlayerInAttackRange)
-{
-    if (Vector2.Distance(transform.position, player.position) < chaseThreshold && !isDie)
-    {
-        isChasing = true;
-        isAttacking = false;
-        isMove = false;
-        firstattack = true;
-        currentState = State.Chase;
-        return;
-    }
+return; // esce immediatamente se il personaggio è morto
 }
 
-//Il nemico entra in pausa se il player è troppo in alto
-    if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 5f, playerlayer) && !isDie)
-    {
-        isChasing = false;
-        isAttacking = false;
-        isMove = false;
-        currentState = State.Wait;
-        return;
-    }
-
-//Altrimenti si muove in autonomia se gli è concesso
-    if(activeActions && !isDie)
-    {
+if (health.currentHealth <= 0) { // controlla se il personaggio è morto
+    isChasing = false;
+    isAttacking = false;
+    isMove = false;
+    activeActions = false;
+    isDie = true;
+    currentState = State.Dead;
+} else if (isKnockback) { // controlla se il personaggio è in knockback
+    isChasing = false;
+    isAttacking = false;
+    isMove = false;
+    currentState = State.Knockback;
+} else if (isHurt) { // controlla se il personaggio è stato colpito
+    isChasing = false;
+    isAttacking = false;
+    isMove = false;
+    activeActions = false;
+    currentState = State.Hurt;
+} else if (Vector2.Distance(transform.position, player.position) < attackrange) { // controlla se il personaggio è dentro il raggio d'attacco
+    isChasing = false;
+    isAttacking = true;
+    isMove = false;
+    isPlayerInAttackRange = true;
+    currentState = State.Attack;
+} else if (Vector2.Distance(transform.position, player.position) > attackrange && isPlayerInAttackRange) { // controlla se il personaggio è appena uscito dal raggio e si avvia il timer di attesa
+    isChasing = false;
+    isAttacking = false;
+    isMove = false;
+    activeActions = false;
+    currentState = State.Wait;
+    StartCoroutine(waitChase());
+} else if (Vector2.Distance(transform.position, player.position) < chaseThreshold && !isPlayerInAttackRange) { // controlla se il personaggio è nel raggio di inseguimento
+    isChasing = true;
+    isAttacking = false;
+    isMove = false;
+    firstattack = true;
+    currentState = State.Chase;
+} else if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 5f, playerlayer)) { // controlla se il personaggio è bloccato da un ostacolo
+    isChasing = false;
+    isAttacking = false;
+    isMove = false;
+    currentState = State.Wait;
+} else if (activeActions) { // controlla se il personaggio può muoversi in autonomia
     isMove = true;
     isChasing = false;
     isAttacking = false;
     currentState = State.Moving;
-    }
+}
+
 
 }
-}
+
+
 //Il nemico torna a inseguirlo dopo tot tempo
 IEnumerator waitChase()
     {
@@ -460,27 +427,27 @@ private void OnDrawGizmos()
   
 
    public void Damage(int damage)
+{
+    if (isDie) return;
+
+    health.currentHealth -= damage;
+    TemporaryChangeColor(Color.red);
+    Instantiate(Sdeng, hitpoint.position, transform.rotation);
+    SHurt.Play();
+
+    if (isSmall)
     {
-        if(!isDie){
-        if(!isHurt )
-        {
-        TemporaryChangeColor(Color.red);
-        health.currentHealth -= damage;
-        Instantiate(Sdeng, hitpoint.position, transform.rotation);
-        SHurt.Play();
-        if(isSmall)
-        {
         HurtAnm();
         isKnockback = true;
         IsKnockback();
         currentState = State.Hurt;
-        }
-
-        }
-        StartCoroutine(waitHurt());
-        }
-
     }
+
+    if (!isHurt)
+    {
+        StartCoroutine(waitHurt());
+    }
+}
 
 //Il nemico torna a inseguirlo dopo tot tempo
 IEnumerator waitHurt()

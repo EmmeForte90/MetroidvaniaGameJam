@@ -32,6 +32,17 @@ public class StartGameSetting : MonoBehaviour
         {    
             instance = this;
         }
+
+    }
+
+private void Update()
+    {
+        
+       if(!GameplayManager.instance.startGame)
+       {
+            Destroy(gameObject);
+       }
+        
     }
 
    private void OnTriggerEnter2D(Collider2D collision)
@@ -83,6 +94,7 @@ public void AssignId(Skill id)
          UpdateMenuRapido.Instance.Vup = selectedSkill.value;
          UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
          MXVup = selectedSkill.value;
+         Destroy(gameObject);
     }
 }
 

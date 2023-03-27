@@ -52,8 +52,10 @@ public class TriggerOrdalia : MonoBehaviour
 
     IEnumerator StartOrdalia()
     {
-        ActorOrdalia.Instance.Standup();
-        yield return new WaitForSeconds(TimeStart); 
+       ActorOrdalia.Instance.Standup();
+    yield return new WaitForSeconds(2);
+    ActorOrdalia.Instance.idle();
+    yield return new WaitForSeconds(TimeStart);
         Actor.gameObject.SetActive(false);
         Enemy.gameObject.SetActive(true);
 

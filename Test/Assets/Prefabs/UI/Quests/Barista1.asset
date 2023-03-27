@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ecce37879c6b3e4c9471d6464d3a78f, type: 3}
   m_Name: Barista1
   m_EditorClassIdentifier: 
-  id: 1
+  id: 4
   questName: I lost my precious action figure!
   Description: Antoine lost his precious statue, find them all and give him back
   value: 0
