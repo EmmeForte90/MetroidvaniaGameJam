@@ -6554,10 +6554,14 @@ MonoBehaviour:
   callFadeOut: {fileID: 2144114533436455494}
   centerCanvas: {fileID: 0}
   PauseMenu: {fileID: 2144114533520307112}
+  Ainard: 1
+  Milner: 0
+  Galliard: 0
   unlockWalljump: 0
   unlockDoubleJump: 0
   unlockDash: 0
   unlockCrash: 0
+  startGame: 1
 --- !u!1 &2144114533014346239
 GameObject:
   m_ObjectHideFlags: 0

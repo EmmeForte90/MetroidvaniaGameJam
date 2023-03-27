@@ -9,6 +9,8 @@ public class TimelineSkipper : MonoBehaviour
     private PlayableDirector timeline = null;
     [SerializeField] 
     private float skipToSecond;
+    public GameObject warningMes;
+    private bool againPress = false;
 
     private void Awake()
     {
@@ -17,9 +19,15 @@ public class TimelineSkipper : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButton("Fire1") && timeline.time != 0)
+        if(Input.GetButtonDown("Pause") && !againPress)
+        {
+            warningMes.gameObject.SetActive(true);
+            againPress = true;
+        }
+        if(Input.GetButtonDown("Pause") && timeline.time != 0 && againPress)
         {
             timeline.time = skipToSecond;
+            warningMes.gameObject.SetActive(true);
             StartCoroutine(skipOneFrame());
         }
     }
@@ -27,6 +35,8 @@ public class TimelineSkipper : MonoBehaviour
     IEnumerator skipOneFrame()
     {
         yield return null;
+        warningMes.gameObject.SetActive(false);
+        againPress = false;
         timeline.time = timeline.time;
         timeline.playableGraph.GetRootPlayable(0).SetSpeed(1);
     }

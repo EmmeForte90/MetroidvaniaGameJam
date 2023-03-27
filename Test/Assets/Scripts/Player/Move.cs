@@ -414,7 +414,15 @@ if (Input.GetButtonDown("SlotUp") || DpadY == 1)
     if (UpdateMenuRapido.Instance.idup > 0)
 {
    UpdateMenuRapido.Instance.Selup();
+    if(GameplayManager.instance.startGame)
+        {
+        PlayerWeaponManager.instance.SetWeapon(StartGameSetting.instance.idup);
+        }
+    else if(!GameplayManager.instance.startGame)
+        {
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
+        }
+
     slotU = true;
     slotB = false;
     slotL = false;

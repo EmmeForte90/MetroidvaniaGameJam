@@ -79,6 +79,7 @@ private void OnTriggerStay2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+        GameplayManager.instance.startGame = false;
         // Mostriamo il testo del dialogo se necessario
         if(needButton)
         {

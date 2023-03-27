@@ -47,12 +47,17 @@ public class GameplayManager : MonoBehaviour
     //public Transform QuestContent;
     private GameObject Scenary;
 
+    [Header("Personaggio")]
+    public bool Ainard = false;
+    public bool Milner = false;
+    public bool Galliard = false;
+
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
     public bool unlockDoubleJump = false;
     public bool unlockDash = false;
     public bool unlockCrash = false;
-
+    public bool startGame = false;
     public static GameplayManager instance;
 
 

@@ -62,7 +62,15 @@ public static UpdateMenuRapido Instance;
 
 public void Selup()
     {
+        if(GameplayManager.instance.startGame)
+        {
+        PlayerWeaponManager.instance.SetWeapon(StartGameSetting.instance.selectedId);
+        }else if(!GameplayManager.instance.startGame)
+        {
         PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
+        }
+
+       
         SkillUpsel.gameObject.SetActive(true);
         SkillLeftsel.gameObject.SetActive(false);        
         SkillRightsel.gameObject.SetActive(false);

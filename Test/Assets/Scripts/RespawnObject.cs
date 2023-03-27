@@ -26,7 +26,7 @@ public class RespawnObject : MonoBehaviour
         {    
             instance = this;
         }
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
+       virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
         player = GameObject.FindWithTag("Player");
     }
 
