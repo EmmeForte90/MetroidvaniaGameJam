@@ -41,6 +41,6 @@ MonoBehaviour:
   Afterdialogue:
   - 'Take care of you, ok? We will see soon dear brothers. '
   - The mother see you.
-  isActive: 1
+  isActive: 0
   isComplete: 0
-  AfterQuest: 1
+  AfterQuest: 0

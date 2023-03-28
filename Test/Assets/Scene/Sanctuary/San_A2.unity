@@ -23041,7 +23041,7 @@ GameObject:
   - component: {fileID: 1514169019}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: Ch_Quest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25855,7 +25855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 37381162292924969, guid: 4d21922410a6b2343bb92f937e7c8f46, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 124
+      value: 123.2
       objectReference: {fileID: 0}
     - target: {fileID: 37381162292924969, guid: 4d21922410a6b2343bb92f937e7c8f46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -27056,7 +27056,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6, y: 68}
+  m_AnchoredPosition: {x: 6, y: 97.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2078466024
@@ -27345,7 +27345,7 @@ GameObject:
   - component: {fileID: 2120596668}
   m_Layer: 0
   m_Name: Bernard
-  m_TagString: Ch_Quest
+  m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

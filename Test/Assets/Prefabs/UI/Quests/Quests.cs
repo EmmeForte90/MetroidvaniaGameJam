@@ -28,5 +28,17 @@ public bool isComplete;
 
 public bool AfterQuest;
 
-
+#if UNITY_EDITOR
+private void OnDisable()
+{
+// reset dei bool quando la modalità Play di Unity viene terminata
+if (!EditorApplication.isPlaying)
+{
+isActive = false;
+isComplete = false;
+AfterQuest = false;
 }
+}
+#endif
+}
+
