@@ -44802,7 +44802,7 @@ MonoBehaviour:
   WaitAfterAtk: 1
   attackDamage: 10
   sightRadius: 5
-  chaseThreshold: 5
+  chaseThreshold: 10
   attackrange: 2
   attackCooldown: 1
   InvincibleTime: 0.5
