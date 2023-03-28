@@ -13,6 +13,16 @@ public string Description;
 public int value;
 public Sprite icon;
   
+  #if UNITY_EDITOR
+private void OnDisable()
+{
+// reset dei bool quando la modalità Play di Unity viene terminata
+if (!EditorApplication.isPlaying)
+{
+value = 1;
+}
+}
+#endif
 }
 /*
 public static InventoryManager Instance;

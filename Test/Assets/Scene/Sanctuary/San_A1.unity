@@ -3554,22 +3554,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.65402937
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8785169
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.89305747
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114531776876022, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.4499426
-      objectReference: {fileID: 0}
     - target: {fileID: 2144114532723694009, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3626,41 +3610,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: globo
-      value: 
-      objectReference: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: slash
-      value: 
-      objectReference: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: gladio
-      value: 
-      objectReference: {fileID: 11400000, guid: b40b0e0d68036d6468ad055e42c276f9, type: 2}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: SkillUp
-      value: 
-      objectReference: {fileID: 694163109}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: SkillUp_T
-      value: 
-      objectReference: {fileID: 694163110}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: StartingGameContent
-      value: 
-      objectReference: {fileID: 893455030}
-    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: OrdaliaActive.Array.size
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 2144114532910398338, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_Name
       value: Gameplay
-      objectReference: {fileID: 0}
-    - target: {fileID: 2144114532910398338, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}

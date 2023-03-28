@@ -2210,15 +2210,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1167
-    functionName: VFXSlash
+  - time: 0
+    functionName: SoundSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
-  - time: 0.1667
-    functionName: SoundSlash
+  - time: 0
+    functionName: VFXSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -2757,7 +2757,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.05
+  - time: 0
     functionName: upSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
@@ -3485,15 +3485,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.25
-    functionName: VFXSlash_l
+  - time: 0.1667
+    functionName: SoundSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
-  - time: 0.3
-    functionName: SoundSlash
+  - time: 0.1667
+    functionName: VFXSlash_l
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -4927,15 +4927,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.3
-    functionName: VFXpesante
+  - time: 0.1667
+    functionName: SoundSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
-  - time: 0.5
-    functionName: SoundSlash
+  - time: 0.1667
+    functionName: VFXpesante
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -6348,7 +6348,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1333
+  - time: 0
     functionName: downslash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
@@ -7009,15 +7009,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1
-    functionName: VFXSlash_h
+  - time: 0
+    functionName: SoundSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
-  - time: 0.1667
-    functionName: SoundSlash
+  - time: 0
+    functionName: VFXSlash_h
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -7288,15 +7288,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1167
-    functionName: VFXSlash_a
+  - time: 0
+    functionName: SoundSlash
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 1
-  - time: 0.1667
-    functionName: SoundSlash
+  - time: 0
+    functionName: VFXSlash_a
     data: SpineEvent
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

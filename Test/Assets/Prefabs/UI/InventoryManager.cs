@@ -55,7 +55,7 @@ private void Awake()
       Item existingItem = itemDatabase.Find(q => q.id == newItem.id);
     if (existingItem != null)
     {
-        existingItem.value += newItem.value;
+        existingItem.value++;
     }
     else
     {
@@ -66,9 +66,14 @@ private void Awake()
 
 public void RemoveItem(Item newItem)
 {
-        itemDatabase.Remove(newItem);
-       // Destroy(button);
-    
+    Item existingItem = itemDatabase.Find(q => q.id == newItem.id);
+    if(existingItem.value < 0)
+    {
+        itemDatabase.Remove(existingItem);
+    }else
+    {
+        existingItem.value--;
+    }
 }
 
 
@@ -78,51 +83,88 @@ public void ListItem(int itemId)
         Item item = itemDatabase.Find(q => q.id == itemId);
        
 
-        if (item != null)
+       if (item != null)
+    {
+        if (ItemAlreadyInList(item.id))
         {
-            // Istanzia il prefab del bottone della item nella lista UI
-             InventoryItem = Instantiate(InventoryItem, ItemContent);
-            // Recupera il riferimento al componente del titolo della item e del bottone
-            //var questName = obj.transform.Find("Name_Item").GetComponent<TextMeshProUGUI>();
-            var Itemimg = InventoryItem.transform.Find("Icon_item").GetComponent<Image>();
-
-            // Assegna l'id univoco al game object istanziato
-            InventoryItem.name = "ItemButton_" + item.id;
-
-            // Assegna il nome della item al componente del titolo
-            //questName.text = item.itemName;
-
-            if (Itemimg != null && item.icon != null)
+            // Se l'item è già presente nella lista, incrementa il suo valore
+            foreach (Transform child in ItemContent.transform)
             {
-                Itemimg.sprite = item.icon;
-            }
+                if (child.name == "ItemButton_" + item.id)
+                {   
+                 // Incrementa il valore dell'item
+                    item.value++;
 
-            // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della item
-            if (previewImages != null)
-            {
-                previewImages.sprite = item.icon;
+                    // Aggiorna il testo del componente TextMeshProUGUI
+                    Num.text = item.value.ToString();
+                    break;
+                }
             }
+        }
+        else
+        {
+    // il codice qui sotto verrà eseguito solo se l'item esiste e non è già presente nella lista
+    // Istanzia il prefab del bottone della item nella lista UI
+    InventoryItem = Instantiate(InventoryItem, ItemContent);
+    // Recupera il riferimento al componente del titolo della item e del bottone
+    //var questName = obj.transform.Find("Name_Item").GetComponent<TextMeshProUGUI>();
+    var Itemimg = InventoryItem.transform.Find("Icon_item").GetComponent<Image>();
 
-            if (descriptions != null)
-            {
-                descriptions.text = item.Description;
-            }
+    // Assegna l'id univoco al game object istanziato
+    InventoryItem.name = "ItemButton_" + item.id;
 
-            if (Num != null)
-            {
-                Num.text = item.value.ToString();
-            }
+    // Assegna il nome della item al componente del titolo
+    //questName.text = item.itemName;
 
-            if (NameItems != null)
-            {
-                NameItems.text = item.itemName;
-            }
+    if (Itemimg != null && item.icon != null)
+    {
+        Itemimg.sprite = item.icon;
+    }
 
-            // Aggiungi un listener per il click del bottone
-            var button = InventoryItem.GetComponent<Button>();
-            button.onClick.AddListener(() => OnQuestButtonClicked(item.id, previewImages, descriptions));
+    // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della item
+    if (previewImages != null)
+    {
+        previewImages.sprite = item.icon;
+    }
+
+    if (descriptions != null)
+    {
+        descriptions.text = item.Description;
+    }
+
+    if (Num != null)
+    {
+        Num.text = item.value.ToString();
+    }
+
+    if (NameItems != null)
+    {
+        NameItems.text = item.itemName;
+    }
+
+    // Aggiungi un listener per il click del bottone
+    var button = InventoryItem.GetComponent<Button>();
+    button.onClick.AddListener(() => OnQuestButtonClicked(item.id, previewImages, descriptions));
+        }
+}
+    }
+    
+ private bool ItemAlreadyInList(int itemId)
+{
+    foreach (Transform child in ItemContent.transform)
+    {
+        if (child.name == "ItemButton_" + itemId)
+        {
+            // L'item è già presente nella lista
+            return true;
         }
     }
+
+    // L'item non è presente nella lista
+    return false;
+}     
+
+    
 
 public void OnQuestButtonClicked(int itemId, Image previewImages, TextMeshProUGUI descriptions)
 {

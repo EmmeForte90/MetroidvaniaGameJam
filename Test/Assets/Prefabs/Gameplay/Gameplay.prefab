@@ -3055,7 +3055,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1dd16f4f2db41bf4aa55f08a3c35920e, type: 3}
   - {fileID: 8300000, guid: 1653c28a3688cb143a097d29718ca891, type: 3}
   - {fileID: 8300000, guid: a038dc44c0dc84f4cabaa2113a121bad, type: 3}
-  bgm: []
   MSX: {fileID: 24100000, guid: 22f3d7d1311904840bc278bbeeae1a75, type: 2}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
 --- !u!82 &8168538110743197429
@@ -6600,19 +6599,20 @@ MonoBehaviour:
   Ainard: 1
   Milner: 0
   Galliard: 0
-  slash: {fileID: 0}
-  globo: {fileID: 0}
-  gladio: {fileID: 0}
+  slash: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
+  globo: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
+  gladio: {fileID: 11400000, guid: b40b0e0d68036d6468ad055e42c276f9, type: 2}
   selectedId: -1
   idup: -1
   MXVup: 0
-  SkillUp_T: {fileID: 0}
-  SkillUp: {fileID: 0}
+  SkillUp_T: {fileID: 372922167646929290}
+  SkillUp: {fileID: 3933548408656299062}
   unlockWalljump: 0
   unlockDoubleJump: 0
   unlockDash: 0
   unlockCrash: 0
   startGame: 1
+  OrdaliaActive: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &2144114533014346239
 GameObject:
   m_ObjectHideFlags: 0
