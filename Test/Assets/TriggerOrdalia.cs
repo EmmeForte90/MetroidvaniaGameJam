@@ -36,7 +36,7 @@ public class TriggerOrdalia : MonoBehaviour
     {
     virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
     player = GameObject.FindWithTag("Player");
-    EnemyCount = MaxEnemy;
+    //EnemyCount = MaxEnemy;
     }
 
   void Update()
@@ -91,6 +91,7 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
 {
     int EnemiesPerWave = waves[waveCount];
     waveCount++; // diminuisce il contatore delle ondate
+    
     for (int i = 0; i < EnemiesPerWave; i++) // per ogni nemico per ondata
     {
         lastSpawnIndex++;
@@ -98,22 +99,28 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
         {
             lastSpawnIndex = 0;
         }
+        if (EnemyCount > MaxEnemy && waveCount < COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
+        {
         GameObject enemyToSpawn = EnemyPrefab[0]; // prendi il primo nemico dell'array
         Instantiate(enemyToSpawn, SpawnPoints[lastSpawnIndex].position, transform.rotation); // spawn il nemico nella prossima posizione di spawn
         AiEnemysword.instance.chaseThreshold = 10f; // soglia di distanza per iniziare l'inseguimento
         EnemyPrefab = EnemyPrefab.Where((enemy, index) => index != 0).ToArray();
         EnemyCount--;
         yield return new WaitForSeconds(SpawnInterval);
+        }else if (MaxEnemy <= EnemyCount && waveCount == COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
+        {
+            EndOrdalia(); // chiama la funzione EndOrdalia
+        }
     }
+    
     if (waveCount < COnde) // se non è l'ultima ondata
     {
         yield return new WaitForSeconds(WaveInterval); // aspetta l'intervallo tra le ondate
     }
+    
 }
-if (EnemyCount <= 0 && waveCount >= COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
-{
-    EndOrdalia(); // chiama la funzione EndOrdalia
-}
+
+
 }
 
 
