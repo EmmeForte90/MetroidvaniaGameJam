@@ -946,8 +946,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 659943009}
   - {fileID: 925303516}
+  - {fileID: 659943009}
   - {fileID: 1575091202}
   - {fileID: 1695501754}
   - {fileID: 1966669851}
@@ -4803,7 +4803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7417775468778466218, guid: 582a78578f2c1fa408631cb7ae0dc095, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7417775468778466218, guid: 582a78578f2c1fa408631cb7ae0dc095, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6735,7 +6735,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 40904692}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &925303517
 BoxCollider2D:
@@ -6775,11 +6775,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c97f2add93bfd40b547ac78791773a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Quest: {fileID: 11400000, guid: d03ccad5cfc485940a4cc6993e100812, type: 2}
+  isQuest: 1
   TimeStart: 3
+  Enemy: {fileID: 659943008}
+  Camera: {fileID: 1575091201}
+  Actor: {fileID: 1695501750}
+  trigger: {fileID: 925303517}
   Arena:
   - {fileID: 1966669850}
   - {fileID: 882254145}
-  Enemy: {fileID: 659943008}
   EnemyPrefab:
   - {fileID: 7417775468778466222, guid: 582a78578f2c1fa408631cb7ae0dc095, type: 3}
   - {fileID: 7417775468778466222, guid: 582a78578f2c1fa408631cb7ae0dc095, type: 3}
@@ -6793,10 +6798,7 @@ MonoBehaviour:
   SpawnPoints:
   - {fileID: 1843906708}
   - {fileID: 759330638}
-  Camera: {fileID: 1575091201}
-  Actor: {fileID: 1695501750}
-  trigger: {fileID: 925303517}
-  MaxEnemy: -6
+  MinEnemy: -6
   SpawnInterval: 2
   WaveInterval: 5
   waves: 02000000030000000200000001000000
@@ -23219,7 +23221,7 @@ MonoBehaviour:
   QuestEnd: {fileID: 255577747}
   Reward: {fileID: 718670853910963708, guid: 6e364940a29042a4687544052d526267, type: 3}
   RewardPoint: {fileID: 807949754}
-  dialogueDuration: 0
+  dialogueDuration: 3
   isInteragible: 1
   heFlip: 1
   FirstD: 1
@@ -25887,6 +25889,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -26
       objectReference: {fileID: 0}
+    - target: {fileID: 7648389609508139497, guid: 4d21922410a6b2343bb92f937e7c8f46, type: 3}
+      propertyPath: m_text
+      value: Bernard
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d21922410a6b2343bb92f937e7c8f46, type: 3}
 --- !u!224 &1836226180 stripped
@@ -27339,7 +27345,7 @@ GameObject:
   - component: {fileID: 2120596668}
   m_Layer: 0
   m_Name: Bernard
-  m_TagString: Untagged
+  m_TagString: Ch_Quest
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

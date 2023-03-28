@@ -6,25 +6,35 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class TriggerOrdalia : MonoBehaviour
-{
+{    
+    [Header("Il tipo di Quest che completa")]
+    public Quests Quest;
+    public bool isQuest = false;
 
+    [Header("Il tipo di nemici e la cutscene")]
     public float TimeStart;
-    public GameObject[] Arena;
     public GameObject Enemy;
-    public GameObject[] EnemyPrefab;
-    public Transform[] SpawnPoints; // array di punti di spawn
-    private CinemachineVirtualCamera virtualCamera; //riferimento alla virtual camera di Cinemachine
     public GameObject Camera;
     private GameObject player; // Variabile per il player
     public GameObject Actor;
     public BoxCollider2D trigger;
+    private CinemachineVirtualCamera virtualCamera; //riferimento alla virtual camera di Cinemachine
+    public GameObject[] Arena;
+
+    [Header("Ondate")]
+     public GameObject[] EnemyPrefab;
+    public Transform[] SpawnPoints; // array di punti di spawn
     private int enemiesDestroyedCount = 0;
     private bool generateWaves = true;
     private bool StartOndata = false;
     private int waveCount = 0; // contatore delle ondate
     private int COnde;
+
+    [Header("Il valore deve sempre esse dato in negativo")]
+    public int MinEnemy = 0;
     private int EnemyCount = 0;
-    public int MaxEnemy = 0;
+
+    [Header("Tempo tra uno spawn e un intervallo tra ondate")]
     public float SpawnInterval = 2f;
     public float WaveInterval = 2f;
 
@@ -36,7 +46,7 @@ public class TriggerOrdalia : MonoBehaviour
     {
     virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
     player = GameObject.FindWithTag("Player");
-    //EnemyCount = MaxEnemy;
+    //EnemyCount = MinEnemy;
     }
 
   void Update()
@@ -64,6 +74,11 @@ public void EndOrdalia()
             arenaObject.SetActive(false);
             AudioManager.instance.CrossFadeOUTAudio(2);
             AudioManager.instance.CrossFadeINAudio(1);
+            if(isQuest)
+            {
+            Quest.isActive = false;
+            Quest.isComplete = true;
+            }
             Destroy(gameObject);
         }    
     }
@@ -90,7 +105,7 @@ IEnumerator GeneratEnemy()
 while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora nemici nell'array e non abbiamo raggiunto il numero di ondate
 {
     int EnemiesPerWave = waves[waveCount];
-    waveCount++; // diminuisce il contatore delle ondate
+    waveCount++; // aumenta il contatore delle ondate
     
     for (int i = 0; i < EnemiesPerWave; i++) // per ogni nemico per ondata
     {
@@ -99,7 +114,7 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
         {
             lastSpawnIndex = 0;
         }
-        if (EnemyCount > MaxEnemy && waveCount < COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
+        if (EnemyCount > MinEnemy && waveCount < COnde) // se tutti i nemici non sono stati sconfitti e non abbiamo raggiunto l'ultimo livello di ondate continua a generarli
         {
         GameObject enemyToSpawn = EnemyPrefab[0]; // prendi il primo nemico dell'array
         Instantiate(enemyToSpawn, SpawnPoints[lastSpawnIndex].position, transform.rotation); // spawn il nemico nella prossima posizione di spawn
@@ -107,7 +122,7 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
         EnemyPrefab = EnemyPrefab.Where((enemy, index) => index != 0).ToArray();
         EnemyCount--;
         yield return new WaitForSeconds(SpawnInterval);
-        }else if (MaxEnemy <= EnemyCount && waveCount == COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
+        }else if (MinEnemy <= EnemyCount && waveCount == COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
         {
             EndOrdalia(); // chiama la funzione EndOrdalia
         }

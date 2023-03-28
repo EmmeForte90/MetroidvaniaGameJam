@@ -34,8 +34,7 @@ public class QuestCharacters : MonoBehaviour
     public bool isInteragible;
     public bool heFlip;
     public bool FirstD = true;
-    //public bool EndDia = false;
-    //public bool EndQue = false;
+    private bool StopButton = false; // o la variabile che deve attivare la sostituzione
 
     private bool _isInTrigger;
     private bool _isDialogueActive;
@@ -71,14 +70,19 @@ void Awake()
 {
     dialogue = Quest.Startdialogue;
 }
-else if (Quest.isActive || Quest.isComplete)//EndDia
-{
-    dialogue = Quest.Endingdialogue;
-}
-else
+else if (Quest.isActive)
 {
     dialogue = Quest.Middledialogue;
 }
+else if (Quest.isComplete)//EndDia
+{
+    dialogue = Quest.Endingdialogue;
+}
+else if (Quest.AfterQuest)
+{
+    dialogue = Quest.Afterdialogue;
+}
+
         anim.SetBool("talk", _isInTrigger);
         if(heFlip)
         {
@@ -94,9 +98,10 @@ if(!notGo)
             dialogueIndex = 0;
             StartCoroutine(ShowDialogue());
         }
-        else if (_isDialogueActive && Input.GetButtonDown("Talk"))
+        else if (_isDialogueActive && Input.GetButtonDown("Talk") && StopButton)
         {
             NextDialogue();
+             StopButton = false;
         }
     }
 }
@@ -161,7 +166,7 @@ Clang.Play();
         yield return new WaitForSeconds(0); // Wait before showing the next letter
     }
             dialogueText.text = currentDialogue; // Set the dialogue text to the full current dialogue
-
+            StopButton = true;
 }
 
 
@@ -182,7 +187,7 @@ Clang.Play();
             {
             StartCoroutine(StartQuest());
             }
-            else if(Quest.isActive)
+            else if(Quest.isComplete)
             {
             StartCoroutine(EndQuest());
             }
@@ -210,8 +215,8 @@ Clang.Play();
         yield return new WaitForSeconds(1f); 
         QuestManager.Instance.QuestComplete(IDQuest);
         Quest.isActive = false;
-        Quest.isComplete = true;
-    
+        Quest.isComplete = false;
+        Quest.AfterQuest = true;
         notGo = false;
         Move.instance.stopInput = false;
         
@@ -221,6 +226,7 @@ Clang.Play();
  IEnumerator StartQuest()
 {            
         notGo = true;
+        Quest.isActive = true;
         QuestStart.gameObject.SetActive(true); 
         QuestManager.Instance.AddQuest(Quest);
         QuestManager.Instance.ListQuest(IDQuest);

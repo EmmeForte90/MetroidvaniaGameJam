@@ -37,6 +37,10 @@ MonoBehaviour:
   Endingdialogue:
   - "Not bad, Ainard, not bad at all! You make The mother very proud. So... \nTake
     the key, a promise is a promise."
-  - Take care of you, ok? We will see soon dear brothers. The mother see you.
-  isActive: 0
+  - Take care of you, ok? We will see soon dear brothers.
+  Afterdialogue:
+  - 'Take care of you, ok? We will see soon dear brothers. '
+  - The mother see you.
+  isActive: 1
   isComplete: 0
+  AfterQuest: 1

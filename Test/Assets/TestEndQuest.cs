@@ -9,7 +9,8 @@ public class TestEndQuest : MonoBehaviour
 
      public void Pickup()
     {
-        Quest.isActive = true;
+        Quest.isComplete = true;
+        Quest.isActive = false;
         //QuestCharacters.Instance.Quest.isActive = true;
         Destroy(gameObject);
     }
