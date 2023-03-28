@@ -62,10 +62,10 @@ public static UpdateMenuRapido Instance;
 
 public void Selup()
     {
-        if(GameplayManager.instance.startGame)
+        if(!GameplayManager.instance.StopDefaultSkill)
         {
-        PlayerWeaponManager.instance.SetWeapon(StartGameSetting.instance.selectedId);
-        }else if(!GameplayManager.instance.startGame)
+        PlayerWeaponManager.instance.SetWeapon(GameplayManager.instance.selectedId);
+        }else if(GameplayManager.instance.StopDefaultSkill)
         {
         PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.selectedId);
         }

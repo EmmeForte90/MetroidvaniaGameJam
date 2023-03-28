@@ -25889,6 +25889,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -26
       objectReference: {fileID: 0}
+    - target: {fileID: 1736462936131731436, guid: 4d21922410a6b2343bb92f937e7c8f46, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -127
+      objectReference: {fileID: 0}
     - target: {fileID: 7648389609508139497, guid: 4d21922410a6b2343bb92f937e7c8f46, type: 3}
       propertyPath: m_text
       value: Bernard

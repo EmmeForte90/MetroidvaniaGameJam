@@ -90,11 +90,11 @@ public void AssignId(Skill id)
         SkillUp.sprite = selectedSkill.icon;
         idup = selectedId;
         UpdateMenuRapido.Instance.idup = selectedId;
-         UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
-         UpdateMenuRapido.Instance.Vup = selectedSkill.value;
-         UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
-         MXVup = selectedSkill.value;
-         Destroy(gameObject);
+        UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.Vup = selectedSkill.value;
+        UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
+        MXVup = selectedSkill.value;
+        Destroy(gameObject);
     }
 }
 

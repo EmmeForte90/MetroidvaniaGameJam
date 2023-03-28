@@ -8,6 +8,7 @@ using Spine.Unity.AttachmentTools;
 using Spine.Unity;
 using Spine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameplayManager : MonoBehaviour
     private CinemachineVirtualCamera virtualCamera;
     [HideInInspector]
     public bool gameplayOff = false;
+    public bool StopDefaultSkill = false;
 
     [Header("Money")]
     [SerializeField] int money = 0;
@@ -35,8 +37,8 @@ public class GameplayManager : MonoBehaviour
     [Header("Fade")]
     [SerializeField] GameObject callFadeIn;
     [SerializeField] GameObject callFadeOut;
-   [SerializeField] bool isStartGame;
-    [SerializeField] bool isTImeline;
+   private bool isStartGame;
+
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
     private GameObject Scenary;
@@ -46,12 +48,30 @@ public class GameplayManager : MonoBehaviour
     public bool Milner = false;
     public bool Galliard = false;
 
+[Header("Stato inizio gioco")]
+    public Skill slash;
+    public Skill globo;
+    public Skill gladio;
+    private Skill selectedSkill;
+
+    [HideInInspector]
+    public int selectedId = -1; // Id dell'abilità selezionata
+    public int idup= -1; // Id dell'abilità selezionata
+    public int MXVup; // Id dell'abilità selezionata
+       
+    [SerializeField] TextMeshProUGUI SkillUp_T;
+    [SerializeField] Image SkillUp;
+
+
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
     public bool unlockDoubleJump = false;
     public bool unlockDash = false;
     public bool unlockCrash = false;
     public bool startGame = false;
+
+
+
     public static GameplayManager instance;
 
 
@@ -83,9 +103,36 @@ public class GameplayManager : MonoBehaviour
         {
             virtualCamera.Follow = player.transform;
             virtualCamera.LookAt = player.transform;
+        }else
+        {
+        AudioManager.instance.CrossFadeINAudio(1);
+        unlockWalljump = false;   
+        unlockDoubleJump = false; 
+        unlockDash = false;  
+        unlockCrash = false; 
         }
 
-      
+      if(!StopDefaultSkill)
+        {
+            if(Ainard)   
+        {
+            AssignId(globo);
+            SkillInventoryHUD.Instance.IsGlobe = true;
+        }else if(Milner)   
+        {           
+            AssignId(gladio);
+            SkillInventoryHUD.Instance.IsGladio = true;
+
+        }else if(Galliard)   
+        {
+            AssignId(slash);
+            SkillInventoryHUD.Instance.IsSlash = true;
+
+        }
+       // print("assegnato");
+
+        AssignButtonUp();
+        }
 
 
         if(!moneyObject.gameObject)
@@ -98,6 +145,33 @@ public class GameplayManager : MonoBehaviour
         //Il testo assume il valore dello money
     }
 
+public void AssignId(Skill id)
+    {
+        // Recupera la skill corrispondente all'id selezionato
+        selectedSkill = id; 
+        if(selectedId == null)
+        {
+        selectedId = selectedSkill.id;
+        }
+    }
+
+    public void AssignButtonUp()
+{
+    if (selectedId > 0)
+    {
+        SkillUp_T.text = selectedSkill.value.ToString();
+        SkillUp.sprite = selectedSkill.icon;
+        idup = selectedId;
+        UpdateMenuRapido.Instance.idup = selectedId;
+        UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
+        UpdateMenuRapido.Instance.Vup = selectedSkill.value;
+        UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
+        MXVup = selectedSkill.value;
+
+
+        
+    }
+}
 
 public void TakeCamera()
     {
@@ -122,13 +196,6 @@ public void StartPlay()
         //il testo dello money viene aggiornato
     }
 
-//Boh
-
-    void TakeLife()
-    {
-        //Il player perde 1 vita
-        StartCoroutine(Restart());
-    }
 
 #endregion
 
@@ -170,46 +237,9 @@ public void StopInput()
 
    
 
-#region Processo vita e morte
 
-public void StartDie()
-    {
-        StartCoroutine(CallGameSession());
-        //AudioManager.instance.DieMusic();
-    }
-
-    IEnumerator CallGameSession()
-    {
-        yield return new WaitForSeconds(2f);
-        ProcessPlayerDeath();
-        //Richiama i componenti dello script gamesessione e 
-        //ne attiva la funzione di processo di morte 
-
-    }
-public void ProcessPlayerDeath()
-    {
-            StartCoroutine(AfterDie());
-            //ResetGameSession();
-            //Richiama la funzione di reset
-    }
     
 
-//Funziona
-    public void DeactiveGameOver()
-    {
-        //gameOver.gameObject.SetActive(false);
-        Time.timeScale = 1;
-        //playMusic();
-        StartCoroutine(Restart());
-    }
-
-//Funziona
-    IEnumerator AfterDie()
-    {
-        //gameOver.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        Time.timeScale = 0f;
-    }
 
     IEnumerator Restart()
     {
@@ -299,6 +329,5 @@ IEnumerator StartFadeOut()
 
     }
 
-#endregion
 
 }

@@ -103,6 +103,7 @@ private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            GameplayManager.instance.StopDefaultSkill = true;
             button.gameObject.SetActive(true); // Initially hide the dialogue text
             _isInTrigger = true;
             

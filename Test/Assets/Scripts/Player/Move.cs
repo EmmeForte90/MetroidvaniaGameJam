@@ -414,11 +414,11 @@ if (Input.GetButtonDown("SlotUp") || DpadY == 1)
     if (UpdateMenuRapido.Instance.idup > 0)
 {
    UpdateMenuRapido.Instance.Selup();
-    if(GameplayManager.instance.startGame)
+    if(!GameplayManager.instance.StopDefaultSkill)
         {
-        PlayerWeaponManager.instance.SetWeapon(StartGameSetting.instance.idup);
+        PlayerWeaponManager.instance.SetWeapon(GameplayManager.instance.idup);
         }
-    else if(!GameplayManager.instance.startGame)
+    else if(GameplayManager.instance.StopDefaultSkill)
         {
     PlayerWeaponManager.instance.SetWeapon(SkillMenu.Instance.idup);
         }
@@ -898,7 +898,6 @@ void Blast()
 {
         isBlast = true;
        // Debug.Log("il blast è partito");
-        Smagic.Play();
         if(slotB)
         {
             if(UpdateMenuRapido.Instance.Vbottom > 0)
@@ -1163,6 +1162,7 @@ public void Blasting()
                 {
                     _spineAnimationState.SetAnimation(2, blastAnimationName, false);
                     currentAnimationName = blastAnimationName;
+                    Smagic.Play();
                    // Debug.Log("Combo Count: " + comboCount + ", Playing Animation: combo_1");
                 }
                 // Add event listener for when the animation completes

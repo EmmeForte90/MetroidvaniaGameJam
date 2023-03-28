@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
 
    [Header("Music")]
 [SerializeField] public AudioClip[] listmusic; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
-[SerializeField] public AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
+private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
    
     public AudioMixer MSX;
     public AudioMixer SFX;

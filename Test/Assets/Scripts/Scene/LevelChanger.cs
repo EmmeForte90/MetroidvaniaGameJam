@@ -67,6 +67,7 @@ IEnumerator WaitForSceneLoad()
 {   
     GameplayManager.instance.FadeOut();
     Move.instance.stopInput = true;
+    Move.instance.Stop();
     yield return new WaitForSeconds(2f);
     // Invochiamo l'evento di cambio scena
     sceneEvent.InvokeOnSceneChange();

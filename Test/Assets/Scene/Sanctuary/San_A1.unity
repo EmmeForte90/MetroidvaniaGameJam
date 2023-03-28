@@ -3627,6 +3627,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: globo
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
+    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: slash
+      value: 
+      objectReference: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
+    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: gladio
+      value: 
+      objectReference: {fileID: 11400000, guid: b40b0e0d68036d6468ad055e42c276f9, type: 2}
+    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: SkillUp
+      value: 
+      objectReference: {fileID: 694163109}
+    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: SkillUp_T
+      value: 
+      objectReference: {fileID: 694163110}
+    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: StartingGameContent
       value: 
       objectReference: {fileID: 893455030}
