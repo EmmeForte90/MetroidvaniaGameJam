@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
    [HideInInspector] public int qID;
     // Scriptable Object delle item
    public List<Item> itemDatabase;
-    
+    private int val = 1;
     public bool[] itemActive;
 
     // Riferimenti ai componenti delle immagini di preview e delle descrizioni
@@ -64,15 +64,19 @@ private void Awake()
 }
 
 
+
+
 public void RemoveItem(Item newItem)
 {
     Item existingItem = itemDatabase.Find(q => q.id == newItem.id);
-    if(existingItem.value < 0)
+    if(val < 0)
     {
         itemDatabase.Remove(existingItem);
     }else
     {
-        existingItem.value--;
+        val--;
+        Num.text = val.ToString();
+
     }
 }
 
@@ -87,19 +91,21 @@ public void ListItem(int itemId)
     {
         if (ItemAlreadyInList(item.id))
         {
+            
+
             // Se l'item è già presente nella lista, incrementa il suo valore
             foreach (Transform child in ItemContent.transform)
             {
                 if (child.name == "ItemButton_" + item.id)
                 {   
-                 // Incrementa il valore dell'item
-                    item.value++;
-
+                 
                     // Aggiorna il testo del componente TextMeshProUGUI
                     Num.text = item.value.ToString();
                     break;
                 }
             }
+            // Incrementa il valore dell'item
+            val++;
         }
         else
         {
@@ -134,7 +140,7 @@ public void ListItem(int itemId)
 
     if (Num != null)
     {
-        Num.text = item.value.ToString();
+        Num.text = val.ToString();
     }
 
     if (NameItems != null)

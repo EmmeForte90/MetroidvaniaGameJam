@@ -6,7 +6,6 @@ public class ItemPickup : MonoBehaviour
 {
     public Item Item;
     [SerializeField] GameObject VFX;
-    public int Value = 1;
     private int IDItem;
     public bool isCollected = false;
 
