@@ -27,6 +27,7 @@ TagManager:
   - Timeline
   - Ch_Quest
   - Item
+  - Ordalia
   layers:
   - Default
   - TransparentFX

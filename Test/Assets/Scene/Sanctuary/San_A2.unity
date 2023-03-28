@@ -6717,7 +6717,7 @@ GameObject:
   - component: {fileID: 925303518}
   m_Layer: 0
   m_Name: Trigger
-  m_TagString: Untagged
+  m_TagString: Ordalia
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6777,6 +6777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Quest: {fileID: 11400000, guid: d03ccad5cfc485940a4cc6993e100812, type: 2}
   isQuest: 1
+  id: 1
   TimeStart: 3
   Enemy: {fileID: 659943008}
   Camera: {fileID: 1575091201}

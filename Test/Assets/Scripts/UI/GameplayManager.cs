@@ -71,6 +71,8 @@ public class GameplayManager : MonoBehaviour
     public bool startGame = false;
 
 
+    private GameObject[] Ordalia;
+    public bool[] OrdaliaActive;
 
     public static GameplayManager instance;
 
@@ -97,6 +99,8 @@ public class GameplayManager : MonoBehaviour
         Scenary = GameObject.FindWithTag("Scenary");
         virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
         player = GameObject.FindWithTag("Player");
+        // Cerca tutti i GameObjects con il tag "Timeline" all'inizio dello script
+        //Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
         StartCoroutine(StartFadeInSTART());
 
         if(!startGame)
@@ -173,6 +177,7 @@ public void AssignId(Skill id)
     }
 }
 
+
 public void TakeCamera()
     {
             virtualCamera.Follow = player.transform;
@@ -236,7 +241,51 @@ public void StopInput()
 #endregion
 
    
+private void OnEnable()
+{
+    SceneManager.sceneLoaded += OnSceneLoaded;
+}
 
+private void OnDisable()
+{
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+}
+
+
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    // Cerca tutti i GameObjects con il tag "Ch_Quest"
+    GameObject[] Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
+
+    // Itera attraverso tutti gli oggetti trovati
+    foreach (GameObject Character in Ordalia)
+    {
+        // Ottiene il componente QuestCharacters
+        TriggerOrdalia ordaliT = Character.GetComponent<TriggerOrdalia>();
+
+        // Verifica se il componente esiste
+        if (ordaliT != null)
+        {
+            // Verifica se l'id della quest corrisponde all'id di un gameobject in OrdaliaActive
+            int Id = ordaliT.id;
+            for (int i = 0; i < OrdaliaActive.Length; i++)
+            {
+                if (OrdaliaActive[i] && i == Id)
+                {
+                    // Imposta ordaliT.FirstD a false
+                    ordaliT.OrdaliaDosentExist();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+public void OrdaliaEnd(int id)
+{
+    // Imposta lo stato della quest a true
+    OrdaliaActive[id] = true;   
+}
 
     
 

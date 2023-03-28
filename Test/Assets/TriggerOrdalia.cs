@@ -10,6 +10,7 @@ public class TriggerOrdalia : MonoBehaviour
     [Header("Il tipo di Quest che completa")]
     public Quests Quest;
     public bool isQuest = false;
+    public int id;
 
     [Header("Il tipo di nemici e la cutscene")]
     public float TimeStart;
@@ -51,7 +52,7 @@ public class TriggerOrdalia : MonoBehaviour
 
   void Update()
     {
-
+  
         if (Enemy == null)
         {
             if(!StartOndata)
@@ -61,10 +62,28 @@ public class TriggerOrdalia : MonoBehaviour
             }
         }   
  
-
     }
 
+public void OrdaliaDosentExist()
+    {
+ Destroy(gameObject);
+ }
 
+
+ IEnumerator StartOrdalia()
+    {
+
+    trigger.enabled = false;
+    ActorOrdalia.Instance.Standup();
+    AudioManager.instance.CrossFadeOUTAudio(1);
+    AudioManager.instance.CrossFadeINAudio(2);
+    yield return new WaitForSeconds(2);
+    ActorOrdalia.Instance.idle();
+    yield return new WaitForSeconds(TimeStart);
+    Actor.gameObject.SetActive(false);
+    Enemy.gameObject.SetActive(true);
+
+    }
 
 public void EndOrdalia()
     {
@@ -79,6 +98,7 @@ public void EndOrdalia()
             Quest.isActive = false;
             Quest.isComplete = true;
             }
+            GameplayManager.instance.OrdaliaEnd(id);
             Destroy(gameObject);
         }    
     }
@@ -137,27 +157,6 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
 
 
 }
-
-
-
-
-
-
-
-    IEnumerator StartOrdalia()
-    {
-
-    trigger.enabled = false;
-    ActorOrdalia.Instance.Standup();
-    AudioManager.instance.CrossFadeOUTAudio(1);
-    AudioManager.instance.CrossFadeINAudio(2);
-    yield return new WaitForSeconds(2);
-    ActorOrdalia.Instance.idle();
-    yield return new WaitForSeconds(TimeStart);
-    Actor.gameObject.SetActive(false);
-    Enemy.gameObject.SetActive(true);
-
-    }
 
 
 }

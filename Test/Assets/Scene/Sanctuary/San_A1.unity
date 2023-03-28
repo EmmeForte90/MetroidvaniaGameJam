@@ -3650,6 +3650,10 @@ PrefabInstance:
       propertyPath: StartingGameContent
       value: 
       objectReference: {fileID: 893455030}
+    - target: {fileID: 2144114532910398337, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: OrdaliaActive.Array.size
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2144114532910398338, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: m_Name
       value: Gameplay
