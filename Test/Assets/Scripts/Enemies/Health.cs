@@ -13,5 +13,7 @@ public class Health : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth = 100f;
     public Color originalColor;
+    public float colorChangeDuration;
+
 
 }

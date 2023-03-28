@@ -14,6 +14,7 @@ public class AiEnemysword : Health, IDamegable
 private Health health;
 private Transform player;
 [SerializeField] LayerMask playerlayer;
+private float timeBeforeDestroying = 3f;
 
 [Header("Moving")]
 public float moveSpeed = 2f; // velocità di movimento
@@ -104,26 +105,25 @@ private enum State { Moving, Chase, Attack, Knockback, Dead, Hurt, Wait }
 private State currentState;
 
 public static AiEnemysword instance;
-
+    
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-            health = GetComponent<Health>();
-            player = GameObject.FindWithTag("Player").transform;
-        _spineAnimationState = GetComponent<Spine.Unity.SkeletonAnimation>().AnimationState;
-        _spineAnimationState = _skeletonAnimation.AnimationState;
-        _skeleton = _skeletonAnimation.skeleton;
-        _skeletonAnimation = GetComponent<SkeletonAnimation>();
-        if (_skeletonAnimation == null) {
-            Debug.LogError("Componente SkeletonAnimation non trovato!");
-        }       
-        rb = GetComponent<Rigidbody2D>();
-       
+    rb = GetComponent<Rigidbody2D>();
+    health = GetComponent<Health>();
+    _skeletonAnimation = GetComponent<SkeletonAnimation>();
+    if (_skeletonAnimation == null) {
+        Debug.LogError("Componente SkeletonAnimation non trovato!");
     }
+    _spineAnimationState = _skeletonAnimation.AnimationState;
+    _skeleton = _skeletonAnimation.skeleton;
+    if (instance == null)
+    {
+        instance = this;
+    }
+    player = GameObject.FindWithTag("Player").transform;
+    }
+
 private void Update()
     {
         if (!GameplayManager.instance.PauseStop)
@@ -445,53 +445,53 @@ private void OnDrawGizmos()
 
     if (!isHurt)
     {
-        StartCoroutine(waitHurt());
+        StartCoroutine(WaitForHurt());
     }
 }
 
-//Il nemico torna a inseguirlo dopo tot tempo
-IEnumerator waitHurt()
-    {
-        isHurt = true;
-        yield return new WaitForSeconds(InvincibleTime);
-        isHurt = false;
-        activeActions = true;
-    }
+private IEnumerator WaitForHurt()
+{
+    isHurt = true;
+    yield return new WaitForSeconds(InvincibleTime);
+    isHurt = false;
+    activeActions = true;
+}
 
 public void TemporaryChangeColor(Color color)
-    {
-        _skeletonAnimation.Skeleton.SetColor(color);
-        Invoke("ResetColor", 0.5f);
-    }
+{
+    _skeletonAnimation.Skeleton.SetColor(color);
+    Invoke(nameof(ResetColor), colorChangeDuration);
+}
 
-    private void ResetColor()
-    {
-        _skeletonAnimation.Skeleton.SetColor(originalColor);
-    }
+private void ResetColor()
+{
+    _skeletonAnimation.Skeleton.SetColor(originalColor);
+}
 
 public void Die()
 {
     SDie.Play();
-    // animazione di morte
-    // determina la direzione della morte in base alla posizione del player rispetto al nemico
-        if (horizontal == 1)//transform.position.x < player.position.x)
-        {
-            DieFront();
-            StartCoroutine(DestroyafterDeath());
-        }
-        else if (horizontal == -1)
-        {
-            DieBack();
-            StartCoroutine(DestroyafterDeath());
-        }
+
+    if (horizontal == 1)
+    {
+        DieFront();
+    }
+    else if (horizontal == -1)
+    {
+        DieBack();
+    }else if (horizontal == 0)
+    {
+        DieBack();
+    }
+
+    StartCoroutine(DestroyAfterDeath());
 }
 
-//Il nemico viene distrutto
-IEnumerator DestroyafterDeath()
-    {
-        yield return new WaitForSeconds(3);
-        Destroy(Brain);
-    }
+private IEnumerator DestroyAfterDeath()
+{
+    yield return new WaitForSeconds(timeBeforeDestroying);
+    Destroy(gameObject);
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //ANIMATIONS
 

@@ -14,6 +14,7 @@ public class TriggerOrdalia : MonoBehaviour
     public GameObject Camera;
     private GameObject player; // Variabile per il player
     public GameObject Actor;
+    public BoxCollider2D trigger;
 
 
 
@@ -25,15 +26,18 @@ public class TriggerOrdalia : MonoBehaviour
 
   void Update()
     {
+        
         if (Enemy == null)
         {
             virtualCamera.Follow = player.transform;   
             foreach (GameObject arenaObject in Arena)
         {
             arenaObject.SetActive(false);
+            AudioManager.instance.CrossFadeOUTAudio(2);
+            AudioManager.instance.CrossFadeINAudio(1);
             Destroy(gameObject);
         }
-        }     
+        }    
 
     }
 
@@ -52,15 +56,21 @@ public class TriggerOrdalia : MonoBehaviour
 
     IEnumerator StartOrdalia()
     {
-       ActorOrdalia.Instance.Standup();
+
+    trigger.enabled = false;
+    ActorOrdalia.Instance.Standup();
+    AudioManager.instance.CrossFadeOUTAudio(1);
+    AudioManager.instance.CrossFadeINAudio(2);
     yield return new WaitForSeconds(2);
     ActorOrdalia.Instance.idle();
     yield return new WaitForSeconds(TimeStart);
-        Actor.gameObject.SetActive(false);
-        Enemy.gameObject.SetActive(true);
-
+    Actor.gameObject.SetActive(false);
+    Enemy.gameObject.SetActive(true);
+    //Instantiate(Enemy, Actor.transform.position, transform.rotation);
+    AiEnemysword.instance.chaseThreshold = 9f; // soglia di distanza per iniziare l'inseguimento
 
     }
+
 
 }
 

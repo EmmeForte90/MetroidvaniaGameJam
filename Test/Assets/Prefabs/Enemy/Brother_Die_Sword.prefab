@@ -44787,6 +44787,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   originalColor: {r: 1, g: 1, b: 1, a: 1}
+  colorChangeDuration: 1
   Brain: {fileID: 7417775468778466222}
   playerlayer:
     serializedVersion: 2

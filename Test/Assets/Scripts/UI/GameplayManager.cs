@@ -30,22 +30,15 @@ public class GameplayManager : MonoBehaviour
     public bool PauseStop = false;
     //Variabile del testo dei money
 
-    [Header("Music")]
-    [SerializeField] bool isStartGame;
-    [SerializeField] bool isTImeline;
-    [SerializeField] AudioSource City;
-    public AudioMixer MSX;
-    public AudioMixer SFX;
-    
+   
+
     [Header("Fade")]
     [SerializeField] GameObject callFadeIn;
     [SerializeField] GameObject callFadeOut;
-    //[SerializeField] GameObject centerCanvas;
-   // [SerializeField] GameObject StartingGameContent;
-
+   [SerializeField] bool isStartGame;
+    [SerializeField] bool isTImeline;
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
-    //public Transform QuestContent;
     private GameObject Scenary;
 
     [Header("Personaggio")]
@@ -175,18 +168,7 @@ public void StopInput()
         }
 #endregion
 
-    public void SetVolume(float volume)
-    {
-        MSX.SetFloat("Volume", volume);
-
-    }
-
-
-     public void SetSFX(float volume)
-    {
-        SFX.SetFloat("Volume", volume);
-
-    }
+   
 
 #region Processo vita e morte
 
@@ -308,7 +290,6 @@ IEnumerator StartFadeOut()
     {
         if(!isStartGame)
         {
-            City.Play();
         callFadeOut.gameObject.SetActive(true);
         //Instantiate(callFadeOut, centerCanvas.transform.position, centerCanvas.transform.rotation);
         }
