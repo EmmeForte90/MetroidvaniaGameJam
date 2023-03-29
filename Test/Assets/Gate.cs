@@ -8,26 +8,43 @@ using System.Linq;
 public class Gate : MonoBehaviour
 {
 
+public float moveSpeed = 2f; // velocità di movimento
+
 public GameObject GateS;
 public GameObject Box;
 public GameObject Button;
 public GameObject[] inter;
 public Item TypesKey;
 private bool _isInTrigger;
+private bool unlock = false;
 private bool StopButton = false; // o la variabile che deve attivare la sostituzione
 private bool _isDialogueActive;
 public string request;
 public string NotK;
 public TextMeshProUGUI descriptions;
+public Animator Anm;
+
+    public Transform targetPosition;
+    public GameObject Sprite;
+
+    public float vibrationTime = 1f;
+    public float vibrationStrength = 0.1f;
+
+    private Vector3 startPosition;
+    private float timer = 2f;
+
 
 void Awake()
     {
         descriptions.text = request;
+        startPosition = transform.position;
+        //Anm = GetComponent<Animator>();
     }
 
 void Update()
     {
-
+        if(!unlock)
+        {
         if (_isInTrigger && Input.GetButtonDown("Talk") && !_isDialogueActive)
         {
             Move.instance.stopInput = true;
@@ -41,6 +58,23 @@ void Update()
 
             StopButton = false;
         }
+        } 
+        else if(unlock)
+        {
+                // Sposta gradualmente l'oggetto verso la posizione obiettivo
+                Sprite.transform.position = Vector2.MoveTowards(Sprite.transform.position, targetPosition.position, moveSpeed * Time.deltaTime);
+        }
+    }
+
+ IEnumerator StartVibration()
+    {
+       
+        Anm.SetBool("vibrate", true);
+        yield return new WaitForSeconds(timer);
+        Anm.SetBool("vibrate", false);
+        unlock = true;
+       
+
     }
 
 
@@ -48,8 +82,11 @@ void Update()
     {
         if (collision.CompareTag("Player"))
         {
+            if(!unlock)
+        {
          Button.gameObject.SetActive(true);
         _isInTrigger = true;
+        }
         
         }
     }
@@ -63,6 +100,7 @@ public void Accepted()
             InventoryManager.Instance.RemoveItem(TypesKey);
             Box.gameObject.SetActive(false);
             Button.gameObject.SetActive(false); 
+            StartCoroutine(StartVibration());
 
             }else
             {

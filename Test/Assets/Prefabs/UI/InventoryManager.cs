@@ -63,22 +63,28 @@ private void Awake()
     } 
 }
 
-
-
-
-public void RemoveItem(Item newItem)
+public bool RemoveItem(Item itemToRemove)
 {
-    Item existingItem = itemDatabase.Find(q => q.id == newItem.id);
-    if(val < 0)
+    Item existingItem = itemDatabase.Find(item => item.id == itemToRemove.id);
+    if (existingItem == null)
     {
-        itemDatabase.Remove(existingItem);
-    }else
+        return false; // l'oggetto non è stato trovato nella lista, restituisci false
+    }
+
+    if (val <= 1)
+    {
+        itemDatabase.Remove(existingItem); // rimuovi completamente l'oggetto dalla lista
+    }
+    else
     {
         val--;
-        Num.text = val.ToString();
-
+        Num.text = val.ToString(); // decrementa solo la quantità dell'oggetto
     }
+
+    return true; // operazione completata con successo, restituisci true
 }
+
+
 
 
 public void ListItem(int itemId)
