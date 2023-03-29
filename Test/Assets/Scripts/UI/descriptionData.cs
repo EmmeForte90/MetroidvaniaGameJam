@@ -12,6 +12,8 @@ public class descriptionData : MonoBehaviour
    private int id;
    public static descriptionData Instance;
    public TextMeshProUGUI SkillDescriptionText;
+   public TextMeshProUGUI SkillNameText;
+
    public Image icon;
 
     private void Awake()
@@ -24,6 +26,7 @@ public void DescriptionSkill()
     { 
         // Inserisci qui il codice che vuoi eseguire quando l'immagine viene cliccata
         SkillDescriptionText.text = Skill.Description;
+        SkillNameText.text = Skill.SkillName;
         id = Skill.id;
          // Imposta l'icona dell'abilità
         icon.sprite = Skill.icon;

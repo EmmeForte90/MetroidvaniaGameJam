@@ -32,6 +32,7 @@ public class NPCDialogue : MonoBehaviour
     public bool moreDialogue;
     private bool _isInTrigger;
     private bool _isDialogueActive;
+    private bool Talk = false;
 
 
 [Header("Audio")]
@@ -80,7 +81,7 @@ public void changeDialogue()
     void Update()
     {
         
-        anim.SetBool("talk", _isInTrigger);
+        anim.SetBool("talk", Talk);
         if(heFlip)
         {
         FacePlayer();
@@ -142,6 +143,7 @@ Clang.Play();
 
     IEnumerator ShowDialogue()
 {
+    Talk = true;
     talk.Play();
     _isDialogueActive = true;
     elapsedTime = 0; // reset elapsed time
@@ -176,6 +178,7 @@ Clang.Play();
             talk.Stop();
             dialogueIndex = 0;
             _isDialogueActive = false;
+            Talk = false;
             dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
             Move.instance.stopInput = false;

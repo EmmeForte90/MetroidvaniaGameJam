@@ -28,6 +28,7 @@ TagManager:
   - Ch_Quest
   - Item
   - Ordalia
+  - Door
   layers:
   - Default
   - TransparentFX

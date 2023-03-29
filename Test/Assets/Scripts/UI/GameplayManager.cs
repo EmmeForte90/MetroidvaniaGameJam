@@ -74,6 +74,8 @@ public class GameplayManager : MonoBehaviour
     private GameObject[] Ordalia;
     public bool[] OrdaliaActive;
 
+    private GameObject[] Door;
+    public bool[] DoorActive;
     public static GameplayManager instance;
 
 
@@ -256,6 +258,7 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 {
     // Cerca tutti i GameObjects con il tag "Ch_Quest"
     GameObject[] Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
+    GameObject[] Door = GameObject.FindGameObjectsWithTag("Door");
 
     // Itera attraverso tutti gli oggetti trovati
     foreach (GameObject Character in Ordalia)
@@ -279,6 +282,29 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
             }
         }
     }
+
+
+    foreach (GameObject Character in Door)
+    {
+        // Ottiene il componente QuestCharacters
+        Gate DoorT = Character.GetComponent<Gate>();
+
+        // Verifica se il componente esiste
+        if (DoorT != null)
+        {
+            // Verifica se l'id della quest corrisponde all'id di un gameobject in OrdaliaActive
+            int Id = DoorT.id;
+            for (int i = 0; i <  DoorActive.Length; i++)
+            {
+                if ( DoorActive[i] && i == Id)
+                {
+                    // Imposta ordaliT.FirstD a false
+                    DoorT.DoorOpen();
+                    break;
+                }
+            }
+        }
+    }
 }
 
 public void OrdaliaEnd(int id)
@@ -287,7 +313,11 @@ public void OrdaliaEnd(int id)
     OrdaliaActive[id] = true;   
 }
 
-    
+public void DoorAct(int id)
+{
+    // Imposta lo stato della quest a true
+    DoorActive[id] = true;   
+}
 
 
     IEnumerator Restart()
