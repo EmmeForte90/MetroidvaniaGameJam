@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class test : MonoBehaviour
-{
+{     
+    [Header("Skill")]
     public Skill Skill;
+
+     [Header("Audio")]
+    public float basePitch = 1f;
+    public float randomPitchOffset = 0.1f;
+    [SerializeField] AudioSource take;
+    
+    [Header("VFX")]
     [SerializeField] GameObject VFX;
     //public TextMeshProUGUI itemDescriptionText;
 public bool IsUpper = false;
@@ -112,8 +121,10 @@ public bool IsHeal = false;
     {
         if (collision.CompareTag("Player"))
         {
-            Pickup();
+            
+        Pickup();
         Instantiate(VFX, transform.position, transform.rotation);
+       // take.Play();
 
         }
     }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Ordalia_Sanctuary
   m_EditorClassIdentifier: 
   id: 1
+  CharacterName: Bernard
   questName: Ordalia for the mother
   Description: The mother wants see your dedition for her, so give the peaceful death
     to your die brothers. Praise the mother.
@@ -41,6 +42,6 @@ MonoBehaviour:
   Afterdialogue:
   - 'Take care of you, ok? We will see soon dear brothers. '
   - The mother see you.
-  isActive: 0
+  isActive: 1
   isComplete: 0
   AfterQuest: 0

@@ -20,6 +20,7 @@ private GameObject[] CharacterQ;
     // Riferimenti ai componenti delle immagini di preview e delle descrizioni
     public Image previewImages;
     public TextMeshProUGUI descriptions;
+    public TextMeshProUGUI NameQ;
 
 
     // Array di booleani che mantengono lo stato delle quest
@@ -74,17 +75,18 @@ public void ListQuest(int questId)
         GameObject obj = Instantiate(InventoryQuest, QuestContent);
 
         // Recupera il riferimento al componente del titolo della quest e del bottone
-        var questName = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
+        var questT = obj.transform.Find("Title_quest").GetComponent<TextMeshProUGUI>();
 
         // Assegna l'id univoco al game object istanziato
         obj.name = "QuestButton_" + quest.id;
 
         // Assegna il nome della quest al componente del titolo
-        questName.text = quest.questName;
+        questT.text = quest.questName;
 
         // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione del pulsante della quest
         previewImages.sprite = quest.Bigicon;
         descriptions.text = quest.Description;
+        NameQ.text = quest.questName;
 
         // Aggiungi un listener per il click del bottone
         var button = obj.GetComponent<Button>();
@@ -104,6 +106,8 @@ public void OnQuestButtonClicked(int questId, Image previewImages, TextMeshProUG
         // Assegna i valori desiderati ai componenti dell'immagine di preview e della descrizione
         previewImages.sprite = questDatabase.Find(q => q.id == questId).Bigicon;
         descriptions.text = questDatabase.Find(q => q.id == questId).Description;
+        NameQ.text = questDatabase.Find(q => q.id == questId).questName;
+
     }
     
 }

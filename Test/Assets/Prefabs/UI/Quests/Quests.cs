@@ -8,6 +8,7 @@ using UnityEditor;
 public class Quests : ScriptableObject
 {
 public int id;
+public string CharacterName;
 public string questName;
 public string Description;
 public int value;

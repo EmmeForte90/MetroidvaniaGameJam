@@ -9,7 +9,7 @@ public class Gate : MonoBehaviour
 {
 
 public float moveSpeed = 2f; // velocità di movimento
-
+public int id;
 public GameObject GateS;
 public GameObject Box;
 public GameObject Button;
@@ -63,6 +63,8 @@ void Update()
         {
                 // Sposta gradualmente l'oggetto verso la posizione obiettivo
                 Sprite.transform.position = Vector2.MoveTowards(Sprite.transform.position, targetPosition.position, moveSpeed * Time.deltaTime);
+                GameplayManager.instance.DoorAct(id);
+
         }
     }
 
@@ -77,6 +79,10 @@ void Update()
 
     }
 
+    public void DoorOpen()
+    {
+    Sprite.transform.position = targetPosition.position;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

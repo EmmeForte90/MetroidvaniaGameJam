@@ -9,22 +9,17 @@ using UnityEngine.UI;
 using TMPro;
 using Spine.Unity;
 
-public class QuestCharacters : MonoBehaviour
+public class NPCDialogueWithStop : MonoBehaviour
 {
-    public Quests Quest;
-    public int IDQuest;
+   public Dialogues Dialogue;
+    public int IDDialogue;
     public int IDCharacter;
-    public TextMeshProUGUI CharacterName; // Reference to the TextMeshProUGUI component
 
     private GameObject player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
     public GameObject button;
     public GameObject dialogueBox;
-    public GameObject QuestStart;
-    public GameObject QuestEnd;
-
-    public GameObject Reward;
-    public Transform RewardPoint;
+    public TextMeshProUGUI CharacterName; // Reference to the TextMeshProUGUI component
 
     private string[] dialogue; // array of string to store the dialogues
     public float dialogueDuration; // variable to set the duration of the dialogue
@@ -36,24 +31,24 @@ public class QuestCharacters : MonoBehaviour
     public bool heFlip;
     public bool FirstD = true;
     private bool StopButton = false; // o la variabile che deve attivare la sostituzione
-    private bool Talk = false;
 
     private bool _isInTrigger;
+    private bool Talk = false;
     private bool _isDialogueActive;
 [Header("Audio")]
 [SerializeField] AudioSource talk;
 [SerializeField] AudioSource Clang;
 
 
-public static QuestCharacters Instance;
+public static NPCDialogueWithStop Instance;
 
 
 void Awake()
 {
         Instance = this;   
         player = GameObject.FindWithTag("Player");
-        IDQuest = Quest.id;
-        CharacterName.text = Quest.CharacterName;
+        IDDialogue = Dialogue.id;
+        CharacterName.text = Dialogue.CharacterName;
 
 }
 
@@ -72,20 +67,17 @@ void Awake()
     {
         if (FirstD)
 {
-    dialogue = Quest.Startdialogue;
+    dialogue = Dialogue.Startdialogue;
 }
-else if (Quest.isActive)
+else if (Dialogue.Middle)
 {
-    dialogue = Quest.Middledialogue;
+    dialogue = Dialogue.Middledialogue;
 }
-else if (Quest.isComplete)//EndDia
+else if (Dialogue.End)//EndDia
 {
-    dialogue = Quest.Endingdialogue;
+    dialogue = Dialogue.Endingdialogue;
 }
-else if (Quest.AfterQuest)
-{
-    dialogue = Quest.Afterdialogue;
-}
+
 
         anim.SetBool("talk", Talk);
         if(heFlip)
@@ -151,7 +143,7 @@ Clang.Play();
     }
 
     IEnumerator ShowDialogue()
-{    
+{
     Talk = true;
     talk.Play();
     _isDialogueActive = true;
@@ -193,7 +185,7 @@ Clang.Play();
             {
             StartCoroutine(StartQuest());
             }
-            else if(Quest.isComplete)
+            else if(Dialogue.Middle)
             {
             StartCoroutine(EndQuest());
             }
@@ -214,15 +206,9 @@ Clang.Play();
  IEnumerator EndQuest()
 {
         notGo = true;
-        QuestEnd.gameObject.SetActive(true); 
-        yield return new WaitForSeconds(3f); 
-        Instantiate(Reward, RewardPoint.position, transform.rotation);
-        QuestEnd.gameObject.SetActive(false); 
-        yield return new WaitForSeconds(1f); 
-        QuestManager.Instance.QuestComplete(IDQuest);
-        Quest.isActive = false;
-        Quest.isComplete = false;
-        Quest.AfterQuest = true;
+        yield return new WaitForSeconds(0); 
+        Dialogue.Middle = false;
+        Dialogue.End = true;
         notGo = false;
         Move.instance.stopInput = false;
         
@@ -232,14 +218,8 @@ Clang.Play();
  IEnumerator StartQuest()
 {            
         notGo = true;
-        Quest.isActive = true;
-        QuestStart.gameObject.SetActive(true); 
-        QuestManager.Instance.AddQuest(Quest);
-        QuestManager.Instance.ListQuest(IDQuest);
-        QuestManager.Instance.QuestStart(IDQuest);
-        yield return new WaitForSeconds(3f); 
-        QuestManager.Instance.QuestActive(IDQuest);
-        QuestStart.gameObject.SetActive(false); 
+        Dialogue.Middle = true;
+        yield return new WaitForSeconds(0); 
         Move.instance.stopInput = false;
         notGo = false;
         FirstD = false;
