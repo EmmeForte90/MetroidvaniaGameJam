@@ -63,12 +63,11 @@ private float waitDuration = 2f;
     public float fallTime; // il tempo di caduta
 
  [Header("Audio")]
-    [HideInInspector] public float basePitch = 1f;
+[SerializeField] public AudioClip[] listmusic; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
+private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
+   public AudioMixer SFX;
+[HideInInspector] public float basePitch = 1f;
     [HideInInspector] public float randomPitchOffset = 0.1f;
-    [SerializeField] AudioSource SDie;
-    [SerializeField] AudioSource SHurt;
-
-
 
 [Header("VFX")]
     [SerializeField] public Transform hitpoint;
@@ -435,7 +434,7 @@ public void Damage(int damage)
         TemporaryChangeColor(Color.red);
         health.currentHealth -= damage;
         Instantiate(Sdeng, hitpoint.position, transform.rotation);
-        SHurt.Play();
+        PlayMFX(3);
         if(isSmall)
         {
         HurtAnm();
@@ -497,17 +496,18 @@ private bool IsKnockback()
 
 public void Die()
 {
-    SDie.Play();
     // animazione di morte
     // determina la direzione della morte in base alla posizione del player rispetto al nemico
         if (horizontal == 1)//transform.position.x < player.position.x)
         {
             DieFront();
+            PlayMFX(1);
             StartCoroutine(DestroyafterDeath());
         }
         else if (horizontal == -1)
         {
             DieBack();
+            PlayMFX(1);
             StartCoroutine(DestroyafterDeath());
         }
 }
@@ -664,7 +664,12 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 //Non puoi giocare di local scale sui vfx perché sono vincolati dal localscale del player PERò puoi giocare sulla rotazione E ottenere gli
 //stessi effetti
 
-
+public void PlayMFX(int soundToPlay)
+    {
+        bgm[soundToPlay].Stop();
+        bgm[soundToPlay].pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        bgm[soundToPlay].Play();
+    }
 
 void HandleEvent (TrackEntry trackEntry, Spine.Event e) {
 
@@ -681,22 +686,7 @@ void HandleEvent (TrackEntry trackEntry, Spine.Event e) {
 
     }
 
-    if (e.Data.Name == "walk") {
-        // Inserisci qui il codice per gestire l'evento.
-         /*if (Swalk == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!Swalk.gameObject.activeInHierarchy) {
-            Swalk.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        Swalk.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        Swalk.Play();
-        */
-    }
+   
 }
 
 

@@ -63,14 +63,11 @@ private float waitDuration = 2f;
     public float fallTime; // il tempo di caduta
 
  [Header("Audio")]
-    [HideInInspector] public float basePitch = 1f;
+ [HideInInspector] public float basePitch = 1f;
     [HideInInspector] public float randomPitchOffset = 0.1f;
-    [SerializeField] AudioSource SwSl;
-    [SerializeField] AudioSource Swalk;
-    [SerializeField] AudioSource SDie;
-    [SerializeField] AudioSource SHurt;
-    [SerializeField] AudioSource SChase;
-
+[SerializeField] public AudioClip[] listmusic; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
+private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
+   public AudioMixer SFX;
 
 
 [Header("VFX")]
@@ -122,6 +119,12 @@ public static AiEnemysword instance;
         instance = this;
     }
     player = GameObject.FindWithTag("Player").transform;
+    bgm = new AudioSource[listmusic.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
+    for (int i = 0; i < listmusic.Length; i++) // scorre la lista di AudioClip
+    {
+        bgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
+        bgm[i].clip = listmusic[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
+    }
     }
 
 private void Update()
@@ -326,7 +329,6 @@ private void Flip()
 
 private void Chase()
 {
-    SChase.Play();
     if(isChasing && !isAttacking)
     {
     // inseguimento del giocatore
@@ -433,7 +435,8 @@ private void OnDrawGizmos()
     health.currentHealth -= damage;
     TemporaryChangeColor(Color.red);
     Instantiate(Sdeng, hitpoint.position, transform.rotation);
-    SHurt.Play();
+    PlayMFX(1);
+
 
     if (isSmall)
     {
@@ -470,18 +473,23 @@ private void ResetColor()
 
 public void Die()
 {
-    SDie.Play();
 
     if (horizontal == 1)
     {
         DieFront();
+            PlayMFX(2);
+
     }
     else if (horizontal == -1)
     {
         DieBack();
+            PlayMFX(2);
+
     }else if (horizontal == 0)
     {
         DieBack();
+            PlayMFX(2);
+
     }
 
     StartCoroutine(DestroyAfterDeath());
@@ -650,6 +658,15 @@ private void OnAttackAnimationComplete(Spine.TrackEntry trackEntry)
 //EVENTS
 //Non puoi giocare di local scale sui vfx perché sono vincolati dal localscale del player PERò puoi giocare sulla rotazione E ottenere gli
 //stessi effetti
+public void PlayMFX(int soundToPlay)
+    {
+        bgm[soundToPlay].Stop();
+        // Imposta la pitch dell'AudioSource in base ai valori specificati.
+        bgm[soundToPlay].pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
+        bgm[soundToPlay].Play();
+    }
+
+
 IEnumerator VFXCont()
 {   
     yield return new WaitForSeconds(0.5f);
@@ -667,57 +684,20 @@ if (e.Data.Name == "VFXslash") {
         //Instantiate(attack, slashpoint.position, transform.rotation);
         attack.gameObject.SetActive(true);
                     StartCoroutine(VFXCont());
-         if (SwSl == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!SwSl.gameObject.activeInHierarchy) {
-            SwSl.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        SwSl.Play();
+       PlayMFX(0);
     }
 
 if (e.Data.Name == "VFXslash_h") {
         // Inserisci qui il codice per gestire l'evento.
         attack_h.gameObject.SetActive(true);
                     StartCoroutine(VFXCont());
-        //Instantiate(attack_h, slashpoint.position, transform.rotation);
-         if (SwSl == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!SwSl.gameObject.activeInHierarchy) {
-            SwSl.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        SwSl.Play();
-        
+        PlayMFX(0);
     }
 if (e.Data.Name == "VFXSlashB") {
         // Inserisci qui il codice per gestire l'evento.
         attack_B.gameObject.SetActive(true);
                     StartCoroutine(VFXCont());
-        //Instantiate(attack_h, slashpoint.position, transform.rotation);
-         if (SwSl == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!SwSl.gameObject.activeInHierarchy) {
-            SwSl.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        SwSl.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        SwSl.Play();
-        
+        PlayMFX(0);
     }
     if (e.Data.Name == "attack") {
         // Inserisci qui il codice per gestire l'evento.
@@ -731,22 +711,7 @@ if (e.Data.Name == "VFXSlashB") {
 
     }
 
-    if (e.Data.Name == "walk") {
-        // Inserisci qui il codice per gestire l'evento.
-         /*if (Swalk == null) {
-            Debug.LogError("AudioSource non trovato");
-            return;
-        }
-        // Assicurati che l'oggetto contenente l'AudioSource sia attivo.
-        if (!Swalk.gameObject.activeInHierarchy) {
-            Swalk.gameObject.SetActive(true);
-        }
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        Swalk.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        // Assegna la clip audio all'AudioSource e avviala.
-        Swalk.Play();
-        */
-    }
+   
 }
 
 

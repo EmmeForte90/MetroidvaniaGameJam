@@ -32,10 +32,13 @@ public class Globo : MonoBehaviour
         if(Move.instance.transform.localScale.x > 0)
         {
             rb.velocity = transform.right * speed;
+                transform.localScale = new Vector3(1, 1, 1);
         } 
         else if(Move.instance.transform.localScale.x < 0)
         {
             rb.velocity = -transform.right * speed;
+                transform.localScale = new Vector3(-1, 1, 1);
+
         }
         if(!Needtwohands)
         {
