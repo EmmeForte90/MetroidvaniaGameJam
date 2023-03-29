@@ -68,6 +68,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4474d7bf18c5f794ca3893fd6807a52e, type: 2}
+  - {fileID: 2100000, guid: 98c537d98668142489a13b6ad3b792bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 891111329177942983, guid: a1b74a608e0e8ae4dbd472ac97fb213f, type: 3}
-  VFX: {fileID: 9060609366315020121, guid: 9c91bdbb32880d0499de24da1430d9ba, type: 3}
+  VFX: {fileID: 5006902587877455861, guid: 28e3e099063311f439f5a38096f63cad, type: 3}
   maxCoins: 10
   coinSpawnDelay: 0.1
   treasureLifetime: 10

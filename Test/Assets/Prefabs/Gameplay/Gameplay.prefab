@@ -4684,6 +4684,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1dd16f4f2db41bf4aa55f08a3c35920e, type: 3}
   - {fileID: 8300000, guid: 1653c28a3688cb143a097d29718ca891, type: 3}
   - {fileID: 8300000, guid: a038dc44c0dc84f4cabaa2113a121bad, type: 3}
+  SoundDestroy: []
   MSX: {fileID: 24100000, guid: 22f3d7d1311904840bc278bbeeae1a75, type: 2}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
 --- !u!82 &8168538110743197429
@@ -5450,7 +5451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pos: {fileID: 2144114532784799624}
-  attackDamage: 10
   pesante: 0
   normal: 0
   SClang: {fileID: 2144114533671690482}
@@ -7831,12 +7831,12 @@ MonoBehaviour:
   dashsawAnimationName: Skills/dashsaw
   SawinAnimationName: Skills/saw_loop
   SpecialAnimationName: Skills/special_attack
+  Damage: 10
   comboCounter: 0
   nextAttackTime: 0
   attackRate: 2
   shootTimer: 2
   bullet: {fileID: 2515244540042279052, guid: 69d4c1ca81065d44aadcd71075e4be02, type: 3}
-  Damage: 10
   isCharging: 0
   isPray: 0
   isHeal: 0
@@ -8346,9 +8346,6 @@ MonoBehaviour:
   Ainard: 1
   Milner: 0
   Galliard: 0
-  slash: {fileID: 11400000, guid: 128dd84ee75e56b448d6047751c6dad6, type: 2}
-  globo: {fileID: 11400000, guid: 8d04c14b19c117e46b6386eba8c42011, type: 2}
-  gladio: {fileID: 11400000, guid: b40b0e0d68036d6468ad055e42c276f9, type: 2}
   selectedId: -1
   idup: -1
   MXVup: 0
@@ -9971,8 +9968,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 99999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
-  m_sharedMaterial: {fileID: 4267158245767620036, guid: da6044f4d9e34e84c9d7dbefe7c20777, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6217b41466b2bd645ad60f08ef218d17, type: 2}
+  m_sharedMaterial: {fileID: -7704738273914940212, guid: 6217b41466b2bd645ad60f08ef218d17, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

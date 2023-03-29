@@ -12,29 +12,17 @@ public class SkillItem : MonoBehaviour
 
 public int id;
 
- [Header("Audio")]
- [HideInInspector] public float basePitch = 1f;
-    [HideInInspector] public float randomPitchOffset = 0.1f;
-[SerializeField] public AudioClip[] listmusic; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
-private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
-   public AudioMixer SFX; 
-
 
     [Header("VFX")]
     [SerializeField] GameObject VFX;
   
 
-public void PlayMFX(int soundToPlay)
-    {
-        // Imposta la pitch dell'AudioSource in base ai valori specificati.
-        bgm[soundToPlay].pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset); 
-        bgm[soundToPlay].Play();
-    }
 
 
     public void Pickup()
     {
        GameplayManager.instance.SkillAc(id);
+       AudioManager.instance.PlaySFX(0);
       // PlayMFX(0);
         Destroy(gameObject);
     }

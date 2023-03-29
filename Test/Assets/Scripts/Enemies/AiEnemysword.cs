@@ -69,6 +69,14 @@ private float waitDuration = 2f;
 private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
    public AudioMixer SFX;
 
+[Header("Drop")]
+    public GameObject coinPrefab; // prefab per la moneta
+    public int maxCoins = 10; // numero massimo di monete che possono essere rilasciate
+    public float coinSpawnDelay = 0.1f; // ritardo tra la spawn di ogni moneta
+    private int randomChance;
+    private float coinForce = 5f; // forza con cui le monete saltano
+    private Vector2 coinForceVariance = new Vector2(1, 1); // varianza della forza con cui le monete saltano
+    private int coinCount; // conteggio delle monete
 
 [Header("VFX")]
 
@@ -404,9 +412,39 @@ private IEnumerator JumpBackCo(Rigidbody2D rb)
         }
     }
 
+void EssenceGive()
+{
+    int randomChance = Random.Range(1, 11); // Genera un numero casuale compreso tra 1 e 10
 
+    if (randomChance <= 8) // Se il numero casuale è compreso tra 1 e 8 (80% di probabilità), aggiungi 5 di essenza
+    {
+        PlayerHealth.Instance.currentEssence += 5;
+    }
+    else // Se il numero casuale è compreso tra 9 e 10 (20% di probabilità), aggiungi 10 di essenza
+    {
+        PlayerHealth.Instance.currentEssence += 10;
+    }
+}
     
+IEnumerator SpawnCoins()
+{
 
+    for (int i = 0; i < coinCount; i++)
+    {
+        // crea una nuova moneta
+GameObject newCoin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
+
+        // applica una forza casuale alla moneta per farla saltare
+        Vector2 randomForce = new Vector2(
+            Random.Range(-coinForceVariance.x, coinForceVariance.x),
+            Random.Range(-coinForceVariance.y, coinForceVariance.y)
+        );
+        newCoin.GetComponent<Rigidbody2D>().AddForce(randomForce * coinForce, ForceMode2D.Impulse);
+
+        // aspetta prima di spawnare la prossima moneta
+        yield return new WaitForSeconds(coinSpawnDelay);
+    }
+}
 
 private bool IsKnockback()
 {
@@ -474,6 +512,12 @@ private void ResetColor()
 public void Die()
 {
     PlayMFX(2);
+    //Drop
+    // genera un numero casuale di monete da rilasciare
+    coinCount = Random.Range(1, maxCoins + 1);
+    StartCoroutine(SpawnCoins());
+    EssenceGive();
+
     if (horizontal == 1)
     {
         DieFront();

@@ -21,7 +21,7 @@ public class ShieldEnemy : MonoBehaviour
 
         if (collision.CompareTag("Hitbox"))
     {
-        currentHealth -= HitboxPlayer.Instance.attackDamage;
+        currentHealth -= Move.instance.Damage;
         if (currentHealth <= 0)
         {
         Instantiate(VFX, transform.position, transform.rotation);

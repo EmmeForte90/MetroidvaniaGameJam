@@ -3649,6 +3649,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7852597391822137319, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: sgm.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852597391822137319, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: sgm.Array.data[0]
+      value: 
+      objectReference: {fileID: 1769494471}
+    - target: {fileID: 7852597391822137319, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: SoundDestroy.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852597391822137319, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: SoundDestroy.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 29b54f88ad42ac34b83a681121247f83, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
 --- !u!1 &812519614
@@ -10597,6 +10613,11 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!82 &1769494471 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8168538110743197429, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+  m_PrefabInstance: {fileID: 694163108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1780370026
 GameObject:
   m_ObjectHideFlags: 0

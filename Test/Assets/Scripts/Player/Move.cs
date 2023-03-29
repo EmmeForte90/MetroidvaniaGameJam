@@ -166,13 +166,13 @@ private int comboCount = 0;
      
 
     [Header("Attacks")]
+    public int Damage;
     [SerializeField] public int comboCounter = 0; // contatore delle combo
     [SerializeField] float nextAttackTime = 0f;
     [SerializeField] float attackRate = 0.5f;
     [SerializeField] public float shootTimer = 2f; // tempo per completare una combo
     [SerializeField] private GameObject bullet;
     // Dichiarazione delle variabili
-    public int Damage;
     private int currentTime;
     private int timeLimit = 3; // Tempo massimo per caricare l'attacco
     private int maxDamage = 50; // Danno massimo dell'attacco caricato

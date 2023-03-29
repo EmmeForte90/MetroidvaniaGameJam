@@ -7,6 +7,7 @@ public class EnmAtk : MonoBehaviour
     public GameObject Hitbox;
     private Transform player;
     public float attackDamage = 10; // danno d'attacco
+    private bool take = false;
 
     // Start is called before the first frame update
     void Start()
@@ -15,11 +16,20 @@ public class EnmAtk : MonoBehaviour
 
     }
 
+IEnumerator StopD()
+    {
+        yield return new WaitForSeconds(0.5f);
+        take = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+    if(!take)
+        {
         if (collision.CompareTag("Player"))
         {
+             take = true;
+
             if (!Move.instance.isDeath)
             {
                 if (!Move.instance.isHurt)
@@ -29,7 +39,9 @@ public class EnmAtk : MonoBehaviour
             }
     }else if (collision.gameObject.tag == "Hitbox")
     {
+            take = true;
            Move.instance.Knockback();
     }
-}
+    }
+    }
 }

@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class TreasureScript : MonoBehaviour
 {
+    [Header("Key")]
+    public Item TypesKey;
+     public bool NeedKey = false; // indica se il tesoro è stato aperto
+
     public GameObject coinPrefab; // prefab per la moneta
     public GameObject VFX; // prefab per la moneta
 
@@ -29,6 +33,8 @@ public class TreasureScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if(!NeedKey)
+        {
         if (!treasureOpened && other.CompareTag("Player"))
         {
             // genera un numero casuale di monete da rilasciare
@@ -45,8 +51,28 @@ public class TreasureScript : MonoBehaviour
                     // distruggi il tesoro dopo un periodo di tempo specifico
         //Destroy(gameObject, treasureLifetime);
     }
+    }else if(NeedKey)
+        {
+        if (!treasureOpened && other.CompareTag("Player"))
+        {
+             Accepted();
+        }
+}
 }
 
+public void Accepted()
+    {
+            Move.instance.stopInput = false;
+            if(InventoryManager.Instance.itemDatabase.Find(q => q.id == TypesKey.id))
+            {
+                print("Hai aperto");
+            InventoryManager.Instance.RemoveItem(TypesKey);
+            }else
+            {
+                print("niente da fare");
+            }
+            
+    }
 IEnumerator SpawnCoins()
 {
 

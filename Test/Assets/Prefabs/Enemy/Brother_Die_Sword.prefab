@@ -44263,11 +44263,15 @@ MonoBehaviour:
   knockbackTime: 0
   jumpHeight: 0
   fallTime: 0
+  basePitch: 1
+  randomPitchOffset: 0.1
   listmusic:
   - {fileID: 8300000, guid: 87dc34e500c4c8c458322df1e83ab0ee, type: 3}
   - {fileID: 8300000, guid: d67af786fc1f3c643b31582223961490, type: 3}
   - {fileID: 8300000, guid: f29466811eb9f9f44b5461a87e24da23, type: 3}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
+  coinPrefab: {fileID: 891111329177942983, guid: a1b74a608e0e8ae4dbd472ac97fb213f, type: 3}
+  coinSpawnDelay: 0.1
   slashpoint: {fileID: 7417775468026517991}
   hitpoint: {fileID: 7417775467724155911}
   attack: {fileID: 7201869061797821946}
