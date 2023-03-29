@@ -8332,6 +8332,8 @@ MonoBehaviour:
   gameplayOff: 0
   StopDefaultSkill: 0
   Shrine: {fileID: 2418465828392469365}
+  ScegliSkill: {fileID: 4926824111848710539}
+  SelectStage: {fileID: 8564608253044323503}
   money: 0
   moneyText: {fileID: 2144114533571233861}
   moneyTextM: {fileID: 5688836874309858793}

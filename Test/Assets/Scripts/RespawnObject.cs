@@ -35,7 +35,6 @@ void Update()
 
         if (_isInTrigger && Input.GetButtonDown("Talk") && !isPray)
         {
-            Move.instance.NotStrangeAnimationTalk = true;
             virtualCamera.Follow = Camera.transform;
             Instantiate(Sdeng, Pos.transform.position, transform.rotation);
             GameplayManager.instance.StopInput();
@@ -58,7 +57,7 @@ void Update()
             isPray = true;
 
         }
-        else if (isPray && Input.GetButtonDown("Heal"))
+        else if (isPray && Input.GetButtonDown("Talk"))
         {
             Move.instance.animationWakeup();
             GameplayManager.instance.StopInputResume();
@@ -92,6 +91,7 @@ private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            Move.instance.NotStrangeAnimationTalk = true;
             GameplayManager.instance.StopDefaultSkill = true;
             button.gameObject.SetActive(true); // Initially hide the dialogue text
             _isInTrigger = true;
@@ -101,7 +101,9 @@ private void OnTriggerEnter2D(Collider2D collision)
 private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
-        {
+        {          
+              Move.instance.NotStrangeAnimationTalk = false;
+
             button.gameObject.SetActive(false); // Initially hide the dialogue text
             _isInTrigger = false;
             

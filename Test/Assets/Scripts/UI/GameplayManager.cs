@@ -21,7 +21,11 @@ public class GameplayManager : MonoBehaviour
     [HideInInspector]
     public bool gameplayOff = false;
     public bool StopDefaultSkill = false;
+
+    [Header("Shrine")]
     [SerializeField]public GameObject Shrine;
+    [SerializeField]public GameObject ScegliSkill;
+    [SerializeField]public GameObject SelectStage;
 
     [Header("Money")]
     [SerializeField] int money = 0;
@@ -38,7 +42,7 @@ public class GameplayManager : MonoBehaviour
     [Header("Fade")]
     [SerializeField] GameObject callFadeIn;
     [SerializeField] GameObject callFadeOut;
-   private bool isStartGame;
+    private bool isStartGame;
 
     [Header("Pause")]
     [SerializeField] public GameObject PauseMenu;
@@ -49,15 +53,14 @@ public class GameplayManager : MonoBehaviour
     public bool Milner = false;
     public bool Galliard = false;
 
-[Header("Stato inizio gioco")]
-    public Skill slash;
-    public Skill globo;
-    public Skill gladio;
-    private Skill selectedSkill;
 
     [HideInInspector]
     public int selectedId = -1; // Id dell'abilità selezionata
+    [HideInInspector]
+
     public int idup= -1; // Id dell'abilità selezionata
+    [HideInInspector]
+
     public int MXVup; // Id dell'abilità selezionata
        
     [SerializeField] TextMeshProUGUI SkillUp_T;
@@ -125,33 +128,7 @@ public class GameplayManager : MonoBehaviour
         unlockCrash = false; 
         }
 
-      if(!StopDefaultSkill)
-        {
-            if(Ainard)   
-        {
-            AssignId(globo);
-            GameplayManager.instance.SkillAc(8);
 
-//            SkillInventoryHUD.Instance.IsGlobe = true;
-        }else if(Milner)   
-        {           
-            AssignId(gladio);
-            GameplayManager.instance.SkillAc(14);
-
-         //   SkillInventoryHUD.Instance.IsGladio = true;
-
-        }else if(Galliard)   
-        {
-            AssignId(slash);
-            GameplayManager.instance.SkillAc(6);
-
-         //   SkillInventoryHUD.Instance.IsSlash = true;
-
-        }
-       // print("assegnato");
-
-        AssignButtonUp();
-        }
 
 
         if(!moneyObject.gameObject)
@@ -164,33 +141,6 @@ public class GameplayManager : MonoBehaviour
         //Il testo assume il valore dello money
     }
 
-public void AssignId(Skill id)
-    {
-        // Recupera la skill corrispondente all'id selezionato
-        selectedSkill = id; 
-        if(selectedId == null)
-        {
-        selectedId = selectedSkill.id;
-        }
-    }
-
-    public void AssignButtonUp()
-{
-    if (selectedId > 0)
-    {
-        SkillUp_T.text = selectedSkill.value.ToString();
-        SkillUp.sprite = selectedSkill.icon;
-        idup = selectedId;
-        UpdateMenuRapido.Instance.idup = selectedId;
-        UpdateMenuRapido.Instance.SkillUp_T.text = selectedSkill.value.ToString();
-        UpdateMenuRapido.Instance.Vup = selectedSkill.value;
-        UpdateMenuRapido.Instance.SkillUp.sprite = selectedSkill.icon;
-        MXVup = selectedSkill.value;
-
-
-        
-    }
-}
 
 public void Restore()
 {
