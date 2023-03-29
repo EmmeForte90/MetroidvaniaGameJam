@@ -21,6 +21,7 @@ public class GameplayManager : MonoBehaviour
     [HideInInspector]
     public bool gameplayOff = false;
     public bool StopDefaultSkill = false;
+    [SerializeField]public GameObject Shrine;
 
     [Header("Money")]
     [SerializeField] int money = 0;
@@ -76,6 +77,12 @@ public class GameplayManager : MonoBehaviour
 
     private GameObject[] Door;
     public bool[] DoorActive;
+
+    private GameObject[] SkillDi;
+    [SerializeField] public bool[] SkillActive;
+    [SerializeField] public GameObject[] SkillM;
+    [SerializeField] public GameObject[] SkillS;
+
     public static GameplayManager instance;
 
 
@@ -123,16 +130,22 @@ public class GameplayManager : MonoBehaviour
             if(Ainard)   
         {
             AssignId(globo);
-            SkillInventoryHUD.Instance.IsGlobe = true;
+            GameplayManager.instance.SkillAc(8);
+
+//            SkillInventoryHUD.Instance.IsGlobe = true;
         }else if(Milner)   
         {           
             AssignId(gladio);
-            SkillInventoryHUD.Instance.IsGladio = true;
+            GameplayManager.instance.SkillAc(14);
+
+         //   SkillInventoryHUD.Instance.IsGladio = true;
 
         }else if(Galliard)   
         {
             AssignId(slash);
-            SkillInventoryHUD.Instance.IsSlash = true;
+            GameplayManager.instance.SkillAc(6);
+
+         //   SkillInventoryHUD.Instance.IsSlash = true;
 
         }
        // print("assegnato");
@@ -178,6 +191,36 @@ public void AssignId(Skill id)
         
     }
 }
+
+public void Restore()
+{
+    // Ripristina gli utilizzi se hai gli slot pieni
+    if (UpdateMenuRapido.Instance != null && SkillMenu.Instance != null && 
+        UpdateMenuRapido.Instance.gameObject.activeSelf && SkillMenu.Instance.gameObject.activeSelf &&
+        (UpdateMenuRapido.Instance.idup > 0 || UpdateMenuRapido.Instance.idleft > 0 ||
+         UpdateMenuRapido.Instance.idbottom > 0 || UpdateMenuRapido.Instance.idright > 0))
+    {
+        UpdateMenuRapido.Instance.Vleft = SkillMenu.Instance.MXVleft;
+        UpdateMenuRapido.Instance.Vup = SkillMenu.Instance.MXVup;
+        UpdateMenuRapido.Instance.Vright = SkillMenu.Instance.MXVright;
+        UpdateMenuRapido.Instance.Vbottom = SkillMenu.Instance.MXVbottom;
+
+        UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
+        UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
+        UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
+        UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
+    }
+
+    // Ripristina L'essenza
+    if (PlayerHealth.Instance != null && PlayerHealth.Instance.gameObject.activeSelf)
+    {
+        PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
+        PlayerHealth.Instance.EssenceImg();
+    }
+}
+
+
+
 
 
 public void TakeCamera()
@@ -259,6 +302,7 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     // Cerca tutti i GameObjects con il tag "Ch_Quest"
     GameObject[] Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
     GameObject[] Door = GameObject.FindGameObjectsWithTag("Door");
+    GameObject[] SkillIt = GameObject.FindGameObjectsWithTag("Skill");
 
     // Itera attraverso tutti gli oggetti trovati
     foreach (GameObject Character in Ordalia)
@@ -283,7 +327,29 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         }
     }
 
+// Itera attraverso tutti gli oggetti trovati
+    foreach (GameObject Character in SkillIt)
+    {
+        // Ottiene il componente QuestCharacters
+        SkillItem SkillItT = Character.GetComponent<SkillItem>();
 
+        // Verifica se il componente esiste
+        if (SkillItT != null)
+        {
+            // Verifica se l'id della quest corrisponde all'id di un gameobject in OrdaliaActive
+            int Id = SkillItT.id;
+            for (int i = 0; i < SkillActive.Length; i++)
+            {
+                if (SkillActive[i] && i == Id)
+                {
+                    // Imposta ordaliT.FirstD a false
+                    SkillItT.SkillDosentExist();
+                    break;
+                }
+            }
+        }
+    }
+    
     foreach (GameObject Character in Door)
     {
         // Ottiene il componente QuestCharacters
@@ -319,6 +385,13 @@ public void DoorAct(int id)
     DoorActive[id] = true;   
 }
 
+public void SkillAc(int id)
+{
+    // Imposta lo stato della quest a true
+    SkillActive[id] = true;   
+    SkillM[id].gameObject.SetActive(true);
+    SkillS[id].gameObject.SetActive(true);
+}
 
     IEnumerator Restart()
     {

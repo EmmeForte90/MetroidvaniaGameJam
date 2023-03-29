@@ -29,6 +29,8 @@ TagManager:
   - Item
   - Ordalia
   - Door
+  - FxTemporaire
+  - Skill
   layers:
   - Default
   - TransparentFX

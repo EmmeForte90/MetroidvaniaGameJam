@@ -17,6 +17,8 @@ public GameObject[] inter;
 public Item TypesKey;
 private bool _isInTrigger;
 private bool unlock = false;
+private bool dorOp = false;
+
 private bool StopButton = false; // o la variabile che deve attivare la sostituzione
 private bool _isDialogueActive;
 public string request;
@@ -82,16 +84,20 @@ void Update()
     public void DoorOpen()
     {
     Sprite.transform.position = targetPosition.position;
+    dorOp = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
-        {
+        {            
+            Move.instance.NotStrangeAnimationTalk = true;
+        if(!dorOp){
             if(!unlock)
         {
          Button.gameObject.SetActive(true);
         _isInTrigger = true;
+        }
         }
         
         }
@@ -150,10 +156,13 @@ public void Denied()
     {
         if (collision.CompareTag("Player"))
         {
+            Move.instance.NotStrangeAnimationTalk = false;
+            if(!dorOp){
             Button.gameObject.SetActive(false); // Initially hide the dialogue text
             _isInTrigger = false;
             Box.gameObject.SetActive(false);
             descriptions.text = request;
+            }
 
         }
     }

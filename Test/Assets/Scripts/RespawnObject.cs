@@ -6,7 +6,7 @@ public class RespawnObject : MonoBehaviour
     public Transform respawnPoint; // il punto di respawn del giocatore
     public string sceneName; // il nome della scena in cui si trova il punto di respawn
     [SerializeField] GameObject Sdeng;
-    [SerializeField] GameObject Selectionmenu;
+    //[SerializeField] GameObject Selectionmenu;
     [SerializeField] public Transform Pos;
     public GameObject Camera;
     //[SerializeField] public GameplayManager gM;
@@ -35,6 +35,7 @@ void Update()
 
         if (_isInTrigger && Input.GetButtonDown("Talk") && !isPray)
         {
+            Move.instance.NotStrangeAnimationTalk = true;
             virtualCamera.Follow = Camera.transform;
             Instantiate(Sdeng, Pos.transform.position, transform.rotation);
             GameplayManager.instance.StopInput();
@@ -42,28 +43,13 @@ void Update()
             //InventoryManager.Instance.ListItems();
             Move.instance.AnimationRest();
             Move.instance.Stop();
-            Selectionmenu.gameObject.SetActive(true);
-            UIControllers.instance.SetSelectedGameObjectToSettings();
+            GameplayManager.instance.Shrine.gameObject.SetActive(true);
+            GameplayManager.instance.Restore();
 
-            //Ripristina gli utilizzi se hai gli slot pieni
-            if(UpdateMenuRapido.Instance.idup > 0 || 
-            UpdateMenuRapido.Instance.idleft > 0 || 
-            UpdateMenuRapido.Instance.idbottom > 0||
-            UpdateMenuRapido.Instance.idright > 0 )
-            {
-            UpdateMenuRapido.Instance.Vleft = SkillMenu.Instance.MXVleft;
-            UpdateMenuRapido.Instance.Vup = SkillMenu.Instance.MXVup;
-            UpdateMenuRapido.Instance.Vright = SkillMenu.Instance.MXVright;
-            UpdateMenuRapido.Instance.Vbottom = SkillMenu.Instance.MXVbottom;
-        
-            UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
-            UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
-            UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
-            UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
-            }
-            //Ripristina L'essenza
-            PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
-            PlayerHealth.Instance.EssenceImg();
+           // Selectionmenu.gameObject.SetActive(true);
+//            UIControllers.instance.SetSelectedGameObjectToSettings();
+
+           
 
             //Salva la partita
           
@@ -72,17 +58,20 @@ void Update()
             isPray = true;
 
         }
-        else if (isPray && Input.GetButtonDown("Talk"))
+        else if (isPray && Input.GetButtonDown("Heal"))
         {
             Move.instance.animationWakeup();
             GameplayManager.instance.StopInputResume();
             Move.instance.StopinputFalse();
             UIControllers.instance.SetSelectedGameObjectToSettings();
-            Selectionmenu.gameObject.SetActive(false);   
+            GameplayManager.instance.Shrine.gameObject.SetActive(false);
+            //Selectionmenu.gameObject.SetActive(false);   
             isPray = false;
             Move.instance.isPray = false;
             _isInTrigger = false;
-            virtualCamera.Follow = player.transform;        
+            virtualCamera.Follow = player.transform;
+            Move.instance.NotStrangeAnimationTalk = false;
+        
 
     
         }

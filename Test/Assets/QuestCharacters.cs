@@ -120,6 +120,7 @@ Clang.Play();
 {
     if (collision.CompareTag("Player"))
     {
+        Move.instance.NotStrangeAnimationTalk = true;
         button.gameObject.SetActive(true);
         _isInTrigger = true;
         if (!isInteragible)
@@ -134,6 +135,7 @@ Clang.Play();
     {
         if (collision.CompareTag("Player"))
         {
+            Move.instance.NotStrangeAnimationTalk = false;
             button.gameObject.SetActive(false); // Initially hide the dialogue text
             _isInTrigger = false;
             StopCoroutine(ShowDialogue());
@@ -200,6 +202,8 @@ Clang.Play();
             else
             {
             Move.instance.stopInput = false;
+            Move.instance.NotStrangeAnimationTalk = false;
+
             }
 
         }
@@ -241,6 +245,7 @@ Clang.Play();
         QuestManager.Instance.QuestActive(IDQuest);
         QuestStart.gameObject.SetActive(false); 
         Move.instance.stopInput = false;
+
         notGo = false;
         FirstD = false;
 

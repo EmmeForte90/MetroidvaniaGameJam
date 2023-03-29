@@ -111,7 +111,8 @@ Clang.Play();
     private void OnTriggerEnter2D(Collider2D collision)
 {
     if (collision.CompareTag("Player"))
-    {
+    {            
+        Move.instance.NotStrangeAnimationTalk = true;
         button.gameObject.SetActive(true);
         _isInTrigger = true;
         if (!isInteragible)
@@ -126,6 +127,7 @@ Clang.Play();
     {
         if (collision.CompareTag("Player"))
         {
+            Move.instance.NotStrangeAnimationTalk = false;
             button.gameObject.SetActive(false); // Initially hide the dialogue text
             _isInTrigger = false;
             StopCoroutine(ShowDialogue());

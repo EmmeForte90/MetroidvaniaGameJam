@@ -473,22 +473,19 @@ private void ResetColor()
 
 public void Die()
 {
-
+    PlayMFX(2);
     if (horizontal == 1)
     {
         DieFront();
-            PlayMFX(2);
 
     }
     else if (horizontal == -1)
     {
         DieBack();
-            PlayMFX(2);
 
     }else if (horizontal == 0)
     {
         DieBack();
-            PlayMFX(2);
 
     }
 

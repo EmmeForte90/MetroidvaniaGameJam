@@ -519,18 +519,17 @@ public void TemporaryChangeColor(Color color)
 
 public void Die()
 {
+        PlayMFX(1);
     // animazione di morte
     // determina la direzione della morte in base alla posizione del player rispetto al nemico
         if (horizontal == 1)//transform.position.x < player.position.x)
         {
             DieFront();
-            PlayMFX(1);
             StartCoroutine(DestroyafterDeath());
         }
         else if (horizontal == -1)
         {
             DieBack();
-            PlayMFX(1);
             StartCoroutine(DestroyafterDeath());
         }
 }

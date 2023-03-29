@@ -189,6 +189,7 @@ private int comboCount = 0;
     private bool isBlast = false; // vero se il personaggio sta attaccando
 
     public bool stopInput = false;
+    public bool NotStrangeAnimationTalk = false;
 
     private int facingDirection = 1; // La direzione in cui il personaggio sta guardando: 1 per destra, -1 per sinistra
     
@@ -473,6 +474,8 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1)
         {
             if(!isAttackingAir)
             {
+            if(!NotStrangeAnimationTalk)
+            {  
             //Se non sta facendo un attacco caricato
             if(!isCharging)
             {
@@ -480,6 +483,7 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1)
             AddCombo();
             if(comboCount == 3)
             { comboCount = 0;}
+            }
             }
             }
 

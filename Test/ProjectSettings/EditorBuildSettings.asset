@@ -54,6 +54,18 @@ EditorBuildSettings:
     path: Assets/Scene/Sanctuary/San_A1.unity
     guid: 26185e3f705a2b844ac382aa401f42ad
   - enabled: 1
+    path: Assets/Scene/Sanctuary/San_A4.unity
+    guid: 3688e814e21a7b14daee73d2a191f0ac
+  - enabled: 1
+    path: Assets/Scene/Sanctuary/San_A5.unity
+    guid: 349f9f35e2e8ad1468aa346438b7c95f
+  - enabled: 1
+    path: Assets/Scene/Sanctuary/San_A6.unity
+    guid: 508eba786d2cc0b46a3d2a1bca18a5b2
+  - enabled: 1
+    path: Assets/Scene/Sanctuary/San_A7.unity
+    guid: 8dd3161d2adcec44787e6d969abaf600
+  - enabled: 1
     path: Assets/Scene/Test1.unity
     guid: d433b10e8fa21d348aa2a84313038567
   - enabled: 1
