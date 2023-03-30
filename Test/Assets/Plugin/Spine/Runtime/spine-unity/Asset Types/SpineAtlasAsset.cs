@@ -87,7 +87,7 @@ namespace Spine.Unity {
 			string atlasString = atlasText.text;
 			atlasString = atlasString.Replace("\r", "");
 			string[] atlasLines = atlasString.Split('\n');
-			List<string> pages = new List<string>();
+			var pages = new List<string>();
 			for (int i = 0; i < atlasLines.Length - 1; i++) {
 				string line = atlasLines[i].Trim();
 				if (line.EndsWith(".png"))
@@ -95,7 +95,7 @@ namespace Spine.Unity {
 			}
 
 			// Populate Materials[] by matching texture names with page names.
-			Material[] materials = new Material[pages.Count];
+			var materials = new Material[pages.Count];
 			for (int i = 0, n = pages.Count; i < n; i++) {
 				Material mat = null;
 

@@ -121,6 +121,8 @@ public class GameplayManager : MonoBehaviour
             virtualCamera.LookAt = player.transform;
         }else
         {
+        AudioManager.instance.PlayMFX(1);
+        AudioManager.instance.CrossFadeOUTAudio(1);
         AudioManager.instance.CrossFadeINAudio(1);
         unlockWalljump = false;   
         unlockDoubleJump = false; 

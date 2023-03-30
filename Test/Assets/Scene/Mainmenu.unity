@@ -3527,7 +3527,7 @@ GameObject:
   - component: {fileID: 386351082}
   - component: {fileID: 386351081}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Sfondo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3598,7 +3598,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &389638247
 GameObject:
@@ -31638,6 +31638,7 @@ MonoBehaviour:
   continueButton: {fileID: 1218292016}
   mainmenu: {fileID: 1159577240}
   menu: {fileID: 416066827}
+  Music: {fileID: 955715548}
   pGar: Loading_Garland
   pAst: Loading_Astra
   pMil: Loading_Pheresord
@@ -31956,7 +31957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4364354964670000255, guid: 3801a320e9ae1bf44a14efa194c86c3f, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4364354964670000255, guid: 3801a320e9ae1bf44a14efa194c86c3f, type: 3}
       propertyPath: m_LocalPosition.x

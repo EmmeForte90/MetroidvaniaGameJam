@@ -276,7 +276,7 @@ namespace Spine {
 					for (int ii = 0; ii < timelineCount; ii++) {
 						Timeline timeline = timelines[ii];
 						MixBlend timelineBlend = timelineMode[ii] == AnimationState.Subsequent ? blend : MixBlend.Setup;
-						RotateTimeline rotateTimeline = timeline as RotateTimeline;
+						var rotateTimeline = timeline as RotateTimeline;
 						if (!shortestRotation && rotateTimeline != null)
 							ApplyRotateTimeline(rotateTimeline, skeleton, applyTime, mix, timelineBlend, timelinesRotation,
 												ii << 1, firstFrame);
@@ -420,7 +420,7 @@ namespace Spine {
 						break;
 					}
 					from.totalAlpha += alpha;
-					RotateTimeline rotateTimeline = timeline as RotateTimeline;
+					var rotateTimeline = timeline as RotateTimeline;
 					if (!shortestRotation && rotateTimeline != null) {
 						ApplyRotateTimeline(rotateTimeline, skeleton, applyTime, alpha, timelineBlend, timelinesRotation, i << 1,
 							firstFrame);
@@ -953,7 +953,7 @@ namespace Spine {
 		public ExposedList<TrackEntry> Tracks { get { return tracks; } }
 
 		override public string ToString () {
-			System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+			var buffer = new System.Text.StringBuilder();
 			TrackEntry[] tracksItems = tracks.Items;
 			for (int i = 0, n = tracks.Count; i < n; i++) {
 				TrackEntry entry = tracksItems[i];
@@ -1435,7 +1435,7 @@ namespace Spine {
 		}
 
 		protected void Reset (T obj) {
-			IPoolable poolable = obj as IPoolable;
+			var poolable = obj as IPoolable;
 			if (poolable != null) poolable.Reset();
 		}
 

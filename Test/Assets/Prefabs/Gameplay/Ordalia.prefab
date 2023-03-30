@@ -259,6 +259,7 @@ MonoBehaviour:
   Enemy: {fileID: 4101203685139434235}
   Camera: {fileID: 6781115340288160523}
   Actor: {fileID: 6781115340412502716}
+  VFX: {fileID: 4083046838110218184, guid: a40b543d70ae89a4e90ae51325ed7ac9, type: 3}
   trigger: {fileID: 6781115339571006935}
   Arena:
   - {fileID: 6781115340677648144}

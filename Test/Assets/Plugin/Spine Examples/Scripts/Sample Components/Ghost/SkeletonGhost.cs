@@ -92,7 +92,7 @@ namespace Spine.Unity.Examples {
 					go.hideFlags = GhostHideFlags;
 				}
 
-				IAnimationStateComponent skeletonAnimation = skeletonRenderer as Spine.Unity.IAnimationStateComponent;
+				var skeletonAnimation = skeletonRenderer as Spine.Unity.IAnimationStateComponent;
 				if (skeletonAnimation != null)
 					skeletonAnimation.AnimationState.Event += OnEvent;
 			}
@@ -130,7 +130,7 @@ namespace Spine.Unity.Examples {
 
 				Material[] materials = meshRenderer.sharedMaterials;
 				for (int i = 0; i < materials.Length; i++) {
-					Material originalMat = materials[i];
+					var originalMat = materials[i];
 					Material ghostMat;
 					if (!materialTable.ContainsKey(originalMat)) {
 						ghostMat = new Material(originalMat) {
@@ -149,7 +149,7 @@ namespace Spine.Unity.Examples {
 					materials[i] = ghostMat;
 				}
 
-				Transform goTransform = go.transform;
+				var goTransform = go.transform;
 				goTransform.parent = transform;
 
 				pool[poolIndex].Initialize(meshFilter.sharedMesh, materials, color, additive, fadeSpeed, meshRenderer.sortingLayerID, (sortWithDistanceOnly) ? meshRenderer.sortingOrder : meshRenderer.sortingOrder - 1);
@@ -175,7 +175,7 @@ namespace Spine.Unity.Examples {
 					if (pool[i] != null) pool[i].Cleanup();
 			}
 
-			foreach (Material mat in materialTable.Values)
+			foreach (var mat in materialTable.Values)
 				Destroy(mat);
 		}
 

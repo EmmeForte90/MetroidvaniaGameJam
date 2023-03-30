@@ -116,7 +116,7 @@ namespace Spine.Unity.Examples {
 				if (!isActive)
 					return new Rigidbody2D[0];
 
-				Rigidbody2D[] rigidBodies = new Rigidbody2D[boneTable.Count];
+				var rigidBodies = new Rigidbody2D[boneTable.Count];
 				int i = 0;
 				foreach (Transform t in boneTable.Values) {
 					rigidBodies[i] = t.GetComponent<Rigidbody2D>();
@@ -142,10 +142,10 @@ namespace Spine.Unity.Examples {
 			RootRigidbody = boneTable[startingBone].GetComponent<Rigidbody2D>();
 			RootRigidbody.isKinematic = pinStartBone;
 			RootRigidbody.mass = rootMass;
-			List<Collider2D> boneColliders = new List<Collider2D>();
-			foreach (KeyValuePair<Bone, Transform> pair in boneTable) {
-				Bone b = pair.Key;
-				Transform t = pair.Value;
+			var boneColliders = new List<Collider2D>();
+			foreach (var pair in boneTable) {
+				var b = pair.Key;
+				var t = pair.Value;
 				Transform parentTransform;
 				boneColliders.Add(t.GetComponent<Collider2D>());
 				if (b == startingBone) {
@@ -165,9 +165,9 @@ namespace Spine.Unity.Examples {
 				}
 
 				// Add joint and attach to parent.
-				Rigidbody2D rbParent = parentTransform.GetComponent<Rigidbody2D>();
+				var rbParent = parentTransform.GetComponent<Rigidbody2D>();
 				if (rbParent != null) {
-					HingeJoint2D joint = t.gameObject.AddComponent<HingeJoint2D>();
+					var joint = t.gameObject.AddComponent<HingeJoint2D>();
 					joint.connectedBody = rbParent;
 					Vector3 localPos = parentTransform.InverseTransformPoint(t.position);
 					joint.connectedAnchor = localPos;
@@ -203,10 +203,10 @@ namespace Spine.Unity.Examples {
 			}
 
 			// Destroy existing override-mode SkeletonUtility bones.
-			SkeletonUtilityBone[] utilityBones = GetComponentsInChildren<SkeletonUtilityBone>();
+			var utilityBones = GetComponentsInChildren<SkeletonUtilityBone>();
 			if (utilityBones.Length > 0) {
-				List<string> destroyedUtilityBoneNames = new List<string>();
-				foreach (SkeletonUtilityBone ub in utilityBones) {
+				var destroyedUtilityBoneNames = new List<string>();
+				foreach (var ub in utilityBones) {
 					if (ub.mode == SkeletonUtilityBone.Mode.Override) {
 						destroyedUtilityBoneNames.Add(ub.gameObject.name);
 						Destroy(ub.gameObject);
@@ -226,13 +226,13 @@ namespace Spine.Unity.Examples {
 
 			// Disable skeleton constraints.
 			if (disableIK) {
-				ExposedList<IkConstraint> ikConstraints = skeleton.IkConstraints;
+				var ikConstraints = skeleton.IkConstraints;
 				for (int i = 0, n = ikConstraints.Count; i < n; i++)
 					ikConstraints.Items[i].Mix = 0;
 			}
 
 			if (disableOtherConstraints) {
-				ExposedList<TransformConstraint> transformConstraints = skeleton.TransformConstraints;
+				var transformConstraints = skeleton.TransformConstraints;
 				for (int i = 0, n = transformConstraints.Count; i < n; i++) {
 					transformConstraints.Items[i].MixRotate = 0;
 					transformConstraints.Items[i].MixScaleX = 0;
@@ -242,7 +242,7 @@ namespace Spine.Unity.Examples {
 					transformConstraints.Items[i].MixY = 0;
 				}
 
-				ExposedList<PathConstraint> pathConstraints = skeleton.PathConstraints;
+				var pathConstraints = skeleton.PathConstraints;
 				for (int i = 0, n = pathConstraints.Count; i < n; i++) {
 					pathConstraints.Items[i].MixRotate = 0;
 					pathConstraints.Items[i].MixX = 0;
@@ -287,7 +287,7 @@ namespace Spine.Unity.Examples {
 		/// <summary>Removes the ragdoll instance and effect from the animated skeleton.</summary>
 		public void Remove () {
 			isActive = false;
-			foreach (Transform t in boneTable.Values)
+			foreach (var t in boneTable.Values)
 				Destroy(t.gameObject);
 
 			Destroy(ragdollRoot.gameObject);
@@ -296,7 +296,7 @@ namespace Spine.Unity.Examples {
 		}
 
 		public Rigidbody2D GetRigidbody (string boneName) {
-			Bone bone = skeleton.FindBone(boneName);
+			var bone = skeleton.FindBone(boneName);
 			return (bone != null && boneTable.ContainsKey(bone)) ? boneTable[bone].GetComponent<Rigidbody2D>() : null;
 		}
 		#endregion
@@ -307,7 +307,7 @@ namespace Spine.Unity.Examples {
 			if (stopBoneNames.Contains(boneName))
 				return;
 
-			GameObject boneGameObject = new GameObject(boneName);
+			var boneGameObject = new GameObject(boneName);
 			boneGameObject.layer = this.colliderLayer;
 			Transform t = boneGameObject.transform;
 			boneTable.Add(b, t);
@@ -317,20 +317,20 @@ namespace Spine.Unity.Examples {
 			t.localRotation = Quaternion.Euler(0, 0, b.WorldRotationX - b.ShearX);
 			t.localScale = new Vector3(b.WorldScaleX, b.WorldScaleY, 1);
 
-			List<Collider2D> colliders = AttachBoundingBoxRagdollColliders(b, boneGameObject, skeleton, this.gravityScale);
+			var colliders = AttachBoundingBoxRagdollColliders(b, boneGameObject, skeleton, this.gravityScale);
 			if (colliders.Count == 0) {
 				float length = b.Data.Length;
 				if (length == 0) {
-					CircleCollider2D circle = boneGameObject.AddComponent<CircleCollider2D>();
+					var circle = boneGameObject.AddComponent<CircleCollider2D>();
 					circle.radius = thickness * 0.5f;
 				} else {
-					BoxCollider2D box = boneGameObject.AddComponent<BoxCollider2D>();
+					var box = boneGameObject.AddComponent<BoxCollider2D>();
 					box.size = new Vector2(length, thickness);
 					box.offset = new Vector2(length * 0.5f, 0); // box.center in UNITY_4
 				}
 			}
 
-			Rigidbody2D rb = boneGameObject.GetComponent<Rigidbody2D>();
+			var rb = boneGameObject.GetComponent<Rigidbody2D>();
 			if (rb == null) rb = boneGameObject.AddComponent<Rigidbody2D>();
 			rb.gravityScale = this.gravityScale;
 
@@ -342,17 +342,17 @@ namespace Spine.Unity.Examples {
 		void UpdateSpineSkeleton (ISkeletonAnimation animatedSkeleton) {
 			bool parentFlipX;
 			bool parentFlipY;
-			Bone startingBone = this.StartingBone;
+			var startingBone = this.StartingBone;
 			GetStartBoneParentFlipState(out parentFlipX, out parentFlipY);
 
-			foreach (KeyValuePair<Bone, Transform> pair in boneTable) {
-				Bone b = pair.Key;
-				Transform t = pair.Value;
+			foreach (var pair in boneTable) {
+				var b = pair.Key;
+				var t = pair.Value;
 				bool isStartingBone = (b == startingBone);
-				Bone parentBone = b.Parent;
+				var parentBone = b.Parent;
 				Transform parentTransform = isStartingBone ? ragdollRoot : boneTable[parentBone];
 				if (!isStartingBone) {
-					BoneFlipEntry parentBoneFlip = boneFlipTable[parentBone];
+					var parentBoneFlip = boneFlipTable[parentBone];
 					parentFlipX = parentBoneFlip.flipX;
 					parentFlipY = parentBoneFlip.flipY;
 				}
@@ -414,7 +414,7 @@ namespace Spine.Unity.Examples {
 		void GetStartBoneParentFlipState (out bool parentFlipX, out bool parentFlipY) {
 			parentFlipX = skeleton.ScaleX < 0;
 			parentFlipY = skeleton.ScaleY < 0;
-			Bone parent = this.StartingBone == null ? null : this.StartingBone.Parent;
+			var parent = this.StartingBone == null ? null : this.StartingBone.Parent;
 			while (parent != null) {
 				parentFlipX ^= parent.ScaleX < 0;
 				parentFlipY ^= parent.ScaleY < 0;
@@ -424,23 +424,23 @@ namespace Spine.Unity.Examples {
 
 		static List<Collider2D> AttachBoundingBoxRagdollColliders (Bone b, GameObject go, Skeleton skeleton, float gravityScale) {
 			const string AttachmentNameMarker = "ragdoll";
-			List<Collider2D> colliders = new List<Collider2D>();
-			Skin skin = skeleton.Skin ?? skeleton.Data.DefaultSkin;
+			var colliders = new List<Collider2D>();
+			var skin = skeleton.Skin ?? skeleton.Data.DefaultSkin;
 
-			List<Skin.SkinEntry> skinEntries = new List<Skin.SkinEntry>();
+			var skinEntries = new List<Skin.SkinEntry>();
 			foreach (Slot slot in skeleton.Slots) {
 				if (slot.Bone == b) {
 					skin.GetAttachments(skeleton.Slots.IndexOf(slot), skinEntries);
 
 					bool bbAttachmentAdded = false;
-					foreach (Skin.SkinEntry entry in skinEntries) {
-						BoundingBoxAttachment bbAttachment = entry.Attachment as BoundingBoxAttachment;
+					foreach (var entry in skinEntries) {
+						var bbAttachment = entry.Attachment as BoundingBoxAttachment;
 						if (bbAttachment != null) {
 							if (!entry.Name.ToLower().Contains(AttachmentNameMarker))
 								continue;
 
 							bbAttachmentAdded = true;
-							PolygonCollider2D bbCollider = SkeletonUtility.AddBoundingBoxAsComponent(bbAttachment, slot, go, isTrigger: false);
+							var bbCollider = SkeletonUtility.AddBoundingBoxAsComponent(bbAttachment, slot, go, isTrigger: false);
 							colliders.Add(bbCollider);
 						}
 					}

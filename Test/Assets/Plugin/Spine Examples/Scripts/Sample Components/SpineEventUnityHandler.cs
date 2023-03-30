@@ -54,14 +54,14 @@ namespace Spine.Unity.Prototyping {
 			if (animationStateComponent == null)
 				animationStateComponent = skeletonComponent as IAnimationStateComponent;
 			if (animationStateComponent == null) return;
-			Skeleton skeleton = skeletonComponent.Skeleton;
+			var skeleton = skeletonComponent.Skeleton;
 			if (skeleton == null) return;
 
 
-			SkeletonData skeletonData = skeleton.Data;
-			AnimationState state = animationStateComponent.AnimationState;
-			foreach (EventPair ep in events) {
-				EventData eventData = skeletonData.FindEvent(ep.spineEvent);
+			var skeletonData = skeleton.Data;
+			var state = animationStateComponent.AnimationState;
+			foreach (var ep in events) {
+				var eventData = skeletonData.FindEvent(ep.spineEvent);
 				ep.eventDelegate = ep.eventDelegate ?? delegate (TrackEntry trackEntry, Event e) { if (e.Data == eventData) ep.unityHandler.Invoke(); };
 				state.Event += ep.eventDelegate;
 			}
@@ -71,8 +71,8 @@ namespace Spine.Unity.Prototyping {
 			if (animationStateComponent == null) animationStateComponent = GetComponent<IAnimationStateComponent>();
 			if (animationStateComponent.IsNullOrDestroyed()) return;
 
-			AnimationState state = animationStateComponent.AnimationState;
-			foreach (EventPair ep in events) {
+			var state = animationStateComponent.AnimationState;
+			foreach (var ep in events) {
 				if (ep.eventDelegate != null) state.Event -= ep.eventDelegate;
 				ep.eventDelegate = null;
 			}

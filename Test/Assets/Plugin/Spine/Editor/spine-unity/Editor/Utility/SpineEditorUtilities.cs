@@ -94,7 +94,7 @@ namespace Spine.Unity.Editor {
 
 			// we copy the list here to prevent nested calls to OnPostprocessAllAssets() triggering a Clear() of the list
 			// in the middle of execution.
-			List<string> texturesWithoutMetaFileCopy = new List<string>(texturesWithoutMetaFile);
+			var texturesWithoutMetaFileCopy = new List<string>(texturesWithoutMetaFile);
 			AssetUtility.HandleOnPostprocessAllAssets(imported, texturesWithoutMetaFileCopy);
 			texturesWithoutMetaFile.Clear();
 		}
@@ -111,17 +111,17 @@ namespace Spine.Unity.Editor {
 		public static bool SetupSpinePrefabMesh (GameObject g, UnityEditor.AssetImporters.AssetImportContext context) {
 			Dictionary<string, int> nameUsageCount = new Dictionary<string, int>();
 			bool wasModified = false;
-			SkeletonRenderer[] skeletonRenderers = g.GetComponentsInChildren<SkeletonRenderer>(true);
+			var skeletonRenderers = g.GetComponentsInChildren<SkeletonRenderer>(true);
 			foreach (SkeletonRenderer renderer in skeletonRenderers) {
 				wasModified = true;
-				MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
+				var meshFilter = renderer.GetComponent<MeshFilter>();
 				if (meshFilter == null)
 					meshFilter = renderer.gameObject.AddComponent<MeshFilter>();
 
 				renderer.EditorUpdateMeshFilterHideFlags();
 				renderer.Initialize(true, true);
 				renderer.LateUpdateMesh();
-				Mesh mesh = meshFilter.sharedMesh;
+				var mesh = meshFilter.sharedMesh;
 				if (mesh == null) continue;
 
 				string meshName = string.Format("Skeleton Prefab Mesh \"{0}\"", renderer.name);
@@ -141,9 +141,9 @@ namespace Spine.Unity.Editor {
 
 		public static bool CleanupSpinePrefabMesh (GameObject g) {
 			bool wasModified = false;
-			SkeletonRenderer[] skeletonRenderers = g.GetComponentsInChildren<SkeletonRenderer>(true);
+			var skeletonRenderers = g.GetComponentsInChildren<SkeletonRenderer>(true);
 			foreach (SkeletonRenderer renderer in skeletonRenderers) {
-				MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
+				var meshFilter = renderer.GetComponent<MeshFilter>();
 				if (meshFilter != null) {
 					if (meshFilter.sharedMesh) {
 						wasModified = true;
@@ -173,22 +173,17 @@ namespace Spine.Unity.Editor {
 			if (EditorApplication.isPlayingOrWillChangePlaymode) return;
 
 			string[] folders = { "Assets", "Packages" };
-			string[] assets;
-			string assetPath;
+			string[] assets = AssetDatabase.FindAssets("t:script SpineEditorUtilities", folders);
+			string assetPath = AssetDatabase.GUIDToAssetPath(assets[0]);
+			editorPath = Path.GetDirectoryName(assetPath).Replace('\\', '/');
+
 			assets = AssetDatabase.FindAssets("t:texture icon-subMeshRenderer", folders);
 			if (assets.Length > 0) {
 				assetPath = AssetDatabase.GUIDToAssetPath(assets[0]);
 				editorGUIPath = Path.GetDirectoryName(assetPath).Replace('\\', '/');
+			} else {
+				editorGUIPath = editorPath.Replace("/Utility", "/GUI");
 			}
-			assets = AssetDatabase.FindAssets("t:script SpineEditorUtilities", folders);
-			if (assets.Length > 0) {
-				assetPath = AssetDatabase.GUIDToAssetPath(assets[0]);
-				editorPath = Path.GetDirectoryName(assetPath).Replace('\\', '/');
-				if (string.IsNullOrEmpty(editorGUIPath))
-					editorGUIPath = editorPath.Replace("/Utility", "/GUI");
-			}
-			if (string.IsNullOrEmpty(editorGUIPath))
-				return;
 			Icons.Initialize();
 
 			// Drag and Drop
@@ -299,7 +294,7 @@ namespace Spine.Unity.Editor {
 			if (component == null) return;
 			if (!SkeletonDataAssetIsValid(component.SkeletonDataAsset)) return;
 
-			IAnimationStateComponent stateComponent = component as IAnimationStateComponent;
+			var stateComponent = component as IAnimationStateComponent;
 			AnimationState oldAnimationState = null;
 			if (stateComponent != null) {
 				oldAnimationState = stateComponent.AnimationState;
@@ -479,20 +474,20 @@ namespace Spine.Unity.Editor {
 			internal static void HandleDragAndDrop (int instanceId, Rect selectionRect) {
 				// HACK: Uses EditorApplication.hierarchyWindowItemOnGUI.
 				// Only works when there is at least one item in the scene.
-				UnityEngine.Event current = UnityEngine.Event.current;
-				EventType eventType = current.type;
+				var current = UnityEngine.Event.current;
+				var eventType = current.type;
 				bool isDraggingEvent = eventType == EventType.DragUpdated;
 				bool isDropEvent = eventType == EventType.DragPerform;
 				UnityEditor.DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
 
 				if (isDraggingEvent || isDropEvent) {
-					EditorWindow mouseOverWindow = EditorWindow.mouseOverWindow;
+					var mouseOverWindow = EditorWindow.mouseOverWindow;
 					if (mouseOverWindow != null) {
 
 						// One, existing, valid SkeletonDataAsset
-						Object[] references = UnityEditor.DragAndDrop.objectReferences;
+						var references = UnityEditor.DragAndDrop.objectReferences;
 						if (references.Length == 1) {
-							SkeletonDataAsset skeletonDataAsset = references[0] as SkeletonDataAsset;
+							var skeletonDataAsset = references[0] as SkeletonDataAsset;
 							if (skeletonDataAsset != null && skeletonDataAsset.GetSkeletonData(true) != null) {
 
 								// Allow drag-and-dropping anywhere in the Hierarchy Window.
@@ -501,12 +496,12 @@ namespace Spine.Unity.Editor {
 								const string GenericDataTargetID = "target";
 								if (HierarchyWindow.Equals(mouseOverWindow.GetType().ToString(), System.StringComparison.Ordinal)) {
 									if (isDraggingEvent) {
-										UnityEngine.Object mouseOverTarget = UnityEditor.EditorUtility.InstanceIDToObject(instanceId);
+										var mouseOverTarget = UnityEditor.EditorUtility.InstanceIDToObject(instanceId);
 										if (mouseOverTarget)
 											DragAndDrop.SetGenericData(GenericDataTargetID, mouseOverTarget);
 										// Note: do not call current.Use(), otherwise we get the wrong drop-target parent.
 									} else if (isDropEvent) {
-										GameObject parentGameObject = DragAndDrop.GetGenericData(GenericDataTargetID) as UnityEngine.GameObject;
+										var parentGameObject = DragAndDrop.GetGenericData(GenericDataTargetID) as UnityEngine.GameObject;
 										Transform parent = parentGameObject != null ? parentGameObject.transform : null;
 										// when dragging into empty space in hierarchy below last node, last node would be parent.
 										if (IsLastNodeInHierarchy(parent))
@@ -533,7 +528,7 @@ namespace Spine.Unity.Editor {
 					node = node.parent;
 				}
 
-				GameObject[] rootNodes = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+				var rootNodes = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 				bool isLastNode = (rootNodes.Length > 0 && rootNodes[rootNodes.Length - 1].transform == node);
 				return isLastNode;
 			}

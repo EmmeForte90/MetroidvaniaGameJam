@@ -136,10 +136,10 @@ namespace Spine.Unity {
 				if (!SetBone(boneName)) return;
 			}
 
-			RectTransform thisTransform = this.transform as RectTransform;
+			var thisTransform = this.transform as RectTransform;
 			if (thisTransform == null) return;
 
-			Canvas canvas = skeletonGraphic.canvas;
+			var canvas = skeletonGraphic.canvas;
 			if (canvas == null) canvas = skeletonGraphic.GetComponentInParent<Canvas>();
 			float scale = canvas != null ? canvas.referencePixelsPerUnit : 100.0f;
 

@@ -68,7 +68,7 @@ namespace Spine.Unity.Editor {
 
 			Animation animation = null;
 			if (ThisSkeletonDataAsset != null) {
-				SkeletonData skeletonData = ThisSkeletonDataAsset.GetSkeletonData(true);
+				var skeletonData = ThisSkeletonDataAsset.GetSkeletonData(true);
 				if (skeletonData != null) {
 					animation = skeletonData.FindAnimation(animationName);
 				}

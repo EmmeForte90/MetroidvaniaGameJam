@@ -31,16 +31,22 @@ void Start()
 }
 
 
-    void OnTriggerEnter2D(Collider2D other) 
+    void OnCollisionEnter2D(Collision2D other) 
     {
 
         #region CollCoin
-        if (other.tag == "Player" && !wasCollected && !isHeal && !isBullet && !isLifeUp)
+        if (other.gameObject.tag == "Player" && !wasCollected && !isHeal && !isBullet && !isLifeUp)
         //Se il player tocca la moneta e non è stato collezionata
         {
             wasCollected = true;
+            Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.isTrigger = true;
+        }
+    
             //La moneta è collezionata
-            FindObjectOfType<GameplayManager>().AddTomoney(pointsForCoinPickup);
+            GameplayManager.instance.AddTomoney(pointsForCoinPickup);
             //Richiama la funzione dello script GameSessione e aumenta lo score
             AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
             //Avvia l'audio
@@ -53,14 +59,13 @@ void Start()
         #endregion
         
         #region  CollHP
-        else if (other.tag == "Player" && !wasCollected && isHeal && !isBullet && !isLifeUp)
+        else if (other.gameObject.tag == "Player" && !wasCollected && isHeal && !isBullet && !isLifeUp)
         //Se il player tocca la moneta e non è stato collezionata
         {
             //Se gli HP non sono al massimo la raccoglio altrimenti no
             
             wasCollected = true;
             //La moneta è collezionata
-            //FindObjectOfType<PlayerHealth>().restoreOneHeart();
             //Richiama la funzione dello script GameSessione e aumenta lo score
             AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
             //Avvia l'audio
@@ -72,46 +77,7 @@ void Start()
         }
         #endregion
 
-        #region CollBullet
-        /*else if (other.tag == "Player" && !wasCollected && !isHeal && isBullet && !isLifeUp)
-        //Se il player tocca la moneta e non è stato collezionata
-        {
-            //Se i proiettili non sono al massimo la raccoglio altrimenti no
-            if(PlayerBulletCount.instance.bulletRemain != PlayerBulletCount.instance.bulletNumber.Count)
-            {
-            wasCollected = true;
-            //La moneta è collezionata
-            FindObjectOfType<PlayerBulletCount>().restoreOneBullet();
-            //Richiama la funzione dello script GameSessione e aumenta lo score
-            AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
-            //Avvia l'audio
-            myAnimator.SetTrigger("take");
-            //Attiva il suono
-            Invoke("takeCoin", loadDelay);
-            }
-            
-            
-        }*/
-#endregion
-
-        #region 1UP
-        else if (other.tag == "Player" && !wasCollected && !isHeal && !isBullet && isLifeUp)
-        //Se il player tocca la moneta e non è stato collezionata
-        {
-            
-            wasCollected = true;
-            //La moneta è collezionata
-            //FindObjectOfType<GameSession>().AddLife();
-            //Richiama la funzione dello script GameSessione e aumenta lo score
-            AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
-            //Avvia l'audio
-            myAnimator.SetTrigger("take");
-            light.gameObject.SetActive(false);
-            //Attiva il suono
-            Invoke("takeCoin", loadDelay);
-            
-        }
-        #endregion
+       
     }
 
 #region Funzione per cancellare l'item

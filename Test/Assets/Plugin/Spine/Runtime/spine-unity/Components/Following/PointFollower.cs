@@ -90,7 +90,7 @@ namespace Spine.Unity {
 			bone = null;
 			point = null;
 			if (!string.IsNullOrEmpty(pointAttachmentName)) {
-				Skeleton skeleton = skeletonRenderer.Skeleton;
+				var skeleton = skeletonRenderer.Skeleton;
 
 				Slot slot = skeleton.FindSlot(slotName);
 				if (slot != null) {
@@ -128,7 +128,7 @@ namespace Spine.Unity {
 				if (followRotation) {
 					float halfRotation = rotation * 0.5f * Mathf.Deg2Rad;
 
-					Quaternion q = default(Quaternion);
+					var q = default(Quaternion);
 					q.z = Mathf.Sin(halfRotation);
 					q.w = Mathf.Cos(halfRotation);
 					thisTransform.localRotation = q;

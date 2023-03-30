@@ -3650,6 +3650,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7852597391822137319, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
+      propertyPath: bgm.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852597391822137319, guid: 3d5007bebccdac943a1832d842f5e126, type: 3}
       propertyPath: sgm.Array.size
       value: 1
       objectReference: {fileID: 0}

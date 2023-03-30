@@ -29,18 +29,22 @@ IEnumerator StopD()
         if (collision.CompareTag("Player"))
         {
              take = true;
-
+            StartCoroutine(StopD());
             if (!Move.instance.isDeath)
             {
                 if (!Move.instance.isHurt)
             {
             player.GetComponent<PlayerHealth>().Damage(attackDamage);
+                       Move.instance.Knockback();            
+
             }
             }
     }else if (collision.gameObject.tag == "Hitbox")
     {
-            take = true;
-           Move.instance.Knockback();
+        take = true;
+           Move.instance.Knockback();            
+           StartCoroutine(StopD());
+
     }
     }
     }

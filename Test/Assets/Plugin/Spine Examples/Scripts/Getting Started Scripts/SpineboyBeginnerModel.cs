@@ -94,7 +94,7 @@ namespace Spine.Unity.Examples {
 
 			// Fake jumping.
 			{
-				Vector3 pos = transform.localPosition;
+				var pos = transform.localPosition;
 				const float jumpTime = 1.2f;
 				const float half = jumpTime * 0.5f;
 				const float jumpPower = 20f;

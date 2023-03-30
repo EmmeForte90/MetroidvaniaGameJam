@@ -66,7 +66,7 @@ namespace Spine.Unity.AttachmentTools {
 			TextureFormat pmaCloneTextureFormat = AtlasUtilities.SpineTextureFormat,
 			bool pmaCloneMipmaps = AtlasUtilities.UseMipMaps) {
 
-			AtlasRegion atlasRegion = premultiplyAlpha ?
+			var atlasRegion = premultiplyAlpha ?
 				sprite.ToAtlasRegionPMAClone(sourceMaterial, pmaCloneTextureFormat, pmaCloneMipmaps) :
 				sprite.ToAtlasRegion(new Material(sourceMaterial) { mainTexture = sprite.texture });
 			if (!pivotShiftsMeshUVCoords && o is MeshAttachment) {
@@ -76,7 +76,7 @@ namespace Spine.Unity.AttachmentTools {
 			}
 			float scale = 1f / sprite.pixelsPerUnit;
 			if (useOriginalRegionScale) {
-				RegionAttachment regionAttachment = o as RegionAttachment;
+				var regionAttachment = o as RegionAttachment;
 				if (regionAttachment != null)
 					scale = regionAttachment.Width / regionAttachment.Region.OriginalWidth;
 			}
@@ -92,7 +92,7 @@ namespace Spine.Unity.AttachmentTools {
 		/// <param name="useOriginalRegionSize">If <c>true</c> the size of the original attachment will be followed, instead of using the Sprite size.</param>
 		/// <param name="scale">Unity units per pixel scale used to scale the atlas region size when not using the original region size.</param>
 		public static Attachment GetRemappedClone (this Attachment o, AtlasRegion atlasRegion, bool cloneMeshAsLinked = true, bool useOriginalRegionSize = false, float scale = 0.01f) {
-			RegionAttachment regionAttachment = o as RegionAttachment;
+			var regionAttachment = o as RegionAttachment;
 			if (regionAttachment != null) {
 				RegionAttachment newAttachment = (RegionAttachment)regionAttachment.Copy();
 				newAttachment.Region = atlasRegion;
@@ -103,7 +103,7 @@ namespace Spine.Unity.AttachmentTools {
 				newAttachment.UpdateRegion();
 				return newAttachment;
 			} else {
-				MeshAttachment meshAttachment = o as MeshAttachment;
+				var meshAttachment = o as MeshAttachment;
 				if (meshAttachment != null) {
 					MeshAttachment newAttachment = cloneMeshAsLinked ? meshAttachment.NewLinkedMesh() : (MeshAttachment)meshAttachment.Copy();
 					newAttachment.Region = atlasRegion;

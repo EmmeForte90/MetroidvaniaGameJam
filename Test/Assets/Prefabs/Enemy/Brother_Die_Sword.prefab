@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 5203018644563626938}
   m_Father: {fileID: 7417775468778466218}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 60, y: -180, z: -180}
 --- !u!1 &1184550653653020662
 GameObject:
@@ -14622,6 +14622,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &1827160295747090953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8746838412193715325}
+  m_Layer: 9
+  m_Name: Coinpoin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8746838412193715325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827160295747090953}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.57, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7417775468778466218}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1903064874406378799
 GameObject:
   m_ObjectHideFlags: 0
@@ -43832,7 +43863,7 @@ Transform:
   m_Children:
   - {fileID: 2562348837201023766}
   m_Father: {fileID: 7417775468778466218}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6586876933706790674
 GameObject:
@@ -44115,7 +44146,7 @@ Transform:
   m_Children:
   - {fileID: 1184550654137465791}
   m_Father: {fileID: 7417775468778466218}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7417775467724155910
 GameObject:
@@ -44218,6 +44249,7 @@ Transform:
   - {fileID: 6586876933706790673}
   - {fileID: 7417775468026517991}
   - {fileID: 7417775467724155911}
+  - {fileID: 8746838412193715325}
   - {fileID: 7201869061797821945}
   - {fileID: 166453661343298785}
   - {fileID: 438895332507324735}
@@ -44271,6 +44303,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f29466811eb9f9f44b5461a87e24da23, type: 3}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
   coinPrefab: {fileID: 891111329177942983, guid: a1b74a608e0e8ae4dbd472ac97fb213f, type: 3}
+  CoinPoint: {fileID: 8746838412193715325}
+  maxCoins: 5
   coinSpawnDelay: 0.1
   slashpoint: {fileID: 7417775468026517991}
   hitpoint: {fileID: 7417775467724155911}

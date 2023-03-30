@@ -51,8 +51,8 @@ namespace Spine.Unity.Examples {
 		Bone hipBone, headBone;
 
 		void Start () {
-			SkeletonAnimation skeletonAnimation = GetComponent<SkeletonAnimation>();
-			Skeleton skeleton = skeletonAnimation.Skeleton;
+			var skeletonAnimation = GetComponent<SkeletonAnimation>();
+			var skeleton = skeletonAnimation.Skeleton;
 
 			hipBone = skeleton.FindBone(hip);
 			headBone = skeleton.FindBone(head);

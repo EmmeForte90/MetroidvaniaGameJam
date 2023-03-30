@@ -4684,7 +4684,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1dd16f4f2db41bf4aa55f08a3c35920e, type: 3}
   - {fileID: 8300000, guid: 1653c28a3688cb143a097d29718ca891, type: 3}
   - {fileID: 8300000, guid: a038dc44c0dc84f4cabaa2113a121bad, type: 3}
-  SoundDestroy: []
+  SoundDestroy:
+  - {fileID: 8300000, guid: d67af786fc1f3c643b31582223961490, type: 3}
   MSX: {fileID: 24100000, guid: 22f3d7d1311904840bc278bbeeae1a75, type: 2}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
 --- !u!82 &8168538110743197429
@@ -4696,7 +4697,7 @@ AudioSource:
   m_GameObject: {fileID: 2041872786166758709}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -6288211083812584466, guid: 22f3d7d1311904840bc278bbeeae1a75, type: 2}
+  OutputAudioMixerGroup: {fileID: -8158516431538421478, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

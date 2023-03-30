@@ -18,6 +18,7 @@ public class TriggerOrdalia : MonoBehaviour
     public GameObject Camera;
     private GameObject player; // Variabile per il player
     public GameObject Actor;
+    public GameObject VFX;
     public BoxCollider2D trigger;
     private CinemachineVirtualCamera virtualCamera; //riferimento alla virtual camera di Cinemachine
     public GameObject[] Arena;
@@ -138,6 +139,7 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
         {
         GameObject enemyToSpawn = EnemyPrefab[0]; // prendi il primo nemico dell'array
         Instantiate(enemyToSpawn, SpawnPoints[lastSpawnIndex].position, transform.rotation); // spawn il nemico nella prossima posizione di spawn
+        Instantiate(VFX, SpawnPoints[lastSpawnIndex].position, transform.rotation); // spawn il nemico nella prossima posizione di spawn
         AiEnemysword.instance.chaseThreshold = 10f; // soglia di distanza per iniziare l'inseguimento
         EnemyPrefab = EnemyPrefab.Where((enemy, index) => index != 0).ToArray();
         EnemyCount--;

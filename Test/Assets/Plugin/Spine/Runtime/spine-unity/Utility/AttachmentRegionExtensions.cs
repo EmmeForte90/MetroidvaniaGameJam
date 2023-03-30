@@ -45,8 +45,8 @@ namespace Spine.Unity.AttachmentTools {
 		public static RegionAttachment ToRegionAttachment (this Sprite sprite, AtlasPage page, float rotation = 0f) {
 			if (sprite == null) throw new System.ArgumentNullException("sprite");
 			if (page == null) throw new System.ArgumentNullException("page");
-			AtlasRegion region = sprite.ToAtlasRegion(page);
-			float unitsPerPixel = 1f / sprite.pixelsPerUnit;
+			var region = sprite.ToAtlasRegion(page);
+			var unitsPerPixel = 1f / sprite.pixelsPerUnit;
 			return region.ToRegionAttachment(sprite.name, unitsPerPixel, rotation);
 		}
 
@@ -58,8 +58,8 @@ namespace Spine.Unity.AttachmentTools {
 		public static RegionAttachment ToRegionAttachmentPMAClone (this Sprite sprite, Shader shader, TextureFormat textureFormat = AtlasUtilities.SpineTextureFormat, bool mipmaps = AtlasUtilities.UseMipMaps, Material materialPropertySource = null, float rotation = 0f) {
 			if (sprite == null) throw new System.ArgumentNullException("sprite");
 			if (shader == null) throw new System.ArgumentNullException("shader");
-			AtlasRegion region = sprite.ToAtlasRegionPMAClone(shader, textureFormat, mipmaps, materialPropertySource);
-			float unitsPerPixel = 1f / sprite.pixelsPerUnit;
+			var region = sprite.ToAtlasRegionPMAClone(shader, textureFormat, mipmaps, materialPropertySource);
+			var unitsPerPixel = 1f / sprite.pixelsPerUnit;
 			return region.ToRegionAttachment(sprite.name, unitsPerPixel, rotation);
 		}
 
@@ -74,7 +74,7 @@ namespace Spine.Unity.AttachmentTools {
 			if (region == null) throw new System.ArgumentNullException("region");
 
 			// (AtlasAttachmentLoader.cs)
-			RegionAttachment attachment = new RegionAttachment(attachmentName);
+			var attachment = new RegionAttachment(attachmentName);
 
 			attachment.Region = region;
 			attachment.Path = region.name;
@@ -88,8 +88,8 @@ namespace Spine.Unity.AttachmentTools {
 			attachment.A = 1;
 
 			// pass OriginalWidth and OriginalHeight because UpdateOffset uses it in its calculation.
-			TextureRegion textreRegion = attachment.Region;
-			AtlasRegion atlasRegion = textreRegion as AtlasRegion;
+			var textreRegion = attachment.Region;
+			var atlasRegion = textreRegion as AtlasRegion;
 			float originalWidth = atlasRegion != null ? atlasRegion.originalWidth : textreRegion.width;
 			float originalHeight = atlasRegion != null ? atlasRegion.originalHeight : textreRegion.height;
 			attachment.Width = originalWidth * scale;

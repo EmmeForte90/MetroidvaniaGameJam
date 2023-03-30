@@ -111,7 +111,7 @@ namespace Spine.Unity {
 			colliderTable.Clear();
 			nameTable.Clear();
 
-			Skeleton skeleton = skeletonGraphic.Skeleton;
+			var skeleton = skeletonGraphic.Skeleton;
 			if (skeleton == null)
 				return;
 			slot = skeleton.FindSlot(slotName);
@@ -123,13 +123,13 @@ namespace Spine.Unity {
 			int slotIndex = slot.Data.Index;
 
 			int requiredCollidersCount = 0;
-			PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
+			var colliders = GetComponents<PolygonCollider2D>();
 			if (this.gameObject.activeInHierarchy) {
-				Canvas canvas = skeletonGraphic.canvas;
+				var canvas = skeletonGraphic.canvas;
 				if (canvas == null) canvas = skeletonGraphic.GetComponentInParent<Canvas>();
 				float scale = canvas != null ? canvas.referencePixelsPerUnit : 100.0f;
 
-				foreach (Skin skin in skeleton.Data.Skins)
+				foreach (var skin in skeleton.Data.Skins)
 					AddCollidersForSkin(skin, slotIndex, colliders, scale, ref requiredCollidersCount);
 
 				if (skeleton.Skin != null)
@@ -150,19 +150,19 @@ namespace Spine.Unity {
 
 		void AddCollidersForSkin (Skin skin, int slotIndex, PolygonCollider2D[] previousColliders, float scale, ref int collidersCount) {
 			if (skin == null) return;
-			List<Skin.SkinEntry> skinEntries = new List<Skin.SkinEntry>();
+			var skinEntries = new List<Skin.SkinEntry>();
 			skin.GetAttachments(slotIndex, skinEntries);
 
-			foreach (Skin.SkinEntry entry in skinEntries) {
-				Attachment attachment = skin.GetAttachment(slotIndex, entry.Name);
-				BoundingBoxAttachment boundingBoxAttachment = attachment as BoundingBoxAttachment;
+			foreach (var entry in skinEntries) {
+				var attachment = skin.GetAttachment(slotIndex, entry.Name);
+				var boundingBoxAttachment = attachment as BoundingBoxAttachment;
 
 				if (BoundingBoxFollowerGraphic.DebugMessages && attachment != null && boundingBoxAttachment == null)
 					Debug.Log("BoundingBoxFollowerGraphic tried to follow a slot that contains non-boundingbox attachments: " + slotName);
 
 				if (boundingBoxAttachment != null) {
 					if (!colliderTable.ContainsKey(boundingBoxAttachment)) {
-						PolygonCollider2D bbCollider = collidersCount < previousColliders.Length ?
+						var bbCollider = collidersCount < previousColliders.Length ?
 							previousColliders[collidersCount] : gameObject.AddComponent<PolygonCollider2D>();
 						++collidersCount;
 						SkeletonUtility.SetColliderPointsLocal(bbCollider, slot, boundingBoxAttachment, scale);
@@ -188,7 +188,7 @@ namespace Spine.Unity {
 
 		public void ClearState () {
 			if (colliderTable != null)
-				foreach (PolygonCollider2D col in colliderTable.Values)
+				foreach (var col in colliderTable.Values)
 					col.enabled = false;
 
 			currentAttachment = null;
@@ -197,11 +197,11 @@ namespace Spine.Unity {
 		}
 
 		void DisposeExcessCollidersAfter (int requiredCount) {
-			PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
+			var colliders = GetComponents<PolygonCollider2D>();
 			if (colliders.Length == 0) return;
 
 			for (int i = requiredCount; i < colliders.Length; ++i) {
-				PolygonCollider2D collider = colliders[i];
+				var collider = colliders[i];
 				if (collider != null) {
 #if UNITY_EDITOR
 					if (Application.isEditor && !Application.isPlaying)
@@ -221,7 +221,7 @@ namespace Spine.Unity {
 		/// <summary>Sets the current collider to match attachment.</summary>
 		/// <param name="attachment">If the attachment is not a bounding box, it will be treated as null.</param>
 		void MatchAttachment (Attachment attachment) {
-			BoundingBoxAttachment bbAttachment = attachment as BoundingBoxAttachment;
+			var bbAttachment = attachment as BoundingBoxAttachment;
 
 			if (BoundingBoxFollowerGraphic.DebugMessages && attachment != null && bbAttachment == null)
 				Debug.LogWarning("BoundingBoxFollowerGraphic tried to match a non-boundingbox attachment. It will treat it as null.");

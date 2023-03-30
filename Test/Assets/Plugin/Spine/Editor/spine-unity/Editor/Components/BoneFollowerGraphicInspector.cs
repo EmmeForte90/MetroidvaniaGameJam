@@ -46,13 +46,13 @@ namespace Spine.Unity.Editor {
 		#region Context Menu Item
 		[MenuItem("CONTEXT/SkeletonGraphic/Add BoneFollower GameObject")]
 		static void AddBoneFollowerGameObject (MenuCommand cmd) {
-			SkeletonGraphic skeletonGraphic = cmd.context as SkeletonGraphic;
-			GameObject go = EditorInstantiation.NewGameObject("BoneFollower", true, typeof(RectTransform));
-			Transform t = go.transform;
+			var skeletonGraphic = cmd.context as SkeletonGraphic;
+			var go = EditorInstantiation.NewGameObject("BoneFollower", true, typeof(RectTransform));
+			var t = go.transform;
 			t.SetParent(skeletonGraphic.transform);
 			t.localPosition = Vector3.zero;
 
-			BoneFollowerGraphic f = go.AddComponent<BoneFollowerGraphic>();
+			var f = go.AddComponent<BoneFollowerGraphic>();
 			f.skeletonGraphic = skeletonGraphic;
 			f.SetBone(skeletonGraphic.Skeleton.RootBone.Data.Name);
 
@@ -64,7 +64,7 @@ namespace Spine.Unity.Editor {
 		// Validate
 		[MenuItem("CONTEXT/SkeletonGraphic/Add BoneFollower GameObject", true)]
 		static bool ValidateAddBoneFollowerGameObject (MenuCommand cmd) {
-			SkeletonGraphic skeletonGraphic = cmd.context as SkeletonGraphic;
+			var skeletonGraphic = cmd.context as SkeletonGraphic;
 			return skeletonGraphic.IsValid;
 		}
 		#endregion
@@ -93,13 +93,13 @@ namespace Spine.Unity.Editor {
 		}
 
 		public void OnSceneGUI () {
-			BoneFollowerGraphic tbf = target as BoneFollowerGraphic;
-			SkeletonGraphic skeletonGraphicComponent = tbf.SkeletonGraphic;
+			var tbf = target as BoneFollowerGraphic;
+			var skeletonGraphicComponent = tbf.SkeletonGraphic;
 			if (skeletonGraphicComponent == null) return;
 
-			Transform transform = skeletonGraphicComponent.transform;
-			Skeleton skeleton = skeletonGraphicComponent.Skeleton;
-			Canvas canvas = skeletonGraphicComponent.canvas;
+			var transform = skeletonGraphicComponent.transform;
+			var skeleton = skeletonGraphicComponent.Skeleton;
+			var canvas = skeletonGraphicComponent.canvas;
 			float positionScale = canvas == null ? 1f : skeletonGraphicComponent.canvas.referencePixelsPerUnit;
 
 			if (string.IsNullOrEmpty(boneName.stringValue)) {
@@ -107,7 +107,7 @@ namespace Spine.Unity.Editor {
 				SpineHandles.DrawBoneNames(transform, skeleton, positionScale);
 				Handles.Label(tbf.transform.position, "No bone selected", EditorStyles.helpBox);
 			} else {
-				Bone targetBone = tbf.bone;
+				var targetBone = tbf.bone;
 				if (targetBone == null) return;
 
 				SpineHandles.DrawBoneWireframe(transform, targetBone, SpineHandles.TransformContraintColor, positionScale);
@@ -119,8 +119,8 @@ namespace Spine.Unity.Editor {
 			if (serializedObject.isEditingMultipleObjects) {
 				if (needsReset) {
 					needsReset = false;
-					foreach (Object o in targets) {
-						BoneFollower bf = (BoneFollower)o;
+					foreach (var o in targets) {
+						var bf = (BoneFollower)o;
 						bf.Initialize();
 						bf.LateUpdate();
 					}
@@ -151,7 +151,7 @@ namespace Spine.Unity.Editor {
 			}
 
 			EditorGUILayout.PropertyField(skeletonGraphic);
-			SkeletonGraphic skeletonGraphicComponent = skeletonGraphic.objectReferenceValue as SkeletonGraphic;
+			var skeletonGraphicComponent = skeletonGraphic.objectReferenceValue as SkeletonGraphic;
 			if (skeletonGraphicComponent != null) {
 				if (skeletonGraphicComponent.gameObject == targetBoneFollower.gameObject) {
 					skeletonGraphic.objectReferenceValue = null;
@@ -182,7 +182,7 @@ namespace Spine.Unity.Editor {
 
 				//BoneFollowerInspector.RecommendRigidbodyButton(targetBoneFollower);
 			} else {
-				SkeletonGraphic boneFollowerSkeletonGraphic = targetBoneFollower.skeletonGraphic;
+				var boneFollowerSkeletonGraphic = targetBoneFollower.skeletonGraphic;
 				if (boneFollowerSkeletonGraphic == null) {
 					EditorGUILayout.HelpBox("SkeletonGraphic is unassigned. Please assign a SkeletonRenderer (SkeletonAnimation or SkeletonMecanim).", MessageType.Warning);
 				} else {
@@ -196,7 +196,7 @@ namespace Spine.Unity.Editor {
 				}
 			}
 
-			Event current = Event.current;
+			var current = Event.current;
 			bool wasUndo = (current.type == EventType.ValidateCommand && current.commandName == "UndoRedoPerformed");
 			if (wasUndo)
 				targetBoneFollower.Initialize();

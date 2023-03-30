@@ -108,7 +108,7 @@ namespace Spine.Unity.Examples {
 				float strideSign = Mathf.Sign(strideSignedSize);
 				float strideSize = (Mathf.Abs(strideSignedSize));
 
-				FootMovement movement = strideSign > 0 ? forwardMovement : backwardMovement;
+				var movement = strideSign > 0 ? forwardMovement : backwardMovement;
 
 				worldPos.x = Mathf.Lerp(worldPosPrev.x, worldPosNext.x, movement.xMoveCurve.Evaluate(lerp));
 				float groundLevel = Mathf.Lerp(worldPosPrev.y, worldPosNext.y, lerp);
@@ -126,7 +126,7 @@ namespace Spine.Unity.Examples {
 			}
 
 			public static float GetNewDisplacement (float otherLegDisplacementFromCenter, float comfyDistance, float minimumFootDistanceX, float maxNewStepDisplacement, FootMovement forwardMovement, FootMovement backwardMovement) {
-				FootMovement movement = Mathf.Sign(otherLegDisplacementFromCenter) < 0 ? forwardMovement : backwardMovement;
+				var movement = Mathf.Sign(otherLegDisplacementFromCenter) < 0 ? forwardMovement : backwardMovement;
 				float randomCompensate = Random.Range(movement.minDistanceCompensate, movement.maxDistanceCompensate);
 
 				float newDisplacement = (otherLegDisplacementFromCenter * randomCompensate);
@@ -142,7 +142,7 @@ namespace Spine.Unity.Examples {
 
 		void Start () {
 			Time.timeScale = timeScale;
-			Vector3 tpos = transform.position;
+			var tpos = transform.position;
 
 			// Default starting positions.
 			nearFoot.worldPos = tpos;
@@ -153,7 +153,7 @@ namespace Spine.Unity.Examples {
 			farFoot.worldPos.x += comfyDistance;
 			farFoot.worldPosPrev = farFoot.worldPosNext = farFoot.worldPos;
 
-			SkeletonAnimation skeletonAnimation = GetComponent<SkeletonAnimation>();
+			var skeletonAnimation = GetComponent<SkeletonAnimation>();
 			skeleton = skeletonAnimation.Skeleton;
 
 			skeletonAnimation.UpdateLocal += UpdateLocal;

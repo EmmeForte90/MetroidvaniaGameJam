@@ -14830,6 +14830,7 @@ Transform:
   - {fileID: 1776826362282557845}
   - {fileID: 2367949721069069428}
   - {fileID: 2367949720767386004}
+  - {fileID: 2325902551157407475}
   - {fileID: 2729096729680461930}
   - {fileID: 4927714780580628850}
   m_Father: {fileID: 0}
@@ -14882,12 +14883,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f29466811eb9f9f44b5461a87e24da23, type: 3}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
   coinPrefab: {fileID: 891111329177942983, guid: a1b74a608e0e8ae4dbd472ac97fb213f, type: 3}
+  CoinPoint: {fileID: 2325902551157407475}
+  maxCoins: 5
   coinSpawnDelay: 0.1
   slashpoint: {fileID: 2367949721069069428}
   hitpoint: {fileID: 2367949720767386004}
   attack: {fileID: 2729096729680461929}
   attack_h: {fileID: 4927714780580628846}
-  attack_B: {fileID: 0}
+  attack_B: {fileID: 4927714780580628846}
   Sdeng: {fileID: 7543257715761203544, guid: 9a2c11c52e8735746be778a3b912fb92, type: 3}
   idleAnimationName: idle
   walkAnimationName: walk
@@ -15162,7 +15165,7 @@ Transform:
   m_Children:
   - {fileID: 6223341702397855276}
   m_Father: {fileID: 2367949721856169529}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4927714780580628846
 GameObject:
@@ -15194,8 +15197,39 @@ Transform:
   m_Children:
   - {fileID: 1015925821655643689}
   m_Father: {fileID: 2367949721856169529}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 60, y: -180, z: -180}
+--- !u!1 &5010322482089170723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2325902551157407475}
+  m_Layer: 9
+  m_Name: CoinPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2325902551157407475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010322482089170723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.487, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2367949721856169529}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6223341701879861861
 GameObject:
   m_ObjectHideFlags: 0

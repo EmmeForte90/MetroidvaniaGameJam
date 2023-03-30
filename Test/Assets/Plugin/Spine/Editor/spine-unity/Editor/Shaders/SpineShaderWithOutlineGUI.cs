@@ -133,7 +133,7 @@ public class SpineShaderWithOutlineGUI : ShaderGUI {
 			EditorGUI.showMixedValue = mixedValue;
 			EditorGUI.BeginChangeCheck();
 
-			FontStyle origFontStyle = EditorStyles.label.fontStyle;
+			var origFontStyle = EditorStyles.label.fontStyle;
 			EditorStyles.label.fontStyle = FontStyle.Bold;
 			isOutlineEnabled = EditorGUILayout.Toggle(_EnableOutlineText, isOutlineEnabled);
 			EditorStyles.label.fontStyle = origFontStyle;
@@ -144,7 +144,7 @@ public class SpineShaderWithOutlineGUI : ShaderGUI {
 				}
 			}
 		} else {
-			FontStyle origFontStyle = EditorStyles.label.fontStyle;
+			var origFontStyle = EditorStyles.label.fontStyle;
 			EditorStyles.label.fontStyle = FontStyle.Bold;
 			EditorGUILayout.LabelField(_EnableOutlineText);
 			EditorStyles.label.fontStyle = origFontStyle;
@@ -174,7 +174,7 @@ public class SpineShaderWithOutlineGUI : ShaderGUI {
 
 	void SwitchShaderToOutlineSettings (Material material, bool enableOutline) {
 
-		string shaderName = material.shader.name;
+		var shaderName = material.shader.name;
 		bool isSetToOutlineShader = shaderName.Contains(ShaderOutlineNamePrefix);
 		if (isSetToOutlineShader && !enableOutline) {
 			shaderName = shaderName.Replace(ShaderOutlineNamePrefix, ShaderNormalNamePrefix);

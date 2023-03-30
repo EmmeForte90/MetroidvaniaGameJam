@@ -96,7 +96,7 @@ namespace Spine.Unity.Editor {
 
 			for (int i = 0; i < materials.arraySize; i++) {
 				SerializedProperty prop = materials.GetArrayElementAtIndex(i);
-				Material material = (Material)prop.objectReferenceValue;
+				var material = (Material)prop.objectReferenceValue;
 				if (material == null) {
 					EditorGUILayout.HelpBox("Materials cannot be null.", MessageType.Error);
 					return;
@@ -106,7 +106,7 @@ namespace Spine.Unity.Editor {
 			if (atlasFile.objectReferenceValue != null) {
 				int baseIndent = EditorGUI.indentLevel;
 
-				List<AtlasRegion> regions = SpineSpriteAtlasAssetInspector.GetRegions(atlasAsset.GetAtlas());
+				var regions = SpineSpriteAtlasAssetInspector.GetRegions(atlasAsset.GetAtlas());
 				int regionsCount = regions.Count;
 				using (new EditorGUILayout.HorizontalScope()) {
 					EditorGUILayout.LabelField("Atlas Regions", EditorStyles.boldLabel);

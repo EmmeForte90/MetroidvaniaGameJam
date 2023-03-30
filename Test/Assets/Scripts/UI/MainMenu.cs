@@ -13,9 +13,9 @@ using Spine;
 public class MainMenu : MonoBehaviour
 {
 
-    public GameObject continueButton;
     public GameObject mainmenu;
     public GameObject menu;
+    public GameObject Music;
     public string pGar;
     public string pAst;
     public string pMil;
@@ -38,11 +38,7 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(PlayerPrefs.HasKey("ContinueLevel"))
-        {
-            continueButton.SetActive(true);
-        }
-
+        
         resolutions = Screen.resolutions;
 
         List<string> options = new List<string>();
@@ -59,35 +55,10 @@ public class MainMenu : MonoBehaviour
 
         }
         player = GameObject.FindWithTag("Player");
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        //virtualCamera.Follow = menu.transform;
-        //virtualCamera.LookAt = player.transform;
-
-//        resolutionDropdown.ClearOptions();
-//        resolutionDropdown.value = currentResolutionIndex;
-        //resolutionDropdown.RefreshValue();
-//        resolutionDropdown.AddOptions(options);
-
-
-
-        if(PlayerPrefs.HasKey(startScene + "_unlocked"))
-        {
-            continueButton.SetActive(true);
-        }
-        else
-        {
-            continueButton.SetActive(false);
-        }
+        virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
 
     }
 
-    public void Continue()
-    {
-        //player.gameObject.SetActive(true);
-        //PlayerMovement.instance.transform.position = new Vector3(PlayerPrefs.GetFloat("PosX"), PlayerPrefs.GetFloat("PosY"), PlayerPrefs.GetFloat("PosZ"));
-        StartCoroutine(fadeCont());
-
-    }
 
 public void SetResolution(int resolutionIndex)
 {
@@ -98,14 +69,12 @@ public void SetResolution(int resolutionIndex)
 public void ChooseCharacter()
     {
         virtualCamera.Follow = player.transform;
-        //virtualCamera.LookAt = player.transform;
         mainmenu.gameObject.SetActive(false);
 
     }
 public void notchoose()
     {
         virtualCamera.Follow = menu.transform;
-        //virtualCamera.LookAt = player.transform;
         mainmenu.gameObject.SetActive(true);
 
     }
@@ -173,10 +142,9 @@ public void notchoose()
 IEnumerator fade()
     {
         
-        PlayerPrefs.DeleteAll();
         yield return new WaitForSeconds(Timelife);
-       // GameplayManager.instance.startGame = true;
-//        GameplayManager.instance.gameplayOff = false;
+        Destroy(Music);
+       
 if (isGarland)
 {
         SceneManager.LoadScene(pGar);
@@ -199,12 +167,7 @@ if (isGarland)
     {
         
         yield return new WaitForSeconds(Timelife);
-        SceneManager.LoadScene(PlayerPrefs.GetString("ContinueLevel"));
-        //AudioManager.instance.PlayMFX(1);
-
-
-
-            
+       // SceneManager.LoadScene(PlayerPrefs.GetString("ContinueLevel"));   
     }
  
 
@@ -212,7 +175,6 @@ if (isGarland)
     {
         Application.Quit();
         Debug.Log("Quitting Game");
-
     }
 
 }

@@ -51,7 +51,6 @@ private bool firstattack = true;
 private bool isPlayerInAttackRange = false;
 private bool activeActions = true;
 public bool isSmall = false;
-
 private float waitTimer = 0f;
 private float waitDuration = 2f;
 
@@ -71,11 +70,13 @@ private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti Aud
 
 [Header("Drop")]
     public GameObject coinPrefab; // prefab per la moneta
-    public int maxCoins = 10; // numero massimo di monete che possono essere rilasciate
-    public float coinSpawnDelay = 0.1f; // ritardo tra la spawn di ogni moneta
+    private bool  SpawnC = false;
+    [SerializeField] public Transform CoinPoint;
+    public int maxCoins = 5; // numero massimo di monete che possono essere rilasciate
+    public float coinSpawnDelay = 5f; // ritardo tra la spawn di ogni moneta
     private int randomChance;
     private float coinForce = 5f; // forza con cui le monete saltano
-    private Vector2 coinForceVariance = new Vector2(1, 1); // varianza della forza con cui le monete saltano
+    private Vector2 coinForceVariance = new Vector2(1, 0); // varianza della forza con cui le monete saltano
     private int coinCount; // conteggio delle monete
 
 [Header("VFX")]
@@ -169,7 +170,7 @@ private void Update()
                 case State.Knockback:
                     break;
                 case State.Dead:
-                Die();
+                
                     break;
                 case State.Hurt:
                 Wait();
@@ -196,6 +197,8 @@ if (health.currentHealth <= 0) { // controlla se il personaggio è morto
     isMove = false;
     activeActions = false;
     isDie = true;
+    SpawnCoins();
+    Die();
     currentState = State.Dead;
 } else if (isKnockback) { // controlla se il personaggio è in knockback
     isChasing = false;
@@ -426,25 +429,7 @@ void EssenceGive()
     }
 }
     
-IEnumerator SpawnCoins()
-{
 
-    for (int i = 0; i < coinCount; i++)
-    {
-        // crea una nuova moneta
-GameObject newCoin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
-
-        // applica una forza casuale alla moneta per farla saltare
-        Vector2 randomForce = new Vector2(
-            Random.Range(-coinForceVariance.x, coinForceVariance.x),
-            Random.Range(-coinForceVariance.y, coinForceVariance.y)
-        );
-        newCoin.GetComponent<Rigidbody2D>().AddForce(randomForce * coinForce, ForceMode2D.Impulse);
-
-        // aspetta prima di spawnare la prossima moneta
-        yield return new WaitForSeconds(coinSpawnDelay);
-    }
-}
 
 private bool IsKnockback()
 {
@@ -509,13 +494,36 @@ private void ResetColor()
     _skeletonAnimation.Skeleton.SetColor(originalColor);
 }
 
+public void SpawnCoins()
+{
+    if(!SpawnC)
+    {
+
+    for (int i = 0; i < maxCoins; i++)
+    {
+        // crea una nuova moneta
+        GameObject newCoin = Instantiate(coinPrefab, CoinPoint.position, Quaternion.identity);
+
+        // applica una forza casuale alla moneta per farla saltare
+        Vector2 randomForce = new Vector2(
+            Random.Range(-coinForceVariance.x, coinForceVariance.x), 2// forza casuale lungo l'asse Y
+            );
+        newCoin.GetComponent<Rigidbody2D>().AddForce(randomForce * coinForce, ForceMode2D.Impulse);
+    }
+        SpawnC = true;
+    }
+}
+
+
+
+
 public void Die()
 {
     PlayMFX(2);
     //Drop
     // genera un numero casuale di monete da rilasciare
-    coinCount = Random.Range(1, maxCoins + 1);
-    StartCoroutine(SpawnCoins());
+   // int coinsToSpawn = Random.Range(1, 10);
+    //coinsToSpawn = Mathf.Min(maxCoins, coinsToSpawn); //Limita il numero di monete a "maxCoins" 
     EssenceGive();
 
     if (horizontal == 1)

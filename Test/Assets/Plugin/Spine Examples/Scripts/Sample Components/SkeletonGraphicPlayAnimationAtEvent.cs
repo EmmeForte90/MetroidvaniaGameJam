@@ -37,12 +37,12 @@ public class SkeletonGraphicPlayAnimationAtEvent : MonoBehaviour {
 	public float playbackSpeed = 1.0f;
 
 	public void PlayAnimationLooping (string animation) {
-		Spine.TrackEntry entry = skeletonGraphic.AnimationState.SetAnimation(trackIndex, animation, true);
+		var entry = skeletonGraphic.AnimationState.SetAnimation(trackIndex, animation, true);
 		entry.TimeScale = playbackSpeed;
 	}
 
 	public void PlayAnimationOnce (string animation) {
-		Spine.TrackEntry entry = skeletonGraphic.AnimationState.SetAnimation(trackIndex, animation, false);
+		var entry = skeletonGraphic.AnimationState.SetAnimation(trackIndex, animation, false);
 		entry.TimeScale = playbackSpeed;
 	}
 

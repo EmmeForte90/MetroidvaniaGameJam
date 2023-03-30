@@ -47,7 +47,7 @@ namespace Spine.Unity.Examples {
 		}
 
 		void AddRigidbody () {
-			Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
+			var rb = gameObject.AddComponent<Rigidbody2D>();
 			rb.freezeRotation = true;
 			naturalCollider.enabled = true;
 		}

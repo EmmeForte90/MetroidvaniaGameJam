@@ -68,7 +68,17 @@ private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti Aud
    public AudioMixer SFX;
 [HideInInspector] public float basePitch = 1f;
     [HideInInspector] public float randomPitchOffset = 0.1f;
-
+    
+[Header("Drop")]
+    public GameObject coinPrefab; // prefab per la moneta
+    private bool  SpawnC = false;
+    [SerializeField] public Transform CoinPoint;
+    public int maxCoins = 5; // numero massimo di monete che possono essere rilasciate
+    public float coinSpawnDelay = 5f; // ritardo tra la spawn di ogni moneta
+    private int randomChance;
+    private float coinForce = 5f; // forza con cui le monete saltano
+    private Vector2 coinForceVariance = new Vector2(1, 0); // varianza della forza con cui le monete saltano
+    private int coinCount; // conteggio delle monete
 
 [Header("VFX")]
     // Variabile per il gameobject del proiettile
@@ -154,7 +164,6 @@ private void Update()
                 case State.Knockback:
                 break;
                 case State.Dead:
-                Die();
                 break;
                 case State.Defence:
                 Defencing();
@@ -183,6 +192,8 @@ private void Update()
         activeActions = false;
         isDie = true;
         isDefence = false;
+        SpawnCoins();
+    Die();
         currentState = State.Dead;
         return;
     }
@@ -517,6 +528,38 @@ public void TemporaryChangeColor(Color color)
         _skeletonAnimation.Skeleton.SetColor(originalColor);
     }
 
+public void SpawnCoins()
+{
+    if(!SpawnC)
+    {
+
+    for (int i = 0; i < maxCoins; i++)
+    {
+        // crea una nuova moneta
+        GameObject newCoin = Instantiate(coinPrefab, CoinPoint.position, Quaternion.identity);
+
+        // applica una forza casuale alla moneta per farla saltare
+        Vector2 randomForce = new Vector2(
+            Random.Range(-coinForceVariance.x, coinForceVariance.x), 2// forza casuale lungo l'asse Y
+            );
+        newCoin.GetComponent<Rigidbody2D>().AddForce(randomForce * coinForce, ForceMode2D.Impulse);
+    }
+        SpawnC = true;
+    }
+}
+void EssenceGive()
+{
+    int randomChance = Random.Range(1, 11); // Genera un numero casuale compreso tra 1 e 10
+
+    if (randomChance <= 8) // Se il numero casuale è compreso tra 1 e 8 (80% di probabilità), aggiungi 5 di essenza
+    {
+        PlayerHealth.Instance.currentEssence += 5;
+    }
+    else // Se il numero casuale è compreso tra 9 e 10 (20% di probabilità), aggiungi 10 di essenza
+    {
+        PlayerHealth.Instance.currentEssence += 10;
+    }
+}
 public void Die()
 {
         PlayMFX(1);

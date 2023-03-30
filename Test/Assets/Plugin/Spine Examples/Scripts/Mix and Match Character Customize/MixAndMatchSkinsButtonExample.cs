@@ -41,7 +41,7 @@ namespace Spine.Unity.Examples {
 		public MixAndMatchSkinsExample.ItemType itemType;
 
 		void Start () {
-			Button button = GetComponent<Button>();
+			var button = GetComponent<Button>();
 			button.onClick.AddListener(
 				delegate { skinsSystem.Equip(itemSkin, itemType); }
 			);

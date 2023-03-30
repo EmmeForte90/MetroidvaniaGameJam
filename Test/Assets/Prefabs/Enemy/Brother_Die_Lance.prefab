@@ -19446,7 +19446,7 @@ Transform:
   m_Children:
   - {fileID: 6274251397070585234}
   m_Father: {fileID: 8779610209794743682}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 60, y: -180, z: -180}
 --- !u!1 &4377696503735640835
 GameObject:
@@ -24470,6 +24470,37 @@ PolygonCollider2D:
       - {x: -0.0967, y: 0.1464}
       - {x: 0.72599995, y: 0.1609}
       - {x: 0.7226, y: -0.14119999}
+--- !u!1 &4898565618741210389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6762342041410690220}
+  m_Layer: 9
+  m_Name: CointPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6762342041410690220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4898565618741210389}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.122, y: 1.068, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8779610209794743682}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4922155292484845882
 GameObject:
   m_ObjectHideFlags: 0
@@ -24611,7 +24642,7 @@ Transform:
   m_Children:
   - {fileID: 4371026243790857534}
   m_Father: {fileID: 8779610209794743682}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5557194982057008016
 GameObject:
@@ -44123,6 +44154,7 @@ Transform:
   - {fileID: 4729724537437637166}
   - {fileID: 4922155292484845881}
   - {fileID: 8779610211154603983}
+  - {fileID: 6762342041410690220}
   - {fileID: 8779610210854427183}
   - {fileID: 8994926806167800785}
   - {fileID: 2119250654021993161}
@@ -44177,7 +44209,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f29466811eb9f9f44b5461a87e24da23, type: 3}
   SFX: {fileID: 24100000, guid: 63f598184995bda419cd1ee5db5e6d03, type: 2}
   coinPrefab: {fileID: 891111329177942983, guid: a1b74a608e0e8ae4dbd472ac97fb213f, type: 3}
-  maxCoins: 10
+  CoinPoint: {fileID: 6762342041410690220}
+  maxCoins: 5
   coinSpawnDelay: 0.1
   slashpoint: {fileID: 8779610211154603983}
   hitpoint: {fileID: 8779610210854427183}
@@ -44187,7 +44220,7 @@ MonoBehaviour:
   Sdeng: {fileID: 7543257715761203544, guid: 9a2c11c52e8735746be778a3b912fb92, type: 3}
   idleAnimationName: idle
   walkAnimationName: walk
-  runAnimationName: run
+  runAnimationName: walk
   attack1AnimationName: attack
   attack2AnimationName: attack
   attack3AnimationName: attack
@@ -44457,7 +44490,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8779610209794743682}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8779610211154603982
 GameObject:
@@ -44520,5 +44553,5 @@ Transform:
   m_Children:
   - {fileID: 1105093916815854999}
   m_Father: {fileID: 8779610209794743682}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

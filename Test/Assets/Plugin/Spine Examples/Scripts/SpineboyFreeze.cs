@@ -55,10 +55,10 @@ namespace Spine.Unity.Examples {
 
 			particles.Stop();
 			particles.Clear();
-			ParticleSystem.MainModule main = particles.main;
+			var main = particles.main;
 			main.loop = false;
 
-			AnimationState state = skeletonAnimation.AnimationState;
+			var state = skeletonAnimation.AnimationState;
 			while (true) {
 
 				yield return new WaitForSeconds(1f);

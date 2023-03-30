@@ -51,7 +51,7 @@ namespace Spine.Unity.Examples {
 		void Start () {
 			MatchImage();
 
-			Button button = GetComponent<Button>();
+			var button = GetComponent<Button>();
 			button.onClick.AddListener(
 				delegate { equipSystem.Equip(asset); }
 			);

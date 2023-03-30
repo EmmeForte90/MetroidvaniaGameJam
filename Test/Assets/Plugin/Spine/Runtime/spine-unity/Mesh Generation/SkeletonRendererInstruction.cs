@@ -65,14 +65,14 @@ namespace Spine.Unity {
 			int runningVertexCount = 0;
 #endif
 
-			ExposedList<SubmeshInstruction> submeshes = this.submeshInstructions;
+			var submeshes = this.submeshInstructions;
 			submeshes.Clear(false);
 			int submeshCount = endSubmesh - startSubmesh;
 			submeshes.Resize(submeshCount);
-			SubmeshInstruction[] submeshesItems = submeshes.Items;
-			SubmeshInstruction[] instructionsItems = instructions.Items;
+			var submeshesItems = submeshes.Items;
+			var instructionsItems = instructions.Items;
 			for (int i = 0; i < submeshCount; i++) {
-				SubmeshInstruction instruction = instructionsItems[startSubmesh + i];
+				var instruction = instructionsItems[startSubmesh + i];
 				submeshesItems[i] = instruction;
 #if SPINE_TRIANGLECHECK
 				this.hasActiveClipping |= instruction.hasClipping;
@@ -90,9 +90,9 @@ namespace Spine.Unity {
 			attachments.Clear(false);
 			int attachmentCount = endSlot - startSlot;
 			attachments.Resize(attachmentCount);
-			Attachment[] attachmentsItems = attachments.Items;
+			var attachmentsItems = attachments.Items;
 
-			Slot[] drawOrderItems = instructionsItems[0].skeleton.DrawOrder.Items;
+			var drawOrderItems = instructionsItems[0].skeleton.DrawOrder.Items;
 			for (int i = 0; i < attachmentCount; i++) {
 				Slot slot = drawOrderItems[startSlot + i];
 				if (!slot.Bone.Active) continue;
@@ -124,7 +124,7 @@ namespace Spine.Unity {
 #if SPINE_TRIANGLECHECK
 #if UNITY_EDITOR
 			if (!Application.isPlaying)
-				return true;
+			return true;
 #endif
 
 			if (a.hasActiveClipping || b.hasActiveClipping) return true; // Triangles are unpredictable when clipping is active.
@@ -143,17 +143,17 @@ namespace Spine.Unity {
 			if (submeshCountA != submeshCountB) return true;
 
 			// Submesh Instruction mismatch
-			SubmeshInstruction[] submeshInstructionsItemsA = a.submeshInstructions.Items;
-			SubmeshInstruction[] submeshInstructionsItemsB = b.submeshInstructions.Items;
+			var submeshInstructionsItemsA = a.submeshInstructions.Items;
+			var submeshInstructionsItemsB = b.submeshInstructions.Items;
 
-			Attachment[] attachmentsA = a.attachments.Items;
-			Attachment[] attachmentsB = b.attachments.Items;
+			var attachmentsA = a.attachments.Items;
+			var attachmentsB = b.attachments.Items;
 			for (int i = 0; i < attachmentCountB; i++)
 				if (!System.Object.ReferenceEquals(attachmentsA[i], attachmentsB[i])) return true;
 
 			for (int i = 0; i < submeshCountB; i++) {
-				SubmeshInstruction submeshA = submeshInstructionsItemsA[i];
-				SubmeshInstruction submeshB = submeshInstructionsItemsB[i];
+				var submeshA = submeshInstructionsItemsA[i];
+				var submeshB = submeshInstructionsItemsB[i];
 
 				if (!(
 					submeshA.rawVertexCount == submeshB.rawVertexCount &&

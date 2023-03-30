@@ -64,7 +64,7 @@ namespace Spine.Unity {
 		}
 
 		public static Spine.BoneData GetBoneData (string boneName, SkeletonDataAsset skeletonDataAsset) {
-			SkeletonData data = skeletonDataAsset.GetSkeletonData(true);
+			var data = skeletonDataAsset.GetSkeletonData(true);
 			return data.FindBone(boneName);
 		}
 	}
@@ -251,7 +251,7 @@ namespace Spine.Unity {
 		}
 
 		public static Spine.Attachment GetAttachment (string attachmentPath, Spine.SkeletonData skeletonData) {
-			SpineAttachment.Hierarchy hierarchy = SpineAttachment.GetHierarchy(attachmentPath);
+			var hierarchy = SpineAttachment.GetHierarchy(attachmentPath);
 			if (string.IsNullOrEmpty(hierarchy.name)) return null;
 
 			SlotData slot = skeletonData.FindSlot(hierarchy.slot);

@@ -6,50 +6,52 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
 
-   [Header("Music")]
+    [Header("Music")]
     [SerializeField] public AudioClip[] listmusic; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
     private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
-   
+    private bool bgmActive = false;
+
     [SerializeField] public AudioClip[] SoundDestroy; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
     private AudioSource[] sgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
-
+    private bool sgmActive = false;
 
     public AudioMixer MSX;
     public AudioMixer SFX;
- 
-public static AudioManager instance;
 
+    public static AudioManager instance;
 
-private void Awake() 
-{ 
-    if (instance == null)
+    private void Awake()
+    {
+        if (instance == null)
         {
             instance = this;
         }
- bgm = new AudioSource[listmusic.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
-    for (int i = 0; i < listmusic.Length; i++) // scorre la lista di AudioClip
-    {
-        bgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
-        bgm[i].clip = listmusic[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
+        bgm = new AudioSource[listmusic.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
+        for (int i = 0; i < listmusic.Length; i++) // scorre la lista di AudioClip
+        {
+            bgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
+            bgm[i].clip = listmusic[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
+            bgm[i].playOnAwake = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+        }
+
+        sgm = new AudioSource[SoundDestroy.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
+        for (int i = 0; i < SoundDestroy.Length; i++) // scorre la lista di AudioClip
+        {
+            sgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
+            sgm[i].clip = SoundDestroy[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
+            sgm[i].playOnAwake = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+        }
+
     }
 
-sgm = new AudioSource[SoundDestroy.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
-    for (int i = 0; i < SoundDestroy.Length; i++) // scorre la lista di AudioClip
-    {
-        sgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
-        sgm[i].clip = SoundDestroy[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
-    }
-
-}
-
- public void SetVolume(float volume)
+    public void SetVolume(float volume)
     {
         MSX.SetFloat("Volume", volume);
 
     }
 
 
-     public void SetSFX(float volume)
+    public void SetSFX(float volume)
     {
         SFX.SetFloat("Volume", volume);
 
@@ -57,21 +59,31 @@ sgm = new AudioSource[SoundDestroy.Length]; // inizializza l'array di AudioSourc
 
     public void PlayMFX(int soundToPlay)
     {
-        bgm[soundToPlay].Stop();
-        bgm[soundToPlay].pitch = Random.Range(.9f, 1.1f);
-        bgm[soundToPlay].Play();
+        if (!bgmActive)
+        {
+            bgm[soundToPlay].pitch = Random.Range(.9f, 1.1f);
+            bgm[soundToPlay].Play();
+            bgmActive = true;
+        }
     }
 
     public void StopMFX(int soundToPlay)
     {
-        bgm[soundToPlay].Stop();
+        if (bgmActive)
+        {
+            bgm[soundToPlay].Stop();
+            bgmActive = false;
+        }
     }
 
- public void PlaySFX(int soundToPlay)
+    public void PlaySFX(int soundToPlay)
     {
-        sgm[soundToPlay].Play();
+        if (!sgmActive)
+        {
+            sgm[soundToPlay].Play();
+            sgmActive = true;
+        }
     }
-
 
 
   public void CrossFadeINAudio(int soundToPlay)
