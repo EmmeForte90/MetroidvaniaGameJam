@@ -18,7 +18,7 @@ void Start()
 {
     cam = Camera.main.transform; //ottieni il riferimento alla telecamera principale
     previousCamPos = cam.position; //imposta la posizione precedente della telecamera
-    virtualCamera = FindObjectOfType<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
+    virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
     noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>(); //ottieni il riferimento al modulo noise di Cinemachine
     myCollider = GetComponent<Collider2D>(); //ottieni il riferimento al collider del background
 

@@ -5471,6 +5471,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Now_255
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1664
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 108484a8de203db4c930f862432af82c
+      internalID: -1971641736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -5484,16 +5505,16 @@ TextureImporter:
     nameFileIdTable:
       Now_98: -1617866218
       Now_199: 406062293
-      Now_194: -611328615
       Now_214: 1873853376
+      Now_226: 591240726
       Now_74: -1260369571
       Now_32: 1889377213
       Now_101: -577876198
       Now_161: -48906590
       Now_69: 87418202
       Now_102: 760218999
+      Now_194: -611328615
       Now_88: -1620015634
-      Now_226: 591240726
       Now_227: 886095304
       Now_92: -1137849994
       Now_135: 136861215
@@ -5568,6 +5589,7 @@ TextureImporter:
       Now_93: -267687741
       Now_41: -1935669655
       Now_181: 1515139399
+      Now_255: 1666408254
       Now_77: 940595179
       Now_16: 568000590
       Now_10: -1437238779
@@ -5612,18 +5634,18 @@ TextureImporter:
       Now_217: -164009053
       Now_173: 1853584914
       Now_137: 1085552620
-      Now_151: -2039163060
       Now_140: 877405495
+      Now_210: -661801600
       Now_201: -1881792236
       Now_9: 342093353
       Now_158: -2127676571
       Now_96: 1408438773
       Now_243: -1390974797
-      Now_210: -661801600
       Now_8: 1708326529
       Now_99: 1877092511
       Now_205: 737079903
       Now_139: 1389872457
+      Now_151: -2039163060
       Now_252: 734396077
       Now_177: -938874943
       Now_51: 891159607
