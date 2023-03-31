@@ -202,6 +202,7 @@ private int comboCount = 0;
     [SerializeField] AudioSource Scharge;
     [SerializeField] AudioSource Sdash;
     [SerializeField] AudioSource SHeal;
+    [SerializeField] AudioSource SHurt;
 
 
 
@@ -493,14 +494,17 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1)
             if(Input.GetKeyDown(KeyCode.C))
             {
                 Debug.Log("Ok testiamo!");
-                PlayerHealth.Instance.currentHealth = 0;
-                Respawn();
+                PlayerHealth.Instance.currentHealth = 10;
+                //PlayerHealth.Instance.currentHealth = 0;
+                //Respawn();
             }
 if(Input.GetKeyDown(KeyCode.X))
             {
                 Debug.Log("Recupero!");
-                PlayerHealth.Instance.currentHealth = PlayerHealth.Instance.maxHealth;
-                PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
+
+                PlayerHealth.Instance.IncreaseEssence(10);
+                //PlayerHealth.Instance.currentHealth = PlayerHealth.Instance.maxHealth;
+                //PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
             }
 
             
@@ -1427,6 +1431,7 @@ public void AnmHurt()
 {
              if (currentAnimationName != hurtAnimationName)
                 {
+                    SHurt.Play();
                     _spineAnimationState.ClearTrack(2);
                     _spineAnimationState.SetAnimation(2, hurtAnimationName, false);
                     currentAnimationName = hurtAnimationName;

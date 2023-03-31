@@ -68,11 +68,35 @@ public void IncreaseHP(float amount)
     currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
     float scaleReduction = amount / maxHealth;
+    if(Essence.transform.localScale != new Vector3(0, 0, 0))
+    {
     Essence.transform.localScale -= new Vector3(scaleReduction, scaleReduction, scaleReduction);
     //Il valore del LocalScale deve essere un Vector3. In questo caso, stiamo settando la scala x,y,z tutti uguali in base alla salute attuale del personaggio.
-
+    }
     currentEssence -= amount;
     currentEssence = Mathf.Clamp(currentEssence, 0f, maxEssence);
+    if(currentEssence == 0)
+    {
+    Essence.transform.localScale += new Vector3(0, 0, 0);
+    }
+}
+
+public void IncreaseEssence(float amount)
+{
+    currentEssence += amount;
+    currentEssence = Mathf.Clamp(currentEssence, 0f, maxEssence);
+
+    float scaleReduction = amount / maxEssence;
+    if(Essence.transform.localScale != new Vector3(0.5f, 0.5f, 0.5f))
+    {
+    Essence.transform.localScale += new Vector3(scaleReduction, scaleReduction, scaleReduction);
+    //Il valore del LocalScale deve essere un Vector3. In questo caso, stiamo settando la scala x,y,z tutti uguali in base alla salute attuale del personaggio.
+    }
+    if(currentEssence == 0)
+    {
+    Essence.transform.localScale += new Vector3(0, 0, 0);
+    }
+    
 }
 
 

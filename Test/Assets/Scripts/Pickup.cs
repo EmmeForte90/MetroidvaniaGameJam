@@ -8,7 +8,7 @@ public class Pickup : MonoBehaviour
     //Variabile per il suono
     [SerializeField] public int pointsForCoinPickup;
     //Valore della moneta quando raccolta
-    [SerializeField] public float loadDelay = 0.5f;
+    [SerializeField] public float loadDelay = 0.1f;
     //Temo di recupero
     [SerializeField] public Animator myAnimator;
     //Animatore
@@ -18,8 +18,6 @@ public class Pickup : MonoBehaviour
     [SerializeField]  GameObject light;
     //Bool per evitare che la moneta sia raccolta più volte
     [SerializeField] public bool isHeal;
-    [SerializeField] public bool isBullet;
-    [SerializeField] public bool isLifeUp;
 
 
 void Start()
@@ -35,7 +33,7 @@ void Start()
     {
 
         #region CollCoin
-        if (other.gameObject.tag == "Player" && !wasCollected && !isHeal && !isBullet && !isLifeUp)
+        if (other.gameObject.tag == "Player" && !wasCollected && !isHeal)
         //Se il player tocca la moneta e non è stato collezionata
         {
             wasCollected = true;
@@ -58,25 +56,6 @@ void Start()
 
         #endregion
         
-        #region  CollHP
-        else if (other.gameObject.tag == "Player" && !wasCollected && isHeal && !isBullet && !isLifeUp)
-        //Se il player tocca la moneta e non è stato collezionata
-        {
-            //Se gli HP non sono al massimo la raccoglio altrimenti no
-            
-            wasCollected = true;
-            //La moneta è collezionata
-            //Richiama la funzione dello script GameSessione e aumenta lo score
-            AudioSource.PlayClipAtPoint(coinPickupSFX, Camera.main.transform.position);
-            //Avvia l'audio
-            myAnimator.SetTrigger("take");
-            //Attiva il suono
-            Invoke("takeCoin", loadDelay);
-            
-            
-        }
-        #endregion
-
        
     }
 
