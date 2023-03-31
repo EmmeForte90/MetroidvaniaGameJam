@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Spine.Unity;
+using UnityEngine.Audio;
 
 public class QuestCharacters : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class QuestCharacters : MonoBehaviour
     public int IDQuest;
     public int IDCharacter;
     public TextMeshProUGUI CharacterName; // Reference to the TextMeshProUGUI component
+
+    public TextMeshProUGUI QNameE; // Reference to the TextMeshProUGUI component
+    public TextMeshProUGUI QNameS; // Reference to the TextMeshProUGUI component
 
     private GameObject player; // Reference to the player's position
     public TextMeshProUGUI dialogueText; // Reference to the TextMeshProUGUI component
@@ -40,9 +44,11 @@ public class QuestCharacters : MonoBehaviour
 
     private bool _isInTrigger;
     private bool _isDialogueActive;
+
 [Header("Audio")]
-[SerializeField] AudioSource talk;
-[SerializeField] AudioSource Clang;
+[SerializeField] public AudioClip[] listmusic; // array di AudioClip contenente tutti i suoni che si vogliono riprodurre
+private AudioSource[] bgm; // array di AudioSource che conterrà gli oggetti AudioSource creati
+public AudioMixer SFX;
 
 
 public static QuestCharacters Instance;
@@ -55,6 +61,21 @@ void Awake()
         IDQuest = Quest.id;
         CharacterName.text = Quest.CharacterName;
 
+        bgm = new AudioSource[listmusic.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
+        for (int i = 0; i < listmusic.Length; i++) // scorre la lista di AudioClip
+        {
+        bgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
+        bgm[i].clip = listmusic[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
+        bgm[i].playOnAwake = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+        bgm[i].loop = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+
+        }
+
+        // Aggiunge i canali audio degli AudioSource all'output del mixer
+        foreach (AudioSource audioSource in bgm)
+        {
+        audioSource.outputAudioMixerGroup = SFX.FindMatchingGroups("Master")[0];
+        }
 }
 
 
@@ -113,7 +134,7 @@ if(!notGo)
 
 public void clang()
 {
-Clang.Play();
+bgm[0].Play();
 }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -146,7 +167,7 @@ Clang.Play();
                 _isDialogueActive = false;
                 dialogueBox.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
                 dialogueText.gameObject.SetActive(false); // Hide dialogue text when player exits the trigger
-                talk.Stop();
+                //talk.Stop();
 
             }
         }
@@ -155,7 +176,8 @@ Clang.Play();
     IEnumerator ShowDialogue()
 {    
     Talk = true;
-    talk.Play();
+    //talk.Play();
+    bgm[1].Play();
     _isDialogueActive = true;
     elapsedTime = 0; // reset elapsed time
     dialogueBox.gameObject.SetActive(true); // Show dialogue box
@@ -185,7 +207,7 @@ Clang.Play();
         dialogueIndex++; // Increment the dialogue index
         if (dialogueIndex >= dialogue.Length)
         {
-            talk.Stop();
+            //talk.Stop();
             dialogueIndex = 0;
             _isDialogueActive = false;
             Talk = false;
@@ -218,8 +240,10 @@ Clang.Play();
  IEnumerator EndQuest()
 {
         notGo = true;
+        QNameE.text = Quest.questName;
         QuestEnd.gameObject.SetActive(true); 
-        yield return new WaitForSeconds(3f); 
+        bgm[2].Play();
+        yield return new WaitForSeconds(5f); 
         Instantiate(Reward, RewardPoint.position, transform.rotation);
         QuestEnd.gameObject.SetActive(false); 
         yield return new WaitForSeconds(1f); 
@@ -236,12 +260,14 @@ Clang.Play();
  IEnumerator StartQuest()
 {            
         notGo = true;
+        QNameS.text = Quest.questName;
         Quest.isActive = true;
+        bgm[3].Play();
         QuestStart.gameObject.SetActive(true); 
         QuestManager.Instance.AddQuest(Quest);
         QuestManager.Instance.ListQuest(IDQuest);
         QuestManager.Instance.QuestStart(IDQuest);
-        yield return new WaitForSeconds(3f); 
+        yield return new WaitForSeconds(5f); 
         QuestManager.Instance.QuestActive(IDQuest);
         QuestStart.gameObject.SetActive(false); 
         Move.instance.stopInput = false;
