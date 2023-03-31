@@ -133,18 +133,7 @@ public class PlayerBullet : MonoBehaviour
 #region  MP
     void CostMP()
     {
-        if(isNormal || isRapid && !isShotgun && !isBomb)
-        {
-         Less.TakeManaDamage(MPCost);
-        }
-        else if(!isNormal && !isRapid && isShotgun && !isBomb)
-        {
-        Less.TakeManaDamage(MPCost);
-        }
-        else if(!isNormal && !isRapid && !isShotgun && isBomb)
-        {
-            Less.TakeManaDamage(MPCost);
-        }
+       
         
         
     }

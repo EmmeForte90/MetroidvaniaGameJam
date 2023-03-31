@@ -58,8 +58,11 @@ public class TriggerOrdalia : MonoBehaviour
         {
             if(!StartOndata)
             {
+            if(GameplayManager.instance == null || !GameplayManager.instance.PauseStop)
+            {
             StartCoroutine(GeneratEnemy());
             StartOndata = true;
+            }
             }
         }   
  
@@ -120,7 +123,9 @@ public void EndOrdalia()
 
 IEnumerator GeneratEnemy()
 {     
+   
     
+
     COnde = waves.Length;
 
 while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora nemici nell'array e non abbiamo raggiunto il numero di ondate
@@ -156,10 +161,10 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
     }
     
 }
-
+}
 
 }
 
 
-}
+
 

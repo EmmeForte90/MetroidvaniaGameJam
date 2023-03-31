@@ -31,11 +31,12 @@ using Cinemachine;
         }
     }
 
-public  void CameraTakePlayer()
-{
-            virtualCamera.Follow = player.transform;        
-}
 
+public  void StartMusicG()
+{
+    if(AudioManager.instance == null) return;
+    AudioManager.instance.PlayMFX(1);
+}
 
 public  void ResetCamera()
 {

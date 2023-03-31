@@ -9891,7 +9891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnPoint: {fileID: 6784971808690327999}
   sceneName: Test
-  Sdeng: {fileID: 9060609366315020121, guid: 9c91bdbb32880d0499de24da1430d9ba, type: 3}
+  Sdeng: {fileID: 4083046838110218184, guid: a40b543d70ae89a4e90ae51325ed7ac9, type: 3}
   Pos: {fileID: 6492264745088941517}
   Camera: {fileID: 6745870434537389436}
   button: {fileID: 7802841562735587271}

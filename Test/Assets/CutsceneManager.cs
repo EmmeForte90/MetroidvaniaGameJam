@@ -23,12 +23,15 @@ private void Start()
 
 public void TimelineStart(int id)
 {
-    filmati[id] = true;   
+    filmati[id] = true;  
+    GameplayManager.instance.DeactivationGame();
+ 
 }
 
 public void TimelineEnd(int id)
 {
     filmati[id] = false;   
+    GameplayManager.instance.ActivationGame();
 }
 
 private void OnEnable()

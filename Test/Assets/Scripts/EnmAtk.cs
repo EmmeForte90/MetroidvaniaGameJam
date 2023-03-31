@@ -13,8 +13,20 @@ public class EnmAtk : MonoBehaviour
     void Start()
     {
                 player = GameObject.FindWithTag("Player").transform;
-
+ 
+ if (GameplayManager.instance == null) return;
+    
+    if (GameplayManager.instance.Easy)
+    {
+        attackDamage /= 2;
     }
+    else if (GameplayManager.instance.Hard)
+    {
+        attackDamage *= 2;
+    }
+    
+    
+}
 
 IEnumerator StopD()
     {

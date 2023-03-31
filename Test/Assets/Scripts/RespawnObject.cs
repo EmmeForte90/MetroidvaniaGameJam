@@ -69,7 +69,6 @@ void Update()
             Move.instance.isPray = false;
             _isInTrigger = false;
             virtualCamera.Follow = player.transform;
-            Move.instance.NotStrangeAnimationTalk = false;
         
 
     
@@ -92,6 +91,7 @@ private void OnTriggerEnter2D(Collider2D collision)
         if (collision.CompareTag("Player"))
         {
             Move.instance.NotStrangeAnimationTalk = true;
+            Move.instance.sceneName = sceneName;
             GameplayManager.instance.StopDefaultSkill = true;
             button.gameObject.SetActive(true); // Initially hide the dialogue text
             _isInTrigger = true;
@@ -102,8 +102,7 @@ private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {          
-              Move.instance.NotStrangeAnimationTalk = false;
-
+            Move.instance.NotStrangeAnimationTalk = false;
             button.gameObject.SetActive(false); // Initially hide the dialogue text
             _isInTrigger = false;
             

@@ -16,7 +16,14 @@ public class GameplayManager : MonoBehaviour
 
     public static bool playerExists;
 
-    private GameObject player; // Variabile per il player
+    public GameObject player; // Variabile per il player
+    public GameObject toy; // Variabile per il player
+
+    private GameObject Actor; // Variabile per il player
+    private GameObject Menu; // Variabile per il player
+    private Health Enemy;
+
+
     private CinemachineVirtualCamera virtualCamera;
     [HideInInspector]
     public bool gameplayOff = false;
@@ -65,7 +72,11 @@ public class GameplayManager : MonoBehaviour
        
     [SerializeField] TextMeshProUGUI SkillUp_T;
     [SerializeField] Image SkillUp;
-
+    
+    [Header("Difficoltà del gioco")]
+    public bool Easy = false;
+    public bool Normal = true;
+    public bool Hard = false;
 
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
@@ -110,20 +121,19 @@ public class GameplayManager : MonoBehaviour
 
         Scenary = GameObject.FindWithTag("Scenary");
         virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
-        player = GameObject.FindWithTag("Player");
+        //player = GameObject.FindWithTag("Player");
+        Menu = GameObject.FindWithTag("Bound");
         // Cerca tutti i GameObjects con il tag "Timeline" all'inizio dello script
         //Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
         StartCoroutine(StartFadeInSTART());
 
         if(!startGame)
         {
-            virtualCamera.Follow = player.transform;
-            virtualCamera.LookAt = player.transform;
+            toy = GameObject.FindWithTag("Player");
+            virtualCamera.Follow = toy.transform;
+            virtualCamera.LookAt = toy.transform;
         }else
         {
-        AudioManager.instance.PlayMFX(1);
-        AudioManager.instance.CrossFadeOUTAudio(1);
-        AudioManager.instance.CrossFadeINAudio(1);
         unlockWalljump = false;   
         unlockDoubleJump = false; 
         unlockDash = false;  
@@ -142,6 +152,87 @@ public class GameplayManager : MonoBehaviour
         moneyTextM.text = money.ToString();    
         //Il testo assume il valore dello money
     }
+
+public void SetDifficultAtt(){
+
+if (Easy)
+    {
+        Enemy = GameObject.FindWithTag("Enemy").GetComponent<Health>();
+        Enemy.maxHealth /= 2;
+    }
+    else if (Normal)
+    {
+        //Non succede nulla
+    }
+    else if (Hard)
+    {
+        Enemy = GameObject.FindWithTag("Enemy").GetComponent<Health>();
+        Enemy.maxHealth *= 2;
+    }
+    if (Enemy == null)
+    {
+        print("Non ci sono nemici in scena");
+    }
+}
+
+
+public void EasyG()
+{
+    Easy = true;
+    Normal = false;
+    Hard = false;
+}
+public void NormalG()
+{
+    Easy = false;
+    Normal = true;
+    Hard = false;
+    
+}
+public void HardG()
+{
+    Easy = false;
+    Normal = false;
+    Hard = true;
+}
+
+
+
+public void ActivationGame()
+{
+    Actor = GameObject.FindWithTag("Actor");
+
+     if(Actor == null)
+        {
+        print("NotFoundActor");
+        }else if(Actor != null)
+        {
+        print("FIND IT!");    
+        player.gameObject.SetActive(true);
+        toy.transform.position = Actor.transform.position;
+        Actor.gameObject.SetActive(false);
+        }
+
+
+}
+
+public void DeactivationGame()
+{
+    Actor = GameObject.FindWithTag("Actor");
+
+     if(Actor == null )
+        {
+        print("NotFoundActor");
+        }else
+        {
+        print("FIND IT!");
+        toy.transform.position = Actor.transform.position;
+        toy.gameObject.SetActive(false);
+        Actor.gameObject.SetActive(true);
+        }
+
+}
+
 
 
 public void Restore()
@@ -163,8 +254,14 @@ public void Restore()
         UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
     }
 
+// Ripristina L'essenza
+    if (PlayerHealth.Instance.gameObject.activeSelf)
+    {
+        PlayerHealth.Instance.currentHealth = PlayerHealth.Instance.maxHealth;
+        PlayerHealth.Instance.healthBar.size = PlayerHealth.Instance.currentHealth / PlayerHealth.Instance.maxHealth;
+    }
     // Ripristina L'essenza
-    if (PlayerHealth.Instance != null && PlayerHealth.Instance.gameObject.activeSelf)
+    if (PlayerHealth.Instance.gameObject.activeSelf)
     {
         PlayerHealth.Instance.currentEssence = PlayerHealth.Instance.maxEssence;
         PlayerHealth.Instance.EssenceImg();
@@ -172,6 +269,7 @@ public void Restore()
 }
 
 
+    
 
 
 
@@ -241,7 +339,9 @@ public void StopInput()
 private void OnEnable()
 {
     SceneManager.sceneLoaded += OnSceneLoaded;
+    
 }
+
 
 private void OnDisable()
 {

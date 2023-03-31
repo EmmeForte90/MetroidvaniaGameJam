@@ -29,10 +29,22 @@ public class AudioManager : MonoBehaviour
         bgm = new AudioSource[listmusic.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
         for (int i = 0; i < listmusic.Length; i++) // scorre la lista di AudioClip
         {
-            bgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
-            bgm[i].clip = listmusic[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
-            bgm[i].playOnAwake = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+        bgm[i] = gameObject.AddComponent<AudioSource>(); // crea un nuovo AudioSource come componente del game object attuale (quello a cui è attaccato lo script)
+        bgm[i].clip = listmusic[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
+        bgm[i].playOnAwake = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+        bgm[i].loop = true; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
+
         }
+
+        // Aggiunge i canali audio degli AudioSource all'output del mixer
+        foreach (AudioSource audioSource in bgm)
+        {
+        audioSource.outputAudioMixerGroup = MSX.FindMatchingGroups("Master")[0];
+        }
+
+Debug.Log("AudioMixer aggiunto correttamente agli AudioSource.");
+
+        
 
         sgm = new AudioSource[SoundDestroy.Length]; // inizializza l'array di AudioSource con la stessa lunghezza dell'array di AudioClip
         for (int i = 0; i < SoundDestroy.Length; i++) // scorre la lista di AudioClip
@@ -41,6 +53,15 @@ public class AudioManager : MonoBehaviour
             sgm[i].clip = SoundDestroy[i]; // assegna l'AudioClip corrispondente all'AudioSource creato
             sgm[i].playOnAwake = false; // imposto il flag playOnAwake a false per evitare che il suono venga riprodotto automaticamente all'avvio del gioco
         }
+ // Aggiunge i canali audio degli AudioSource all'output del mixer
+        foreach (AudioSource audioSource in sgm)
+        {
+        audioSource.outputAudioMixerGroup = SFX.FindMatchingGroups("Master")[0];
+        }
+
+Debug.Log("AudioMixer aggiunto correttamente agli AudioSource.");
+
+
 
     }
 
@@ -61,7 +82,7 @@ public class AudioManager : MonoBehaviour
     {
         if (!bgmActive)
         {
-            bgm[soundToPlay].pitch = Random.Range(.9f, 1.1f);
+           // bgm[soundToPlay].pitch = Random.Range(.9f, 1.1f);
             bgm[soundToPlay].Play();
             bgmActive = true;
         }
@@ -103,6 +124,8 @@ public class AudioManager : MonoBehaviour
 
 public  IEnumerator FadeOut(AudioSource bgm, float FadeTime)
     {
+
+        bgmActive = false;
         float startVolume = bgm.volume;
  
         while (bgm.volume > 0)
@@ -118,6 +141,7 @@ public  IEnumerator FadeOut(AudioSource bgm, float FadeTime)
  
     public  IEnumerator FadeIn(AudioSource bgm, float FadeTime)
     {
+        bgmActive = false;
         float startVolume = 0.2f;
  
         bgm.volume = 0;
@@ -130,7 +154,7 @@ public  IEnumerator FadeOut(AudioSource bgm, float FadeTime)
             yield return null;
         }
  
-        bgm.volume = 0.3f;
+        bgm.volume = 0.5f;
     }
 
 }

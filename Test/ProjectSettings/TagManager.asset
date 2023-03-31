@@ -31,6 +31,7 @@ TagManager:
   - Door
   - FxTemporaire
   - Skill
+  - Actor
   layers:
   - Default
   - TransparentFX

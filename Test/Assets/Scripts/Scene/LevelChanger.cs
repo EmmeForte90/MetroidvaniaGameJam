@@ -30,8 +30,7 @@ private void Start()
     sceneEvent = GetComponent<SceneEvent>();
     // Aggiungiamo un listener all'evento di cambio scena
     sceneEvent.onSceneChange.AddListener(ChangeScene);
-    // Troviamo il game object del player
-    player = GameObject.FindGameObjectWithTag("Player");
+   
 }
 
 // Metodo per cambiare scena
@@ -80,6 +79,8 @@ private void OnTriggerStay2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+         // Troviamo il game object del player
+        player = GameObject.FindGameObjectWithTag("Player");
         GameplayManager.instance.startGame = false;
         // Mostriamo il testo del dialogo se necessario
         if(needButton)
@@ -89,6 +90,7 @@ private void OnTriggerStay2D(Collider2D other)
         // Verifichiamo se l'interazione avviene tramite il tasto "Talk"
         if (interactWithKey && Input.GetButton("Talk"))
         {    
+            Move.instance.Stooping();
             // Riproduciamo l'audio della porta se necessario
             if(isDoor)
             {
@@ -106,6 +108,9 @@ private void OnTriggerEnter2D(Collider2D other)
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
     {
+        Move.instance.Stooping();
+         // Troviamo il game object del player
+        player = GameObject.FindGameObjectWithTag("Player");
         if(needButton)
         {
             button.gameObject.SetActive(true); // Initially hide the dialogue text
@@ -123,7 +128,10 @@ private void OnTriggerExit2D(Collider2D other)
 {
     // Controlliamo se il player ha toccato il collider
     if (other.CompareTag("Player"))
-    {
+    { 
+        Move.instance.Stooping();
+        // Troviamo il game object del player
+         player = GameObject.FindGameObjectWithTag("Player");
         if(needButton)
         {
             button.gameObject.SetActive(false); // Initially hide the dialogue text

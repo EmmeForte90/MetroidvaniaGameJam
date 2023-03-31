@@ -13,6 +13,7 @@ public class MainMenuCam : MonoBehaviour
     void Start()
     {        
         virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
+        AudioManager.instance.CrossFadeINAudio(0);
     }
 
 public void ChooseCharacter()

@@ -15,5 +15,19 @@ public class Health : MonoBehaviour
     public Color originalColor;
     public float colorChangeDuration;
 
-
+void Start()
+{
+ if (GameplayManager.instance == null) return;
+    
+    if (GameplayManager.instance.Easy)
+    {
+        maxHealth /= 2;
+    }
+    else if (GameplayManager.instance.Hard)
+    {
+        maxHealth *= 2;
+    }
+    
+    currentHealth = maxHealth;
+}
 }

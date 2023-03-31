@@ -20,7 +20,7 @@ void Awake()
 public void changeScene()
 {
     SceneManager.LoadScene(startScene);
-    PlayerPrefs.SetString("ContinueLevel", levelToLoad);
+    //PlayerPrefs.SetString("ContinueLevel", levelToLoad);
 
 
 }

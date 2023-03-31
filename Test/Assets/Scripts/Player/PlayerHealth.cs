@@ -52,7 +52,6 @@ public static PlayerHealth Instance;
         if (currentHealth <= 0)
         {
             Move.instance.Respawn();
-            RespawnStatus();
         }
     }
 
@@ -68,7 +67,6 @@ public void IncreaseHP(float amount)
     currentHealth += amount;
     currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
-      //Essence.transform.localScale = new Vector3(currentHealth / maxHealth, currentHealth / maxHealth, currentHealth / maxHealth);
     float scaleReduction = amount / maxHealth;
     Essence.transform.localScale -= new Vector3(scaleReduction, scaleReduction, scaleReduction);
     //Il valore del LocalScale deve essere un Vector3. In questo caso, stiamo settando la scala x,y,z tutti uguali in base alla salute attuale del personaggio.
@@ -86,27 +84,7 @@ float scale = currentHealth / maxHealth;
     Essence.transform.localScale = new Vector3(scale, scale, scale);
 }
 
- 
 
-    public void TakeManaDamage(float damage)
-    {
-       // currentMana -= damage;
-        /*if (currentMana <= 0)
-        {
-            OutOfMana();
-        }*/
-    }
 
-    void RespawnStatus()
-    {
-        // gestione della morte del personaggio
-        currentHealth = maxHealth;
-        currentEssence = maxEssence;
-       // currentMana = maxMana;
-    }
-
-    void OutOfMana()
-    {
-        // gestione del consumo completo della mana
-    }
+   
 }

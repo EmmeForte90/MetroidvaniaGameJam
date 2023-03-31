@@ -493,7 +493,8 @@ else if (Input.GetButtonDown("SlotBottom")|| DpadY == -1)
             if(Input.GetKeyDown(KeyCode.C))
             {
                 Debug.Log("Ok testiamo!");
-                PlayerHealth.Instance.currentHealth = 30;
+                PlayerHealth.Instance.currentHealth = 0;
+                Respawn();
             }
 if(Input.GetKeyDown(KeyCode.X))
             {
@@ -581,6 +582,7 @@ if (!isPray)
         {
             GameplayManager.instance.Pause();
             StopinputTrue();
+            Stooping();
             //InventoryManager.Instance.ListItems();
             Stop();
         }
@@ -844,24 +846,9 @@ public void Respawn()
     // Aspetta che la nuova scena sia completamente caricata
     StartCoroutine(WaitForSceneLoad());
 
-    //Ripristina gli utilizzi se hai gli slot pieni
-            if(UpdateMenuRapido.Instance.idup > 0 || 
-            UpdateMenuRapido.Instance.idleft > 0 || 
-            UpdateMenuRapido.Instance.idbottom > 0||
-            UpdateMenuRapido.Instance.idright > 0 )
-            {
-    UpdateMenuRapido.Instance.Vleft = SkillMenu.Instance.MXVleft;
-    UpdateMenuRapido.Instance.Vup = SkillMenu.Instance.MXVup;
-    UpdateMenuRapido.Instance.Vright = SkillMenu.Instance.MXVright;
-    UpdateMenuRapido.Instance.Vbottom = SkillMenu.Instance.MXVbottom;
-    UpdateMenuRapido.Instance.SkillBottom_T.text = UpdateMenuRapido.Instance.Vbottom.ToString();
-    UpdateMenuRapido.Instance.SkillUp_T.text = UpdateMenuRapido.Instance.Vup.ToString();
-    UpdateMenuRapido.Instance.SkillLeft_T.text = UpdateMenuRapido.Instance.Vleft.ToString();
-    UpdateMenuRapido.Instance.SkillRight_T.text = UpdateMenuRapido.Instance.Vright.ToString();
-            }
-
-
 }
+
+
  public void Stop()
     {
         rb.velocity = new Vector2(0f, 0f);
@@ -872,23 +859,48 @@ public void Respawn()
 
 IEnumerator WaitForSceneLoad()
 {   
+    yield return new WaitForSeconds(2f);
     GameplayManager.instance.FadeOut();
     yield return new WaitForSeconds(5f);
     // Cambia la scena
-    SceneManager.LoadScene(sceneName);
-    // Trova l'oggetto con il tag "respawn" nella nuova scena
-    GameObject respawnPoint = GameObject.FindWithTag("Respawn");
-    respawnRest();
-    // Teletrasporta il giocatore alla posizione dell'oggetto "respawn"
-    transform.position = respawnPoint.transform.position;
-        
-    GameplayManager.instance.FadeIn();
-    yield return new WaitForSeconds(3f);
-    respawn();
-    isDeath = false;
-    stopInput = false;
+    SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    SceneManager.sceneLoaded += OnSceneLoaded;
 
 }
+
+// Metodo eseguito quando la scena è stata caricata
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+    GameplayManager.instance.Restore();
+     // Troviamo il game object del punto di spawn
+        GameObject respawnPoint = GameObject.FindWithTag("Respawn");
+        if (respawnPoint != null)
+        {
+            // Muoviamo il player al punto di spawn
+            Player.transform.position = respawnPoint.transform.position;
+            //yield return new WaitForSeconds(3f);
+        }
+    respawnRest(); 
+    GameplayManager.instance.FadeIn();
+StartCoroutine(wak());  
+}
+
+IEnumerator wak()
+{   
+    if (Player != null)
+    {
+    yield return new WaitForSeconds(2f);
+    respawn();
+    isDeath = false;
+    stopInput = false; 
+    }
+    GameplayManager.instance.StopFade(); 
+
+}
+ 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
