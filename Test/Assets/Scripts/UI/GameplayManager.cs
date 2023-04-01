@@ -77,6 +77,8 @@ public class GameplayManager : MonoBehaviour
     public bool Easy = false;
     public bool Normal = true;
     public bool Hard = false;
+    public int EnemyDefeated = 0;
+    public bool ordalia = false;
 
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
@@ -123,6 +125,9 @@ public class GameplayManager : MonoBehaviour
         virtualCamera = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineVirtualCamera>(); //ottieni il riferimento alla virtual camera di Cinemachine
         //player = GameObject.FindWithTag("Player");
         Menu = GameObject.FindWithTag("Bound");
+
+
+        
         // Cerca tutti i GameObjects con il tag "Timeline" all'inizio dello script
         //Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
         StartCoroutine(StartFadeInSTART());
@@ -233,6 +238,10 @@ public void DeactivationGame()
 
 }
 
+public void EnemyDefeat()
+    {
+           EnemyDefeated++;
+    }
 
 
 public void Restore()

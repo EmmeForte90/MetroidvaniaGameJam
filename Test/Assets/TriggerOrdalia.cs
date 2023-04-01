@@ -26,16 +26,14 @@ public class TriggerOrdalia : MonoBehaviour
     [Header("Ondate")]
      public GameObject[] EnemyPrefab;
     public Transform[] SpawnPoints; // array di punti di spawn
-    private int enemiesDestroyedCount = 0;
     private bool generateWaves = true;
     private bool StartOndata = false;
     private int waveCount = 0; // contatore delle ondate
     private int COnde;
 
     [Header("Il valore deve sempre esse dato in negativo")]
-    public int MinEnemy = 0;
-    private int EnemyCount = 0;
-
+    public int EnemyDefeated = 0;
+    
     [Header("Tempo tra uno spawn e un intervallo tra ondate")]
     public float SpawnInterval = 2f;
     public float WaveInterval = 2f;
@@ -65,6 +63,12 @@ public class TriggerOrdalia : MonoBehaviour
             }
             }
         }   
+
+        if (GameplayManager.instance.EnemyDefeated >= EnemyDefeated) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
+        {
+            print("Ordalia finita");
+            EndOrdalia(); // chiama la funzione EndOrdalia
+        }
  
     }
 
@@ -72,40 +76,6 @@ public void OrdaliaDosentExist()
     {
  Destroy(gameObject);
  }
-
-
- IEnumerator StartOrdalia()
-    {
-
-    trigger.enabled = false;
-    ActorOrdalia.Instance.Standup();
-    AudioManager.instance.CrossFadeOUTAudio(1);
-    AudioManager.instance.CrossFadeINAudio(2);
-    yield return new WaitForSeconds(2);
-    ActorOrdalia.Instance.idle();
-    yield return new WaitForSeconds(TimeStart);
-    Actor.gameObject.SetActive(false);
-    Enemy.gameObject.SetActive(true);
-
-    }
-
-public void EndOrdalia()
-    {
-           virtualCamera.Follow = player.transform;   
-            foreach (GameObject arenaObject in Arena)
-        {
-            arenaObject.SetActive(false);
-            AudioManager.instance.CrossFadeOUTAudio(2);
-            AudioManager.instance.CrossFadeINAudio(1);
-            if(isQuest)
-            {
-            Quest.isActive = false;
-            Quest.isComplete = true;
-            }
-            GameplayManager.instance.OrdaliaEnd(id);
-            Destroy(gameObject);
-        }    
-    }
 
 
      private void OnTriggerEnter2D(Collider2D collision)
@@ -121,11 +91,27 @@ public void EndOrdalia()
         }
     }
 
+
+ IEnumerator StartOrdalia()
+    {
+
+    trigger.enabled = false;
+    ActorOrdalia.Instance.Standup();
+    AudioManager.instance.CrossFadeOUTAudio(1);
+    AudioManager.instance.CrossFadeINAudio(2);
+    yield return new WaitForSeconds(2);
+    ActorOrdalia.Instance.idle();
+    yield return new WaitForSeconds(TimeStart);
+    Actor.gameObject.SetActive(false);
+    Enemy.gameObject.SetActive(true);
+    GameplayManager.instance.ordalia = true;
+    }
+
+
+
 IEnumerator GeneratEnemy()
 {     
    
-    
-
     COnde = waves.Length;
 
 while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora nemici nell'array e non abbiamo raggiunto il numero di ondate
@@ -136,23 +122,23 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
     for (int i = 0; i < EnemiesPerWave; i++) // per ogni nemico per ondata
     {
         lastSpawnIndex++;
+        if (GameplayManager.instance.EnemyDefeated < EnemyDefeated)
+        {
         if (lastSpawnIndex >= SpawnPoints.Length)
         {
             lastSpawnIndex = 0;
         }
-        if (EnemyCount > MinEnemy && waveCount < COnde) // se tutti i nemici non sono stati sconfitti e non abbiamo raggiunto l'ultimo livello di ondate continua a generarli
+        if (waveCount <= COnde) // se tutti i nemici non sono stati sconfitti e non abbiamo raggiunto l'ultimo livello di ondate continua a generarli
         {
         GameObject enemyToSpawn = EnemyPrefab[0]; // prendi il primo nemico dell'array
         Instantiate(enemyToSpawn, SpawnPoints[lastSpawnIndex].position, transform.rotation); // spawn il nemico nella prossima posizione di spawn
         Instantiate(VFX, SpawnPoints[lastSpawnIndex].position, transform.rotation); // spawn il nemico nella prossima posizione di spawn
         AiEnemysword.instance.chaseThreshold = 10f; // soglia di distanza per iniziare l'inseguimento
         EnemyPrefab = EnemyPrefab.Where((enemy, index) => index != 0).ToArray();
-        EnemyCount--;
         yield return new WaitForSeconds(SpawnInterval);
-        }else if (MinEnemy <= EnemyCount && waveCount == COnde) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
-        {
-            EndOrdalia(); // chiama la funzione EndOrdalia
         }
+        }
+        
     }
     
     if (waveCount < COnde) // se non è l'ultima ondata
@@ -163,6 +149,27 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
 }
 }
 
+
+
+public void EndOrdalia()
+    {
+           virtualCamera.Follow = player.transform;   
+            foreach (GameObject arenaObject in Arena)
+        {
+            print("L'ordina sta contando il tempo per la fine");
+            arenaObject.SetActive(false);
+            AudioManager.instance.CrossFadeOUTAudio(2);
+            AudioManager.instance.CrossFadeINAudio(1);
+            if(isQuest)
+            {
+            Quest.isActive = false;
+            Quest.isComplete = true;
+            }
+            GameplayManager.instance.ordalia = false;
+            GameplayManager.instance.OrdaliaEnd(id);
+            Destroy(gameObject);
+        }    
+    }
 }
 
 

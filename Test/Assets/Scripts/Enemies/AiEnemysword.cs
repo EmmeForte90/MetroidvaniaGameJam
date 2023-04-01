@@ -10,9 +10,8 @@ using UnityEngine.Audio;
 public class AiEnemysword : Health, IDamegable
 {
 
-public bool ordalia = false;
 
- [Header("Enemy")]
+[Header("Enemy")]
 [SerializeField] GameObject Brain;
 private Health health;
 private Transform player;
@@ -53,6 +52,7 @@ private bool canAttack = true;
 private bool firstattack = true;
 private bool isPlayerInAttackRange = false;
 private bool activeActions = true;
+private bool OneDie = false;
 public bool isSmall = false;
 private float waitTimer = 0f;
 private float waitDuration = 2f;
@@ -528,6 +528,15 @@ public void Die()
    // int coinsToSpawn = Random.Range(1, 10);
     //coinsToSpawn = Mathf.Min(maxCoins, coinsToSpawn); //Limita il numero di monete a "maxCoins" 
     EssenceGive();
+    if(GameplayManager.instance.ordalia)
+    {
+        if(!OneDie)
+        {
+        GameplayManager.instance.EnemyDefeat();
+        OneDie = true;
+        }
+       //TriggerOrdalia.instance.EnemyDefet();
+    }
 
     if (horizontal == 1)
     {
@@ -549,10 +558,7 @@ public void Die()
 
 private IEnumerator DestroyAfterDeath()
 {
-    if(ordalia)
-    {
-       //TriggerOrdalia.instance.EnemyDefet();
-    }
+    
     yield return new WaitForSeconds(timeBeforeDestroying);
     Destroy(gameObject);
 }
