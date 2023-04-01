@@ -27087,6 +27087,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6781115339571006932, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
+      propertyPath: EnemyPrefab.Array.size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6781115340412502707, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
       propertyPath: m_Mesh
       value: 

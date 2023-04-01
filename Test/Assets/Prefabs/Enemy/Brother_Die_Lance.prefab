@@ -44174,8 +44174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ea494b21015ca4d9e5c7e510e2c561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 70
+  currentHealth: 70
   originalColor: {r: 1, g: 1, b: 1, a: 1}
   colorChangeDuration: 1
   Brain: {fileID: 8779610209794743686}

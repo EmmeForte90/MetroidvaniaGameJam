@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 891111328723897599}
   - component: {fileID: 891111328723897596}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 891111329177942980}
   - component: {fileID: 4242890469008695894}
   - component: {fileID: 5597597497810085104}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: CoinTreasure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,8 +282,6 @@ MonoBehaviour:
   myAnimator: {fileID: 891111329177942984}
   light: {fileID: 891111328723897598}
   isHeal: 0
-  isBullet: 0
-  isLifeUp: 0
 --- !u!82 &891111329177942981
 AudioSource:
   m_ObjectHideFlags: 0
@@ -443,7 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2570798710733448642}
   - component: {fileID: 5198610736950493127}
-  m_Layer: 5
+  m_Layer: 1
   m_Name: Coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}

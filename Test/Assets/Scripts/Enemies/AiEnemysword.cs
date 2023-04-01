@@ -9,6 +9,9 @@ using UnityEngine.Audio;
 
 public class AiEnemysword : Health, IDamegable
 {
+
+public bool ordalia = false;
+
  [Header("Enemy")]
 [SerializeField] GameObject Brain;
 private Health health;
@@ -546,6 +549,10 @@ public void Die()
 
 private IEnumerator DestroyAfterDeath()
 {
+    if(ordalia)
+    {
+       //TriggerOrdalia.instance.EnemyDefet();
+    }
     yield return new WaitForSeconds(timeBeforeDestroying);
     Destroy(gameObject);
 }

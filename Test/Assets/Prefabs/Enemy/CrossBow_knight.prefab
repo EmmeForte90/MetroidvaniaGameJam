@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4686fba7ed60042899932d3c342e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 30
+  currentHealth: 30
   originalColor: {r: 1, g: 1, b: 1, a: 1}
   colorChangeDuration: 0
   Brain: {fileID: 1527410359700367113}
