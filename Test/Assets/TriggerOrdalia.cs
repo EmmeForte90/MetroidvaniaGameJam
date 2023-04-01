@@ -67,7 +67,7 @@ public class TriggerOrdalia : MonoBehaviour
         if (GameplayManager.instance.EnemyDefeated >= EnemyDefeated) // se tutti i nemici sono stati sconfitti e abbiamo raggiunto l'ultimo livello di ondate
         {
             print("Ordalia finita");
-            EndOrdalia(); // chiama la funzione EndOrdalia
+            StartCoroutine(EndOrdalia()); // chiama la funzione EndOrdalia
         }
  
     }
@@ -151,9 +151,10 @@ while (EnemyPrefab.Length > 0 && waveCount < COnde) // finché ci sono ancora ne
 
 
 
-public void EndOrdalia()
+public IEnumerator EndOrdalia()
     {
-           virtualCamera.Follow = player.transform;   
+            yield return new WaitForSeconds(2f);   
+            virtualCamera.Follow = player.transform;
             foreach (GameObject arenaObject in Arena)
         {
             print("L'ordina sta contando il tempo per la fine");

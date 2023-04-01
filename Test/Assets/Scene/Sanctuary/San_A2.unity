@@ -27097,11 +27097,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781115339571006932, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
       propertyPath: EnemyDefeated
-      value: 9
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6781115339571006932, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
       propertyPath: waves.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6781115339571006932, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
       propertyPath: waves.Array.data[1]
@@ -27113,7 +27113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781115339571006932, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
       propertyPath: EnemyPrefab.Array.size
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6781115340412502707, guid: bee04159d0bb2544f8019f404a0a15f7, type: 3}
       propertyPath: m_Mesh
