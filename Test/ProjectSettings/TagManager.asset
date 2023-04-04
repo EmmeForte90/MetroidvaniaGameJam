@@ -32,6 +32,7 @@ TagManager:
   - FxTemporaire
   - Skill
   - Actor
+  - Boss
   layers:
   - Default
   - TransparentFX

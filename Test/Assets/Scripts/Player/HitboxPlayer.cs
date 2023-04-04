@@ -47,6 +47,24 @@ void OnTriggerEnter2D(Collider2D other)
             StartCoroutine(StopD());
         
         }
+
+         if(other.gameObject.tag == "Boss")
+        //Se il proiettile tocca il nemico
+        {       
+        if(!take)
+        {
+            take = true;
+            IDamegable hit = other.GetComponent<IDamegable>();
+            hit.Damage(Move.instance.Damage);
+            //Debug.Log("Damage:" + Player.Damage);
+            if(Move.instance.rb.velocity.y > 0)
+            {               
+                Move.instance.isBump = true;
+                Move.instance.Bump();
+            }
+            StartCoroutine(StopD());
+        
+        }
          if(other.gameObject.tag == "Hitbox_E")
         //Se il proiettile tocca il nemico
         {       
@@ -65,4 +83,5 @@ void OnTriggerEnter2D(Collider2D other)
         }
        
     }    
+}
 }
