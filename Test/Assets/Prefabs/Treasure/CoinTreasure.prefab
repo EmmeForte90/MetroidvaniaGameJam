@@ -126,9 +126,9 @@ GameObject:
   - component: {fileID: 891111329177942987}
   - component: {fileID: 891111329177942986}
   - component: {fileID: 891111329177942981}
-  - component: {fileID: 891111329177942980}
   - component: {fileID: 4242890469008695894}
   - component: {fileID: 5597597497810085104}
+  - component: {fileID: 3638962197081490982}
   m_Layer: 1
   m_Name: CoinTreasure
   m_TagString: Untagged
@@ -280,8 +280,9 @@ MonoBehaviour:
   pointsForCoinPickup: 5
   loadDelay: 0.5
   myAnimator: {fileID: 891111329177942984}
+  lifeTime: 20
+  takeradious: 0.5
   light: {fileID: 891111328723897598}
-  isHeal: 0
 --- !u!82 &891111329177942981
 AudioSource:
   m_ObjectHideFlags: 0
@@ -378,22 +379,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!58 &891111329177942980
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891111329177942983}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.06395932, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.81522834
 --- !u!50 &4242890469008695894
 Rigidbody2D:
   serializedVersion: 4
@@ -431,6 +416,32 @@ MonoBehaviour:
   isExplosion: 0
   intensity: 5
   time: 0.1
+--- !u!61 &3638962197081490982
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891111329177942983}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.03169132, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4914924, y: 1.77}
+  m_EdgeRadius: 0
 --- !u!1 &1687763683802226216
 GameObject:
   m_ObjectHideFlags: 0

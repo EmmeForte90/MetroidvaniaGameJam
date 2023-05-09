@@ -14,26 +14,29 @@ public class Pickup : MonoBehaviour
     //Animatore
     bool wasCollected = false;
     private Rigidbody2D rb; // componente Rigidbody2D del personaggio
+    [SerializeField] float lifeTime = 20f;
+    public float takeradious = 2f;
+    private Transform player;
 
     [SerializeField]  GameObject light;
     //Bool per evitare che la moneta sia raccolta più volte
-    [SerializeField] public bool isHeal;
+    //[SerializeField] public bool isHeal;
 
 
 void Start()
-{
+{    
+    player = GameObject.FindWithTag("Player").transform;
+
     myAnimator = GetComponent<Animator>();
     //Recupera i componenti dell'animator
-    
+ Invoke("Destroy", lifeTime);
 
 }
-
-
-    void OnCollisionEnter2D(Collision2D other) 
+private void Update()
     {
-
-        #region CollCoin
-        if (other.gameObject.tag == "Player" && !wasCollected && !isHeal)
+        if (Vector2.Distance(transform.position, player.position) < takeradious) 
+        {
+            if (!wasCollected)
         //Se il player tocca la moneta e non è stato collezionata
         {
             wasCollected = true;
@@ -53,12 +56,27 @@ void Start()
             Invoke("takeCoin", loadDelay);
             
         }
-
-        #endregion
-        
-       
+        }
     }
 
+
+#region Gizmos
+private void OnDrawGizmos()
+    {
+    Gizmos.color = Color.blue;
+    Gizmos.DrawWireSphere(transform.position, takeradious);
+        //Debug.DrawRay(transform.position, new Vector3(chaseThreshold, 0), Color.red);
+    }
+#endregion
+    
+
+        
+       
+    
+ private void Destroy()
+    {
+        Destroy(gameObject);
+    }
 #region Funzione per cancellare l'item
     void takeCoin()
     {

@@ -43,7 +43,11 @@ public class GameplayManager : MonoBehaviour
     [HideInInspector]
     public bool PauseStop = false;
     //Variabile del testo dei money
-
+    public int EnemyDefeated = 0;
+    public int EnemyDWave = 0;
+    public bool ordalia = false;
+    public bool boss = false;
+    public bool battle = false;
    
 
     [Header("Fade")]
@@ -77,8 +81,11 @@ public class GameplayManager : MonoBehaviour
     public bool Easy = false;
     public bool Normal = true;
     public bool Hard = false;
-    public int EnemyDefeated = 0;
-    public bool ordalia = false;
+
+    [Header("Boss")]
+    private GameObject[] Boss;
+    public bool[] BoosActive;
+
 
     [Header("Abilitazioni")]
     public bool unlockWalljump = false;
@@ -238,10 +245,6 @@ public void DeactivationGame()
 
 }
 
-public void EnemyDefeat()
-    {
-           EnemyDefeated++;
-    }
 
 
 public void Restore()
@@ -344,7 +347,12 @@ public void StopInput()
         }
 #endregion
 
-   
+   public void EnemyDefeat()
+    {
+           EnemyDefeated++;
+           EnemyDWave++;
+    }
+
 private void OnEnable()
 {
     SceneManager.sceneLoaded += OnSceneLoaded;
@@ -364,6 +372,7 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     GameObject[] Ordalia = GameObject.FindGameObjectsWithTag("Ordalia");
     GameObject[] Door = GameObject.FindGameObjectsWithTag("Door");
     GameObject[] SkillIt = GameObject.FindGameObjectsWithTag("Skill");
+    GameObject[] BossIt = GameObject.FindGameObjectsWithTag("Boss");
 
     // Itera attraverso tutti gli oggetti trovati
     foreach (GameObject Character in Ordalia)
@@ -434,6 +443,24 @@ private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     }
 }
 
+public void BossEnd(int id)
+{
+    // Imposta lo stato della quest a true
+    BoosActive[id] = true;   
+}
+
+    IEnumerator Restart()
+    {
+        callFadeIn.gameObject.SetActive(true);
+        //Instantiate(callFadeIn, centerCanvas.transform.position, centerCanvas.transform.rotation);
+        yield return new WaitForSeconds(5f);
+        //Le vite del player vengono aggiornate
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        //Lo scenario assume il valore della build
+        SceneManager.LoadScene(currentSceneIndex);
+        //Lo scenario viene ricaricato
+    }
+
 public void OrdaliaEnd(int id)
 {
     // Imposta lo stato della quest a true
@@ -453,18 +480,6 @@ public void SkillAc(int id)
     SkillM[id].gameObject.SetActive(true);
     SkillS[id].gameObject.SetActive(true);
 }
-
-    IEnumerator Restart()
-    {
-        callFadeIn.gameObject.SetActive(true);
-        //Instantiate(callFadeIn, centerCanvas.transform.position, centerCanvas.transform.rotation);
-        yield return new WaitForSeconds(5f);
-        //Le vite del player vengono aggiornate
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        //Lo scenario assume il valore della build
-        SceneManager.LoadScene(currentSceneIndex);
-        //Lo scenario viene ricaricato
-    }
 
 
 
