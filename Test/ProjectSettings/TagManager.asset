@@ -4,50 +4,30 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
+  - PDamage
+  - EDamage
+  - PSkill
   - Enemy
-  - Spawn
-  - Spawn_1
-  - Spawn_2
-  - Spawn_3
-  - Spawn_4
-  - Spawn_5
-  - Confiner
-  - Hitbox
-  - Bound
-  - Chest
-  - Inventory
-  - Scenary
-  - death
-  - Description
-  - Icon
-  - Container_Q
-  - Hitbox_E
-  - Shield_E
-  - Timeline
-  - Ch_Quest
-  - Item
-  - Ordalia
-  - Door
-  - FxTemporaire
-  - Skill
-  - Actor
-  - Boss
+  - Wall
+  - PDamageDown
+  - Trap
+  - MovingPlatform
+  - Floor
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - Enemy
   - Water
   - UI
-  - Ground
-  - Edge
-  - Trampoline
-  - Enemy
-  - Hitbox
-  - Respawn
+  - PlayerSkills
+  - Player
   - Wall
-  - Death
+  - Hook
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -69,25 +49,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Bkg
-    uniqueID: 1403590887
-    locked: 0
-  - name: Bk2
-    uniqueID: 3703566527
-    locked: 0
-  - name: Bk1
-    uniqueID: 1248872011
-    locked: 0
-  - name: Gameplay
-    uniqueID: 2728854189
-    locked: 0
-  - name: Fr1
-    uniqueID: 363298311
-    locked: 0
-  - name: Fr2
-    uniqueID: 1970935283
-    locked: 0
-  - name: HUD
-    uniqueID: 241957131
     locked: 0

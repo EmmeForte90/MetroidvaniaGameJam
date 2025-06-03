@@ -1,0 +1,92 @@
+skeleton.png
+size:2048,1024
+filter:Linear,Linear
+pma:true
+Bronze/Livello 1
+bounds:2,27,139,155
+Bronze/Livello 2
+bounds:1391,710,114,154
+Bronze/Livello 3
+bounds:1822,674,73,154
+Bronze/Livello 4
+bounds:143,27,40,155
+Bronze/Livello 5
+bounds:608,511,70,153
+rotate:90
+Bronze/Livello 6
+bounds:1709,674,111,154
+Gold/Livello 1
+bounds:2,184,198,328
+Gold/Livello 2
+bounds:202,508,142,342
+Gold/Livello 3
+bounds:1545,899,104,349
+rotate:90
+Gold/Livello 4
+bounds:448,495,62,355
+Gold/Livello 5
+bounds:346,504,100,346
+Gold/Livello 6
+bounds:504,863,140,349
+rotate:90
+Platinum/Livello 1
+bounds:2,514,198,336
+Platinum/Livello 2
+bounds:855,866,137,343
+rotate:90
+Platinum/Livello 3
+bounds:202,157,95,349
+Platinum/Livello 4
+bounds:1545,830,67,355
+rotate:90
+Platinum/Livello 5
+bounds:512,512,94,349
+Platinum/Livello 6
+bounds:1200,866,137,343
+rotate:90
+Rame/Livello 1
+bounds:1896,901,102,120
+rotate:90
+Rame/Livello 2
+bounds:763,515,76,126
+rotate:90
+Rame/Livello 3
+bounds:1902,833,66,128
+rotate:90
+Rame/Livello 4
+bounds:2,2,23,128
+rotate:90
+Rame/Livello 5
+bounds:185,27,66,128
+Rame/Livello 6
+bounds:299,145,76,126
+Silver/Livello 1
+bounds:1141,524,176,208
+rotate:90
+Silver/Livello 2
+bounds:1164,702,162,225
+rotate:90
+Silver/Livello 3
+bounds:414,264,110,229
+Silver/Livello 4
+bounds:526,278,37,232
+Silver/Livello 5
+bounds:299,273,113,229
+Silver/Livello 6
+bounds:914,546,165,225
+rotate:90
+Sparks_250
+bounds:1507,667,200,161
+Sparks_251
+bounds:608,583,278,151
+rotate:90
+Sparks_252
+bounds:914,713,248,151
+Sparks_253
+bounds:761,593,268,151
+rotate:90
+Sparks_254
+bounds:2,852,500,151
+Sparks_255
+bounds:565,310,200,9
+rotate:90
