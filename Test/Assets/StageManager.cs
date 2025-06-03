@@ -28,6 +28,9 @@ public class StageManager : MonoBehaviour
             case "A13": foreach (GameObject col in AreaBKG){col.SetActive(false);}AreaBKG[13].SetActive(true); break;
             case "A14": foreach (GameObject col in AreaBKG){col.SetActive(false);}AreaBKG[14].SetActive(true); break;
             case "A15": foreach (GameObject col in AreaBKG){col.SetActive(false);}AreaBKG[15].SetActive(true); break;
+            case "A16": foreach (GameObject col in AreaBKG){col.SetActive(false);}AreaBKG[16].SetActive(true); break;
+            case "A17": foreach (GameObject col in AreaBKG){col.SetActive(false);}AreaBKG[17].SetActive(true); break;
+            case "A18": foreach (GameObject col in AreaBKG){col.SetActive(false);}AreaBKG[18].SetActive(true); break;
 
         }
     }

@@ -15,14 +15,14 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Only for test")]
     public bool isTest = false;
-    public float yOffset = 2f; // Altezza extra sopra al player
+    public float yOffset = 12f; // Altezza extra sopra al player
 
     private Vector3 originalScale;
 
     void Awake()
     {
-        if (Camera != null)
-            originalScale = Camera.localScale;
+        if (Camera != null){originalScale = Camera.localScale;}
+        if(isTest) {yOffset = 2f;}
     }
 
     void LateUpdate()
@@ -54,7 +54,8 @@ public class CameraFollow : MonoBehaviour
         }
         else if(isTest)
         {
-       Camera.position = new Vector3(
+        yOffset = 2f;
+        Camera.position = new Vector3(
         Player.position.x,
         Player.position.y + yOffset,
         Camera.position.z
