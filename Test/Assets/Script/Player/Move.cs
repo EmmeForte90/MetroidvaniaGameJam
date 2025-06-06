@@ -43,8 +43,8 @@ public class Move : MonoBehaviour
     [Header("Velocità")]
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
-    public float speed;
-    public Vector3 velocity;
+    [HideInInspector]public float speed;
+    [HideInInspector]public Vector3 velocity;
     [Tooltip("Velocità di accelerazione verso corsa")]
     public float accelerationSpeed = 0.1f;
 
@@ -85,7 +85,7 @@ public class Move : MonoBehaviour
     public float jumpForce = 5f;
     private int jumpsLeft;
     private int maxJumps = 1;
-    public bool Jumponwall = false;
+    [HideInInspector]public bool Jumponwall = false;
     private bool wasGroundedLastFrame;
 
     [Header("Coyote Jump")]
@@ -108,7 +108,7 @@ public class Move : MonoBehaviour
         
     [Header("KnockBack")]
     private bool isKnockedBack = false; 
-    public bool canKnock = true;
+    private bool canKnock = true;
     public float durationKnockback = 0.3f; 
     public float ForceKnocback = 10f; 
 
@@ -138,8 +138,8 @@ public class Move : MonoBehaviour
     public Spine.AnimationState spineAnimationState;
     public Spine.Skeleton skeleton;
 
-    public float horizontalInput, verticalInput, hor;
-    public float verticalVelocity = 0f;
+    [HideInInspector]public float horizontalInput, verticalInput, hor;
+    [HideInInspector]public float verticalVelocity = 0f;
     private bool isGrounded = false;
     private bool isJumpRequested = false;
 
@@ -743,9 +743,9 @@ public class Move : MonoBehaviour
     private void OnDrawGizmos()
     {
         // Direzione del raycast basata su forward della faccia del personaggio
-        //Vector3 dir = transform.right * (transform.localScale.x > 0 ? 1f : -1f);
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawRay(WallDistancePar.transform.position, dir * gizmoDistance);
+        Vector3 dir = transform.right * (transform.localScale.x > 0 ? 1f : -1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(WallDistancePar.transform.position, dir * gizmoDistance);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(playerTransform.position, hookRadius);
     }
