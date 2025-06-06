@@ -215,6 +215,7 @@ public class Move : MonoBehaviour
             wallNormal = hit.normal;
             lastWallDistance = hit.distance;
         }
+        else if(!isTouchingWall){isWallSliding = false;}
 
         // Salto
         if (Input.GetButtonDown("Jump") && !isHeal)
