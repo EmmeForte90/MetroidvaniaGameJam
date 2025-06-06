@@ -44,6 +44,7 @@ public class Move : MonoBehaviour
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
     private float speed;
+    public Vector3 velocity;
     [Tooltip("Velocità di accelerazione verso corsa")]
     public float accelerationSpeed = 0.1f;
 
@@ -51,7 +52,7 @@ public class Move : MonoBehaviour
     public Transform targetHook;
     public float pullSpeed = 5f;
     private bool pulling = false;
-    private bool BlockInput = false;
+    public bool BlockInput = false;
     public float hookRadius = 5f;
     public LayerMask hookableLayer;
     public Transform playerTransform;
@@ -83,6 +84,7 @@ public class Move : MonoBehaviour
     public float jumpForce = 5f;
     private int jumpsLeft;
     private int maxJumps = 1;
+    public bool Jumponwall = false;
     private bool wasGroundedLastFrame;
 
     [Header("Coyote Jump")]
@@ -136,7 +138,7 @@ public class Move : MonoBehaviour
     public Spine.Skeleton skeleton;
 
     public float horizontalInput, verticalInput, hor;
-    private float verticalVelocity = 0f;
+    public float verticalVelocity = 0f;
     private bool isGrounded = false;
     private bool isJumpRequested = false;
 
@@ -219,21 +221,25 @@ public class Move : MonoBehaviour
             if (isGrounded || coyoteTimer > 0f)
             {
                 isJumpRequested = true;
+                Jumponwall = true;
                 jumpsLeft = maxJumps;
                 coyoteTimer = 0f;   // previene multi‐salti durante il coyote
             }
             else if (WallJump && isTouchingWall)
             {
+                Jumponwall = true;
                 DoWallJump();
             }
             else if (DoubleJump && jumpsLeft > 0 && !isWallSliding)
             {
+                Jumponwall = true;
                 JumpVFX.SetActive(true);
                 currentState = "DoubleJump";
                 DoubleJ = true;
                 isJumpRequested = true;
             }
         }
+       
         //useMagic
         if(useMagic)
         {
@@ -521,7 +527,7 @@ public class Move : MonoBehaviour
             isBlast = false;}
         }
 
-        Vector3 velocity;
+        
         if (isDashing)
         {
             dashTimeLeft -= Time.deltaTime;
@@ -710,13 +716,24 @@ public class Move : MonoBehaviour
             case "Walk":PlayAnimationLoop("Gameplay/walk");break;
             case "Jump":PlayAnimationLoop("Gameplay/jump_start");break;
             case "DoubleJump":PlayAnimationLoop("Gameplay/doublejump");break;
-            case "WallJump":PlayAnimationLoop("Gameplay/jump");break;
-            case "WallSlide":PlayAnimationLoop("Gameplay/wallslide");break;
             case "Hurt":PlayAnimationLoop("Gameplay/hurt");break;
             case "Fall":PlayAnimationLoop("Gameplay/fall");break;
             case "Dash":PlayAnimationLoop("Gameplay/dash");break;
             case "Heal":PlayAnimationLoop("Gameplay/heal");break;
+            case "WallJump":
+            if(!Jumponwall){PlayAnimationLoop("Gameplay/jump");}else if(Jumponwall){PlayAnimationLoop("Gameplay/wallslideJump");StartCoroutine(RestoreJumpWallANM());}      
+            break;
+            case "WallSlide":
+            if(!Jumponwall){PlayAnimationLoop("Gameplay/wallslide");}else if(Jumponwall){PlayAnimationLoop("Gameplay/wallslideJump");StartCoroutine(RestoreJumpWallANM());}      
+            break;
         }
+    }
+    IEnumerator RestoreJumpWallANM()
+    {
+        Jumponwall = true;
+        yield return new WaitForSeconds(0.2f);
+        Jumponwall = false;
+        StopCoroutine(RestoreJumpWallANM());
     }
     #region Gizmo
     #if UNITY_EDITOR
