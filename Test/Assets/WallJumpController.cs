@@ -9,6 +9,8 @@ public class WallJumpController : MonoBehaviour
     public float wallCheckDistance = 0.5f;
     [Tooltip("Layer dei muri su cui eseguire il wall‐jump")]
     public LayerMask wallLayerMask;
+    public GameObject WallDistancePar;
+    public float gizmoDistance;
 
     [Header("Wall Slide")]
     [Tooltip("Velocità (discendente) durante il wall‐slide")]
@@ -53,7 +55,7 @@ public class WallJumpController : MonoBehaviour
         isTouchingWall = false;
         wallNormal = Vector3.zero;
 
-        Vector3 origin = transform.position;
+        Vector3 origin = WallDistancePar.transform.position;
         Vector3[] dirs = { Vector3.left, Vector3.right };
 
         foreach (Vector3 dir in dirs)
@@ -65,22 +67,47 @@ public class WallJumpController : MonoBehaviour
                 wallNormal = hit.normal;
                 break;
             }
+            else if (!Physics.Raycast(origin, dir, out hit, wallCheckDistance, wallLayerMask))
+            {
+                isTouchingWall = false;
+                break;
+            }
         }
     }
 
     /// <summary>
-    /// Se il giocatore sta in aria e tocca un muro, applica scivolamento controllato.
+    /// Se il giocatore sta in aria, tocca un muro, sta premendo verso il muro e cade,
+    /// allora applica scivolamento controllato. Altrimenti, esce dal wall‐slide e
+    /// applica subito una spinta orizzontale verso l’esterno del muro.
     /// </summary>
     private void HandleWallSlide()
     {
-        // Se tocchiamo il muro ed il CharacterController non è in grounded e stiamo scendendo
-        if (!characterController.isGrounded && isTouchingWall && moveScript.verticalVelocity < 0f)
+        // 1) Input orizzontale
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        // 2) Verifico se sto premendo verso il muro
+        bool pressingIntoWall = false;
+        if (isTouchingWall && horizontalInput != 0f)
+        {
+            // Se il muro è a destra (wallNormal.x > 0), devo premere Right (+1).
+            // Se il muro è a sinistra (wallNormal.x < 0), devo premere Left (−1).
+            pressingIntoWall = (Mathf.Sign(horizontalInput) == -Mathf.Sign(wallNormal.x));
+        }
+
+        // 3) Condizioni per entrare in wall‐slide:
+        //    – non sono a terra
+        //    – tocco il muro
+        //    – sto cadendo (verticalVelocity < 0)
+        //    – sto premendo verso il muro
+        if (!characterController.isGrounded 
+            && isTouchingWall 
+            && moveScript.verticalVelocity < 0f 
+            && pressingIntoWall)
         {
             if (wallStickTimer <= 0f)
             {
                 isWallSliding = true;
-                moveScript.verticalVelocity = -slideSpeed; 
-                // Si resta “appiccicati” per un breve periodo, poi si scivola
+                moveScript.verticalVelocity = -slideSpeed;
                 wallStickTimer = wallStickTime;
             }
             else
@@ -92,6 +119,18 @@ public class WallJumpController : MonoBehaviour
         }
         else
         {
+            // Se ero in wall‐slide e ora devo uscirne:
+            if (isWallSliding)
+            {
+                // Calcolo la direzione orizzontale "fuori dal muro":
+                // wallNormal.x indica verso dove il muro "punta": se wallNormal.x > 0 → muro a destra, 
+                // quindi voglio spingermi a sinistra (−1). Viceversa se wallNormal.x < 0.
+                float awayDir = -Mathf.Sign(wallNormal.x);
+
+                // Imposto subito la velocità orizzontale in Move.cs per far "ricominciare" il movimento:
+                moveScript.velocity.x = awayDir * moveScript.speed;
+            }
+
             isWallSliding = false;
             wallStickTimer = 0f;
         }
@@ -109,6 +148,14 @@ public class WallJumpController : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        // Direzione del raycast basata su forward della faccia del personaggio
+        Vector3 dir = transform.right * (transform.localScale.x > 0 ? 1f : -1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(WallDistancePar.transform.position, dir * gizmoDistance);
+    }
+
     private IEnumerator DoWallJump()
     {
         // Blocca momentaneamente l’input di movimento principale
@@ -123,8 +170,6 @@ public class WallJumpController : MonoBehaviour
 
         // Imposta velocità verticale/orizzontale direttamente sul Move.cs
         moveScript.verticalVelocity = finalDir.y * wallJumpForce;
-
-        // Per l’input orizzontale, impostiamo la “spinta” orizzontale
         moveScript.velocity.x = finalDir.x * wallJumpForce;
 
         // Uscita dallo stato di wall‐sliding

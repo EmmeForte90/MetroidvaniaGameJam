@@ -43,7 +43,7 @@ public class Move : MonoBehaviour
     [Header("Velocità")]
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
-    private float speed;
+    public float speed;
     public Vector3 velocity;
     [Tooltip("Velocità di accelerazione verso corsa")]
     public float accelerationSpeed = 0.1f;
@@ -80,6 +80,7 @@ public class Move : MonoBehaviour
 
     [Header("Gravity & Jump")]
     public GameObject JumpVFX;
+    public GameObject WallDistancePar;
     public float gravity = 12f;
     public float jumpForce = 5f;
     private int jumpsLeft;
@@ -96,7 +97,7 @@ public class Move : MonoBehaviour
     RaycastHit hit;
     public bool  isFalling = false;
     private bool wallJumpAnimTriggered = false;
-    public float wallSlideSpeed = 2f;
+    private float wallSlideSpeed = 2f;
     public float wallJumpForce = 7f;
     private bool isTouchingWall = false;
     private bool isWallSliding = false;
@@ -199,7 +200,7 @@ public class Move : MonoBehaviour
 
         foreach (Vector3 dir in directions)
         {
-            if (Physics.Raycast(transform.position, dir, out RaycastHit wallHit, Touch) &&
+            if (Physics.Raycast(WallDistancePar.transform.position, dir, out RaycastHit wallHit, Touch) &&
                 wallHit.collider.CompareTag("Wall"))
             {
                 isTouchingWall = true;
@@ -741,9 +742,9 @@ public class Move : MonoBehaviour
     private void OnDrawGizmos()
     {
         // Direzione del raycast basata su forward della faccia del personaggio
-        Vector3 dir = transform.right * (transform.localScale.x > 0 ? 1f : -1f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, dir * gizmoDistance);
+        //Vector3 dir = transform.right * (transform.localScale.x > 0 ? 1f : -1f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawRay(WallDistancePar.transform.position, dir * gizmoDistance);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(playerTransform.position, hookRadius);
     }
